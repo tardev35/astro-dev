@@ -119,9 +119,10 @@ async function handleUpload(slot, index, ext, buf) {
   const n = Number(index);
   switch (slot) {
     case "logo":
-      return [await toWebp(buf, ASSETS, "logo")];
-    case "publiclogo":
-      return [await toWebp(buf, PUBLIC, "logo")];
+      // one upload -> both src/assets/logo.webp and public/logo.webp (same logo)
+      await toWebp(buf, ASSETS, "logo");
+      await toWebp(buf, PUBLIC, "logo");
+      return ["src/assets/logo.webp", "public/logo.webp"];
     case "docx":
       await writeFile(join(ASSETS, "content.docx"), buf);
       return ["content.docx"];
@@ -292,10 +293,10 @@ function renderPage({ aff = "", line = "" } = {}) {
 </header>
 <main>
   <section class="card" id="card1">
-    <h2>ส่วนที่ 1 — src/assets</h2>
-    <p class="sub">โลโก้ / เนื้อหา (docx) / พื้นหลัง / แบนเนอร์ / รูป promotion + carousel</p>
+    <h2>ไฟล์แบรนด์ทั้งหมด</h2>
+    <p class="sub">โลโก้ / favicon / เนื้อหา (docx) / พื้นหลัง / แบนเนอร์ / รูป promotion + carousel</p>
     <div class="field" data-img>
-      <div class="row"><label>Logo</label><span class="target">logo.webp</span></div>
+      <div class="row"><label>Logo</label><span class="target">logo.webp (src/assets + public)</span></div>
       <div class="row"><input type="file" accept="image/*" data-slot="logo" /><img class="thumb" /></div>
       <span class="status"></span>
     </div>
@@ -349,20 +350,10 @@ function renderPage({ aff = "", line = "" } = {}) {
       <div class="row"><input type="file" accept="image/*" data-slot="slide" data-index="4" /><img class="thumb" /></div>
       <span class="status"></span>
     </div>
-  </section>
-
-  <section class="card" id="card2">
-    <h2>ส่วนที่ 2 — public</h2>
-    <p class="sub">favicon (สร้างชุดไอคอนให้อัตโนมัติ) + โลโก้สำหรับ public</p>
     <div class="field" data-img>
       <div class="row"><label>Favicon</label><span class="target">favicon.ico + .png set + .svg</span></div>
       <div class="row"><input type="file" accept="image/*,.svg" data-slot="favicon" /><img class="thumb" /></div>
       <span class="status">สร้างชุด PNG + .ico + .svg ให้อัตโนมัติ (รูป raster จะฝังลงใน favicon.svg; ถ้าอัพโหลด .svg จะใช้ไฟล์นั้นตรงๆ)</span>
-    </div>
-    <div class="field" data-img>
-      <div class="row"><label>Logo (public)</label><span class="target">public/logo.webp</span></div>
-      <div class="row"><input type="file" accept="image/*" data-slot="publiclogo" /><img class="thumb" /></div>
-      <span class="status"></span>
     </div>
   </section>
 

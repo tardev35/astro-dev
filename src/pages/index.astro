@@ -1,17 +1,16 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement3 from "../components/Announcement3.astro";
-import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
+import AnnouncementPremium from "../components/AnnouncementPremium.astro";
+import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
 import ContentBox from "../components/ContentBox.astro";
 import ContentBoxSevenThree from "../components/ContentBoxSevenThree.astro";
-import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
+import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
 import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
-import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
 import FeatureHighlights from "../components/FeatureHighlights.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
 import ProviderGrid from "../components/ProviderGrid.astro";
 import GameRankingBoard from "../components/GameRankingBoard.astro";
-import LatestWinners from "../components/LatestWinnersPremium.astro";
+import LatestWinners from "../components/LatestWinners3.astro";
 import SmoothCarousel from "../components/SmoothCarousel.astro";
 import ReviewCardSumo from "../components/ReviewCardSumo2.astro";
 import Navfoot from "../components/Navfoot.astro";
@@ -19,121 +18,95 @@ const currentPath = Astro.url.pathname;
 const homePage = Astro.url.origin;
 const logoUrl = homePage + "/logo.webp";
 
-const pageTitle = "OHO21 สล็อตที่แตกง่าย โบนัส ฝากถอนออโต้ รีวิวเว็บตรง รองรับวอเลท";
-const pageDescription = "OHO21 สล็อตที่แตกง่าย โบนัส ฝากถอนออโต้ รีวิวเว็บตรง รองรับวอเลท ติดโบนัสไว แจกโบนัสจัดเต็ม สปินไหลลื่น ฝากง่าย ถอนเร็ว พร้อมทางเข้า OHO21 เว็บจริง";
+const pageTitle = "BESTCLUB88 รีวิวเว็บเกมสล็อต เว็บตรงเล่นมัน แตกหนัก ฟรีสปินไม่อั้น";
+const pageDescription = "BESTCLUB88 รีวิวเว็บเกมสล็อต เว็บตรงเล่นมัน แตกหนัก ฟรีสปินไม่อั้น รีวิวทางเข้า ทดลองเล่นจริง ฟรีสปิน โปรโมชั่น เกมยอดนิยม และข้อมูลเว็บตรงก่อนสมัคร";
 
 const webPageSchema = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  name: "OHO21",
+  name: "BESTCLUB88",
   description: pageDescription,
   url: currentPath,
 };
 const webSiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "OHO21",
-  alternateName: ["OHO21", "OHO21 สล็อตที่แตกง่าย โบนัส ฝากถอนออโต้ รีวิวเว็บตรง รองรับวอเลท"],
-  url: "https://www.oho21-brand.com/",
+  name: "BESTCLUB88",
+  alternateName: ["BESTCLUB88", "BESTCLUB88 รีวิวเว็บเกมสล็อต เว็บตรงเล่นมัน แตกหนัก ฟรีสปินไม่อั้น"],
+  url: "https://www.bestclub88-homepage.com/",
 };
 const orgSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "OHO21",
+  name: "BESTCLUB88",
   logo: logoUrl,
   url: homePage,
 };
 const allSchemas = [webPageSchema, orgSchema, webSiteSchema];
 
-const breakEasyFeatures = [
+const scoreHighlights = [
   {
-    icon: "🎯",
-    title: "รางวัลย่อย",
-    description: "จังหวะลุ้นรางวัลย่อยเข้าถี่ ช่วยให้แต่ละเทิร์นมีลุ้นต่อเนื่อง ไม่จำเจในระหว่างการหมุน",
-    accent: "blue" as const,
-  },
-  {
-    icon: "🌀",
-    title: "ฟรีสปิน",
-    description: "ฟีเจอร์ฟรีสปินเปิดโอกาสหมุนเพิ่มโดยไม่เสียเครดิต ช่วยต่อยอดรอบทำเงินให้ยาวขึ้น",
+    icon: "🎮",
+    title: "ความหลากหลายของเกม 5/5",
+    description: "รวมเกมจากหลายค่ายไว้ในระบบเดียว ทั้งสล็อต เกมยอดนิยม และฟีเจอร์หลากรูปแบบ ให้เลือกเล่นได้ครบตามสไตล์",
     accent: "gold" as const,
   },
   {
-    icon: "✨",
-    title: "สัญลักษณ์พิเศษ",
-    description: "สัญลักษณ์พิเศษในเกมช่วยเพิ่มโอกาสเข้าสู่รอบโบนัสและฟีเจอร์ทำเงินได้มากขึ้น",
-    accent: "blue" as const,
+    icon: "⚡",
+    title: "ความลื่นไหลในการเล่น 4/5",
+    description: "สลับเกมแทบไม่ต้องรอโหลด หน้าเว็บตอบสนองไว เข้าเกมต่อเนื่อง แม้ความลื่นจริงจะขึ้นอยู่กับอินเทอร์เน็ตและเซิร์ฟเวอร์ของค่ายเกมด้วย",
+    accent: "red" as const,
   },
   {
-    icon: "✖️",
-    title: "ตัวคูณ",
-    description: "ตัวคูณรางวัลยกระดับยอดที่ได้รับในจังหวะสำคัญ เพิ่มความสนุกในแต่ละเทิร์น",
+    icon: "🛡️",
+    title: "ความเสถียรของระบบ 4/5",
+    description: "ตลอดช่วงที่ทดลองเล่นไม่พบอาการค้างหรือเด้งออกจากระบบ ให้ความรู้สึกว่าเป็นเว็บไซต์ที่ใช้งานง่ายและเสถียรเกินกว่าที่คาดไว้",
+    accent: "red" as const,
+  },
+  {
+    icon: "💥",
+    title: 'ความรู้สึกว่า "แตกหนัก" 3/5',
+    description: "บางรอบได้รับรางวัลใหญ่และเล่นได้สนุก แต่จากการทดลองไม่สามารถสรุปได้ว่าเกมแตกหนักกว่าค่าเฉลี่ยหรือจ่ายสูงกว่าเว็บไซต์อื่น",
     accent: "gold" as const,
-  },
-  {
-    icon: "📊",
-    title: "RTP และความผันผวน",
-    description: "เลือกเกมตามค่า RTP และระดับความผันผวนให้เหมาะกับงบและสไตล์การเล่นของตัวเอง",
-    accent: "blue" as const,
   },
 ];
 
 import { Picture } from "astro:assets";
-import imgBreakEasy from "../assets/slide1.png";
-import imgAutoWallet from "../assets/slide3.png";
+import imgReview from "../assets/slide3.png";
+import imgBreak from "../assets/slide2.png";
 import imgBonus from "../assets/banner2.png";
 ---
 
 <MainLayout title={pageTitle} description={pageDescription}>
   <script type="application/ld+json" set:html={JSON.stringify(allSchemas)} />
 
-  <Announcement3 message="📢 OHO21 สล็อตเว็บตรงแตกง่าย โบนัสจัดเต็ม ฝากถอนออโต้ รองรับวอเลท ฝากง่ายถอนเร็ว อัปเดตทางเข้าล่าสุดที่ www.oho21-brand.com" />
+  <AnnouncementPremium />
 
-  <ContentBoxNeumorphism as="h1" title="OHO21 สล็อตที่แตกง่าย โบนัส ฝากถอนออโต้ รีวิวเว็บตรง รองรับวอเลท">
+  <ContentBoxCyberCut as="h1" title="BESTCLUB88 รีวิวเว็บเกมสล็อต เล่นมัน แตกหนัก ฟรีสปินไม่อั้น">
     <p class="mx-auto max-w-4xl leading-relaxed">
-      OHO21 รวมเกมสล็อตหลายรูปแบบไว้บนระบบเดียว ทั้งเกมที่เน้นรอบโบนัส ฟรีสปิน ตัวคูณ และฟีเจอร์พิเศษสำหรับสายลุ้นรางวัล โดยมีระบบฝากถอนออโต้ช่วยจัดการเครดิตได้รวดเร็ว
-      พร้อมช่องทางวอเลทที่ลดขั้นตอนการทำรายการ ภายในเว็บจัดหมวดเกมและค่ายผู้ให้บริการไว้อย่างชัดเจน เข้าเล่นผ่านมือถือได้สะดวก เนื้อหานี้จะพาไปดูตั้งแต่สล็อตที่แตกง่าย เงื่อนไขโบนัส ประสิทธิภาพของระบบ
-      ไปจนถึงวิธีตรวจสอบทางเข้าเว็บจริงก่อนเริ่มใช้งาน
+      <strong class="text-yellow-300">รีวิวเว็บเกมสล็อต</strong>
+      <strong class="text-yellow-300">BESTCLUB88</strong> โดยทดลองสมัครสมาชิก เข้าใช้งาน และทดสอบเล่นเกมจากหลายค่าย เพื่อดูว่าระบบมีความลื่นไหลเพียงใด เกมที่ให้บริการมีความสนุกและ เล่นมัน ตามที่หลายคนกล่าวถึงหรือไม่
+      รวมถึงสำรวจว่าเกมใดมีจังหวะ แตกหนัก น่าสนใจ และข้อเสนอ ฟรีสปินไม่อั้น สำหรับสมาชิกใหม่มีรายละเอียดอย่างไร จากข้อมูลที่ได้จะสรุปเป็นประสบการณ์การใช้งานจริง เพื่อช่วยให้ผู้อ่านเห็นภาพรวมของ
+      <strong class="text-yellow-300">BESTCLUB88</strong> ก่อนตัดสินใจเข้าใช้งานหรือสมัครสมาชิก
     </p>
-  </ContentBoxNeumorphism>
+  </ContentBoxCyberCut>
 
   <SmoothCarousel />
 
-  <ContentBox as="h2" title="OHO21 สล็อตที่แตกง่าย ติดโบนัสไว ลุ้นกำไรได้ทุกเทิร์น">
+  <ContentBox as="h2" title="BESTCLUB88 ทางเข้า เว็บเกมสล็อต รวมค่ายดัง เกมยอดนิยม ในเว็บเดียว">
     <p class="leading-relaxed">
-      สล็อตที่แตกง่ายของ OHO21 ไม่ได้หมายถึงเกมที่รับประกันผลรางวัล แต่เป็นกลุ่มเกมที่ออกแบบให้มีจังหวะลุ้นถี่ ทั้งรางวัลย่อย ฟรีสปิน สัญลักษณ์พิเศษ และตัวคูณที่ช่วยเพิ่มความสนุกในแต่ละเทิร์น
-      ผู้เล่นสามารถเลือกเกมตามค่า RTP ระดับความผันผวน และรูปแบบโบนัสที่ตรงกับสไตล์ของตัวเอง เกมความผันผวนต่ำเหมาะกับการเล่นต่อเนื่อง ส่วนเกมความผันผวนสูงจะเน้นลุ้นยอดรางวัลก้อนใหญ่
-      การตั้งงบและเลือกเดิมพันให้สัมพันธ์กับทุนจึงสำคัญกว่าการไล่ตามกระแสว่าเกมใดกำลังแตก
+      <strong class="text-yellow-300">BESTCLUB88</strong> เป็น <strong class="text-yellow-300">ทางเข้าเว็บเกมสล็อต</strong> ที่รวบรวมเกมจากผู้ให้บริการชั้นนำ ในเว็บเดียว มี รวมค่ายดัง อย่าง PG Soft, Pragmatic
+      Play, JILI และ Habanero พร้อม เกมยอดนิยม เช่น Mahjong Ways, Gates of Olympus, Sweet Bonanza, Fortune Tiger และ Sugar Rush ให้เลือกเล่น หน้าเว็บไซต์แบ่งหมวดหมู่ชัดเจน ค้นหาเกมได้ง่าย รองรับทั้งคอมพิวเตอร์และมือถือ
+      จึงเหมาะสำหรับผู้ที่ต้องการเข้าเล่นเกมสล็อตผ่านระบบเดียวอย่างสะดวกและรวดเร็ว
     </p>
-    <FeatureHighlights items={breakEasyFeatures} />
   </ContentBox>
 
-  <ContentBox as="h2" title="แจกโบนัสจัดเต็ม OHO21 เติมครั้งเดียว รับสิทธิ์ได้เต็มอัตรา">
-    <p class="leading-relaxed">
-      โบนัสของที่นี่ มีไว้เพิ่มความคุ้มค่าให้สมาชิกตั้งแต่เริ่มต้น ไม่ว่าจะเป็นสิทธิ์ต้อนรับสมาชิกใหม่ โบนัสตามยอดเติม เครดิตกิจกรรม หรือโปรสำหรับสมาชิก OHO21 ที่กลับมาใช้งานอย่างต่อเนื่อง
-      ก่อนรับสิทธิ์ควรอ่านเงื่อนไขยอดเทิร์น เกมที่เข้าร่วม ระยะเวลาใช้งาน และข้อกำหนดการถอนให้ครบ เพราะแต่ละโปรโมชั่นอาจมีรายละเอียดต่างกัน การเลือกโบนัสที่เหมาะกับงบและเกมที่ต้องการเล่น
-      จะช่วยให้ใช้สิทธิ์ได้คุ้มกว่าการรับทุกโปรโดยไม่ตรวจสอบเงื่อนไข
-    </p>
+  <ProviderGrid />
 
-    <Picture
-      src={imgBonus}
-      loading="lazy"
-      fetchpriority="low"
-      widths={[320, 480, 640, 768]}
-      sizes="(max-width: 768px) 100vw, 640px"
-      decoding="async"
-      formats={["avif", "webp"]}
-      fallbackFormat="webp"
-      quality={80}
-      alt="OHO21 แจกโบนัสจัดเต็ม สิทธิ์ต้อนรับสมาชิกใหม่และโบนัสตามยอดเติม"
-      class="mx-auto mt-8 h-auto w-full max-w-5xl rounded-2xl border border-orange-400/20 shadow-[0_10px_30px_rgba(249,115,22,0.2)]"
-    />
-  </ContentBox>
-
-  <ContentBoxSevenThreeNeumorphism titleright="ฝากถอนออโต้ของ ไวทุกธุรกรรม พร้อมลุยทุกเกม">
+  <ContentBoxSevenThree titleright="รีวิว BESTCLUB88 หลังทดลองเล่นเกมสล็อตจริง ความรู้สึกเป็นอย่างไร">
     <div slot="left" class="flex h-full flex-col justify-center">
       <Picture
-        src={imgAutoWallet}
+        src={imgReview}
         loading="lazy"
         fetchpriority="low"
         widths={[200, 400, 600, 800]}
@@ -142,60 +115,87 @@ import imgBonus from "../assets/banner2.png";
         formats={["avif", "webp"]}
         fallbackFormat="webp"
         quality={80}
-        alt="OHO21 ระบบฝากถอนออโต้ ทำรายการไวทุกธุรกรรม"
-        class="mx-auto h-auto w-full rounded-2xl border-2 border-blue-400/20 shadow-[0_10px_30px_rgba(37,99,235,0.25)]"
+        alt="BESTCLUB88 รีวิวหลังทดลองเล่นเกมสล็อตจริง ระบบลื่นไหลโหลดเร็ว"
+        class="mx-auto h-auto w-full rounded-2xl border-2 border-red-400/20 shadow-[0_10px_30px_rgba(220,38,38,0.25)]"
       />
     </div>
     <div slot="right">
       <p class="leading-relaxed">
-        ระบบฝากถอนออโต้ช่วยให้การจัดการเครดิตเป็นเรื่องง่าย โดยไม่ต้องรอเจ้าหน้าที่ตรวจสอบทีละรายการ สมาชิกเลือกช่องทาง ชำระตามข้อมูลที่ระบบแสดง และรอเครดิตอัปเดตเข้าสู่บัญชี เมื่อทำรายการถอน
-        ระบบจะตรวจสอบยอดคงเหลือ เงื่อนไขโบนัส และข้อมูลบัญชีก่อนดำเนินการ ความรวดเร็วจริงอาจขึ้นอยู่กับธนาคาร ช่องทางชำระเงิน และช่วงเวลาที่ใช้งาน จึงควรกรอกข้อมูลให้ตรงกับบัญชีสมาชิกทุกครั้ง
-        เพื่อลดปัญหารายการล่าช้าหรือถูกส่งกลับไปตรวจสอบใหม่
+        หลังจากทดลองสมัครสมาชิกและล็อกอินเข้าใช้งาน <strong class="text-yellow-300">BESTCLUB88</strong> สิ่งแรกที่รู้สึกคือ "เร็วกว่าที่คิด" ขั้นตอนต่าง ๆ ไม่ซับซ้อน สิ่งที่ค่อนข้างประหลาดใจคือ ความลื่นของระบบ
+        ระหว่างสลับเกมแทบไม่ต้องรอโหลด หน้าเว็บตอบสนองไว เข้าเกมต่อเนื่อง ไม่พบอาการค้างหรือเด้งออกจากระบบตลอดช่วงที่ทดลองเล่น โดยรวม <strong class="text-yellow-300">BESTCLUB88</strong> ให้ความรู้สึกว่าเป็นเว็บไซต์ที่ใช้งานง่าย
+        โหลดเร็ว และมีความเสถียรเกินกว่าที่คาดไว้
       </p>
     </div>
-  </ContentBoxSevenThreeNeumorphism>
+  </ContentBoxSevenThree>
 
-  <ContentBox as="h2" title="รีวิวเว็บตรง OHO21 จากระบบจริง สปินไหลลื่น ลุ้นแตกได้ทุกตา">
-    <p class="leading-relaxed">
-      จากองค์ประกอบของระบบ OHO21 เน้นการเข้าถึงเกมได้รวดเร็ว เมนูไม่ซับซ้อน และแสดงหมวดเกมแยกตามค่ายอย่างชัดเจน ผู้เล่นสามารถค้นหาเกมโปรด สลับค่าย หรือกลับไปยังเกมที่เล่นล่าสุดได้โดยไม่เสียเวลา
-      หน้าจอเกมปรับตามอุปกรณ์ได้ดี ทำให้สปินผ่านมือถือได้ต่อเนื่อง ส่วนความลื่นไหลขึ้นอยู่กับคุณภาพอินเทอร์เน็ตและเซิร์ฟเวอร์ของค่ายเกมด้วย จุดที่ควรพิจารณาควบคู่กันคือความชัดเจนของเงื่อนไขโบนัส
-      ประวัติธุรกรรม และช่องทางติดต่อเมื่อพบปัญหา ไม่ควรตัดสินจากคำว่าแตกง่ายเพียงอย่างเดียว
+  <ContentBoxSpecial as="h2" title="เปิดยูสใหม่ แล้วได้ ฟรีสปินไม่อั้น BESTCLUB88 จริงหรือหลอก">
+    <p slot="left" class="leading-relaxed">
+      ได้ฟรีสปินไม่อั้น จริงไหม ต้องบอกว่า "จริง" จากการทดลองสมัครสมาชิกใหม่ สิ่งที่ทำให้ค่อนข้างประหลาดใจคือ ได้รับสิทธิ์ฟรีสปินจริง โดยเป็นการแจกในช่วงเปิดระบบทดสอบ
+      สมาชิกใหม่สามารถนำฟรีสปินไปใช้กับเกมที่ร่วมรายการได้ตามเงื่อนไขที่เว็บไซต์กำหนด ทำให้ทดลองเล่นได้โดยไม่ต้องใช้เครดิตของตนเอง
     </p>
-  </ContentBox>
-
-  <ProviderGrid />
-  <GameRankingBoard />
-
-  <ContentBoxSpecial as="h2" title="รองรับวอเลทเต็ม ฝากง่าย ถอนเร็ว จบครบในบัญชีเดียว">
-    <p class="leading-relaxed">
-      OHO21 รองรับวอเลทเพื่อเพิ่มทางเลือกให้ผู้ที่ต้องการทำรายการผ่านมือถือ โดยไม่ต้องสลับหลายแอปหรือกรอกข้อมูลเดิมซ้ำหลายรอบ หลังเชื่อมข้อมูลกับบัญชีสมาชิกแล้ว สามารถตรวจสอบยอด ฝากเครดิต
-      และส่งคำขอถอนได้จากระบบเดียว จุดสำคัญคือชื่อและหมายเลขวอเลทต้องตรงกับข้อมูลที่ลงทะเบียน รวมถึงควรตรวจสอบยอดขั้นต่ำและสูงสุดของแต่ละรายการก่อนยืนยัน การใช้บัญชีของตนเองและเก็บหลักฐานธุรกรรมไว้
-      จะช่วยให้ตรวจสอบสถานะได้ง่ายหากยอดเงินยังไม่อัปเดตตามเวลาปกติ
+    <p slot="right" class="leading-relaxed">
+      อย่างไรก็ตาม เมื่อสิ้นสุดช่วงทดสอบ โปรโมชั่นนี้ไม่ได้แจกตลอดเวลา หากสมัครแล้วไม่ได้รับฟรีสปิน แนะนำให้ติดตามข่าวสารผ่านช่องทางติดต่อหรือหน้าโปรโมชั่นของ <strong class="text-yellow-300">
+        BESTCLUB88
+      </strong>
+      เพราะการแจกสิทธิ์จะขึ้นอยู่กับกิจกรรมในแต่ละช่วงเวลา ไม่ได้เปิดให้รับได้ตลอดตามที่หลายคนเข้าใจ
     </p>
   </ContentBoxSpecial>
 
-  <ContentBoxFloatingBadge as="h2" title="ทางเข้า OHO21 อัปเดตตรงถึงเว็บจริง ล็อกเป้าความสนุกได้ในคลิกเดียว">
-    <p class="mx-auto max-w-4xl leading-relaxed">
-      ทางเข้า OHO21 ควรมาจากช่องทางที่เว็บไซต์ประกาศโดยตรง เพราะโดเมนหรือหน้าล็อกอินอาจมีการเปลี่ยนแปลงตามการดูแลระบบ ก่อนกรอกชื่อผู้ใช้หรือข้อมูลการเงิน ให้ตรวจสอบชื่อโดเมน การเชื่อมต่อ HTTPS
-      รูปแบบหน้าเว็บ และเมนูหลักว่าตรงกับเว็บที่เคยใช้งานหรือไม่ ควรหลีกเลี่ยง ลิงก์จากข้อความSMSสุ่ม โฆษณาที่ไม่ระบุแหล่งที่มา หรือหน้าที่เร่งให้โอนเงินเข้าบัญชีบุคคล
+  <ContentBox as="h2" title="โปรโมชั่นและโบนัส ที่พบจากการใช้งานจริง">
+    <p class="leading-relaxed">
+      จากการทดลองใช้งาน โปรโมชั่นของ <strong class="text-yellow-300">BESTCLUB88</strong> อยู่ในระดับ มาตรฐาน ไม่ได้มีรูปแบบที่แตกต่างจากเว็บไซต์สล็อตทั่วไป โดยส่วนใหญ่จะเป็นโบนัสต้อนรับ โปรโมชั่นฝากแรก
+      และกิจกรรมตามช่วงเวลา ซึ่งพบได้ในหลายเว็บไซต์ที่ให้บริการลักษณะเดียวกัน
     </p>
-  </ContentBoxFloatingBadge>
 
-  <div class="mx-auto mb-10 flex flex-wrap justify-center gap-6 px-4">
+    <Picture
+      src={imgBonus}
+      loading="lazy"
+      fetchpriority="low"
+      widths={[320, 480, 640]}
+      sizes="(max-width: 768px) 100vw, 640px"
+      decoding="async"
+      formats={["avif", "webp"]}
+      fallbackFormat="webp"
+      quality={80}
+      alt="BESTCLUB88 โปรโมชั่นและโบนัสต้อนรับ พร้อมกิจกรรมตามช่วงเวลา"
+      class="mx-auto mt-8 h-auto w-full max-w-3xl rounded-2xl border border-yellow-400/20 shadow-[0_10px_30px_rgba(234,179,8,0.2)]"
+    />
+  </ContentBox>
+
+  <ContentBox title="เกมไหนเล่นมัน แตกหนัก จากการทดลอง">
+    <p class="leading-relaxed">
+      จากการทดลองเล่นเกมยอดนิยมอย่าง Mahjong Ways 2, Gates of Olympus, Sweet Bonanza, Fortune Tiger และ Sugar Rush พบว่ารูปแบบการจ่ายรางวัลเป็นไปตามมาตรฐานของผู้พัฒนาเกมแต่ละค่าย
+      ไม่พบว่ามีการปรับอัตราการแตกหรือความถี่ของโบนัสให้แตกต่างจากเวอร์ชันปกติของเกม โดยสรุป แม้บางรอบจะได้รับรางวัลใหญ่และเล่นได้สนุก แต่จากการทดลอง
+      ไม่สามารถสรุปได้ว่าเกมแตกหนักกว่าค่าเฉลี่ยหรือมีอัตราการจ่ายสูงกว่าเว็บไซต์อื่น
+    </p>
+    <FeatureHighlights items={scoreHighlights} />
+  </ContentBox>
+
+  <GameRankingBoard />
+
+  <ContentBoxCyberCut as="h2" title="ข้อมูลเกี่ยวกับ เว็บตรง BESTCLUB88 ที่ควรทราบ">
+    <p class="mx-auto max-w-4xl leading-relaxed">
+      สำหรับที่มาของ <strong class="text-yellow-300">BESTCLUB88</strong> หากมองจากชื่อและแนวทางของเว็บไซต์ ก็พอคาดได้ว่าแบรนด์อาจเริ่มต้นจากกลุ่มคนที่ชื่นชอบเกมสล็อตและต้องการรวบรวมเกมจากหลายค่ายมาไว้ในระบบเดียว
+      คำว่า BEST CLUB สื่อถึงแนวคิดของการสร้างศูนย์รวมเกมที่คัดสิ่งที่ดีที่สุด ส่วนเลข 88 มักใช้แทนความโชคดีและความมั่งคั่ง จึงอาจกล่าวได้ว่า <strong class="text-yellow-300">BESTCLUB88</strong> ถูกวางภาพให้เป็น
+      เว็บตรง ที่เน้นความครบถ้วน เล่นง่าย และเข้าถึงเกมยอดนิยมได้สะดวก อย่างไรก็ตาม เรื่องประวัติ ปีที่ก่อตั้ง และผู้ดำเนินงานยังไม่มีหลักฐานยืนยัน
+    </p>
+  </ContentBoxCyberCut>
+
+  <LoginRtpSection />
+
+  <div class="mx-auto mb-10 flex flex-nowrap justify-center gap-3 px-4 sm:gap-6">
     <a
       href="/login"
-      class="group relative flex items-center justify-center rounded-full border border-orange-400/50 bg-[#030a1a]/80 px-10 py-3.5 font-black text-orange-300 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-blue-900/60 hover:shadow-[0_0_15px_rgba(249,115,22,0.4)]">
+      class="group relative flex flex-1 items-center justify-center rounded-full border border-yellow-400/50 bg-[#14040a]/80 px-4 py-3 text-sm font-black whitespace-nowrap text-yellow-300 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-red-900/60 hover:shadow-[0_0_15px_rgba(234,179,8,0.4)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
       เข้าสู่ระบบ
     </a>
 
     <a
       href="/register"
-      class="group relative flex items-center justify-center rounded-full bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 px-10 py-3.5 font-black text-blue-950 shadow-[0_5px_20px_rgba(249,115,22,0.4)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_8px_25px_rgba(249,115,22,0.6)]">
+      class="group relative flex flex-1 items-center justify-center rounded-full bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 px-4 py-3 text-sm font-black whitespace-nowrap text-[#450a0a] shadow-[0_5px_20px_rgba(234,179,8,0.4)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_8px_25px_rgba(234,179,8,0.6)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
       สมัครสมาชิก
     </a>
   </div>
-
-  <LoginRtpSection />
 
   <ReviewCardSumo />
   <LatestWinners />

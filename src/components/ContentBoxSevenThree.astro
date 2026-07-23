@@ -4,18 +4,20 @@ const { titleleft, titleright } = Astro.props;
 
 <section class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="group relative w-full overflow-hidden rounded-3xl border border-blue-500/30 bg-[#030a1a]/80 p-8 text-white/90 shadow-[0_10px_30px_rgba(0,0,0,0.8)] backdrop-blur-xl transition-all duration-500 hover:border-blue-400/50 md:p-10">
+    class="group relative w-full overflow-hidden rounded-3xl border border-red-600/30 bg-[#0a0a0a]/80 p-8 text-white/90 shadow-[0_10px_30px_rgba(0,0,0,0.8)] backdrop-blur-xl transition-all duration-500 hover:border-red-500/50 md:p-10">
     <div class="grid grid-cols-1 gap-8 md:grid-cols-[3fr_7fr] md:items-center">
-      <article class="flex flex-col gap-2 border-b border-blue-900/50 pb-6 md:border-r md:border-b-0 md:pr-6 md:pb-0">
-        {titleleft && <h2 class="text-center text-2xl font-black tracking-wider text-white uppercase drop-shadow-[0_2px_10px_rgba(255,255,255,0.2)] md:text-left">{titleleft}</h2>}
-        <div class="mt-2 text-center text-sm font-medium text-blue-400 md:text-left">
+      <article class="flex flex-col gap-2 border-b border-red-900/50 pb-6 md:border-r md:border-b-0 md:pr-6 md:pb-0">
+        {titleleft && <h2 class="text-center text-4xl font-black tracking-wider text-white uppercase drop-shadow-[0_2px_10px_rgba(255,255,255,0.2)] md:text-left">{titleleft}</h2>}
+        <div class="mt-2 text-center text-sm font-medium text-red-500 md:text-left">
           <slot name="left" />
         </div>
       </article>
 
-      <article class="flex flex-col gap-3 text-base leading-relaxed text-gray-300 md:pl-6">
-        {titleright && <h2 class="flex items-center gap-2 text-2xl font-black leading-normal text-blue-300 drop-shadow-[0_0_8px_rgba(37,99,235,0.3)]">{titleright}</h2>}
-        <slot name="right" />
+      <article class="flex flex-col gap-3 md:pl-6">
+        {titleright && <h2 class="flex items-center gap-2 text-2xl font-black text-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.3)]">{titleright}</h2>}
+        <div class="text-base leading-relaxed text-gray-300">
+          <slot name="right" />
+        </div>
       </article>
     </div>
   </div>

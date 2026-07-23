@@ -7,12 +7,12 @@ const { titleleft, titleright } = Astro.props;
     <article class="flex flex-col gap-4">
       {
         titleleft && (
-          <p class="flex items-center gap-3 border-b border-blue-500/30 pb-3 text-2xl font-black tracking-widest text-white uppercase drop-shadow-md">
-            <span class="flex h-9 w-9 items-center justify-center rounded-lg border border-blue-400/30 bg-gradient-to-br from-blue-500 to-blue-700 text-sm text-white shadow-[0_0_10px_rgba(37,99,235,0.5)]">
+          <h2 class="flex items-center gap-3 border-b border-red-600/30 pb-3 text-xl font-black tracking-widest text-white uppercase drop-shadow-md">
+            <span class="flex h-9 w-9 items-center justify-center rounded-lg border border-red-400/30 bg-gradient-to-br from-red-600 to-red-800 text-sm text-white shadow-[0_0_10px_rgba(220,38,38,0.5)]">
               🔐
             </span>
             {titleleft}
-          </p>
+          </h2>
         )
       }
       <div class="h-full text-base leading-relaxed text-white/90"><slot name="left" /></div>
@@ -21,12 +21,12 @@ const { titleleft, titleright } = Astro.props;
     <article class="flex flex-col gap-4">
       {
         titleright && (
-          <p class="flex items-center gap-3 border-b border-blue-500/30 pb-3 text-2xl font-black tracking-widest text-white uppercase drop-shadow-md">
-            <span class="flex h-9 w-9 items-center justify-center rounded-lg border border-orange-300/50 bg-gradient-to-br from-orange-400 to-orange-600 text-sm text-white shadow-[0_0_10px_rgba(249,115,22,0.5)]">
+          <h2 class="flex items-center gap-3 border-b border-red-600/30 pb-3 text-xl font-black tracking-widest text-white uppercase drop-shadow-md">
+            <span class="flex h-9 w-9 items-center justify-center rounded-lg border border-yellow-300/50 bg-gradient-to-br from-yellow-400 to-yellow-600 text-sm text-black shadow-[0_0_10px_rgba(250,204,21,0.5)]">
               💰
             </span>
             {titleright}
-          </p>
+          </h2>
         )
       }
       <div class="h-full text-base leading-relaxed text-white/90"><slot name="right" /></div>

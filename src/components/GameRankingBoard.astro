@@ -8,12 +8,12 @@ import img5 from "../assets/providers/game5.avif";
 import img6 from "../assets/providers/game6.avif";
 
 const games = [
-  { rank: 1, name: "PG Soft", type: "สล็อตยอดนิยม", rtp: 98.7, players: 5124, img: img1 },
-  { rank: 2, name: "Joker Gaming", type: "สล็อตคลาสสิก", rtp: 97.9, players: 3842, img: img2 },
-  { rank: 3, name: "JILI Games", type: "สล็อต & อาร์เคด", rtp: 97.6, players: 3517, img: img3 },
-  { rank: 4, name: "Evolution", type: "คาสิโนสด", rtp: 97.2, players: 2905, img: img4 },
-  { rank: 5, name: "SA Gaming", type: "บาคาร่าสด", rtp: 96.8, players: 2431, img: img5 },
-  { rank: 6, name: "Sexy Baccarat", type: "คาสิโนสด", rtp: 96.5, players: 2108, img: img6 },
+  { rank: 1, name: "Mahjong Ways 2", type: "PG Soft • สล็อตยอดนิยม", rtp: 98.7, players: 5124, img: img1 },
+  { rank: 2, name: "Gates of Olympus", type: "Pragmatic Play • สล็อตแตกหนัก", rtp: 97.9, players: 3842, img: img2 },
+  { rank: 3, name: "Sweet Bonanza", type: "Pragmatic Play • ซื้อฟรีสปิน", rtp: 97.6, players: 3517, img: img3 },
+  { rank: 4, name: "Fortune Tiger", type: "PG Soft • สล็อตคลาสสิก", rtp: 97.2, players: 2905, img: img4 },
+  { rank: 5, name: "Sugar Rush", type: "Pragmatic Play • คลัสเตอร์เพย์", rtp: 96.8, players: 2431, img: img5 },
+  { rank: 6, name: "Mahjong Ways", type: "PG Soft • สล็อตยอดนิยม", rtp: 96.5, players: 2108, img: img6 },
 ];
 
 const medal = (rank: number) => (rank === 1 ? "🥇" : rank === 2 ? "🥈" : rank === 3 ? "🥉" : null);
@@ -21,12 +21,12 @@ const medal = (rank: number) => (rank === 1 ? "🥇" : rank === 2 ? "🥈" : ran
 
 <section class="mx-auto w-full max-w-[1300px] px-4 py-8 font-sans">
   <div class="mb-8 flex w-full flex-col items-center justify-center gap-2 text-center">
-    <span class="text-2xl drop-shadow-[0_0_10px_rgba(249,115,22,0.7)]">🏆</span>
-    <h2 class="bg-gradient-to-r from-orange-200 via-blue-300 to-blue-500 bg-clip-text text-2xl font-black tracking-widest text-transparent uppercase drop-shadow-sm">
+    <span class="text-2xl drop-shadow-[0_0_10px_rgba(220,38,38,0.7)]">🏆</span>
+    <h2 class="bg-gradient-to-r from-yellow-200 via-red-300 to-red-500 bg-clip-text text-2xl font-black tracking-widest text-transparent uppercase drop-shadow-sm">
       จัดอันดับเกม RTP สูงสุดประจำสัปดาห์
     </h2>
-    <p class="max-w-2xl text-sm text-blue-100/60">ข้อมูลค่า RTP โดยประมาณจากการวิเคราะห์ค่ายเกม เพื่อประกอบการตัดสินใจเลือกเกมของผู้เริ่มต้น</p>
-    <div class="mt-2 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-blue-500 to-transparent"></div>
+    <p class="max-w-2xl text-sm text-red-100/60">ข้อมูลค่า RTP โดยประมาณจากการวิเคราะห์ค่ายเกม เพื่อประกอบการตัดสินใจเลือกเกมของผู้เริ่มต้น</p>
+    <div class="mt-2 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-red-500 to-transparent"></div>
   </div>
 
   <div class="flex flex-col gap-3">
@@ -37,22 +37,22 @@ const medal = (rank: number) => (rank === 1 ? "🥇" : rank === 2 ? "🥈" : ran
           <article
             class={`group relative flex items-center gap-3 overflow-hidden rounded-2xl border p-3 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 sm:gap-5 sm:p-4 ${
               top
-                ? "border-orange-400/50 bg-gradient-to-r from-[#0a1526]/90 via-[#030a1a]/90 to-[#030a1a]/90 shadow-[0_10px_30px_rgba(249,115,22,0.15)]"
-                : "border-blue-500/25 bg-[#030a1a]/80 shadow-[0_5px_20px_rgba(0,0,0,0.4)] hover:border-blue-400/50 hover:shadow-[0_10px_30px_rgba(37,99,235,0.2)]"
+                ? "border-yellow-400/50 bg-gradient-to-r from-[#26060d]/90 via-[#14040a]/90 to-[#14040a]/90 shadow-[0_10px_30px_rgba(234,179,8,0.15)]"
+                : "border-red-500/25 bg-[#14040a]/80 shadow-[0_5px_20px_rgba(0,0,0,0.4)] hover:border-red-400/50 hover:shadow-[0_10px_30px_rgba(220,38,38,0.2)]"
             }`}>
-            <div class="pointer-events-none absolute -left-10 top-1/2 h-24 w-24 -translate-y-1/2 rounded-full bg-blue-500/10 blur-[40px] transition-all duration-500 group-hover:bg-blue-400/20" />
+            <div class="pointer-events-none absolute -left-10 top-1/2 h-24 w-24 -translate-y-1/2 rounded-full bg-red-500/10 blur-[40px] transition-all duration-500 group-hover:bg-red-400/20" />
 
             <div class="relative z-10 flex w-8 shrink-0 flex-col items-center justify-center sm:w-12">
               {medal(g.rank) ? (
-                <span class="text-2xl drop-shadow-[0_0_8px_rgba(249,115,22,0.5)] sm:text-3xl">{medal(g.rank)}</span>
+                <span class="text-2xl drop-shadow-[0_0_8px_rgba(234,179,8,0.5)] sm:text-3xl">{medal(g.rank)}</span>
               ) : (
-                <span class="text-xl font-black text-blue-300/70 sm:text-2xl">#{g.rank}</span>
+                <span class="text-xl font-black text-red-300/70 sm:text-2xl">#{g.rank}</span>
               )}
             </div>
 
             <div
               class={`relative z-10 h-14 w-14 shrink-0 overflow-hidden rounded-xl border sm:h-16 sm:w-16 ${
-                top ? "border-orange-400/50" : "border-blue-500/30"
+                top ? "border-yellow-400/50" : "border-red-500/30"
               }`}>
               <Picture
                 src={g.img}
@@ -70,23 +70,23 @@ const medal = (rank: number) => (rank === 1 ? "🥇" : rank === 2 ? "🥈" : ran
             <div class="relative z-10 min-w-0 flex-1">
               <div class="flex items-center gap-2">
                 <p class="truncate text-base font-black text-white sm:text-lg">{g.name}</p>
-                {top && <span class="hidden shrink-0 rounded-full border border-orange-400/40 bg-orange-400/10 px-2 py-0.5 text-[9px] font-black tracking-wider text-orange-300 sm:inline">TOP RTP</span>}
+                {top && <span class="hidden shrink-0 rounded-full border border-yellow-400/40 bg-yellow-400/10 px-2 py-0.5 text-[9px] font-black tracking-wider text-yellow-300 sm:inline">TOP RTP</span>}
               </div>
-              <p class="truncate text-[11px] text-blue-100/50 sm:text-xs">{g.type}</p>
+              <p class="truncate text-[11px] text-red-100/50 sm:text-xs">{g.type}</p>
 
               <div class="mt-2 flex items-center gap-2">
-                <div class="h-1.5 flex-1 overflow-hidden rounded-full bg-[#030a1a]">
+                <div class="h-1.5 flex-1 overflow-hidden rounded-full bg-[#14040a]">
                   <div
-                    class={`h-full rounded-full ${top ? "bg-gradient-to-r from-orange-400 to-orange-600" : "bg-gradient-to-r from-blue-500 to-orange-400"}`}
+                    class={`h-full rounded-full ${top ? "bg-gradient-to-r from-yellow-400 to-yellow-600" : "bg-gradient-to-r from-red-500 to-yellow-400"}`}
                     style={`width:${g.rtp}%`}
                   />
                 </div>
-                <span class={`shrink-0 text-xs font-black tabular-nums ${top ? "text-orange-300" : "text-blue-200"}`}>{g.rtp}%</span>
+                <span class={`shrink-0 text-xs font-black tabular-nums ${top ? "text-yellow-300" : "text-red-200"}`}>{g.rtp}%</span>
               </div>
             </div>
 
             <div class="relative z-10 hidden shrink-0 flex-col items-end gap-1 sm:flex">
-              <span class="flex items-center gap-1.5 text-[11px] text-blue-100/50">
+              <span class="flex items-center gap-1.5 text-[11px] text-red-100/50">
                 <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-green-400 shadow-[0_0_6px_rgba(74,222,128,0.7)]" />
                 <span class="tabular-nums" data-players data-base={g.players}>
                   {g.players.toLocaleString("en-US")}
@@ -97,8 +97,8 @@ const medal = (rank: number) => (rank === 1 ? "🥇" : rank === 2 ? "🥈" : ran
                 href="/register"
                 class={`rounded-full px-4 py-1.5 text-xs font-black transition-transform hover:scale-105 ${
                   top
-                    ? "bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 text-blue-950 shadow-[0_4px_15px_rgba(249,115,22,0.4)]"
-                    : "border border-blue-500/50 bg-blue-950/40 text-blue-200 hover:border-blue-400 hover:text-white"
+                    ? "bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 text-[#450a0a] shadow-[0_4px_15px_rgba(234,179,8,0.4)]"
+                    : "border border-red-500/50 bg-red-950/40 text-red-200 hover:border-red-400 hover:text-white"
                 }`}>
                 เล่นเลย
               </a>

@@ -3,66 +3,49 @@ export interface Props {
   title?: string;
   as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 }
-const { title, as: HeadingTag = "h1" } = Astro.props;
-const hasLeft = Astro.slots.has("content-left");
-const hasRight = Astro.slots.has("content-right");
+const { title, as: HeadingTag = "h2" } = Astro.props;
 ---
 
 <section class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="group relative w-full overflow-hidden rounded-3xl border border-blue-500/30 bg-[#030a1a]/80 p-6 text-white/90 shadow-[0_10px_30px_rgba(0,0,0,0.8)] backdrop-blur-xl transition-all duration-500 hover:border-blue-400/40 md:p-10">
+    class="group relative w-full overflow-hidden rounded-3xl border border-red-600/30 bg-[#0a0a0a]/80 p-6 text-white/90 shadow-[0_10px_30px_rgba(0,0,0,0.8)] backdrop-blur-xl transition-all duration-500 hover:border-red-500/40 md:p-10">
     <div
-      class="pointer-events-none absolute top-0 left-1/2 h-[2px] w-1/2 -translate-x-1/2 bg-gradient-to-r from-transparent via-orange-400 to-transparent opacity-50 shadow-[0_0_15px_rgba(249,115,22,0.8)] transition-opacity duration-500 group-hover:opacity-100">
+      class="pointer-events-none absolute top-0 left-1/2 h-[2px] w-1/2 -translate-x-1/2 bg-gradient-to-r from-transparent via-red-500 to-transparent opacity-50 shadow-[0_0_15px_rgba(220,38,38,0.8)] transition-opacity duration-500 group-hover:opacity-100">
     </div>
 
     {
       title && (
-        <header class="relative z-10 mb-6 flex flex-col items-center gap-3 text-center">
-          <HeadingTag class="bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-2xl leading-tight font-black tracking-wide text-transparent drop-shadow-sm md:text-3xl">
+        <header class="mb-8 flex items-center gap-4 border-b border-red-600/40 pb-4">
+          <div class="h-8 w-1.5 rounded-full bg-gradient-to-b from-red-500 to-red-700 shadow-[0_0_15px_rgba(220,38,38,0.6)]" />
+          <HeadingTag class="bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-2xl font-black tracking-widest text-transparent uppercase drop-shadow-sm">
             {title}
           </HeadingTag>
-          <div class="h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
         </header>
       )
     }
 
-    <div class="relative z-10 text-base leading-relaxed text-gray-300">
-      <slot />
-    </div>
-
-    {
-      (hasLeft || hasRight) && (
-        <div class="relative z-10 mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-10">
-          {hasLeft && (
-            <article class="relative flex flex-col gap-4 rounded-2xl border border-white/5 bg-[#0a1526]/60 p-6 transition-all duration-300 hover:-translate-y-2 hover:border-blue-400/50 hover:bg-[#030a1a] hover:shadow-[0_15px_30px_rgba(37,99,235,0.15)]">
-              <div class="flex items-start gap-4 border-b border-blue-900/50 pb-4">
-                <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-blue-400/30 bg-gradient-to-br from-blue-500 to-blue-700 text-2xl shadow-[0_0_10px_rgba(37,99,235,0.5)]">👤</div>
-                <div class="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-xl leading-tight font-black text-transparent drop-shadow-sm">
-                  <slot name="title-left" />
-                </div>
-              </div>
-              <div class="text-sm leading-relaxed text-gray-400">
-                <slot name="content-left" />
-              </div>
-            </article>
-          )}
-
-          {hasRight && (
-            <article class="relative flex flex-col gap-4 rounded-2xl border border-white/5 bg-[#0a1526]/60 p-6 transition-all duration-300 hover:-translate-y-2 hover:border-orange-500/50 hover:bg-[#1a1205] hover:shadow-[0_15px_30px_rgba(249,115,22,0.15)]">
-              <div class="flex items-start gap-4 border-b border-blue-900/50 pb-4">
-                <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-orange-300/50 bg-gradient-to-br from-orange-400 to-orange-600 text-2xl shadow-[0_0_10px_rgba(249,115,22,0.5)]">🎁</div>
-                <div class="bg-gradient-to-r from-orange-300 to-orange-500 bg-clip-text text-xl leading-tight font-black text-transparent drop-shadow-sm">
-                  <slot name="title-right" />
-                </div>
-              </div>
-              <div class="text-sm leading-relaxed text-gray-400">
-                <slot name="content-right" />
-              </div>
-            </article>
-          )}
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-10">
+      <article
+        class="relative flex gap-4 rounded-2xl border border-white/5 bg-[#171717]/60 p-6 transition-all duration-300 hover:-translate-y-2 hover:border-red-500/50 hover:bg-[#1a0505] hover:shadow-[0_15px_30px_rgba(220,38,38,0.15)]">
+        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-red-400/30 bg-gradient-to-br from-red-600 to-red-800 text-2xl shadow-[0_0_10px_rgba(220,38,38,0.5)]">
+          🎁
         </div>
-      )
-    }
+        <div class="text-sm leading-relaxed text-gray-300">
+          <slot name="left" />
+        </div>
+      </article>
+
+      <article
+        class="relative flex gap-4 rounded-2xl border border-white/5 bg-[#171717]/60 p-6 transition-all duration-300 hover:-translate-y-2 hover:border-yellow-500/50 hover:bg-[#1a1505] hover:shadow-[0_15px_30px_rgba(250,204,21,0.15)]">
+        <div
+          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-yellow-300/50 bg-gradient-to-br from-yellow-400 to-yellow-600 text-2xl shadow-[0_0_10px_rgba(250,204,21,0.5)]">
+          ⚠️
+        </div>
+        <div class="text-sm leading-relaxed text-gray-300">
+          <slot name="right" />
+        </div>
+      </article>
+    </div>
   </div>
 </section>
 <style>

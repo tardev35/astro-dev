@@ -3,7 +3,6 @@ import kbankLogo from "../assets/banks/kbank.png";
 import scbLogo from "../assets/banks/scb.png";
 import krungsriLogo from "../assets/banks/krungsri.png";
 import ktbLogo from "../assets/banks/ktb.png";
-import ttbLogo from "../assets/banks/ttb.png";
 
 const bankPool = [
   { name: "KBank", color: "bg-[#1155cc]", icon: kbankLogo.src },
@@ -14,12 +13,12 @@ const bankPool = [
 ---
 
 <div class="mx-auto w-full max-w-[900px] p-4 font-sans">
-  <div class="relative overflow-hidden rounded-[30px] border-2 border-green-900/50 bg-[#03120a]/90 px-4 py-8 shadow-lg backdrop-blur-md md:p-10">
+  <div class="relative overflow-hidden rounded-[30px] border-2 border-red-900/50 bg-[#14040a]/90 px-4 py-8 shadow-lg backdrop-blur-md md:p-10">
     <div class="mb-8 text-center">
       <h2 class="bg-gradient-to-b from-[#fef08a] to-[#eab308] bg-clip-text text-xl font-black text-transparent md:text-3xl">ประวัติการถอนเงิน (Real-time)</h2>
     </div>
 
-    <div class="relative ml-4 border-l-2 border-green-800/50 pl-6 md:ml-8 md:pl-8" id="feed-timeline"></div>
+    <div class="relative ml-4 border-l-2 border-red-800/50 pl-6 md:ml-8 md:pl-8" id="feed-timeline"></div>
   </div>
 </div>
 
@@ -39,14 +38,14 @@ const bankPool = [
 
     return `
       <div class="relative mb-6 opacity-0 -translate-x-4 transition-all duration-500 ease-out">
-        <div class="absolute -left-[35px] md:-left-[43px] top-2 h-4 w-4 rounded-full border-2 border-[#03120a] bg-lime-400 shadow-[0_0_10px_rgba(132,204,22,0.8)]"></div>
+        <div class="absolute -left-[35px] md:-left-[43px] top-2 h-4 w-4 rounded-full border-2 border-[#14040a] bg-red-500 shadow-[0_0_10px_rgba(220,38,38,0.8)]"></div>
 
-        <div class="flex items-center gap-4 rounded-[20px] bg-gradient-to-r from-green-900/20 to-transparent p-4 hover:from-green-900/40">
+        <div class="flex items-center gap-4 rounded-[20px] bg-gradient-to-r from-red-900/20 to-transparent p-4 hover:from-red-900/40">
           <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${bank.color}">
             <img src="${bank.icon}" alt="bank" class="h-6 w-6 object-contain" />
           </div>
           <div class="flex-1">
-            <div class="text-sm text-green-100">ยูสเซอร์: <span class="font-bold text-white">${user}</span> <span class="text-xs text-green-600 ml-2">${time}</span></div>
+            <div class="text-sm text-red-100">ยูสเซอร์: <span class="font-bold text-white">${user}</span> <span class="text-xs text-red-500 ml-2">${time}</span></div>
             <div class="text-xl font-black text-yellow-400">${getAmount()} THB</div>
           </div>
           <div class="hidden md:block rounded-full border border-yellow-500/50 px-3 py-1 text-[10px] text-yellow-400">สำเร็จ</div>

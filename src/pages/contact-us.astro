@@ -1,8 +1,8 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import ContentBox from "../components/ContentBox.astro";
+import ContentBox from "../components/ContentBoxHuay.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/Announcement3.astro";
+import Announcement from "../components/AnnouncementPremium.astro";
 
 import { Picture } from "astro:assets";
 import imgLine from "../assets/contact-line.webp";
@@ -14,12 +14,12 @@ const logoUrl = homePage + "/logo.webp";
 const contactPageSchema = {
   "@context": "https://schema.org",
   "@type": "ContactPage",
-  name: "ติดต่อ OHO21",
-  description: "ติดต่อทีมงาน OHO21 ดูแลตลอด 24 ชม. ผ่าน LINE Official",
+  name: "ฝากถอนออโต้ จ่ายจริง เฮงทุกสปิน",
+  description: "ฝากถอนออโต้ จ่ายจริง เฮงทุกสปิน",
   url: currentPath,
   mainEntity: {
     "@type": "Organization",
-    name: "OHO21",
+    name: "BESTCLUB88",
     logo: logoUrl,
     url: homePage,
     contactPoint: [
@@ -28,7 +28,7 @@ const contactPageSchema = {
         contactType: "customer service",
         availableLanguage: ["Thai", "English"],
         contactOption: "TollFree",
-        url: "https://tinyurl.com/suhng",
+        url: "https://tinyurl.com/linepigpg",
         description: "ติดต่อแอดมินผ่าน LINE Official",
       },
     ],
@@ -37,14 +37,14 @@ const contactPageSchema = {
 ---
 
 <script type="application/ld+json" set:html={JSON.stringify(contactPageSchema)} />
-<MainLayout title="ติดต่อ OHO21" description="ติดต่อทีมงาน OHO21 ดูแลตลอด 24 ชม. ผ่าน LINE Official">
+<MainLayout title="ติดต่อ BESTCLUB88" ,description="ฝากถอนออโต้ จ่ายจริง เฮงทุกสปิน">
   <Announcement />
 
   <ContentBox>
-    <h1 class="mb-8 text-3xl text-orange-300">ติดต่อ OHO21 ทีมงานดูแลตลอด 24 ชม.</h1>
+    <h1 class="mb-8 text-3xl text-amber-400">ฝากถอนออโต้ จ่ายจริง เฮงทุกสปิน</h1>
     <Picture
       src={imgLine}
-      alt="OHO21 ติดต่อทีมงานผ่าน LINE"
+      alt="BESTCLUB88"
       loading="lazy"
       fetchpriority="low"
       widths={[200, 400, 600]}
@@ -67,7 +67,7 @@ const contactPageSchema = {
       <a
         href="/login"
         aria-label="เข้าเล่นเกม"
-        class="flex items-center justify-center rounded-lg border border-orange-600 bg-gradient-to-b from-orange-400 to-orange-600 px-8 py-3 font-extrabold text-white shadow-[0_0_15px_rgba(249,115,22,0.4)] transition-transform hover:scale-105">
+        class="flex items-center justify-center rounded-lg border border-yellow-600 bg-gradient-to-b from-yellow-200 to-yellow-500 px-8 py-3 font-extrabold text-black shadow-[0_0_15px_rgba(255,215,0,0.4)] transition-transform hover:scale-105">
         เข้าเล่นเกม
       </a>
 
@@ -76,7 +76,7 @@ const contactPageSchema = {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="ติดต่อเราผ่าน Line"
-        class="flex items-center justify-center rounded-lg border border-[#00B900] bg-gradient-to-b from-[#00B900] to-[#009900] px-8 py-3 font-bold text-white transition-transform hover:scale-105">
+        class="flex items-center justify-center rounded-lg border border-green-300 bg-gradient-to-b from-green-400 to-green-700 px-8 py-3 font-bold text-white transition-transform hover:scale-105">
         ติดต่อเรา
       </a>
     </div>

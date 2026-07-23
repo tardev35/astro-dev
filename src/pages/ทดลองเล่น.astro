@@ -2,7 +2,7 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/Announcement3.astro";
+import Announcement from "../components/AnnouncementPremium.astro";
 
 import { Picture } from "astro:assets";
 import image1 from "../assets/gamedemo7.webp";
@@ -50,14 +50,14 @@ const gameList = [
 ---
 
 <script type="application/ld+json" set:html={JSON.stringify(gameList)} />
-<MainLayout title="ทดลองเล่นสล็อต OHO21" description="ทดลองเล่นสล็อต OHO21 ทุกค่ายเกม ก่อนลงเงินจริง">
+<MainLayout title="ทดลองเล่นสล็อต BESTCLUB88" description="ทดลองเล่น BESTCLUB88">
   <Announcement />
 
-  <ContentBox title="ทดลองเล่นสล็อต OHO21">
+  <ContentBox title="ทดลองเล่นสล็อต BESTCLUB88">
     <div class="mb-5 grid grid-cols-2 gap-5 sm:grid-cols-2 md:grid-cols-4">
       {
         demoGames.map((game) => (
-          <div class="group/card relative flex flex-col gap-4 overflow-hidden rounded-xl">
+          <div class="group relative flex flex-col gap-4 overflow-hidden rounded-xl">
             <Picture
               src={game.src}
               alt={game.alt}
@@ -65,7 +65,7 @@ const gameList = [
               fetchpriority="low"
               widths={[200, 400, 600]}
               sizes="(max-width: 768px) 100vw, 25vw"
-              class="mx-auto h-auto w-full max-w-[400px] object-cover shadow-xl transition-transform duration-300 group-hover/card:scale-105"
+              class="mx-auto h-auto w-full max-w-[400px] object-cover shadow-xl transition-transform duration-300 group-hover:scale-105"
               decoding="async"
               formats={["avif", "webp"]}
               fallbackFormat="webp"
@@ -76,8 +76,8 @@ const gameList = [
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`ทดลองเล่น ${game.alt}`}
-              class="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity duration-300 group-hover/card:opacity-100">
-              <span class="rounded-full bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 px-6 py-2 font-bold text-blue-950 shadow-lg transition-transform hover:scale-110">เล่นเลย</span>
+              class="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              <span class="rounded-full bg-gradient-to-r from-yellow-400 to-yellow-600 px-6 py-2 font-bold text-black shadow-lg transition-transform hover:scale-110">เล่นเลย</span>
             </a>
           </div>
         ))

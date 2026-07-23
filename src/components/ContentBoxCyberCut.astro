@@ -4,12 +4,11 @@ export interface Props {
   as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 }
 const { title, as: HeadingTag = "h1" } = Astro.props;
-const headingSize = HeadingTag === "h1" ? "text-3xl" : "text-2xl";
 ---
 
 <section class="my-6 flex w-full justify-center px-4 text-center font-sans">
   <div
-    class="relative w-full max-w-[1400px] border border-red-500/30 bg-[#14040a]/90 p-8 text-white/90 shadow-[0_0_20px_rgba(220,38,38,0.15)] backdrop-blur-md"
+    class="relative w-full max-w-7xl border border-red-500/30 bg-[#14040a]/90 p-8 text-white/90 shadow-[0_0_20px_rgba(220,38,38,0.15)] backdrop-blur-md"
     style="clip-path: polygon(40px 0, 100% 0, 100% calc(100% - 40px), calc(100% - 40px) 100%, 0 100%, 0 40px);">
     <div class="absolute top-0 left-0 h-1 w-32 bg-gradient-to-r from-red-500 to-transparent"></div>
     <div class="absolute right-0 bottom-0 h-1 w-32 bg-gradient-to-l from-red-500 to-transparent"></div>
@@ -18,8 +17,8 @@ const headingSize = HeadingTag === "h1" ? "text-3xl" : "text-2xl";
 
     {
       title && (
-        <header class="mb-8 border-l-4 border-red-500 pl-6">
-          <HeadingTag class={`${headingSize} font-black tracking-[0.2em] text-red-400 uppercase drop-shadow-[0_0_10px_rgba(220,38,38,0.5)]`}>{title}</HeadingTag>
+        <header class="mb-8 border-l-4 border-yellow-500 pl-6">
+          <HeadingTag class="text-3xl font-black tracking-[0.2em] text-red-400 uppercase drop-shadow-[0_0_10px_rgba(220,38,38,0.5)]">{title}</HeadingTag>
         </header>
       )
     }

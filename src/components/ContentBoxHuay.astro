@@ -4,7 +4,6 @@ export interface Props {
   as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 }
 const { title, as: HeadingTag = "h1" } = Astro.props;
-const headingSize = HeadingTag === "h1" ? "text-3xl" : "text-2xl";
 ---
 
 <section class="relative z-10 my-8 flex w-full justify-center px-4 text-center font-sans">
@@ -17,7 +16,7 @@ const headingSize = HeadingTag === "h1" ? "text-3xl" : "text-2xl";
       title && (
         <header class="mb-6 flex items-center gap-4 border-b border-red-500/30 pb-4">
           <div class="h-8 w-1.5 rounded-full bg-gradient-to-b from-yellow-300 to-yellow-500 shadow-[0_0_10px_rgba(250,204,21,0.5)]" />
-          <HeadingTag class={`bg-gradient-to-r from-yellow-300 to-yellow-500 bg-clip-text ${headingSize} font-black tracking-widest text-transparent uppercase drop-shadow-sm`}>{title}</HeadingTag>
+          <HeadingTag class="bg-gradient-to-r from-yellow-300 to-yellow-500 bg-clip-text text-2xl font-black tracking-widest text-transparent uppercase drop-shadow-sm">{title}</HeadingTag>
         </header>
       )
     }

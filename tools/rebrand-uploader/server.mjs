@@ -11,15 +11,13 @@
 import http from "node:http";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve, join } from "node:path";
-import { readdir, unlink, writeFile, readFile, mkdir } from "node:fs/promises";
+import { readdir, unlink, writeFile, mkdir } from "node:fs/promises";
 import sharp from "sharp";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..", "..");
 const ASSETS = join(ROOT, "src", "assets");
 const PUBLIC = join(ROOT, "public");
-const PAGES = join(ROOT, "src", "pages");
-const CONFIG_FILE = join(ROOT, "astro.config.mjs");
 const PORT = 4000;
 
 const IMAGE_EXTS = ["png", "webp", "jpg", "jpeg", "avif", "gif", "svg"];
@@ -172,84 +170,7 @@ function readBody(req) {
   });
 }
 
-// --- Link editing (aff link + LINE@) -------------------------------------
-// Unlike the image slots, these two fields rewrite a string literal inside a
-// source file: the affiliate targetUrl in login/register, and the /line
-// redirect in astro.config. Values are validated so a bad paste can't break
-// the file (no quotes/whitespace/backslashes that would escape the literal).
-
-// Accept only a clean http(s) URL — nothing that could break out of the "..." literal.
-function safeUrl(v) {
-  const s = String(v).trim();
-  if (/["'`\\\s<>]/.test(s)) throw new Error("ค่ามีอักขระที่ไม่อนุญาต (เว้นวรรค/เครื่องหมายคำพูด)");
-  if (!/^https?:\/\/[^\s"'<>]+$/.test(s)) throw new Error("ต้องเป็น URL ที่ขึ้นต้นด้วย http:// หรือ https://");
-  return s;
-}
-
-// A LINE@ value may be a full URL (lin.ee / line.me) used as-is, or a bare
-// @handle we turn into a LINE add-friend deep link.
-function toLineUrl(v) {
-  const s = String(v).trim();
-  if (/^https?:\/\//.test(s)) return safeUrl(s);
-  const handle = s.replace(/^@/, "");
-  if (!/^[A-Za-z0-9_.-]+$/.test(handle)) throw new Error("LINE ID ไม่ถูกต้อง (ใช้ได้เฉพาะ A-Z a-z 0-9 . _ -) หรือวางลิงก์ https:// เต็ม");
-  return `https://line.me/R/ti/p/@${handle}`;
-}
-
-async function replaceInFile(path, regex, replacement, label) {
-  const src = await readFile(path, "utf8");
-  if (!regex.test(src)) throw new Error(`ไม่พบรูปแบบ ${label} ใน ${path}`);
-  await writeFile(path, src.replace(regex, replacement));
-}
-
-const AFF_RE = /const targetUrl = "[^"]*";/;
-const LINE_RE = /("\/line":\s*")[^"]*(")/;
-
-async function readCurrentLinks() {
-  const out = { aff: "", line: "" };
-  try {
-    const m = (await readFile(join(PAGES, "login.astro"), "utf8")).match(/const targetUrl = "([^"]*)";/);
-    if (m) out.aff = m[1];
-  } catch {
-    /* ignore */
-  }
-  try {
-    const m = (await readFile(CONFIG_FILE, "utf8")).match(/"\/line":\s*"([^"]*)"/);
-    if (m) out.line = m[1];
-  } catch {
-    /* ignore */
-  }
-  return out;
-}
-
-async function handleConfig({ aff, line }) {
-  const written = [];
-  if (aff != null && String(aff).trim() !== "") {
-    const url = safeUrl(aff);
-    for (const p of ["login.astro", "register.astro"]) {
-      await replaceInFile(join(PAGES, p), AFF_RE, `const targetUrl = "${url}";`, "targetUrl");
-      written.push(`src/pages/${p}  → aff ${url}`);
-    }
-  }
-  // LINE@: a blank field means "keep whatever astro.config already has" — we
-  // fall back to the current /line value instead of blanking it, and skip the
-  // write entirely when the resolved value already matches (no needless diff).
-  const lineStr = line == null ? "" : String(line).trim();
-  const currentLine = (await readCurrentLinks()).line;
-  const targetLine = lineStr === "" ? currentLine : toLineUrl(lineStr);
-  if (targetLine && targetLine !== currentLine) {
-    await replaceInFile(CONFIG_FILE, LINE_RE, `$1${targetLine}$2`, "/line redirect");
-    written.push(`astro.config.mjs  → /line ${targetLine}`);
-  } else if (lineStr !== "") {
-    written.push(`astro.config.mjs  → /line คงค่าเดิม (${currentLine || "ไม่มีค่า"})`);
-  }
-  if (!written.length) throw new Error("ไม่มีค่าให้บันทึก (กรอกอย่างน้อย 1 ช่อง)");
-  return written;
-}
-
-function renderPage({ aff = "", line = "" } = {}) {
-  const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
-  return /* html */ `<!doctype html>
+const PAGE = /* html */ `<!doctype html>
 <html lang="th">
 <head>
 <meta charset="utf-8" />
@@ -279,8 +200,6 @@ function renderPage({ aff = "", line = "" } = {}) {
   .bar { position: sticky; bottom: 0; background: #111827; border-top: 1px solid #1f2937; padding: 16px 24px; display: flex; align-items: center; gap: 16px; }
   button { background: #2563eb; color: #fff; border: 0; padding: 11px 22px; font-size: 15px; font-weight: 600; border-radius: 10px; cursor: pointer; }
   button:hover { background: #1d4ed8; }
-  .field input[type=text] { font-size: 13px; padding: 9px 11px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: #e2e8f0; font-family: ui-monospace, monospace; }
-  .field input[type=text]:focus { outline: none; border-color: #38bdf8; }
   #log { flex: 1; font-size: 12px; font-family: ui-monospace, monospace; max-height: 90px; overflow: auto; }
   #log div.ok { color: #4ade80; }
   #log div.err { color: #f87171; }
@@ -356,21 +275,6 @@ function renderPage({ aff = "", line = "" } = {}) {
       <span class="status">สร้างชุด PNG + .ico + .svg ให้อัตโนมัติ (รูป raster จะฝังลงใน favicon.svg; ถ้าอัพโหลด .svg จะใช้ไฟล์นั้นตรงๆ)</span>
     </div>
   </section>
-
-  <section class="card" id="card3">
-    <h2>ส่วนที่ 3 — ลิงก์ </h2>
-    <p class="sub">แก้ลิงก์ Affiliate ในหน้า login/register และ LINE@ ของปุ่มติดต่อ (/line) — เว้นว่างไว้ถ้าไม่ต้องการเปลี่ยน</p>
-    <div class="field">
-      <div class="row"><label>Affiliate link</label><span class="target">src/pages/login.astro + register.astro</span></div>
-      <input type="text" id="affInput" placeholder="${aff ? "ปัจจุบัน: " + esc(aff) : "https://your-aff-link..."}" />
-      <span class="status" id="affStatus">${aff ? "ปัจจุบัน: " + esc(aff) : ""}</span>
-    </div>
-    <div class="field">
-      <div class="row"><label>LINE@</label><span class="target">astro.config.mjs → redirect /line</span></div>
-      <input type="text" id="lineInput" value="${esc(line)}" data-orig="${esc(line)}" placeholder="@yourline หรือ https://lin.ee/xxxx" />
-      <span class="status" id="lineStatus">${line ? "ค่าเดิมจาก astro.config: " + esc(line) + " — ไม่แก้ก็คงค่านี้ไว้" : "ยังไม่มีค่าใน astro.config — ใส่ @ไอดี หรือลิงก์ https:// เต็ม"}</span>
-    </div>
-  </section>
 </main>
 <div class="bar">
   <button id="uploadAll">อัพโหลดทั้งหมด</button>
@@ -414,61 +318,17 @@ function renderPage({ aff = "", line = "" } = {}) {
         addLog(slot + (index ? index : '') + ': ' + e.message, false);
       }
     }
-
-    // Link fields (aff + LINE@) — text, not files.
-    // aff: only sent when typed. LINE@ is pre-filled with astro.config's current
-    // value, so we only send it when the user actually CHANGED it — leaving it as
-    // the existing value keeps astro.config untouched ("อ้างตามค่าเดิม").
-    const aff = document.getElementById('affInput').value.trim();
-    const lineEl = document.getElementById('lineInput');
-    const lineChanged = lineEl.value.trim() !== (lineEl.dataset.orig || '').trim();
-    const line = lineChanged ? lineEl.value.trim() : '';
-    if (aff || lineChanged) {
-      any = true;
-      const affS = document.getElementById('affStatus');
-      const lineS = document.getElementById('lineStatus');
-      if (aff) affS.textContent = '⏳ กำลังบันทึก...';
-      if (lineChanged) lineS.textContent = '⏳ กำลังบันทึก...';
-      try {
-        const res = await fetch('/config', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ aff, line }) });
-        const j = await res.json();
-        if (!res.ok || !j.ok) throw new Error(j.error || ('HTTP ' + res.status));
-        if (aff) affS.textContent = '✅ บันทึกแล้ว';
-        if (lineChanged) { lineS.textContent = '✅ บันทึกแล้ว'; lineEl.dataset.orig = lineEl.value.trim(); }
-        j.written.forEach((w) => addLog(w, true));
-      } catch (e) {
-        if (aff) affS.textContent = '❌ ' + e.message;
-        if (lineChanged) lineS.textContent = '❌ ' + e.message;
-        addLog('link: ' + e.message, false);
-      }
-    }
-
-    if (!any) addLog('ยังไม่ได้เลือกไฟล์หรือกรอกลิงก์ใดๆ', false);
+    if (!any) addLog('ยังไม่ได้เลือกไฟล์ใดๆ', false);
   });
 </script>
 </body>
 </html>`;
-}
 
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, `http://localhost:${PORT}`);
   if (req.method === "GET" && url.pathname === "/") {
-    const current = await readCurrentLinks();
     res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
-    res.end(renderPage(current));
-    return;
-  }
-  if (req.method === "POST" && url.pathname === "/config") {
-    try {
-      const body = await readBody(req);
-      const { aff, line } = JSON.parse(body.toString("utf8") || "{}");
-      const written = await handleConfig({ aff, line });
-      res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ ok: true, written }));
-    } catch (err) {
-      res.writeHead(400, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ ok: false, error: err.message }));
-    }
+    res.end(PAGE);
     return;
   }
   if (req.method === "POST" && url.pathname === "/upload") {

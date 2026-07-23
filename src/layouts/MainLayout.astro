@@ -3,8 +3,8 @@ import { Image } from "astro:assets";
 import Bg from "../assets/bg.png";
 import ogImage from "../assets/slide1.png";
 import "../styles/global.css";
-import NavbarPremium from "../components/NavbarPremium.astro";
-import Footer from "../components/FooterPremium.astro";
+import Navbar from "../components/NavbarStyle4Black.astro";
+import Footer from "../components/FooterStyle3.astro";
 
 const bannerImages = import.meta.glob<{ default: ImageMetadata }>("../assets/banner*.{png,webp,jpg,jpeg}", { eager: true });
 const bannerPaths = Object.keys(bannerImages);
@@ -14,8 +14,8 @@ const mainBannerPath = preferredBannerPath ?? webpBannerPath ?? bannerPaths[0];
 const mainBanner = mainBannerPath ? bannerImages[mainBannerPath].default : null;
 
 const {
-  title = "OHO21 สล็อตที่แตกง่าย โบนัส ฝากถอนออโต้ รีวิวเว็บตรง รองรับวอเลท",
-  description = "OHO21 สล็อตที่แตกง่าย โบนัส ฝากถอนออโต้ รีวิวเว็บตรง รองรับวอเลท ติดโบนัสไว แจกโบนัสจัดเต็ม สปินไหลลื่น ฝากง่าย ถอนเร็ว พร้อมทางเข้า OHO21 เว็บจริง",
+  title = "BESTCLUB88 รีวิวเว็บเกมสล็อต เว็บตรงเล่นมัน แตกหนัก ฟรีสปินไม่อั้น",
+  description = "BESTCLUB88 รีวิวเว็บเกมสล็อต เว็บตรงเล่นมัน แตกหนัก ฟรีสปินไม่อั้น รีวิวทางเข้า ทดลองเล่นจริง ฟรีสปิน โปรโมชั่น เกมยอดนิยม และข้อมูลเว็บตรงก่อนสมัคร",
   robots = "index, follow",
   ImageOg = ogImage.src,
 } = Astro.props;
@@ -23,7 +23,7 @@ const {
 const currentPath = Astro.url.pathname;
 const canonicalURL = new URL(currentPath, Astro.site);
 const ogImageURL = new URL(ImageOg, Astro.site);
-const ogSiteName = "OHO21";
+const ogSiteName = "BESTCLUB88";
 ---
 
 <html lang="th">
@@ -43,7 +43,7 @@ const ogSiteName = "OHO21";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="oho21" />
+    <meta name="apple-mobile-web-app-title" content="bestclub88" />
     <link rel="manifest" href="/site.webmanifest" />
 
     <meta property="og:type" content="website" />
@@ -92,12 +92,12 @@ const ogSiteName = "OHO21";
       decoding="sync"
     />
 
-    <NavbarPremium />
+    <Navbar />
 
     <div class="mb-2.5 flex w-full items-center justify-center">
       <Image
         src={mainBanner!}
-        alt="OHO21 banner"
+        alt="BESTCLUB88 banner"
         loading="eager"
         fetchpriority="high"
         widths={[412, 768, 1900]}

@@ -1,73 +1,102 @@
 ---
+// ข้อมูลรีวิวอ้างอิงจาก Requirement ของลูกพี่ พร้อมแต่งคอนเทนต์ให้ดูแพงและน่าเชื่อถือ
+// เลย์เอาต์แบบ "สปอตไลต์ + รายการย่อย" แทนกริดการ์ดเท่ากันทั้งหมด
 const reviews = [
   {
-    name: "ทีมตรวจสอบระบบเว็บไซต์",
+    name: "ทีม web develop หมีขาว",
     role: "ผู้เชี่ยวชาญด้านระบบเว็บไซต์",
     stars: 4,
-    content: "ระบบหลังบ้านแน่นและเสถียรมากครับ โครงสร้าง API เชื่อมตรงค่ายเกม ระบบฝาก-ถอนออโต้ทำงานได้ไวระดับ 3-5 วินาที ไร้รอยต่อจริงๆ แถม UI/UX ออกแบบมาให้ผู้เล่นใช้งานง่ายมาก หัก 1 ดาวเพราะอยากให้มีฟีเจอร์ปรับโหมดสว่างบ้าง รวมๆ คือโคตรตึง!",
-    avatar: "⚡",
-    verified: true,
+    content: "ระบบหลังบ้านแน่นและเสถียรมากครับ โครงสร้าง API ของระบบฝาก-ถอนออโต้ทำงานได้ไวระดับเสี้ยววินาที ไร้รอยต่อจริงๆ แถม UI/UX ออกแบบมาให้ผู้เล่นใช้งานง่ายมาก หัก 1 ดาวเพราะอยากให้มีฟีเจอร์ปรับโหมดสว่างบ้าง รวมๆ คือโคตรตึง!",
+    avatar: "🐻‍❄️"
   },
   {
-    name: "ทีมรีวิวเว็บตรง",
-    role: "คอมมูนิตี้รีวิวเว็บสล็อต",
+    name: "ชุมนุม เว็บสล็อตออนไลน์",
+    role: "คอมมูนิตี้รีวิวเว็บตรง",
     stars: 4,
-    content: "ทางเพจเราเทสแล้ว คอนเฟิร์มว่าที่นี่คือ 'เว็บตรง 100%' ค่าย RTP คงเดิมตามข้อมูลที่เปิดเผย ไม่ปรับเรทกลางอากาศ ไม่ล็อคยูสเซอร์แน่นอน จ่ายจริงทุกบิล เป็นเว็บคุณภาพที่อยากแนะนำ",
-    avatar: "🎯",
+    content: "ทางเพจเราเทสแล้ว คอนเฟิร์มว่าที่นี่คือ 'สล็อตเว็บตรงของแท้ 100%' รวมค่ายเกมไว้เยอะมาก และที่สำคัญคืออัตราการแตก (RTP) สูงกว่าเว็บเอเย่นต์ทั่วไป ไม่มีการปรับเรทหรือล็อคยูสเซอร์แน่นอน จ่ายจริงทุกบิล เป็นเว็บคุณภาพที่อยากแนะนำ",
+    avatar: "🎰"
   },
   {
-    name: "บอสมังกรทอง VIP",
-    role: "นักเล่นระดับ VIP",
+    name: "อาสาสมัครนักเล่นสล็อต",
+    role: "ผู้เล่นระดับ VIP",
     stars: 5,
-    content: "ลองเทสมาแล้วหลายเว็บ สุดท้ายจบที่ OHO21 ครับ! สล็อตแตกง่ายมาก ฟรีสปินเข้าบ่อยจัด RTP สูงกว่าเว็บไทยทั่วไป แอดมินบริการดีตอบไว 24 ชม. เงินเข้าปุ๊บปั๊บ เอาไปเลย 5 ดาวเต็มๆ ไม่ผิดหวังแน่นอนครับ!",
-    avatar: "👑",
-  },
+    content: "ลองเทสมาแล้วหลายเว็บ สุดท้ายจบที่ BESTCLUB88 ครับ! สล็อตแตกง่ายมาก ฟรีสปินเข้าบ่อยจัด โปรโมชั่นก็ให้มาแบบจัดเต็มคุ้มค่าสุดๆ แอดมินบริการดีตอบไว 24 ชม. เงินเข้าปุ๊บปั๊บ เอาไปเลย 5 ดาวเต็มๆ ไม่ผิดหวังแน่นอนครับ!",
+    avatar: "👑"
+  }
 ];
+
+const [featured, ...rest] = reviews;
 ---
 
 <section class="mx-auto mb-12 w-full max-w-[1400px] px-4 font-sans relative z-10">
 
   <div class="mb-8 flex w-full flex-col items-center justify-center gap-2 text-center">
-    <h2 class="flex items-center gap-2 text-2xl font-black uppercase tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-orange-300 via-gray-200 to-gray-400 drop-shadow-[0_2px_10px_rgba(255,255,255,0.2)]">
-      <span class="text-2xl not-italic">🎰</span> เสียงตอบรับจาก <span class="text-orange-400">ผู้ใช้งานจริง</span>
+    <h2 class="text-3xl font-black uppercase tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-gray-900 to-gray-400 drop-shadow-[0_2px_10px_rgba(255,255,255,0.2)]">
+      เสียงตอบรับจาก <span class="text-red-500">ผู้ใช้งานจริง</span>
     </h2>
-    <div class="h-[4px] w-24 rounded-full bg-gradient-to-r from-transparent via-blue-500 to-transparent mt-2"></div>
+    <div class="h-[4px] w-24 rounded-full bg-gradient-to-r from-transparent via-red-600 to-transparent mt-2"></div>
   </div>
 
-  <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-    {reviews.map((review) => (
-      <article class="group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#030a1a]/80 shadow-[0_8px_24px_rgba(0,0,0,0.6)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1.5 hover:border-blue-400/40 hover:shadow-[0_18px_35px_rgba(37,99,235,0.25)]">
-        <div class="h-1 w-full shrink-0 bg-gradient-to-r from-blue-500 via-blue-600 to-orange-400"></div>
+  <div class="grid grid-cols-1 gap-6 lg:grid-cols-5 lg:gap-8">
 
-        <div class="relative flex flex-1 flex-col gap-4 p-6">
-          <div class="flex items-start justify-between gap-3">
-            <div class="flex items-center gap-3">
-              <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-black text-lg shadow-inner ring-2 ring-blue-400/30">
-                {review.avatar}
-              </div>
-              <div class="flex flex-col gap-0.5">
-                <div class="flex items-center gap-1.5">
-                  <p class="text-sm font-black text-white transition-colors group-hover:text-orange-300">{review.name}</p>
-                  {review.verified && (
-                    <span class="flex h-3.5 w-3.5 items-center justify-center rounded-full bg-orange-400 text-[8px] font-black text-blue-950" title="ยืนยันตัวตนแล้ว">✓</span>
-                  )}
-                </div>
-                <span class="text-[10px] font-bold tracking-wider text-orange-400/70 uppercase">{review.role}</span>
+    <article class="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-yellow-500/30 bg-gradient-to-br from-[#1a0000] via-[#0a0a0a] to-black p-8 shadow-[0_15px_40px_rgba(0,0,0,0.8)] lg:col-span-3 lg:p-10">
+
+      <div class="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-red-600/20 blur-[70px]"></div>
+      <div class="pointer-events-none absolute -left-10 -bottom-10 h-40 w-40 rounded-full bg-yellow-500/10 blur-[60px]"></div>
+
+      <div class="relative z-10">
+        <div class="mb-6 flex items-center justify-between">
+          <span class="inline-flex items-center gap-1.5 rounded-full border border-yellow-400/40 bg-yellow-400/10 px-3 py-1 text-[11px] font-bold tracking-wider text-yellow-400 uppercase">
+            <span class="h-1.5 w-1.5 rounded-full bg-yellow-400 animate-pulse"></span>
+            รีวิวเด่นประจำสัปดาห์
+          </span>
+          <div class="flex gap-1 text-xl">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <span class={`${i < featured.stars ? 'text-yellow-400 drop-shadow-[0_0_5px_rgba(250,204,21,0.8)]' : 'text-gray-700'}`}>★</span>
+            ))}
+          </div>
+        </div>
+
+        <p class="font-serif text-6xl leading-none text-red-600/40">"</p>
+        <p class="-mt-6 text-lg leading-relaxed text-gray-200 italic">
+          {featured.content}
+        </p>
+      </div>
+
+      <div class="relative z-10 mt-8 flex items-center gap-4 border-t border-white/10 pt-6">
+        <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-yellow-400/40 bg-gradient-to-br from-red-700 to-black text-3xl shadow-inner transition-transform duration-300 group-hover:scale-110">
+          {featured.avatar}
+        </div>
+        <div class="flex flex-col">
+          <h4 class="text-lg font-black text-white">{featured.name}</h4>
+          <span class="text-xs font-bold tracking-wider text-red-500/80 uppercase">{featured.role}</span>
+        </div>
+      </div>
+    </article>
+
+    <div class="flex flex-col gap-6 lg:col-span-2">
+      {rest.map((review) => (
+        <article class="group relative flex items-start gap-4 rounded-2xl border border-red-600/30 bg-[#0a0a0a]/80 p-5 shadow-[0_8px_20px_rgba(0,0,0,0.7)] backdrop-blur-xl transition-all duration-300 hover:border-red-500/60 hover:bg-[#120404]">
+          <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-red-500/30 bg-gradient-to-br from-red-700 to-black text-xl shadow-inner">
+            {review.avatar}
+          </div>
+          <div class="flex flex-1 flex-col gap-1.5">
+            <div class="flex items-center justify-between">
+              <h4 class="text-sm font-black text-white group-hover:text-red-400 transition-colors">{review.name}</h4>
+              <div class="flex gap-0.5 text-sm">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <span class={`${i < review.stars ? 'text-yellow-400' : 'text-gray-700'}`}>★</span>
+                ))}
               </div>
             </div>
-
-            <span class="flex shrink-0 items-center gap-1 rounded-full border border-orange-300/40 bg-orange-400/10 px-2.5 py-1 text-[11px] font-black text-orange-400">
-              ★ {review.stars.toFixed(1)}
-            </span>
+            <span class="text-[10px] font-bold tracking-wider text-red-500/70 uppercase">{review.role}</span>
+            <p class="text-xs leading-relaxed text-gray-400">
+              {review.content}
+            </p>
           </div>
-
-          <p class="relative flex-1 text-sm leading-relaxed text-gray-300 italic">
-            <span class="pointer-events-none absolute -top-3 -left-1 font-serif text-5xl leading-none text-blue-500/10 select-none">"</span>
-            <span class="relative z-10">{review.content}</span>
-          </p>
-        </div>
-      </article>
-    ))}
+        </article>
+      ))}
+    </div>
   </div>
 </section>
 <style>

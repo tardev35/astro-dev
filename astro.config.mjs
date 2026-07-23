@@ -19,6 +19,6 @@ export default defineConfig({
     "/line": "https://tinyurl.com/suhng",
   },
 
-  site: "https://www.oho21-brand.com",
+  site: "https://www.bestclub88-homepage.com",
   integrations: [sitemap()],
 });

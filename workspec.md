@@ -1076,3 +1076,72 @@ NavbarStyle family, Footer family** โดย:
 **การทดสอบ (Phase 5):** `npm run build` ผ่านสะอาด 9 หน้า. grep dist: ไม่เหลือ sumoheng/oho21/marina65/hydra888/qq882/var99 เลย (0); URL ใหม่ครบ 3 จุด + sitemap (0 URL เก่า); `<!--` ใน index = 0; undefined/NaN/[object Object] = 0; `<h3>` ใน index = 4 (FeatureHighlights เท่านั้น); สีนอกธีมใน element = เฉพาะ SCB purple-500 (ธนาคารจริง) + นิยาม CSS class ใน bundle จาก inventory ที่ไม่ render (noise); OG = `/_astro/slide1.*` hashed; hero = `/_astro/banner1.*`; docx H1+6×H2 ครบเรียงถูก; ค่าย/เกมจริงครบ; affiliate `yoalink.com/22hs` คงอยู่ login+register; หน้าหวยคงธีมแดง (38 red class) + BESTCLUB88
 
 **Out of scope / คงไว้:** inventory variants ที่ไม่ได้ render (NavbarStyle11, FooterPremiumSumo, Announcement3/6, ContentBoxNeumorphism/FloatingBadge, ContentBox3ThreeCyberCut ฯลฯ — สี/ชื่อแบรนด์เก่า = expected drift ไม่ลบ); `src/pages-disabled/{ตรวจหวย,แนวทาง}.astro` (สำเนาเก่า ไม่ route ไม่แตะ); affiliate URL ใน login/register; google-site-verification token; หน้าหวยคงธีมแดง/ทอง + AnnouncementHuay โดยตั้งใจ (ข้อยกเว้น Huay)
+
+### 2026-07-24 (structure) — ปิดหน้าหวยอีกครั้ง (regression จาก merge f94b9e4)
+ผู้ใช้สังเกตว่า commit `af211a9` มี `src/pages-disabled/` แต่ working tree ปัจจุบันไม่มี — ไล่ประวัติแล้วไม่ใช่ไฟล์หาย แต่ถูก merge ทับกลับ: branch `bestclub88` แตกจาก `284ce8f` (OHO21) ซึ่งอยู่**ก่อน** `af211a9` ฝั่งนั้น `ตรวจหวย/แนวทาง` จึงยังอยู่ที่ `src/pages/` และถูกแก้ธีมแดง-ทองใน `566ef3d`. ตอน merge `f94b9e4` เกิด rename/modify (main = ย้ายไป pages-disabled, branch = แก้ที่ path เดิม) → resolve เลือกฝั่ง branch ไว้ที่ `src/pages/` และ `pages-disabled/` หายทั้งโฟลเดอร์. ผล: URL หวยกลับเข้า sitemap โดยไม่ตั้งใจ (`astro.config.mjs` ใช้ `sitemap()` เปล่า ไม่มี filter). หมายเหตุ: บรรทัด "Out of scope" ของ entry 2026-07-23 ที่เขียนว่า `src/pages-disabled/*` "ไม่แตะ" คลาดเคลื่อน — ตอนนั้นโฟลเดอร์หายไปแล้ว
+
+**แก้:** `git mv` ย้าย `ตรวจหวย.astro` + `แนวทาง.astro` กลับไป `src/pages-disabled/` อีกครั้ง (ระดับเดียวกับ `src/pages` → relative import `../components|../layouts|../assets` ยังใช้ได้ ไม่ต้องแก้โค้ด). ลิงก์ที่ชี้ไปมีแค่ `FooterHuay.astro:41-42` ซึ่งเป็น inventory ไม่ได้ render (ตัวที่ใช้จริง = NavbarStyle4Black/FooterStyle3); ที่ match ใน `index.astro`/`Faq.astro` เป็นข้อความล้วน ไม่ใช่ href
+
+**การทดสอบ:** `npm run build` ผ่าน 7 หน้า (จาก 9); `dist/sitemap-0.xml` เหลือ 7 URL = `/`, `/ทดลองเล่น/`, `/ทางเข้า/`, `/contact-us/`, `/login/`, `/promotion/`, `/register/` — ไม่มี ตรวจหวย/แนวทาง; ไม่มีโฟลเดอร์ทั้งสองใน `dist/`
+
+**บทเรียน:** ถ้ารีแบรนด์ครั้งหน้าแตก branch จาก commit เก่าอีก ให้เช็ก `git diff --stat <base>..main` ก่อน merge ว่ามีการย้าย/ลบไฟล์บน main ที่ branch ไม่รู้จักหรือไม่ (structural change แบบนี้ merge จะเงียบๆ กลับด้าน). กลับมาเปิดหน้าหวย = `git mv src/pages-disabled/*.astro src/pages/` แล้ว build ใหม่
+
+---
+
+# 2026-07-24 — รีแบรนด์ GROW268 (จาก BESTCLUB88)
+
+**เป้าหมาย:** รีแบรนด์ + retheme ทั้งเว็บเป็น **GROW268** — โทน **ทอง (amber/gold) + ดำ luxury/VIP** (จาก BESTCLUB88 แดง+ทอง+ดำ). Real URL ที่ผู้ใช้ให้: `www.grow268-brand.com`. รันแบบ **2-agent ขนาน** ตาม playbook (`.claude/skills/rebrand-site`).
+
+**Docx (`src/assets/content.docx`):** H1 + 7×H2 (8 section) — ทำความรู้จัก/evolution, ศูนย์รวมเกม เหนือระดับ, สมาชิก VIP, แตกง่าย/RTP, ปลอดภัยและจ่ายจริง/SSL, โบนัส, ทางเข้าไม่ปิดปรับปรุง. ครบทุกหัวข้อ render ตามลำดับ body verbatim.
+
+**Assets (drop ใหม่ Jul 24 22:32):** logo.webp, banner1 (hero ดำ+ทอง), banner2 (ภาพเว็บตรง/มั่นคง สีน้ำเงิน+ทอง = inline illustration), slide1 (OG), slide2 (evolution timeline), slide3 (RTP/SSL), slide4 (VIP). Stale ที่ไม่ใช้: banner3.png (Jul 23), banner.png.
+
+**Variant rotation (before → after):**
+- Navbar: `NavbarStyle4Black` → **NavbarPremium**
+- Footer: `FooterStyle3` → **FooterPremium**
+- Announcement: `AnnouncementPremium` → **Announcement3** (ทุกหน้า)
+- LatestWinners: `LatestWinners3` → **LatestWinnersPremium**
+- ContentBox mix: `CyberCut-led` → **Premium + plain + Special-led** (ไม่ใช้ CyberCut แบรนด์นี้)
+
+**Palette map:** `red-*`/`rose-*` → `amber-*`; dark-red hex (`#14040a`,`#450a0a`,`#5f0914`,`#1a0202`,`#3d0606`) → warm black (`#0a0806`/`#1a1206`/`#2a1e08`); red glow `rgba(220,38,38)` → gold `rgba(234,179,8)`; inventory เก่าที่เป็น OHO21 blue+orange (NavbarPremium/FooterPremium/Announcement3 + SevenThreePremium ฯลฯ) แปลง blue/orange → gold+black. เก็บ semantic: LINE green `#00B900`, live/success green, สีแบงก์จริง, TrueMoney wallet orange badge (FooterPremium).
+
+**ไฟล์ที่แก้ — layout chrome (orchestrator, P1):** `MainLayout.astro` (สลับ navbar/footer + brand/OG/alt), `NavbarPremium.astro`, `FooterPremium.astro`, `Navfoot.astro`, `Announcement3.astro`, `ContentBox.astro`, `ContentBoxHuay.astro` (ใช้บน contact-us/promotion = casino จึงเป็น gold/black ไม่ใช่ huay-exception).
+
+**Landing (Agent A):** เขียน `index.astro` ใหม่ตาม docx order + retheme component ที่ index render เท่านั้น: ContentBoxPremium, ContentBoxSpecial, ContentBoxSevenThree, ContentBoxSevenThreePremium, FeatureHighlights, ProviderGrid, GameRankingBoard, LoginRtpSection, ContentBoxTwo, SmoothCarousel, ReviewCardSumo2, LatestWinnersPremium. SevenThree = 2 บล็อกพอดี (slide2→sec.1, slide4→sec.3); banner2 inline sec.2, slide3 inline sec.5 (capped max-w-2xl). FeatureHighlights = VIP perks (h3 sub-list, sanctioned exception). accent type แก้เป็น `"gold"|"blue"` (ของเดิมไฟล์เป็น gold|red).
+
+**Sub-pages (Agent B):** contact-us, promotion, login, register, ทดลองเล่น, ทางเข้า — สลับ Announcement→Announcement3, swap brand string + hue. login/register เป็น standalone HTML: แก้ `<style>` — CSS var `--brand-red:#ef4444`→`#fbbf24`, `rgba(239,68,68)`→`rgba(251,191,36)`. promotion: image border `#dc2626`→`#eab308`, CTA red→amber. ทางเข้า: ปุ่ม orange/red→amber (gradient สลับทิศให้ 2 ปุ่มยังต่างกัน).
+
+**URL (3 จุด, ผู้ใช้ให้ URL จริง):** `astro.config.mjs` site:, `public/robots.txt` Sitemap:, `index.astro` webSiteSchema.url → `https://www.grow268-brand.com`.
+
+**Verify:** `npm run build` ผ่าน 7 หน้า 0 fail. grep `dist/`: BESTCLUB88 = 0; bestclub88-homepage domain = 0; old hue ใน class = 0 (ยกเว้น TrueMoney orange badge = semantic); HTML comment index = 0; undefined/NaN/[object Object] = 0; og:image = hashed slide1 ✓; hero = banner1 (avif hashed, ไม่โดน glob trap) ✓; 8 heading ครบตามลำดับ; h3 = 4 (FeatureHighlights VIP perks, sanctioned). พบ id ภายใน `feed-sumo-hud` ใน ReviewCardSumo2 (CSS/JS hook ไม่ใช่ brand text ที่มองเห็น) — เก็บไว้ ไม่แก้ (rename เสี่ยง break id pairing โดยไม่มีผลต่อผู้ใช้).
+
+**Out of scope / ไม่แตะ:** inventory variants ที่ไม่ได้ใช้ (ContentBoxCyberCut, ContentBoxSevenThreeCyberCut, LatestWinners3, AnnouncementPremium, NavbarStyle*/Footer* อื่น) = เก็บเป็น inventory แบรนด์หน้า; ไฟล์ .png/ภาพเก่า banner3/banner.png ที่ไม่ import = ปล่อยไว้; bg.png/bg.json = uploader-managed ไม่แตะ; redirect /line → yoalink อยู่ใน FooterPremium (intentional).
+
+---
+
+# 2026-07-25 — รีแบรนด์ PABLO666 (จาก GROW268) — 2-agent ขนาน
+
+**เป้าหมาย:** รีแบรนด์ + retheme template จาก GROW268 → **PABLO666**, URL จริง `https://www.pablo666-brand.com`. รันแบบ 2-agent ขนานตาม playbook (P0 brand-spec + P1 shared chrome ทำเอง แล้ว fan out Agent A = Landing / Agent B = Sub-pages).
+
+**อินพุตแบรนด์:** `content.docx` (1×H1 + 6×H2), โลโก้ blackletter king+crown มีทับทิมแดง, hero (banner1) พื้นดำ + ทอง + เศษคริสตัลแดง + server/circuit/AI-chip. **Palette = ทอง (หลัก) + แดง/crimson (accent ทับทิม) + ดำ.** bg.json = `#050500` (คงเดิม).
+
+**Assets:** ใช้ banner1 (hero) + slide1-4 เท่านั้น (drop ปัจจุบัน). **banner2/banner3 = STALE** (banner2 คือ banner GROW268 สีน้ำเงินเก่า) — ไม่ใช้. เจอบั๊ก: `index.astro` เดิม import `banner2.png` เป็น imgHub → Agent A ลบทิ้ง แทนด้วย slide. แมป slide: slide1→sec6(ทางเข้า/ปลอดภัย), slide2→sec3(1-day test, SevenThree), slide3→sec2(inline), slide4→sec4(1บาท, SevenThree). SevenThree ใช้ 2 บล็อกพอดี.
+
+**Variant rotation (GROW268 → PABLO666):**
+- Navbar: **NavbarPremium → NavbarCyber**
+- Footer: **FooterPremium → FooterCyber**
+- Announcement: **Announcement3 → AnnouncementCyber**
+- LatestWinners: **LatestWinnersPremium → LatestWinnersCyber**
+- ContentBox mix: **Premium+plain+Special → CyberCut-led + plain + Special** (hero H1 + sec2/5/6 = ContentBoxCyberCut, sec3 = SevenThreeCyberCut, sec4 = SevenThree plain, sec7 = Special)
+
+หมายเหตุ rotation: ชุด Cyber ไปพ้องกับ MARINA65 (4 แบรนด์ก่อน, all-Cyber) แต่จงใจ **ให้ทองเป็นสีหลัก** (MARINA65 เป็นแดงหลัก) เพื่อให้ PABLO666 ต่างชัด + คอนเทนต์/โลโก้/ฮีโร่ใหม่หมด. ตัวก่อนหน้า (GROW268) เป็น all-Premium จึงผ่านกฎ "ห้ามซ้ำ pick ของแบรนด์ก่อนหน้า" ครบทุก family. Cyber components ที่ดึงมาใช้เป็น MARINA65 leftover (แดงหลัก) → retheme พลิกเป็นทองหลัก + แดง accent + ล้างชื่อ MARINA65.
+
+**P1 — shared chrome (orchestrator ทำเอง ก่อน fan out):** `MainLayout.astro` (repoint Navbar/Footer→Cyber + brand strings/OG/alt), `NavbarCyber.astro`, `FooterCyber.astro`, `AnnouncementCyber.astro` (+ตั้ง default message PABLO666), `Navfoot.astro` (login = red accent). `ContentBox.astro` เป็นทองอยู่แล้ว ไม่มีชื่อแบรนด์/comment → ไม่ต้องแก้. URL 3 จุด: `astro.config.mjs` site:, `public/robots.txt` Sitemap: → pablo666-brand.com (จุดที่ 3 webSiteSchema.url อยู่ใน index.astro = Agent A ตั้ง).
+
+**Agent A — Landing:** เขียน `index.astro` ใหม่ทั้งหน้า (7 sections ตามลำดับ docx + widgets แทรกรอบ ไม่คั่นกลาง), retheme index-only comps: ContentBoxCyberCut, ContentBoxSevenThreeCyberCut, LatestWinnersCyber (พลิกเป็นทอง+แดง accent), LoginRtpSection/ProviderGrid/ReviewCardSumo2 (แก้ชื่อ GROW268→PABLO666). vipPerks → 5 หมวด docx sec2 (สล็อต/คาสิโนสด/เกมโต๊ะ/กีฬา/ระบบสมาชิก) ใน FeatureHighlights. schema/title/desc/webSiteSchema.url → PABLO666.
+
+**Agent B — Sub-pages:** 6 หน้า (contact-us, promotion, ทดลองเล่น, ทางเข้า, login, register) + `ContentBoxHuay.astro`. ทุกหน้า repoint Announcement3→AnnouncementCyber (bare, ใช้ default PABLO666). login/register = standalone custom HTML → retheme inline (brand-identity + hex/rgba, เพิ่ม ruby orb accent, คง gold หลัก). ContentBoxHuay ตรวจแล้วสะอาด (ทองล้วน ไม่มีชื่อเก่า/comment). **affiliate redirect yoalink.com/22hs ใน login/register = คงไว้ ไม่แตะ** (ตาม policy). ตั้ง title/desc แต่ละหน้าจาก docx (docx นี้ไม่มี section SUB-PAGES).
+
+**Verify (build เดียว Phase 5):** `npm run build` ผ่าน 7 หน้า 0 fail. grep `dist/` ทั้งหมด: GROW268/grow268 = 0, MARINA65/marina65 = 0, grow268-brand.com/marina65-review.com = 0; undefined/NaN/[object Object] = 0; HTML comment ทุกหน้า = 0; off-brand hue ใน `class="..."` = 0; `<h1>` = 1, heading order ตรง docx เป๊ะ (H1 + 6×H2), `<h3>` = 5 (FeatureHighlights, sanctioned); og:image = hashed slide1 ✓; hero = banner1 avif hashed (ไม่โดน glob trap, banner2 หาย) ✓; ทุกหน้า title = PABLO666 ✓; 4 หน้า shared-chrome ใช้ AnnouncementCyber ✓; aff redirect yoalink คงอยู่ทั้ง login/register ✓. `#14040a` โผล่ 10 ครั้งใน dist/index.html = **นิยาม CSS ที่ไม่ถูกใช้** (inlined จาก inventory comps ที่ Tailwind สแกน, ไม่มี element ใช้จริง) = noise ตาม playbook ไม่ใช่บั๊ก. `ring/ring-1/ring-2` ใน login/register = **custom class ใน `<style>` ของหน้าเอง** (ไม่ใช่ Tailwind util) linter false-positive → ไม่แตะ.
+
+**Out of scope / ไม่แตะ:** inventory variants ที่ไม่ได้ใช้ (NavbarPremium/FooterPremium/Announcement3/LatestWinnersPremium/ContentBoxPremium/SevenThreePremium + Style*/Cyber/Huay อื่น) = เก็บเป็น inventory แบรนด์หน้า; banner2/banner3/banner.png/bg.png = ไม่ import/uploader-managed ไม่แตะ; redirect /line → yoalink อยู่ใน FooterCyber (intentional, คงไว้).

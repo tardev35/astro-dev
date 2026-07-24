@@ -21,12 +21,12 @@ const medal = (rank: number) => (rank === 1 ? "🥇" : rank === 2 ? "🥈" : ran
 
 <section class="mx-auto w-full max-w-[1300px] px-4 py-8 font-sans">
   <div class="mb-8 flex w-full flex-col items-center justify-center gap-2 text-center">
-    <span class="text-2xl drop-shadow-[0_0_10px_rgba(220,38,38,0.7)]">🏆</span>
-    <h2 class="bg-gradient-to-r from-yellow-200 via-red-300 to-red-500 bg-clip-text text-2xl font-black tracking-widest text-transparent uppercase drop-shadow-sm">
+    <span class="text-2xl drop-shadow-[0_0_10px_rgba(234,179,8,0.7)]">🏆</span>
+    <h2 class="bg-gradient-to-r from-yellow-200 via-amber-300 to-amber-500 bg-clip-text text-2xl font-black tracking-widest text-transparent uppercase drop-shadow-sm">
       จัดอันดับเกม RTP สูงสุดประจำสัปดาห์
     </h2>
-    <p class="max-w-2xl text-sm text-red-100/60">ข้อมูลค่า RTP โดยประมาณจากการวิเคราะห์ค่ายเกม เพื่อประกอบการตัดสินใจเลือกเกมของผู้เริ่มต้น</p>
-    <div class="mt-2 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-red-500 to-transparent"></div>
+    <p class="max-w-2xl text-sm text-amber-100/60">ข้อมูลค่า RTP โดยประมาณจากการวิเคราะห์ค่ายเกม เพื่อประกอบการตัดสินใจเลือกเกมของผู้เริ่มต้น</p>
+    <div class="mt-2 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-amber-500 to-transparent"></div>
   </div>
 
   <div class="flex flex-col gap-3">
@@ -37,22 +37,22 @@ const medal = (rank: number) => (rank === 1 ? "🥇" : rank === 2 ? "🥈" : ran
           <article
             class={`group relative flex items-center gap-3 overflow-hidden rounded-2xl border p-3 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 sm:gap-5 sm:p-4 ${
               top
-                ? "border-yellow-400/50 bg-gradient-to-r from-[#26060d]/90 via-[#14040a]/90 to-[#14040a]/90 shadow-[0_10px_30px_rgba(234,179,8,0.15)]"
-                : "border-red-500/25 bg-[#14040a]/80 shadow-[0_5px_20px_rgba(0,0,0,0.4)] hover:border-red-400/50 hover:shadow-[0_10px_30px_rgba(220,38,38,0.2)]"
+                ? "border-yellow-400/50 bg-gradient-to-r from-[#141006]/90 via-[#0a0806]/90 to-[#0a0806]/90 shadow-[0_10px_30px_rgba(234,179,8,0.15)]"
+                : "border-amber-500/25 bg-[#0a0806]/80 shadow-[0_5px_20px_rgba(0,0,0,0.4)] hover:border-amber-400/50 hover:shadow-[0_10px_30px_rgba(234,179,8,0.2)]"
             }`}>
-            <div class="pointer-events-none absolute -left-10 top-1/2 h-24 w-24 -translate-y-1/2 rounded-full bg-red-500/10 blur-[40px] transition-all duration-500 group-hover:bg-red-400/20" />
+            <div class="pointer-events-none absolute -left-10 top-1/2 h-24 w-24 -translate-y-1/2 rounded-full bg-amber-500/10 blur-[40px] transition-all duration-500 group-hover:bg-amber-400/20" />
 
             <div class="relative z-10 flex w-8 shrink-0 flex-col items-center justify-center sm:w-12">
               {medal(g.rank) ? (
                 <span class="text-2xl drop-shadow-[0_0_8px_rgba(234,179,8,0.5)] sm:text-3xl">{medal(g.rank)}</span>
               ) : (
-                <span class="text-xl font-black text-red-300/70 sm:text-2xl">#{g.rank}</span>
+                <span class="text-xl font-black text-amber-300/70 sm:text-2xl">#{g.rank}</span>
               )}
             </div>
 
             <div
               class={`relative z-10 h-14 w-14 shrink-0 overflow-hidden rounded-xl border sm:h-16 sm:w-16 ${
-                top ? "border-yellow-400/50" : "border-red-500/30"
+                top ? "border-yellow-400/50" : "border-amber-500/30"
               }`}>
               <Picture
                 src={g.img}
@@ -72,21 +72,21 @@ const medal = (rank: number) => (rank === 1 ? "🥇" : rank === 2 ? "🥈" : ran
                 <p class="truncate text-base font-black text-white sm:text-lg">{g.name}</p>
                 {top && <span class="hidden shrink-0 rounded-full border border-yellow-400/40 bg-yellow-400/10 px-2 py-0.5 text-[9px] font-black tracking-wider text-yellow-300 sm:inline">TOP RTP</span>}
               </div>
-              <p class="truncate text-[11px] text-red-100/50 sm:text-xs">{g.type}</p>
+              <p class="truncate text-[11px] text-amber-100/50 sm:text-xs">{g.type}</p>
 
               <div class="mt-2 flex items-center gap-2">
-                <div class="h-1.5 flex-1 overflow-hidden rounded-full bg-[#14040a]">
+                <div class="h-1.5 flex-1 overflow-hidden rounded-full bg-[#0a0806]">
                   <div
-                    class={`h-full rounded-full ${top ? "bg-gradient-to-r from-yellow-400 to-yellow-600" : "bg-gradient-to-r from-red-500 to-yellow-400"}`}
+                    class={`h-full rounded-full ${top ? "bg-gradient-to-r from-yellow-400 to-yellow-600" : "bg-gradient-to-r from-amber-500 to-yellow-400"}`}
                     style={`width:${g.rtp}%`}
                   />
                 </div>
-                <span class={`shrink-0 text-xs font-black tabular-nums ${top ? "text-yellow-300" : "text-red-200"}`}>{g.rtp}%</span>
+                <span class={`shrink-0 text-xs font-black tabular-nums ${top ? "text-yellow-300" : "text-amber-200"}`}>{g.rtp}%</span>
               </div>
             </div>
 
             <div class="relative z-10 hidden shrink-0 flex-col items-end gap-1 sm:flex">
-              <span class="flex items-center gap-1.5 text-[11px] text-red-100/50">
+              <span class="flex items-center gap-1.5 text-[11px] text-amber-100/50">
                 <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-green-400 shadow-[0_0_6px_rgba(74,222,128,0.7)]" />
                 <span class="tabular-nums" data-players data-base={g.players}>
                   {g.players.toLocaleString("en-US")}
@@ -97,8 +97,8 @@ const medal = (rank: number) => (rank === 1 ? "🥇" : rank === 2 ? "🥈" : ran
                 href="/register"
                 class={`rounded-full px-4 py-1.5 text-xs font-black transition-transform hover:scale-105 ${
                   top
-                    ? "bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 text-[#450a0a] shadow-[0_4px_15px_rgba(234,179,8,0.4)]"
-                    : "border border-red-500/50 bg-red-950/40 text-red-200 hover:border-red-400 hover:text-white"
+                    ? "bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 text-[#1a1206] shadow-[0_4px_15px_rgba(234,179,8,0.4)]"
+                    : "border border-amber-500/50 bg-amber-950/40 text-amber-200 hover:border-amber-400 hover:text-white"
                 }`}>
                 เล่นเลย
               </a>

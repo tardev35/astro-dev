@@ -13,5 +13,5 @@ Disallow: /
 User-agent: Anthropic-ai
 Disallow: /
 
-Sitemap: https://www.bestclub88-homepage.com/sitemap-0.xml
+Sitemap: https://www.pablo666-brand.com/sitemap-0.xml
 

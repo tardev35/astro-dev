@@ -1,5 +1,4 @@
 ---
-//
 import "swiper/css";
 
 import { Picture } from "astro:assets";
@@ -22,7 +21,7 @@ const displayImages = [...images, ...images, ...images];
             <Picture
               src={img}
               alt={`Banner ${index + 1}`}
-              class="block w-full rounded-xl border border-red-900/30 object-contain object-cover shadow-[0_5px_15px_rgba(220,38,38,0.2)]"
+              class="block w-full rounded-xl border border-amber-900/30 object-contain object-cover shadow-[0_5px_15px_rgba(234,179,8,0.2)]"
               width={img.width}
               height={img.height}
               loading={index < 2 ? "eager" : "lazy"}

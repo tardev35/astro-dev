@@ -1,112 +1,118 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import AnnouncementPremium from "../components/AnnouncementPremium.astro";
+import AnnouncementCyber from "../components/AnnouncementCyber.astro";
 import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
-import ContentBox from "../components/ContentBox.astro";
-import ContentBoxSevenThree from "../components/ContentBoxSevenThree.astro";
 import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
+import ContentBoxSevenThree from "../components/ContentBoxSevenThree.astro";
 import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
 import FeatureHighlights from "../components/FeatureHighlights.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
 import ProviderGrid from "../components/ProviderGrid.astro";
 import GameRankingBoard from "../components/GameRankingBoard.astro";
-import LatestWinners from "../components/LatestWinners3.astro";
+import LatestWinnersCyber from "../components/LatestWinnersCyber.astro";
 import SmoothCarousel from "../components/SmoothCarousel.astro";
-import ReviewCardSumo from "../components/ReviewCardSumo2.astro";
 import Navfoot from "../components/Navfoot.astro";
 const currentPath = Astro.url.pathname;
 const homePage = Astro.url.origin;
 const logoUrl = homePage + "/logo.webp";
 
-const pageTitle = "BESTCLUB88 รีวิวเว็บเกมสล็อต เว็บตรงเล่นมัน แตกหนัก ฟรีสปินไม่อั้น";
-const pageDescription = "BESTCLUB88 รีวิวเว็บเกมสล็อต เว็บตรงเล่นมัน แตกหนัก ฟรีสปินไม่อั้น รีวิวทางเข้า ทดลองเล่นจริง ฟรีสปิน โปรโมชั่น เกมยอดนิยม และข้อมูลเว็บตรงก่อนสมัคร";
+const pageTitle = "PABLO666 รีวิวเว็บตรง สล็อต1บาท ก็ฝากได้ ทดลองเล่นจริง ระบบออโต้";
+const pageDescription = "PABLO666 รีวิวเว็บตรง ไม่ได้มีดีแค่เรื่องเกมสล็อต ทดลองเล่นสล็อต1บาท ก็ฝากได้ เหมาะกับใครที่ไม่อยากเริ่มด้วยทุนสูง ระบบออโต้หลังบ้านอัจริยะ ทางเข้า ปลอดภัย";
 
 const webPageSchema = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  name: "BESTCLUB88",
+  name: "PABLO666",
   description: pageDescription,
   url: currentPath,
 };
 const webSiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "BESTCLUB88",
-  alternateName: ["BESTCLUB88", "BESTCLUB88 รีวิวเว็บเกมสล็อต เว็บตรงเล่นมัน แตกหนัก ฟรีสปินไม่อั้น"],
-  url: "https://www.bestclub88-homepage.com/",
+  name: "PABLO666",
+  alternateName: ["PABLO666", "PABLO666 รีวิวเว็บตรง สล็อต1บาท ก็ฝากได้ ทดลองเล่นจริง ระบบออโต้"],
+  url: "https://www.pablo666-brand.com/",
 };
 const orgSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "BESTCLUB88",
+  name: "PABLO666",
   logo: logoUrl,
   url: homePage,
 };
 const allSchemas = [webPageSchema, orgSchema, webSiteSchema];
 
-const scoreHighlights = [
+const gameCategories = [
   {
-    icon: "🎮",
-    title: "ความหลากหลายของเกม 5/5",
-    description: "รวมเกมจากหลายค่ายไว้ในระบบเดียว ทั้งสล็อต เกมยอดนิยม และฟีเจอร์หลากรูปแบบ ให้เลือกเล่นได้ครบตามสไตล์",
+    icon: "🎰",
+    title: "สล็อต",
+    description: "รวมเกมสล็อตจากหลายค่ายไว้ในที่เดียว เลือกเล่นได้ตามสไตล์ที่ชอบ เริ่มต้นด้วยงบเพียงเล็กน้อย",
     accent: "gold" as const,
   },
   {
-    icon: "⚡",
-    title: "ความลื่นไหลในการเล่น 4/5",
-    description: "สลับเกมแทบไม่ต้องรอโหลด หน้าเว็บตอบสนองไว เข้าเกมต่อเนื่อง แม้ความลื่นจริงจะขึ้นอยู่กับอินเทอร์เน็ตและเซิร์ฟเวอร์ของค่ายเกมด้วย",
-    accent: "red" as const,
+    icon: "🎴",
+    title: "คาสิโนสด",
+    description: "ถ่ายทอดสดคาสิโนแบบเรียลไทม์ ทั้งบาคาร่า รูเล็ต และเกมยอดนิยม เล่นได้เหมือนอยู่ในบ่อนจริง",
+    accent: "blue" as const,
   },
   {
-    icon: "🛡️",
-    title: "ความเสถียรของระบบ 4/5",
-    description: "ตลอดช่วงที่ทดลองเล่นไม่พบอาการค้างหรือเด้งออกจากระบบ ให้ความรู้สึกว่าเป็นเว็บไซต์ที่ใช้งานง่ายและเสถียรเกินกว่าที่คาดไว้",
-    accent: "red" as const,
+    icon: "🎲",
+    title: "เกมโต๊ะ",
+    description: "เกมโต๊ะครบทุกรูปแบบ กติกาเข้าใจง่าย เหมาะกับผู้เล่นทุกระดับตั้งแต่มือใหม่จนถึงขาประจำ",
+    accent: "gold" as const,
   },
   {
-    icon: "💥",
-    title: 'ความรู้สึกว่า "แตกหนัก" 3/5',
-    description: "บางรอบได้รับรางวัลใหญ่และเล่นได้สนุก แต่จากการทดลองไม่สามารถสรุปได้ว่าเกมแตกหนักกว่าค่าเฉลี่ยหรือจ่ายสูงกว่าเว็บไซต์อื่น",
+    icon: "⚽",
+    title: "กีฬา",
+    description: "เดิมพันกีฬาหลากหลายลีก ดูราคาและติดตามผลการแข่งขันได้ครบภายในบัญชีเดียว",
+    accent: "blue" as const,
+  },
+  {
+    icon: "👤",
+    title: "ระบบสมาชิก",
+    description: "จัดการข้อมูล ฝากถอน และตรวจสอบประวัติทุกรายการผ่านบัญชีเดียวที่เชื่อมต่อทุกบริการเข้าด้วยกัน",
     accent: "gold" as const,
   },
 ];
 
 import { Picture } from "astro:assets";
-import imgReview from "../assets/slide3.png";
-import imgBreak from "../assets/slide2.png";
-import imgBonus from "../assets/banner2.png";
+import imgCategories from "../assets/slide3.png";
+import imgTestDay from "../assets/slide2.png";
+import imgOneBaht from "../assets/slide4.png";
+import imgEntrance from "../assets/slide1.png";
 ---
 
 <MainLayout title={pageTitle} description={pageDescription}>
   <script type="application/ld+json" set:html={JSON.stringify(allSchemas)} />
 
-  <AnnouncementPremium />
+  <AnnouncementCyber />
 
-  <ContentBoxCyberCut as="h1" title="BESTCLUB88 รีวิวเว็บเกมสล็อต เล่นมัน แตกหนัก ฟรีสปินไม่อั้น">
+  <ContentBoxCyberCut as="h1" title="PABLO666 รีวิวเว็บตรง สล็อต1บาท ก็ฝากได้ ทดลองเล่นจริง ระบบออโต้">
     <p class="mx-auto max-w-4xl leading-relaxed">
-      <strong class="text-yellow-300">รีวิวเว็บเกมสล็อต</strong>
-      <strong class="text-yellow-300">BESTCLUB88</strong> โดยทดลองสมัครสมาชิก เข้าใช้งาน และทดสอบเล่นเกมจากหลายค่าย เพื่อดูว่าระบบมีความลื่นไหลเพียงใด เกมที่ให้บริการมีความสนุกและ เล่นมัน ตามที่หลายคนกล่าวถึงหรือไม่
-      รวมถึงสำรวจว่าเกมใดมีจังหวะ แตกหนัก น่าสนใจ และข้อเสนอ ฟรีสปินไม่อั้น สำหรับสมาชิกใหม่มีรายละเอียดอย่างไร จากข้อมูลที่ได้จะสรุปเป็นประสบการณ์การใช้งานจริง เพื่อช่วยให้ผู้อ่านเห็นภาพรวมของ
-      <strong class="text-yellow-300">BESTCLUB88</strong> ก่อนตัดสินใจเข้าใช้งานหรือสมัครสมาชิก
+      <strong class="text-yellow-300">PABLO666</strong> เป็นเว็บไซต์ที่ให้บริการเกมสล็อตออนไลน์ผ่านระบบเว็บตรง โดยรองรับการสมัครสมาชิก ฝากถอน และเข้าเล่นผ่านระบบอัตโนมัติแบบครบวงจร จุดที่หลายคนให้ความสนใจคือการเริ่มต้นเล่นด้วยงบไม่สูง
+      เนื่องจากรองรับการฝากขั้นต่ำเพียง 1 บาท ทำให้ผู้เล่นสามารถทดลองใช้งานระบบจริงก่อนตัดสินใจเล่นต่อได้
     </p>
   </ContentBoxCyberCut>
 
   <SmoothCarousel />
 
-  <ContentBox as="h2" title="BESTCLUB88 ทางเข้า เว็บเกมสล็อต รวมค่ายดัง เกมยอดนิยม ในเว็บเดียว">
+  <ContentBoxCyberCut as="h2" title="PABLO666 รีวิวเว็บตรง ไม่ได้มีดีแค่เรื่องเกมสล็อต">
     <p class="leading-relaxed">
-      <strong class="text-yellow-300">BESTCLUB88</strong> เป็น <strong class="text-yellow-300">ทางเข้าเว็บเกมสล็อต</strong> ที่รวบรวมเกมจากผู้ให้บริการชั้นนำ ในเว็บเดียว มี รวมค่ายดัง อย่าง PG Soft, Pragmatic
-      Play, JILI และ Habanero พร้อม เกมยอดนิยม เช่น Mahjong Ways, Gates of Olympus, Sweet Bonanza, Fortune Tiger และ Sugar Rush ให้เลือกเล่น หน้าเว็บไซต์แบ่งหมวดหมู่ชัดเจน ค้นหาเกมได้ง่าย รองรับทั้งคอมพิวเตอร์และมือถือ
-      จึงเหมาะสำหรับผู้ที่ต้องการเข้าเล่นเกมสล็อตผ่านระบบเดียวอย่างสะดวกและรวดเร็ว
+      แม้หลายคนจะรู้จัก <strong class="text-yellow-300">PABLO666</strong> ในฐานะเว็บไซต์สล็อต แต่เมื่อทดลองสำรวจโครงสร้างเว็บไซต์จะพบว่า จุดเด่นไม่ได้มีเพียงจำนวนเกมเท่านั้น ภายในเว็บไซต์ยังแบ่งหมวดหมู่บริการไว้อย่างชัดเจน
+      ทั้งเกมสล็อต คาสิโนสด เกมโต๊ะ กีฬา และระบบสมาชิกที่เชื่อมต่ออยู่บนบัญชีเดียว
     </p>
-  </ContentBox>
+  </ContentBoxCyberCut>
+
+  <div class="mx-auto mb-10 w-full max-w-[1400px] px-4">
+    <FeatureHighlights items={gameCategories} />
+  </div>
 
   <ProviderGrid />
 
-  <ContentBoxSevenThree titleright="รีวิว BESTCLUB88 หลังทดลองเล่นเกมสล็อตจริง ความรู้สึกเป็นอย่างไร">
+  <ContentBoxSevenThreeCyberCut titleright="เราใช้เวลา 1 วันทดลองเล่น PABLO666 เจออะไรบ้าง">
     <div slot="left" class="flex h-full flex-col justify-center">
       <Picture
-        src={imgReview}
+        src={imgTestDay}
         loading="lazy"
         fetchpriority="low"
         widths={[200, 400, 600, 800]}
@@ -115,90 +121,87 @@ import imgBonus from "../assets/banner2.png";
         formats={["avif", "webp"]}
         fallbackFormat="webp"
         quality={80}
-        alt="BESTCLUB88 รีวิวหลังทดลองเล่นเกมสล็อตจริง ระบบลื่นไหลโหลดเร็ว"
-        class="mx-auto h-auto w-full rounded-2xl border-2 border-red-400/20 shadow-[0_10px_30px_rgba(220,38,38,0.25)]"
+        alt="PABLO666 ทดลองเล่น 1 วัน ตั้งแต่สมัคร เข้าสู่ระบบ ฝากเงิน เลือกเกม จนตรวจสอบผล"
+        class="mx-auto h-auto w-full rounded-2xl border-2 border-yellow-400/20 shadow-[0_10px_30px_rgba(234,179,8,0.25)]"
       />
     </div>
-    <div slot="right">
-      <p class="leading-relaxed">
-        หลังจากทดลองสมัครสมาชิกและล็อกอินเข้าใช้งาน <strong class="text-yellow-300">BESTCLUB88</strong> สิ่งแรกที่รู้สึกคือ "เร็วกว่าที่คิด" ขั้นตอนต่าง ๆ ไม่ซับซ้อน สิ่งที่ค่อนข้างประหลาดใจคือ ความลื่นของระบบ
-        ระหว่างสลับเกมแทบไม่ต้องรอโหลด หน้าเว็บตอบสนองไว เข้าเกมต่อเนื่อง ไม่พบอาการค้างหรือเด้งออกจากระบบตลอดช่วงที่ทดลองเล่น โดยรวม <strong class="text-yellow-300">BESTCLUB88</strong> ให้ความรู้สึกว่าเป็นเว็บไซต์ที่ใช้งานง่าย
-        โหลดเร็ว และมีความเสถียรเกินกว่าที่คาดไว้
-      </p>
+    <p slot="right" class="leading-relaxed">
+      การทดลองใช้งานเริ่มตั้งแต่ขั้นตอนสมัครสมาชิก ซึ่งใช้เวลาไม่นาน หลังจากยืนยันข้อมูลแล้วสามารถเข้าสู่ระบบได้ทันที จากนั้นทดลองฝากเงิน เข้าเลือกเกม ทดลองเล่น และตรวจสอบการทำงานของเมนูต่าง ๆ
+      ภายในเว็บไซต์ ระหว่างการใช้งานพบว่าการเปลี่ยนหน้าเว็บไซต์ทำได้ต่อเนื่อง เมนูตอบสนองได้รวดเร็ว และการสลับไปยังหมวดเกมต่าง ๆ ไม่พบอาการโหลดซ้ำบ่อยครั้ง
+      ส่วนการใช้งานผ่านโทรศัพท์มือถือก็สามารถแสดงผลได้ครบทั้งแนวตั้งและแนวนอน
+    </p>
+  </ContentBoxSevenThreeCyberCut>
+
+  <ContentBoxSevenThree titleright="สล็อต 1 บาท ก็ฝากได้ อีกหนึ่งตัวเลือกสำหรับคนที่ไม่อยากเริ่มด้วยทุนสูง">
+    <div slot="left" class="flex h-full flex-col justify-center">
+      <Picture
+        src={imgOneBaht}
+        loading="lazy"
+        fetchpriority="low"
+        widths={[200, 400, 600, 800]}
+        sizes="(max-width: 768px) 100vw, 30vw"
+        decoding="async"
+        formats={["avif", "webp"]}
+        fallbackFormat="webp"
+        quality={80}
+        alt="PABLO666 สล็อต 1 บาท ก็ฝากได้ รองรับฝากขั้นต่ำ 1 บาทผ่านธนาคารชั้นนำ"
+        class="mx-auto h-auto w-full rounded-2xl border-2 border-amber-400/20 shadow-[0_10px_30px_rgba(234,179,8,0.25)]"
+      />
     </div>
+    <p slot="right" class="leading-relaxed">
+      หนึ่งในรายละเอียดที่หลายคนสนใจคือการเริ่มต้นใช้งานด้วยเงินจำนวนไม่มาก รองรับการฝากขั้นต่ำเพียง 1 บาท ทำให้ผู้เล่นสามารถทดลองระบบจริงได้ก่อน โดยไม่จำเป็นต้องใช้เงินทุนสูงเหมือนบางเว็บไซต์
+      แนวทางนี้เหมาะกับผู้ที่ต้องการทดลองความเสถียรของเว็บไซต์ ทดลองเลือกเกม หรือศึกษารูปแบบการให้บริการก่อนวางแผนการเล่นในระยะยาว
+    </p>
   </ContentBoxSevenThree>
 
-  <ContentBoxSpecial as="h2" title="เปิดยูสใหม่ แล้วได้ ฟรีสปินไม่อั้น BESTCLUB88 จริงหรือหลอก">
-    <p slot="left" class="leading-relaxed">
-      ได้ฟรีสปินไม่อั้น จริงไหม ต้องบอกว่า "จริง" จากการทดลองสมัครสมาชิกใหม่ สิ่งที่ทำให้ค่อนข้างประหลาดใจคือ ได้รับสิทธิ์ฟรีสปินจริง โดยเป็นการแจกในช่วงเปิดระบบทดสอบ
-      สมาชิกใหม่สามารถนำฟรีสปินไปใช้กับเกมที่ร่วมรายการได้ตามเงื่อนไขที่เว็บไซต์กำหนด ทำให้ทดลองเล่นได้โดยไม่ต้องใช้เครดิตของตนเอง
-    </p>
-    <p slot="right" class="leading-relaxed">
-      อย่างไรก็ตาม เมื่อสิ้นสุดช่วงทดสอบ โปรโมชั่นนี้ไม่ได้แจกตลอดเวลา หากสมัครแล้วไม่ได้รับฟรีสปิน แนะนำให้ติดตามข่าวสารผ่านช่องทางติดต่อหรือหน้าโปรโมชั่นของ <strong class="text-yellow-300">
-        BESTCLUB88
-      </strong>
-      เพราะการแจกสิทธิ์จะขึ้นอยู่กับกิจกรรมในแต่ละช่วงเวลา ไม่ได้เปิดให้รับได้ตลอดตามที่หลายคนเข้าใจ
-    </p>
-  </ContentBoxSpecial>
-
-  <ContentBox as="h2" title="โปรโมชั่นและโบนัส ที่พบจากการใช้งานจริง">
+  <ContentBoxCyberCut as="h2" title="ระบบออโต้หลังบ้านอัจริยะ PABLO666 ช่วยให้ทุกขั้นตอนใช้งานง่ายขึ้นมากๆ">
     <p class="leading-relaxed">
-      จากการทดลองใช้งาน โปรโมชั่นของ <strong class="text-yellow-300">BESTCLUB88</strong> อยู่ในระดับ มาตรฐาน ไม่ได้มีรูปแบบที่แตกต่างจากเว็บไซต์สล็อตทั่วไป โดยส่วนใหญ่จะเป็นโบนัสต้อนรับ โปรโมชั่นฝากแรก
-      และกิจกรรมตามช่วงเวลา ซึ่งพบได้ในหลายเว็บไซต์ที่ให้บริการลักษณะเดียวกัน
-    </p>
-
-    <Picture
-      src={imgBonus}
-      loading="lazy"
-      fetchpriority="low"
-      widths={[320, 480, 640]}
-      sizes="(max-width: 768px) 100vw, 640px"
-      decoding="async"
-      formats={["avif", "webp"]}
-      fallbackFormat="webp"
-      quality={80}
-      alt="BESTCLUB88 โปรโมชั่นและโบนัสต้อนรับ พร้อมกิจกรรมตามช่วงเวลา"
-      class="mx-auto mt-8 h-auto w-full max-w-3xl rounded-2xl border border-yellow-400/20 shadow-[0_10px_30px_rgba(234,179,8,0.2)]"
-    />
-  </ContentBox>
-
-  <ContentBox title="เกมไหนเล่นมัน แตกหนัก จากการทดลอง">
-    <p class="leading-relaxed">
-      จากการทดลองเล่นเกมยอดนิยมอย่าง Mahjong Ways 2, Gates of Olympus, Sweet Bonanza, Fortune Tiger และ Sugar Rush พบว่ารูปแบบการจ่ายรางวัลเป็นไปตามมาตรฐานของผู้พัฒนาเกมแต่ละค่าย
-      ไม่พบว่ามีการปรับอัตราการแตกหรือความถี่ของโบนัสให้แตกต่างจากเวอร์ชันปกติของเกม โดยสรุป แม้บางรอบจะได้รับรางวัลใหญ่และเล่นได้สนุก แต่จากการทดลอง
-      ไม่สามารถสรุปได้ว่าเกมแตกหนักกว่าค่าเฉลี่ยหรือมีอัตราการจ่ายสูงกว่าเว็บไซต์อื่น
-    </p>
-    <FeatureHighlights items={scoreHighlights} />
-  </ContentBox>
-
-  <GameRankingBoard />
-
-  <ContentBoxCyberCut as="h2" title="ข้อมูลเกี่ยวกับ เว็บตรง BESTCLUB88 ที่ควรทราบ">
-    <p class="mx-auto max-w-4xl leading-relaxed">
-      สำหรับที่มาของ <strong class="text-yellow-300">BESTCLUB88</strong> หากมองจากชื่อและแนวทางของเว็บไซต์ ก็พอคาดได้ว่าแบรนด์อาจเริ่มต้นจากกลุ่มคนที่ชื่นชอบเกมสล็อตและต้องการรวบรวมเกมจากหลายค่ายมาไว้ในระบบเดียว
-      คำว่า BEST CLUB สื่อถึงแนวคิดของการสร้างศูนย์รวมเกมที่คัดสิ่งที่ดีที่สุด ส่วนเลข 88 มักใช้แทนความโชคดีและความมั่งคั่ง จึงอาจกล่าวได้ว่า <strong class="text-yellow-300">BESTCLUB88</strong> ถูกวางภาพให้เป็น
-      เว็บตรง ที่เน้นความครบถ้วน เล่นง่าย และเข้าถึงเกมยอดนิยมได้สะดวก อย่างไรก็ตาม เรื่องประวัติ ปีที่ก่อตั้ง และผู้ดำเนินงานยังไม่มีหลักฐานยืนยัน
+      ในส่วนของการฝากและถอน ระบบรองรับช่องทางการทำรายการหลายรูปแบบ ผู้ใช้งานสามารถเลือกวิธีที่สะดวกได้ตามต้องการ พร้อมมีหน้าตรวจสอบสถานะรายการและประวัติธุรกรรมภายในบัญชีสมาชิก โดยภาพรวม ระบบออโต้ของ <strong
+        class="text-yellow-300">
+        PABLO666
+      </strong> ไม่ได้ช่วยเฉพาะเรื่องการฝากถอนเท่านั้น แต่ยังเชื่อมโยงการจัดการสมาชิก การตรวจสอบรายการ และการติดต่อฝ่ายบริการให้อยู่ในลำดับเดียวกัน ส่งผลให้การใช้งานตั้งแต่เริ่มต้นจนจบเป็นไปอย่างต่อเนื่องและสะดวกมากขึ้น
     </p>
   </ContentBoxCyberCut>
 
   <LoginRtpSection />
 
+  <GameRankingBoard />
+
+  <ContentBoxCyberCut as="h2" title="วิธีเลือกทางเข้า PABLO666 ให้เป็นเว็บไซต์จริงและปลอดภัย">
+    <p class="leading-relaxed">
+      ปัจจุบันมีเว็บไซต์จำนวนไม่น้อยที่ใช้ชื่อคล้ายกับ <strong class="text-yellow-300">PABLO666</strong> จึงควรตรวจสอบชื่อโดเมนและความถูกต้องของหน้าเว็บไซต์ทุกครั้งก่อนเข้าสู่ระบบ โดยสังเกตการเชื่อมต่อผ่าน
+      HTTPS รูปแบบหน้าเว็บไซต์ และเมนูต่าง ๆ ว่าครบถ้วนหรือไม่ หากไม่แน่ใจว่าควรใช้ลิงก์ใดเพื่อเข้าสู่เว็บไซต์จริง ภายในหน้านี้เราได้จัดเตรียมลิงก์สำหรับ "ทางเข้า PABLO666" และ "สมัครสมาชิก PABLO666 เว็บแท้"
+      ไว้เรียบร้อยแล้ว ผู้ใช้งานสามารถกดผ่านลิงก์ดังกล่าวเพื่อเข้าสู่เว็บไซต์ได้โดยตรง
+    </p>
+  </ContentBoxCyberCut>
+
+  <ContentBoxSpecial as="h2" title="สรุปหลังรีวิว PABLO666 เหมาะกับใคร">
+    <p slot="left" class="leading-relaxed">
+      หลังจากทดลองใช้งาน <strong class="text-yellow-300">PABLO666</strong> พบว่าเว็บไซต์นี้เหมาะกับผู้เล่นที่ให้ความสำคัญกับ ความสะดวก ความเสถียร และการบริการ มากกว่าคำโฆษณาว่าเกมแตกหนักหรือแตกบ่อย
+    </p>
+    <p slot="right" class="leading-relaxed">
+      หากเปรียบเทียบง่าย ๆ ก็เหมือนการเลือกรถ หลายคนไม่ได้เลือกคันที่แรงที่สุด แต่เลือกคันที่ ขับสบาย ใช้งานคุ้ม แอร์เย็น และมีศูนย์บริการที่ไว้ใจได้ ซึ่งให้ความสบายใจในการใช้งานทุกวัน เช่นเดียวกับ <strong
+        class="text-yellow-300">
+        PABLO666
+      </strong>
+    </p>
+  </ContentBoxSpecial>
+
   <div class="mx-auto mb-10 flex flex-nowrap justify-center gap-3 px-4 sm:gap-6">
     <a
       href="/login"
-      class="group relative flex flex-1 items-center justify-center rounded-full border border-yellow-400/50 bg-[#14040a]/80 px-4 py-3 text-sm font-black whitespace-nowrap text-yellow-300 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-red-900/60 hover:shadow-[0_0_15px_rgba(234,179,8,0.4)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
+      class="group relative flex flex-1 items-center justify-center rounded-full border border-red-500/50 bg-[#0a0806]/80 px-4 py-3 text-sm font-black whitespace-nowrap text-red-300 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-red-950/60 hover:shadow-[0_0_15px_rgba(220,38,38,0.4)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
       เข้าสู่ระบบ
     </a>
 
     <a
       href="/register"
-      class="group relative flex flex-1 items-center justify-center rounded-full bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 px-4 py-3 text-sm font-black whitespace-nowrap text-[#450a0a] shadow-[0_5px_20px_rgba(234,179,8,0.4)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_8px_25px_rgba(234,179,8,0.6)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
+      class="group relative flex flex-1 items-center justify-center rounded-full bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 px-4 py-3 text-sm font-black whitespace-nowrap text-[#1a1206] shadow-[0_5px_20px_rgba(234,179,8,0.4)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_8px_25px_rgba(234,179,8,0.6)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
       สมัครสมาชิก
     </a>
   </div>
 
-  <ReviewCardSumo />
-  <LatestWinners />
+  <LatestWinnersCyber />
 
   <Navfoot />
 </MainLayout>

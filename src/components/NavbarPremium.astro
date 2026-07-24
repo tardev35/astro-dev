@@ -12,14 +12,14 @@ const isActive = (path: string) => {
 
 <header class="sticky top-0 z-[100] w-full font-sans">
   <nav
-    class="relative mx-auto flex h-[85px] w-full items-center justify-between rounded-b-2xl border-b border-orange-600/40 bg-[#030a1a]/80 px-4 shadow-[0_10px_30px_rgba(37,99,235,0.5)] backdrop-blur-xl xl:px-8">
-    <a href="/" class="z-[110] flex-shrink-0 transition-transform duration-300 hover:scale-105 hover:drop-shadow-[0_0_15px_rgba(249,115,22,0.5)]">
+    class="relative mx-auto flex h-[85px] w-full items-center justify-between rounded-b-2xl border-b border-amber-500/40 bg-[#0a0806]/85 px-4 shadow-[0_10px_30px_rgba(234,179,8,0.35)] backdrop-blur-xl xl:px-8">
+    <a href="/" class="z-[110] flex-shrink-0 transition-transform duration-300 hover:scale-105 hover:drop-shadow-[0_0_15px_rgba(251,191,36,0.5)]">
       {
         mainLogo ? (
-          <Picture src={mainLogo} alt="OHO21 Logo" loading="eager" class="h-[55px] w-auto xl:h-[70px]" formats={["avif", "webp"]} fallbackFormat="webp" />
+          <Picture src={mainLogo} alt="GROW268 Logo" loading="eager" class="h-[55px] w-auto xl:h-[70px]" formats={["avif", "webp"]} fallbackFormat="webp" />
         ) : (
           <h1 class="bg-gradient-to-r from-gray-100 to-gray-400 bg-clip-text text-4xl font-black tracking-widest text-transparent drop-shadow-md">
-            OHO<span class="bg-gradient-to-r from-orange-300 to-orange-500 bg-clip-text text-transparent">21</span>
+            GROW<span class="bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent">268</span>
           </h1>
         )
       }
@@ -36,10 +36,10 @@ const isActive = (path: string) => {
         ].map((item) => (
           <a
             href={item.path}
-            class={`group relative flex h-full items-center px-2 text-sm font-bold tracking-widest uppercase transition-colors duration-300 xl:text-base ${isActive(item.path) ? "text-orange-400" : "text-blue-100/70 hover:text-white"}`}>
+            class={`group relative flex h-full items-center px-2 text-sm font-bold tracking-widest uppercase transition-colors duration-300 xl:text-base ${isActive(item.path) ? "text-amber-400" : "text-amber-100/60 hover:text-white"}`}>
             <span>{item.name}</span>
             <div
-              class={`absolute bottom-0 left-0 h-[3px] w-full rounded-t-full bg-gradient-to-r from-orange-400 to-orange-600 shadow-[0_-2px_10px_rgba(249,115,22,0.8)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+              class={`absolute bottom-0 left-0 h-[3px] w-full rounded-t-full bg-gradient-to-r from-amber-400 to-amber-600 shadow-[0_-2px_10px_rgba(251,191,36,0.8)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
             />
           </a>
         ))
@@ -49,29 +49,29 @@ const isActive = (path: string) => {
     <div class="z-[110] flex items-center gap-4">
       <a
         href="/login"
-        class="hidden items-center justify-center rounded-full border border-orange-500/50 bg-blue-950/40 px-7 py-2.5 text-sm font-bold text-orange-200 backdrop-blur-md transition-all duration-300 hover:bg-blue-900/60 hover:text-white hover:shadow-[0_0_15px_rgba(249,115,22,0.4)] lg:flex">
+        class="hidden items-center justify-center rounded-full border border-amber-500/50 bg-[#0a0806]/60 px-7 py-2.5 text-sm font-bold text-amber-200 backdrop-blur-md transition-all duration-300 hover:bg-amber-900/40 hover:text-white hover:shadow-[0_0_15px_rgba(251,191,36,0.4)] lg:flex">
         เข้าสู่ระบบ
       </a>
       <a
         href="/register"
-        class="hidden items-center justify-center rounded-full bg-gradient-to-r from-blue-500 via-blue-500 to-blue-600 px-7 py-2.5 text-sm font-black text-white shadow-[0_4px_15px_rgba(37,99,235,0.4)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(37,99,235,0.6)] lg:flex">
+        class="hidden items-center justify-center rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 px-7 py-2.5 text-sm font-black text-[#1a1206] shadow-[0_4px_15px_rgba(234,179,8,0.4)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(234,179,8,0.6)] lg:flex">
         สมัครสมาชิก
       </a>
 
       <button
         id="hamburger-btn"
-        class="relative flex h-[45px] w-[45px] flex-col items-center justify-center gap-[6px] rounded-full border border-orange-500/30 bg-blue-950/50 lg:hidden"
+        class="relative flex h-[45px] w-[45px] flex-col items-center justify-center gap-[6px] rounded-full border border-amber-500/30 bg-[#0a0806]/60 lg:hidden"
         aria-label="Menu">
-        <span class="line-1 h-[2px] w-5 origin-center rounded-full bg-orange-400 transition-all duration-300"></span>
-        <span class="line-2 h-[2px] w-5 origin-center rounded-full bg-orange-400 transition-all duration-300"></span>
-        <span class="line-3 h-[2px] w-5 origin-center rounded-full bg-orange-400 transition-all duration-300"></span>
+        <span class="line-1 h-[2px] w-5 origin-center rounded-full bg-amber-400 transition-all duration-300"></span>
+        <span class="line-2 h-[2px] w-5 origin-center rounded-full bg-amber-400 transition-all duration-300"></span>
+        <span class="line-3 h-[2px] w-5 origin-center rounded-full bg-amber-400 transition-all duration-300"></span>
       </button>
     </div>
   </nav>
 
   <div
     id="mobile-menu"
-    class="pointer-events-none absolute top-[85px] left-0 w-full origin-top -translate-y-4 scale-y-95 flex-col rounded-b-3xl border-b border-orange-600/40 bg-[#030a1a]/98 px-6 pt-4 pb-8 opacity-0 shadow-2xl backdrop-blur-2xl transition-all duration-400 lg:hidden">
+    class="pointer-events-none absolute top-[85px] left-0 w-full origin-top -translate-y-4 scale-y-95 flex-col rounded-b-3xl border-b border-amber-500/40 bg-[#0a0806]/98 px-6 pt-4 pb-8 opacity-0 shadow-2xl backdrop-blur-2xl transition-all duration-400 lg:hidden">
     <div class="flex flex-col gap-2">
       {
         [
@@ -83,7 +83,7 @@ const isActive = (path: string) => {
         ].map((item) => (
           <a
             href={item.path}
-            class={`flex items-center rounded-xl px-5 py-3.5 text-lg font-bold tracking-widest uppercase transition-colors ${isActive(item.path) ? "bg-blue-900/40 text-orange-400 shadow-inner" : "text-blue-100/70 hover:bg-white/5 hover:text-white"}`}>
+            class={`flex items-center rounded-xl px-5 py-3.5 text-lg font-bold tracking-widest uppercase transition-colors ${isActive(item.path) ? "bg-amber-900/30 text-amber-400 shadow-inner" : "text-amber-100/60 hover:bg-white/5 hover:text-white"}`}>
             {item.name}
           </a>
         ))
@@ -92,10 +92,10 @@ const isActive = (path: string) => {
     <div class="mt-6 flex flex-col gap-4">
       <a
         href="/register"
-        class="flex w-full justify-center rounded-full bg-gradient-to-r from-blue-500 to-blue-600 py-3.5 text-lg font-black text-white shadow-[0_5px_15px_rgba(37,99,235,0.3)]">
+        class="flex w-full justify-center rounded-full bg-gradient-to-r from-amber-400 to-amber-600 py-3.5 text-lg font-black text-[#1a1206] shadow-[0_5px_15px_rgba(234,179,8,0.3)]">
         สมัครสมาชิก
       </a>
-      <a href="/login" class="flex w-full justify-center rounded-full border border-orange-500/50 bg-blue-950/40 py-3.5 text-lg font-bold text-orange-200">เข้าสู่ระบบ</a>
+      <a href="/login" class="flex w-full justify-center rounded-full border border-amber-500/50 bg-[#0a0806]/60 py-3.5 text-lg font-bold text-amber-200">เข้าสู่ระบบ</a>
     </div>
   </div>
 </header>

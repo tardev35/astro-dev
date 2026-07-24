@@ -2,13 +2,17 @@
 
 /* global.css */
 
-/* ตั้งค่า global: ให้ทั้งเว็บใช้ Kanit เป็นฟอนต์เริ่มต้น
-   ผูกตัวแปรฟอนต์ของ Tailwind v4 เข้ากับ Kanit เพื่อให้ทุก utility
-   font-sans / font-serif / font-mono และ font เริ่มต้นชี้มาที่ Kanit จากจุดเดียว */
+/* ทำให้ Kanit เป็นฟอนต์ global จริงๆ:
+   - override --font-sans ของ Tailwind เพื่อให้ utility `font-sans` = Kanit
+     (ไม่งั้น class font-sans จะ reset กลับไปเป็น ui-sans-serif ทับค่าที่ inherit มาจาก body)
+   - ตั้ง font-family ที่ html/body เพื่อให้ทุก component ที่ไม่ประกาศเอง inherit ไปได้ */
 @theme {
-  --font-sans: "Kanit", sans-serif;
-  --font-serif: "Kanit", sans-serif;
-  --font-mono: "Kanit", sans-serif;
+  --font-sans: "Kanit", ui-sans-serif, system-ui, sans-serif;
+}
+
+html,
+body {
+  font-family: var(--font-sans);
 }
 
 /* kanit-regular - latin_thai */

@@ -19,6 +19,6 @@ export default defineConfig({
     "/line": "https://tinyurl.com/suhng",
   },
 
-  site: "https://www.bestclub88-homepage.com",
+  site: "https://www.pablo666-brand.com",
   integrations: [sitemap()],
 });

@@ -1,10 +1,11 @@
 ---
 import { Image } from "astro:assets";
 import Bg from "../assets/bg.png";
+import bgConfig from "../assets/bg.json";
 import ogImage from "../assets/slide1.png";
 import "../styles/global.css";
-import Navbar from "../components/NavbarStyle4Black.astro";
-import Footer from "../components/FooterStyle3.astro";
+import Navbar from "../components/NavbarCyber.astro";
+import Footer from "../components/FooterCyber.astro";
 
 const bannerImages = import.meta.glob<{ default: ImageMetadata }>("../assets/banner*.{png,webp,jpg,jpeg}", { eager: true });
 const bannerPaths = Object.keys(bannerImages);
@@ -14,16 +15,30 @@ const mainBannerPath = preferredBannerPath ?? webpBannerPath ?? bannerPaths[0];
 const mainBanner = mainBannerPath ? bannerImages[mainBannerPath].default : null;
 
 const {
-  title = "BESTCLUB88 รีวิวเว็บเกมสล็อต เว็บตรงเล่นมัน แตกหนัก ฟรีสปินไม่อั้น",
-  description = "BESTCLUB88 รีวิวเว็บเกมสล็อต เว็บตรงเล่นมัน แตกหนัก ฟรีสปินไม่อั้น รีวิวทางเข้า ทดลองเล่นจริง ฟรีสปิน โปรโมชั่น เกมยอดนิยม และข้อมูลเว็บตรงก่อนสมัคร",
+  title = "PABLO666 รีวิวเว็บตรง สล็อต1บาท ก็ฝากได้ ทดลองเล่นจริง ระบบออโต้",
+  description = "PABLO666 รีวิวเว็บตรง ไม่ได้มีดีแค่เรื่องเกมสล็อต ทดลองเล่นสล็อต1บาท ก็ฝากได้ เหมาะกับใครที่ไม่อยากเริ่มด้วยทุนสูง ระบบออโต้หลังบ้านอัจริยะ ทางเข้า ปลอดภัย",
   robots = "index, follow",
   ImageOg = ogImage.src,
 } = Astro.props;
 
+// Background source, chosen by the rebrand uploader (src/assets/bg.json):
+//   image    → the optimized <Image> below (the historical default)
+//   color    → a flat CSS colour, no bitmap shipped
+//   gradient → a CSS gradient string, no bitmap shipped
+// Colour/gradient values are hex/clamped-angle-validated at write time, so the
+// string is safe to drop straight into the style attribute.
+const bgMode = (bgConfig as { mode?: string }).mode ?? "image";
+const bgCss =
+  bgMode === "color"
+    ? `background-color:${(bgConfig as { color?: string }).color};`
+    : bgMode === "gradient"
+      ? `background-image:${(bgConfig as { css?: string }).css};`
+      : null;
+
 const currentPath = Astro.url.pathname;
 const canonicalURL = new URL(currentPath, Astro.site);
 const ogImageURL = new URL(ImageOg, Astro.site);
-const ogSiteName = "BESTCLUB88";
+const ogSiteName = "PABLO666";
 ---
 
 <html lang="th">
@@ -43,7 +58,7 @@ const ogSiteName = "BESTCLUB88";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="bestclub88" />
+    <meta name="apple-mobile-web-app-title" content="pablo666" />
     <link rel="manifest" href="/site.webmanifest" />
 
     <meta property="og:type" content="website" />
@@ -80,24 +95,30 @@ const ogSiteName = "BESTCLUB88";
   </head>
 
   <body class="relative flex min-h-screen w-full flex-col">
-    <Image
-      src={Bg}
-      alt="Website Background"
-      loading="eager"
-      widths={[412, 768, 1024, 1900]}
-      sizes="100vw"
-      format="avif"
-      class="fixed inset-0 -z-50 h-full w-full object-cover"
-      quality="low"
-      decoding="sync"
-    />
+    {
+      bgCss ? (
+        <div class="fixed inset-0 -z-50 h-full w-full bg-cover bg-center" style={bgCss} />
+      ) : (
+        <Image
+          src={Bg}
+          alt="Website Background"
+          loading="eager"
+          widths={[412, 768, 1024, 1900]}
+          sizes="100vw"
+          format="avif"
+          class="fixed inset-0 -z-50 h-full w-full object-cover"
+          quality="low"
+          decoding="sync"
+        />
+      )
+    }
 
     <Navbar />
 
     <div class="mb-2.5 flex w-full items-center justify-center">
       <Image
         src={mainBanner!}
-        alt="BESTCLUB88 banner"
+        alt="PABLO666 banner"
         loading="eager"
         fetchpriority="high"
         widths={[412, 768, 1900]}

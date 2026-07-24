@@ -2,7 +2,7 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBoxHuay.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/AnnouncementPremium.astro";
+import Announcement from "../components/AnnouncementCyber.astro";
 
 import { Picture } from "astro:assets";
 import imgLine from "../assets/contact-line.webp";
@@ -19,7 +19,7 @@ const contactPageSchema = {
   url: currentPath,
   mainEntity: {
     "@type": "Organization",
-    name: "BESTCLUB88",
+    name: "PABLO666",
     logo: logoUrl,
     url: homePage,
     contactPoint: [
@@ -37,14 +37,14 @@ const contactPageSchema = {
 ---
 
 <script type="application/ld+json" set:html={JSON.stringify(contactPageSchema)} />
-<MainLayout title="ติดต่อ BESTCLUB88" ,description="ฝากถอนออโต้ จ่ายจริง เฮงทุกสปิน">
+<MainLayout title="ติดต่อเรา PABLO666 ฝากถอนออโต้ จ่ายจริง บริการ 24 ชม." description="ติดต่อทีมงาน PABLO666 ฝากถอนออโต้ จ่ายจริง ดูแลตลอด 24 ชม. พร้อมช่วยทุกขั้นตอน">
   <Announcement />
 
   <ContentBox>
     <h1 class="mb-8 text-3xl text-amber-400">ฝากถอนออโต้ จ่ายจริง เฮงทุกสปิน</h1>
     <Picture
       src={imgLine}
-      alt="BESTCLUB88"
+      alt="PABLO666"
       loading="lazy"
       fetchpriority="low"
       widths={[200, 400, 600]}

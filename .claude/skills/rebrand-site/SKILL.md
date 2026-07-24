@@ -546,6 +546,24 @@ Phase 5 build covers all pages at once.) For each page:
    verify they carry **zero** old-brand-name references; only the theme
    is exempt, not the brand name. Note this decision in the workspec.
 
+**The `tools/rebrand-uploader` "ส่วนที่ 4 — Title/Meta หน้าย่อย" is an
+OPTIONAL shortcut, NOT a replacement for this phase.** The uploader can
+parse a `SUB-PAGES (Title & Meta Description)` section out of the brand's
+`content.docx` — when that section exists, its `[หัวข้อ]` headings use the
+exact Thai page names (`[โปรโมชั่น]`/`[ติดต่อเรา]`/`[ทดลองเล่น]`/`[ทางเข้า]`)
+with `Title:`/`Meta:` lines, and an operator may have already set those 4
+pages' `<MainLayout title/description>` before handing the rebrand to you.
+**If the docx has NO such section (the common case so far — GROW268 and
+earlier had none), nothing special happens and nothing is blocked: you
+still set every page's `<title>`/`description` here exactly as always,
+inferring them from the docx's main title/H1/H2 the same way you did for
+GROW268.** Either way this full phase runs — the sweep for brand name,
+hue, chrome consistency, and stale assets across *every* `src/pages/*.astro`
+is mandatory regardless of whether the uploader pre-filled the 4 sub-page
+titles. (The uploader anchors only on the `<MainLayout>` tag and leaves
+`<ContentBox>` titles alone, so re-setting a title here never conflicts
+with what it may have written.)
+
 Verify in Phase 5 by grepping **all** of `dist/` (not just
 `dist/index.html`) for the old brand name → must be 0 across every page.
 

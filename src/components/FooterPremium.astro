@@ -5,8 +5,8 @@ const imagePaths = Object.keys(images);
 const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 ---
 
-<footer class="relative mt-16 w-full overflow-hidden rounded-t-[3rem] border-t border-orange-600/50 bg-[#030a1a] pt-16 pb-8 font-sans text-white shadow-[0_-15px_40px_rgba(37,99,235,0.4)]">
-  <div class="pointer-events-none absolute inset-x-0 -top-20 mx-auto h-[250px] w-full max-w-4xl rounded-full bg-blue-900/25 blur-[100px]"></div>
+<footer class="relative mt-16 w-full overflow-hidden rounded-t-[3rem] border-t border-amber-500/40 bg-[#0a0806] pt-16 pb-8 font-sans text-white shadow-[0_-15px_40px_rgba(234,179,8,0.3)]">
+  <div class="pointer-events-none absolute inset-x-0 -top-20 mx-auto h-[250px] w-full max-w-4xl rounded-full bg-amber-900/20 blur-[100px]"></div>
 
   <div class="relative z-10 mx-auto w-full max-w-[1200px] px-6">
     <div class="mb-12 grid grid-cols-1 gap-12 md:grid-cols-12">
@@ -14,37 +14,37 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
         <a href="/" class="inline-block transition-transform duration-300 hover:scale-105">
           {
             mainLogo ? (
-              <Picture src={mainLogo} alt="OHO21 Logo" class="h-[65px] w-auto drop-shadow-[0_5px_15px_rgba(249,115,22,0.3)]" formats={["avif", "webp"]} fallbackFormat="webp" />
+              <Picture src={mainLogo} alt="GROW268 Logo" class="h-[65px] w-auto drop-shadow-[0_5px_15px_rgba(251,191,36,0.3)]" formats={["avif", "webp"]} fallbackFormat="webp" />
             ) : (
               <h2 class="bg-gradient-to-r from-gray-100 to-gray-400 bg-clip-text text-4xl font-black tracking-widest text-transparent">
-                OHO<span class="bg-gradient-to-r from-orange-300 to-orange-500 bg-clip-text text-transparent">21</span>
+                GROW<span class="bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent">268</span>
               </h2>
             )
           }
         </a>
-        <p class="border-l-2 border-orange-500/50 pl-4 text-sm leading-relaxed text-blue-100/70">
-          OHO21 รวมเกมสล็อตแตกง่ายและค่ายชั้นนำไว้ในเว็บเดียว ระบบฝากถอนออโต้ รองรับวอเลท แจกโบนัสจัดเต็ม พร้อมมาตรฐานความปลอดภัย SSL ดูแลตลอด 24 ชั่วโมง
+        <p class="border-l-2 border-amber-500/50 pl-4 text-sm leading-relaxed text-amber-100/60">
+          GROW268 สล็อตเว็บตรงเว็บแท้ ศูนย์รวมเกมเดิมพันระดับ VIP รวมเกมจากหลายค่ายไว้ในระบบเดียว ระบบฝากถอนอัตโนมัติ พร้อมมาตรฐานความปลอดภัย SSL ดูแลตลอด 24 ชั่วโมง
         </p>
         <div class="mt-4 flex gap-3">
-          <span class="rounded-full border border-orange-500/30 bg-blue-900/30 px-4 py-1 text-xs font-medium text-orange-300 backdrop-blur-sm">AUTO SYSTEM</span>
-          <span class="rounded-full border border-blue-500/30 bg-blue-900/30 px-4 py-1 text-xs font-medium text-blue-400 backdrop-blur-sm">100% SECURE</span>
+          <span class="rounded-full border border-amber-500/30 bg-amber-900/25 px-4 py-1 text-xs font-medium text-amber-300 backdrop-blur-sm">AUTO SYSTEM</span>
+          <span class="rounded-full border border-amber-400/30 bg-amber-900/25 px-4 py-1 text-xs font-medium text-amber-200 backdrop-blur-sm">100% SECURE</span>
         </div>
       </div>
 
       <nav class="flex flex-col gap-4 md:col-span-3 lg:pl-8">
         <p class="text-lg font-black tracking-widest text-white uppercase drop-shadow-sm">QUICK LINKS</p>
-        <div class="h-[1px] w-12 bg-orange-500"></div>
-        <ul class="flex flex-col gap-3 text-sm font-medium text-blue-100/70">
-          <li><a href="/" class="transition-colors hover:text-orange-400">หน้าหลัก (Home)</a></li>
-          <li><a href="/promotion" class="transition-colors hover:text-orange-400">โปรโมชั่น (Promotions)</a></li>
-          <li><a href="/register" class="transition-colors hover:text-orange-400">สมัครสมาชิก (Join Us)</a></li>
-          <li><a href="/login" class="transition-colors hover:text-orange-400">เข้าสู่ระบบ (Login)</a></li>
+        <div class="h-[1px] w-12 bg-amber-500"></div>
+        <ul class="flex flex-col gap-3 text-sm font-medium text-amber-100/60">
+          <li><a href="/" class="transition-colors hover:text-amber-400">หน้าหลัก (Home)</a></li>
+          <li><a href="/promotion" class="transition-colors hover:text-amber-400">โปรโมชั่น (Promotions)</a></li>
+          <li><a href="/register" class="transition-colors hover:text-amber-400">สมัครสมาชิก (Join Us)</a></li>
+          <li><a href="/login" class="transition-colors hover:text-amber-400">เข้าสู่ระบบ (Login)</a></li>
         </ul>
       </nav>
 
       <div class="flex flex-col gap-5 md:col-span-4">
         <p class="text-lg font-black tracking-widest text-white uppercase drop-shadow-sm">CUSTOMER SUPPORT</p>
-        <div class="h-[1px] w-12 bg-orange-500"></div>
+        <div class="h-[1px] w-12 bg-amber-500"></div>
 
         <a
           href="/line"
@@ -52,7 +52,7 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
           ติดต่อแอดมิน LINE
         </a>
 
-        <div class="mt-4 text-xs font-medium tracking-widest text-orange-300/50 uppercase">Supported Payments</div>
+        <div class="mt-4 text-xs font-medium tracking-widest text-amber-300/50 uppercase">Supported Payments</div>
         <div class="flex flex-wrap gap-2 opacity-90">
           <div class="flex h-7 w-11 items-center justify-center rounded-md border border-white/10 bg-[#118A44] text-[10px] font-bold text-white shadow-sm" title="KBank">KB</div>
           <div class="flex h-7 w-11 items-center justify-center rounded-md border border-white/10 bg-[#4E2B7A] text-[10px] font-bold text-white shadow-sm" title="SCB">SCB</div>
@@ -68,11 +68,11 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
       </div>
     </div>
 
-    <div class="flex flex-col items-center justify-between border-t border-orange-800/40 pt-8 text-xs font-medium tracking-wide text-blue-200/40 md:flex-row">
-      <p>COPYRIGHT &copy; {new Date().getFullYear()} OHO21. ALL RIGHTS RESERVED.</p>
+    <div class="flex flex-col items-center justify-between border-t border-amber-800/40 pt-8 text-xs font-medium tracking-wide text-amber-200/40 md:flex-row">
+      <p>COPYRIGHT &copy; {new Date().getFullYear()} GROW268. ALL RIGHTS RESERVED.</p>
       <div class="mt-4 flex gap-4 md:mt-0">
-        <a href="/" class="transition-colors hover:text-orange-300">TERMS & CONDITIONS</a>
-        <a href="/" class="transition-colors hover:text-orange-300">PRIVACY POLICY</a>
+        <a href="/" class="transition-colors hover:text-amber-300">TERMS & CONDITIONS</a>
+        <a href="/" class="transition-colors hover:text-amber-300">PRIVACY POLICY</a>
       </div>
     </div>
   </div>

@@ -15,14 +15,14 @@ const bankPool = [
 
 <div class="mx-auto w-full max-w-[1300px] p-4 font-sans">
   <div
-    class="relative border-r-4 border-l-4 border-red-600 bg-[#14040a]/80 px-4 py-8 shadow-[0_0_30px_rgba(220,38,38,0.2)] md:p-10"
+    class="relative border-r-4 border-l-4 border-yellow-500 bg-[#0d0305]/80 px-4 py-8 shadow-[0_0_30px_rgba(234,179,8,0.2)] md:p-10"
     style="clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 20px), 0 20px);">
-    <div class="absolute top-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-red-500 to-transparent"></div>
+    <div class="absolute top-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-yellow-500 to-transparent"></div>
     <div class="absolute bottom-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-red-500 to-transparent"></div>
 
-    <div class="relative z-10 mb-8 flex items-center justify-between border-b border-red-500/30 pb-4">
-      <h2 class="text-xl font-black tracking-[0.2em] text-red-400 drop-shadow-[0_0_8px_rgba(220,38,38,0.8)]">/// LIVE_TRANSACTIONS</h2>
-      <span class="animate-pulse border border-yellow-400/50 px-2 py-1 text-xs font-bold tracking-widest text-yellow-400">ONLINE</span>
+    <div class="relative z-10 mb-8 flex items-center justify-between border-b border-yellow-500/30 pb-4">
+      <h2 class="text-xl font-black tracking-[0.2em] text-yellow-400 drop-shadow-[0_0_8px_rgba(234,179,8,0.8)]">/// LIVE_TRANSACTIONS</h2>
+      <span class="animate-pulse border border-red-500/50 px-2 py-1 text-xs font-bold tracking-widest text-red-400">ONLINE</span>
     </div>
 
     <div id="feed-cyber-hud" class="relative z-10 flex flex-col gap-3"></div>
@@ -47,12 +47,12 @@ const bankPool = [
 
     return `
       <div class="winner-row origin-left transform scale-x-95 opacity-0 transition-all duration-500 ease-out">
-        <div class="flex items-center justify-between border-l-2 border-red-500 bg-gradient-to-r from-red-900/40 to-transparent p-3 backdrop-blur-sm transition-colors hover:bg-red-900/60">
+        <div class="flex items-center justify-between border-l-2 border-red-500 bg-gradient-to-r from-amber-900/30 to-transparent p-3 backdrop-blur-sm transition-colors hover:bg-amber-900/50">
           <div class="flex items-center gap-4">
             <div class="flex h-8 w-8 items-center justify-center bg-black/50 border border-white/10 ${bank.color} mix-blend-screen">
               <img src="${bank.icon}" alt="bank" class="h-5 w-5 object-contain grayscale" />
             </div>
-            <div class="font-mono text-sm text-red-100">
+            <div class="font-mono text-sm text-amber-100">
               USR_ID: <span class="font-bold text-white">${user}</span>
             </div>
           </div>
@@ -93,6 +93,6 @@ const bankPool = [
     font-family: "Kanit", sans-serif;
   }
   .font-mono {
-    font-family: "Kanit", sans-serif;
+    font-family: monospace;
   }
 </style>

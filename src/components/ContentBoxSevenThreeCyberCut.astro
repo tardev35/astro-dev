@@ -3,31 +3,31 @@ const { titleleft, titleright } = Astro.props;
 ---
 
 <section class="mx-auto mb-6 w-full max-w-7xl px-4 font-sans">
-  <div class="relative w-full bg-[#14040a]/90 p-8 text-white/90 border border-red-500/40 shadow-[0_0_25px_rgba(220,38,38,0.15)] transition-all duration-300 hover:border-red-400 hover:shadow-[0_0_40px_rgba(220,38,38,0.3)] backdrop-blur-md"
+  <div class="relative w-full bg-[#0d0305]/90 p-8 text-white/90 border border-yellow-500/40 shadow-[0_0_25px_rgba(234,179,8,0.15)] transition-all duration-300 hover:border-yellow-400 hover:shadow-[0_0_40px_rgba(234,179,8,0.3)] backdrop-blur-md"
        style="clip-path: polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px);">
 
-    <div class="absolute top-0 left-0 h-[2px] w-24 bg-gradient-to-r from-red-500 to-transparent"></div>
+    <div class="absolute top-0 left-0 h-[2px] w-24 bg-gradient-to-r from-yellow-400 to-transparent"></div>
     <div class="absolute bottom-0 right-0 h-[2px] w-24 bg-gradient-to-l from-red-500 to-transparent"></div>
-    <div class="absolute top-0 left-0 h-16 w-[2px] bg-gradient-to-b from-red-500 to-transparent"></div>
+    <div class="absolute top-0 left-0 h-16 w-[2px] bg-gradient-to-b from-yellow-400 to-transparent"></div>
     <div class="absolute bottom-0 right-0 h-16 w-[2px] bg-gradient-to-t from-red-500 to-transparent"></div>
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-[3fr_7fr] md:items-center">
       <article class="flex flex-col gap-4">
         {titleleft && (
-          <h2 class="text-xl font-black uppercase tracking-widest text-red-400 border-b border-red-500/30 pb-2">
-            <span class="text-yellow-400 font-mono">>_</span> {titleleft}
+          <h2 class="text-xl font-black uppercase tracking-widest text-yellow-400 border-b border-yellow-500/30 pb-2">
+            <span class="text-red-500 font-mono">>_</span> {titleleft}
           </h2>
         )}
-        <div class="text-lg leading-relaxed text-red-100/80"><slot name="left" /></div>
+        <div class="text-lg leading-relaxed text-amber-100/80"><slot name="left" /></div>
       </article>
 
-      <article class="flex flex-col gap-4 md:border-l md:border-red-500/30 md:pl-8">
+      <article class="flex flex-col gap-4 md:border-l md:border-yellow-500/30 md:pl-8">
         {titleright && (
-          <h2 class="text-xl font-black uppercase tracking-widest text-red-400 border-b border-red-500/30 pb-2">
-            <span class="text-yellow-400 font-mono">>_</span> {titleright}
+          <h2 class="text-xl font-black uppercase tracking-widest text-yellow-400 border-b border-yellow-500/30 pb-2">
+            <span class="text-red-500 font-mono">>_</span> {titleright}
           </h2>
         )}
-        <div class="text-lg leading-relaxed text-red-100/80"><slot name="right" /></div>
+        <div class="text-lg leading-relaxed text-amber-100/80"><slot name="right" /></div>
       </article>
     </div>
   </div>

@@ -14,11 +14,9 @@ const isActive = (path: string) => {
 ---
 
 <header class="sticky top-0 z-50 w-full font-sans">
-  <!-- Nav Bar: Midnight Blue & Gold -->
-  <nav class="relative z-40 w-full border-b border-amber-600/30 bg-[#14040a]/95 shadow-[0_5px_25px_rgba(220,38,38,0.4)] backdrop-blur-xl">
+  <nav class="relative z-40 w-full border-b border-amber-500/40 bg-[#14040a]/95 shadow-[0_5px_25px_rgba(220,38,38,0.4)] backdrop-blur-xl">
     <div class="mx-auto flex h-[70px] max-w-7xl items-center justify-between px-4 lg:h-[80px] xl:px-8">
       <div class="flex items-center gap-4">
-        <!-- Hamburger Button -->
         <button id="hamburger-btn" class="flex flex-col items-center justify-center space-y-1.5 p-2 lg:hidden" aria-label="Menu">
           <span class="hamburger-line h-[2px] w-6 origin-center rounded-full bg-amber-400 shadow-[0_0_5px_rgba(245,158,11,0.5)] transition-all duration-300"></span>
           <span class="hamburger-line h-[2px] w-6 rounded-full bg-amber-400 shadow-[0_0_5px_rgba(245,158,11,0.5)] transition-all duration-300"></span>
@@ -26,62 +24,43 @@ const isActive = (path: string) => {
         </button>
 
         <a href="/" class="flex-shrink-0 transition-transform hover:scale-105">
-          <Picture
-            src={mainLogo!}
-            alt="TAKDEE999 Logo"
-            loading="eager"
-            fetchpriority="high"
-            class="h-[35px] w-auto drop-shadow-[0_0_10px_rgba(245,158,11,0.3)] lg:h-[50px]"
-            formats={["avif", "webp"]}
-            fallbackFormat="webp"
-          />
+          {
+            mainLogo ? (
+              <Picture
+                src={mainLogo}
+                alt="ดีเฮง789 Logo"
+                loading="eager"
+                fetchpriority="high"
+                class="h-[35px] w-auto drop-shadow-[0_0_10px_rgba(245,158,11,0.35)] lg:h-[50px]"
+                formats={["avif", "webp"]}
+                fallbackFormat="webp"
+              />
+            ) : (
+              <span class="bg-gradient-to-r from-amber-200 via-amber-400 to-red-500 bg-clip-text text-2xl font-black tracking-widest text-transparent">ดีเฮง789</span>
+            )
+          }
         </a>
       </div>
 
-      <!-- Desktop Menu: Manual Tags -->
-      <div class="hidden h-full items-center justify-center gap-8 lg:flex xl:gap-12">
-        <a href="/" class="group relative flex h-full flex-col items-center justify-center text-sm font-bold transition-all xl:text-base">
-          <span class={`transition-colors duration-300 ${isActive("/") ? "text-amber-400 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]" : "text-red-100/70 group-hover:text-amber-200"}`}>หน้าแรก</span>
-          <div
-            class={`absolute bottom-5 w-1.5 h-1.5 rounded-full bg-amber-400 transition-all duration-300 ${isActive("/") ? "opacity-100 scale-100 shadow-[0_0_10px_rgba(245,158,11,1)]" : "opacity-0 scale-0 group-hover:opacity-100 group-hover:scale-100"}`}>
-          </div>
-        </a>
-
-        <a href="/promotion" class="group relative flex h-full flex-col items-center justify-center text-sm font-bold transition-all xl:text-base">
-          <span class={`transition-colors duration-300 ${isActive("/promotion") ? "text-amber-400 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]" : "text-red-100/70 group-hover:text-amber-200"}`}>
-            โปรโมชั่น
-          </span>
-          <div
-            class={`absolute bottom-5 w-1.5 h-1.5 rounded-full bg-amber-400 transition-all duration-300 ${isActive("/promotion") ? "opacity-100 scale-100 shadow-[0_0_10px_rgba(245,158,11,1)]" : "opacity-0 scale-0 group-hover:opacity-100 group-hover:scale-100"}`}>
-          </div>
-        </a>
-
-        <a href="/ทดลองเล่น" class="group relative flex h-full flex-col items-center justify-center text-sm font-bold transition-all xl:text-base">
-          <span class={`transition-colors duration-300 ${isActive("/ทดลองเล่น") ? "text-amber-400 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]" : "text-red-100/70 group-hover:text-amber-200"}`}>
-            ทดลองเล่น
-          </span>
-          <div
-            class={`absolute bottom-5 w-1.5 h-1.5 rounded-full bg-amber-400 transition-all duration-300 ${isActive("/ทดลองเล่น") ? "opacity-100 scale-100 shadow-[0_0_10px_rgba(245,158,11,1)]" : "opacity-0 scale-0 group-hover:opacity-100 group-hover:scale-100"}`}>
-          </div>
-        </a>
-
-        <a href="/ทางเข้า" class="group relative flex h-full flex-col items-center justify-center text-sm font-bold transition-all xl:text-base">
-          <span class={`transition-colors duration-300 ${isActive("/ทางเข้า") ? "text-amber-400 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]" : "text-red-100/70 group-hover:text-amber-200"}`}>
-            ทางเข้า
-          </span>
-          <div
-            class={`absolute bottom-5 w-1.5 h-1.5 rounded-full bg-amber-400 transition-all duration-300 ${isActive("/ทางเข้า") ? "opacity-100 scale-100 shadow-[0_0_10px_rgba(245,158,11,1)]" : "opacity-0 scale-0 group-hover:opacity-100 group-hover:scale-100"}`}>
-          </div>
-        </a>
-
-        <a href="/contact-us" class="group relative flex h-full flex-col items-center justify-center text-sm font-bold transition-all xl:text-base">
-          <span class={`transition-colors duration-300 ${isActive("/contact-us") ? "text-amber-400 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]" : "text-red-100/70 group-hover:text-amber-200"}`}>
-            ติดต่อเรา
-          </span>
-          <div
-            class={`absolute bottom-5 w-1.5 h-1.5 rounded-full bg-amber-400 transition-all duration-300 ${isActive("/contact-us") ? "opacity-100 scale-100 shadow-[0_0_10px_rgba(245,158,11,1)]" : "opacity-0 scale-0 group-hover:opacity-100 group-hover:scale-100"}`}>
-          </div>
-        </a>
+      <div class="hidden h-full items-center justify-center gap-6 lg:flex xl:gap-9">
+        {
+          [
+            { name: "หน้าแรก", path: "/" },
+            { name: "โปรโมชั่น", path: "/promotion" },
+            { name: "ทดลองเล่น", path: "/ทดลองเล่น" },
+            { name: "ทางเข้า", path: "/ทางเข้า" },
+            { name: "บทความ", path: "/บทความ" },
+            { name: "เกี่ยวกับเรา", path: "/about-us" },
+            { name: "ติดต่อเรา", path: "/contact-us" },
+          ].map((item) => (
+            <a href={item.path} class="group relative flex h-full flex-col items-center justify-center text-sm font-bold transition-all xl:text-base">
+              <span class={`transition-colors duration-300 ${isActive(item.path) ? "text-amber-400 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]" : "text-red-100/70 group-hover:text-amber-200"}`}>{item.name}</span>
+              <div
+                class={`absolute bottom-5 w-1.5 h-1.5 rounded-full bg-amber-400 transition-all duration-300 ${isActive(item.path) ? "opacity-100 scale-100 shadow-[0_0_10px_rgba(245,158,11,1)]" : "opacity-0 scale-0 group-hover:opacity-100 group-hover:scale-100"}`}
+              />
+            </a>
+          ))
+        }
       </div>
 
       <div class="flex items-center gap-3">
@@ -100,55 +79,40 @@ const isActive = (path: string) => {
     </div>
   </nav>
 
-  <!-- Mobile Overlay -->
   <div id="mobile-overlay" class="pointer-events-none fixed inset-0 z-50 bg-black/80 opacity-0 backdrop-blur-sm transition-opacity duration-400 lg:hidden"></div>
 
-  <!-- Mobile Bottom Sheet -->
   <div
     id="mobile-bottom-sheet"
-    class="pb-safe fixed bottom-0 left-0 z-[60] w-full translate-y-full transform rounded-t-3xl border-t border-amber-500/30 bg-[#14040a] shadow-[0_-10px_40px_rgba(0,0,0,0.8)] transition-transform duration-400 ease-[cubic-bezier(0.3,1,0.3,1)] lg:hidden">
+    class="pb-safe fixed bottom-0 left-0 z-[60] max-h-[85vh] w-full translate-y-full transform overflow-y-auto rounded-t-3xl border-t border-amber-500/30 bg-[#14040a] shadow-[0_-10px_40px_rgba(0,0,0,0.8)] transition-transform duration-400 ease-[cubic-bezier(0.3,1,0.3,1)] lg:hidden">
     <div class="flex w-full cursor-pointer justify-center pt-3 pb-2" id="close-sheet-btn">
-      <div class="h-1.5 w-12 rounded-full bg-slate-700"></div>
+      <div class="h-1.5 w-12 rounded-full bg-red-900"></div>
     </div>
 
     <div class="flex flex-col space-y-2 px-6 pt-2 pb-8">
-      <a
-        href="/"
-        class={`sheet-item flex items-center justify-between px-5 py-4 rounded-2xl transition-all ${isActive("/") ? "bg-gradient-to-r from-amber-500/20 to-transparent border border-amber-500/30 text-amber-400" : "bg-white/5 border-transparent text-gray-400"}`}>
-        <div class="flex items-center gap-4"><span class="text-2xl drop-shadow-lg">🏠</span><span class="text-base font-bold tracking-wide">หน้าแรก</span></div>
-        {isActive("/") && <span class="h-2 w-2 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(245,158,11,1)]" />}
-      </a>
-
-      <a
-        href="/promotion"
-        class={`sheet-item flex items-center justify-between px-5 py-4 rounded-2xl transition-all ${isActive("/promotion") ? "bg-gradient-to-r from-amber-500/20 to-transparent border border-amber-500/30 text-amber-400" : "bg-white/5 border-transparent text-gray-400"}`}>
-        <div class="flex items-center gap-4"><span class="text-2xl drop-shadow-lg">🎁</span><span class="text-base font-bold tracking-wide">โปรโมชั่น</span></div>
-        {isActive("/promotion") && <span class="h-2 w-2 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(245,158,11,1)]" />}
-      </a>
-
-      <a
-        href="/ทดลองเล่น"
-        class={`sheet-item flex items-center justify-between px-5 py-4 rounded-2xl transition-all ${isActive("/ทดลองเล่น") ? "bg-gradient-to-r from-amber-500/20 to-transparent border border-amber-500/30 text-amber-400" : "bg-white/5 border-transparent text-gray-400"}`}>
-        <div class="flex items-center gap-4"><span class="text-2xl drop-shadow-lg">🎰</span><span class="text-base font-bold tracking-wide">ทดลองเล่น</span></div>
-        {isActive("/ทดลองเล่น") && <span class="h-2 w-2 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(245,158,11,1)]" />}
-      </a>
-
-      <a
-        href="/ทางเข้า"
-        class={`sheet-item flex items-center justify-between px-5 py-4 rounded-2xl transition-all ${isActive("/ทางเข้า") ? "bg-gradient-to-r from-amber-500/20 to-transparent border border-amber-500/30 text-amber-400" : "bg-white/5 border-transparent text-gray-400"}`}>
-        <div class="flex items-center gap-4"><span class="text-2xl drop-shadow-lg">🌐</span><span class="text-base font-bold tracking-wide">ทางเข้า</span></div>
-        {isActive("/ทางเข้า") && <span class="h-2 w-2 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(245,158,11,1)]" />}
-      </a>
-
-      <a
-        href="/contact-us"
-        class={`sheet-item flex items-center justify-between px-5 py-4 rounded-2xl transition-all ${isActive("/contact-us") ? "bg-gradient-to-r from-amber-500/20 to-transparent border border-amber-500/30 text-amber-400" : "bg-white/5 border-transparent text-gray-400"}`}>
-        <div class="flex items-center gap-4"><span class="text-2xl drop-shadow-lg">📞</span><span class="text-base font-bold tracking-wide">ติดต่อเรา</span></div>
-        {isActive("/contact-us") && <span class="h-2 w-2 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(245,158,11,1)]" />}
-      </a>
+      {
+        [
+          { name: "หน้าแรก", path: "/", icon: "🏠" },
+          { name: "โปรโมชั่น", path: "/promotion", icon: "🎁" },
+          { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎰" },
+          { name: "ทางเข้า", path: "/ทางเข้า", icon: "🌐" },
+          { name: "บทความ", path: "/บทความ", icon: "📰" },
+          { name: "เกี่ยวกับเรา", path: "/about-us", icon: "🐯" },
+          { name: "ติดต่อเรา", path: "/contact-us", icon: "📞" },
+        ].map((item) => (
+          <a
+            href={item.path}
+            class={`sheet-item flex items-center justify-between px-5 py-4 rounded-2xl transition-all ${isActive(item.path) ? "bg-gradient-to-r from-amber-500/20 to-transparent border border-amber-500/30 text-amber-400" : "bg-white/5 border-transparent text-red-100/60"}`}>
+            <div class="flex items-center gap-4">
+              <span class="text-2xl drop-shadow-lg">{item.icon}</span>
+              <span class="text-base font-bold tracking-wide">{item.name}</span>
+            </div>
+            {isActive(item.path) && <span class="h-2 w-2 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(245,158,11,1)]" />}
+          </a>
+        ))
+      }
 
       <div class="mt-2 grid grid-cols-2 gap-3 border-t border-white/5 pt-4">
-        <a href="/login" class="flex items-center justify-center rounded-xl border border-amber-500/30 bg-amber-500/5 py-3.5 text-sm font-bold text-amber-500">เข้าสู่ระบบ</a>
+        <a href="/login" class="flex items-center justify-center rounded-xl border border-amber-500/30 bg-amber-500/5 py-3.5 text-sm font-bold text-amber-400">เข้าสู่ระบบ</a>
         <a
           href="/register"
           style="background-image: linear-gradient(in oklab to right, #4a0000, #ef4444, #4a0000);"
@@ -166,7 +130,6 @@ const isActive = (path: string) => {
   }
 </style>
 
-<!-- ส่วนที่หายไปคืออันนี้ครับเธอ -->
 <script>
   const hamburgerBtn = document.getElementById("hamburger-btn");
   const mobileBottomSheet = document.getElementById("mobile-bottom-sheet");
@@ -178,24 +141,20 @@ const isActive = (path: string) => {
     const isOpen = mobileBottomSheet?.classList.contains("translate-y-0");
 
     if (!isOpen) {
-      // Open
       mobileBottomSheet?.classList.remove("translate-y-full");
       mobileBottomSheet?.classList.add("translate-y-0");
       mobileOverlay?.classList.remove("pointer-events-none", "opacity-0");
       mobileOverlay?.classList.add("opacity-100");
 
-      // Animate Hamburger to X
       hamburgerLines[0].classList.add("rotate-45", "translate-y-[8px]");
       hamburgerLines[1].classList.add("opacity-0");
       hamburgerLines[2].classList.add("-rotate-45", "-translate-y-[8px]");
     } else {
-      // Close
       mobileBottomSheet?.classList.add("translate-y-full");
       mobileBottomSheet?.classList.remove("translate-y-0");
       mobileOverlay?.classList.add("pointer-events-none", "opacity-0");
       mobileOverlay?.classList.remove("opacity-100");
 
-      // Animate Hamburger back
       hamburgerLines[0].classList.remove("rotate-45", "translate-y-[8px]");
       hamburgerLines[1].classList.remove("opacity-0");
       hamburgerLines[2].classList.remove("-rotate-45", "-translate-y-[8px]");
@@ -206,7 +165,6 @@ const isActive = (path: string) => {
   mobileOverlay?.addEventListener("click", toggleMenu);
   closeSheetBtn?.addEventListener("click", toggleMenu);
 
-  // Close menu when clicking links
   const sheetItems = document.querySelectorAll(".sheet-item");
   sheetItems.forEach((item) => {
     item.addEventListener("click", () => {

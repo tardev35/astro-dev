@@ -1183,3 +1183,91 @@ NavbarStyle family, Footer family** โดย:
 **หน้าหวย:** prompt ไม่มีคำว่า `เว็บหวย` และ NOVA852 เป็นแบรนด์คาสิโน → `ตรวจหวย`/`แนวทาง` **คงปิดไว้ใน `src/pages-disabled/`** ไม่ route ไม่เพิ่มลิงก์ใน navbar; แก้แค่ชื่อแบรนด์เก่า (`BESTCLUB88` → `NOVA852`) คงธีมหวยแดง/ทอง + `AnnouncementHuay` ตามข้อยกเว้น
 
 **Out of scope / ไม่แตะ:** inventory variants ที่ไม่ได้ render (ตระกูล Cyber ทั้งชุด, NavbarPremium/NavbarStyle*/Footer* อื่น, Announcement2/3/4/6/Premium, ContentBoxCyberCut/Premium/*, LatestWinners/2/3/Premium, Faq/Faq2/Faq4, ReviewCardSumo*) = เก็บเป็น inventory แบรนด์หน้า ชื่อ/สีเก่าในนั้น = expected drift; **`AnnouncementHuay.astro` ยังมี `BESTCLUB88` ใน default `message`** — ทั้ง 2 หน้าที่ใช้ส่ง `message` prop ชัดเจนอยู่แล้วและหน้าอยู่ใน pages-disabled จึงไม่ render ที่ไหน (ถ้ารีแบรนด์หน้าเปิดหวย ต้องแก้ default นี้ด้วย); ไฟล์ภาพ stale `slide4.png`/`banner3.png`/`banner.png` ไม่ลบตามกฎ; affiliate redirect ใน login/register = **`https://yoalink.com/mucr`** คงไว้ byte-identical (หมายเหตุ: brief แรกเขียนว่า `/22hs` ซึ่งเป็นของแบรนด์เก่า — ของจริงในไฟล์คือ `/mucr`); `bg.json`/`bg.png` uploader-managed; google-site-verification token
+
+---
+
+# 2026-07-25 — รีแบรนด์ ดีเฮง789 (จาก NOVA852) — 2-agent ขนาน
+
+**เป้าหมาย:** รีแบรนด์ + retheme template จาก NOVA852 → **ดีเฮง789**, URL จริงที่ผู้ใช้ให้ `ดีเฮง7899.com`. รันแบบ 2-agent ขนานตาม playbook (P0 brand-spec + P1 shared chrome ทำเอง แล้ว fan out Agent A = Landing / Agent B = Sub-pages, merge+verify เอง)
+
+**อินพุตแบรนด์:** `content.docx` (มี section SUB-PAGES → ใช้ Title/Meta หน้าย่อย verbatim), โลโก้ไทยทองขอบแดง + เสือนำโชคถือซองอั่งเปา (ใต้เลข 789 มี `DEEHENG`), hero + slide ทั้ง 4 = แดง-ทองตรุษจีน. **Palette = แดง (หลัก) + ทอง (accent) + ดำ-แดงเข้ม** — กลับทิศจาก NOVA852 ที่เป็นทอง+เงิน
+
+**การเขียนชื่อแบรนด์:** `ดีเฮง789` (ไทย ติดตัวเลข ไม่เว้นวรรค) ทุกที่; `DEEHENG789` เฉพาะจุดที่ต้องใช้อักษรละติน (copyright, `.brand-identity` ของ login/register ที่ฟอนต์ Oswald + `letter-spacing:.3em` render ไทยไม่ได้)
+
+**URL:** `https://ดีเฮง7899.com` — **ใช้ตามที่ผู้ใช้ให้เป๊ะ ไม่เติม `www.`** (ต่างจากรีแบรนด์ก่อนๆ ที่ใช้ `www.`). โดเมนมี `7899` ขณะที่ชื่อแบรนด์เป็น `789` — ถูกต้องตามที่ผู้ใช้ระบุ ไม่ใช่ typo. Astro/Node punycode ให้อัตโนมัติเป็น `xn--7899-zeo6d4i3byf.com` (ยืนยัน decode กลับได้ตรง) ทั้งใน canonical/OG/sitemap
+
+**Docx:** 1×H1 + 6×H2 + Q&A 3 ชุด — render ครบทุกหัวข้อ ตามลำดับ **ย่อหน้า verbatim ทั้ง 7 ย่อหน้า** (Agent A จงใจไม่ใส่ `<strong>` แทรกในย่อหน้า เพื่อให้ grep ทั้งประโยคใน `dist/` แมตช์ได้)
+
+**Assets (drop ใหม่ Jul 25 13:10):** logo.webp, banner1 (hero), slide1-4 ครบชุดใหม่ทั้งหมด
+- slide2 → SevenThree #1 (sec.5), slide1 → SevenThree #2 (sec.6) + OG image, slide3/slide4 ไม่ใช้ใน SevenThree (ยังอยู่ใน SmoothCarousel/promotion)
+- **`banner2.png` (Jul 25 11:18) = STALE ของ NOVA852** — drop นี้ไม่มี banner2/3/4 ของแบรนด์ใหม่ → **รอบนี้ไม่มี inline illustration ใน single-column ContentBox**. ยืนยัน `grep -rn banner2 src/` = ไม่มี import (เหลือแต่ HTML comment ใน `Navbar.astro` ซึ่งเป็น inventory ไม่ render)
+- banner3.png / banner.png stale ไม่ import
+
+**หน้าใหม่จาก uploader (ส่วนที่ 5):** `src/pages/บทความ.astro` + `src/pages/about-us.astro` ถูก scaffold มาเป็น placeholder (`TODO(rebrand)` + "อยู่ระหว่างปรับปรุงเนื้อหา") → **Agent B เขียนเนื้อหาจริงทั้งคู่** (บทความ ~2645 ตัวอักษร 3×h2, about-us ~1917 ตัวอักษร 2×h2; เนื้อหา derive จากธีม docx จงใจไม่ verbatim ซ้ำ index เพื่อเลี่ยง duplicate content). `about-us` มี title/desc ปลอม (`"เกี่ยวกับเรา"` / `(อยู่ระหว่างจัดทำเนื้อหา)`) → เขียนทับแล้ว
+**ลิงก์เมนู 2 หน้าใหม่:** uploader ใส่ `{ บทความ, about-us }` ไว้ที่ **`NavbarStyle3`** (navbar ของ NOVA852) แต่รอบนี้หมุนไป `NavbarStyle7` → **orchestrator ใส่ลิงก์ให้ใหม่ใน NavbarStyle7 เอง (desktop + mobile bottom-sheet) + Footer** ยืนยัน render ครบทุกหน้า
+
+**Variant rotation (NOVA852 → ดีเฮง789):**
+- Navbar: **NavbarStyle3 (pill ลอย) → NavbarStyle7** (แถบเต็มกว้าง + hamburger ซ้าย + mobile bottom-sheet) — แปลง 5 ลิงก์ hardcode เป็น `.map()` array 7 ลิงก์
+- Footer: **FooterStyle2 → Footer.astro** (base, กริด 12 คอลัมน์ มุมบนโค้ง 3rem) — แก้ลิงก์ตาย `/slot` เป็นเมนูจริง 8 ลิงก์
+- Announcement: **Announcement5 → Announcement2** (ทุกหน้า)
+- LatestWinners: **LatestWinners4 → LatestWinners2**
+- ContentBox mix: **Neumorphism+FloatingBadge+Special → Premium-led + plain ContentBox + SevenThree(Premium/Huay)** — ไม่ใช้ Neumorphism/FloatingBadge/Special/CyberCut แบรนด์นี้
+- FAQ: **Faq3 → Faq4**
+
+**Palette map:** `slate-*` (เงินของ NOVA852) → **หายไปทั้งหมด** เป็น `red-*`/`amber-*`; `amber-*`/`yellow-*` คงเป็นทอง; hex เข้ม `#0b1120`/`#060a14`/`#141008`/`#0a0806` → `#14040a`/`#1a0505`/`#0a0303`/`#4a0000`; glow เงิน `rgba(203,213,225,α)` → แดง `rgba(220,38,38,α)`; gradient หัวข้อ `from-slate-100 via-slate-300 to-amber-400` → `from-amber-200 via-amber-400 to-red-500`. **คง semantic:** LINE `#00B900`, จุด live เขียว, สีแบงก์จริง, TrueMoney orange
+
+**P1 — shared chrome (orchestrator):** `MainLayout.astro` (repoint Navbar→NavbarStyle7 / Footer→Footer.astro + brand/title/desc/OG/alt), `NavbarStyle7.astro` (retheme + 7 ลิงก์ + ลบ HTML comment 6 จุด + brand TAKDEE999→ดีเฮง789 + เพิ่ม `max-h-[85vh] overflow-y-auto` ให้ bottom-sheet รับ 7 เมนู), `Footer.astro` (retheme + ลบ comment 5 จุด + brand SUMOHENG→ดีเฮง789 + logo fallback `<h2>`→`<p>` + สีแบงก์จริงแทนกล่องเทา), `Announcement2.astro`, `Navfoot.astro`, `ContentBox.astro`, `ContentBoxHuay.astro`. URL 2 จุด (astro.config `site:`, robots.txt `Sitemap:`)
+
+**บั๊กที่เจอและแก้:**
+1. **`Announcement2.astro` อ้าง `bg-[url('/assets/noise.png')]` แต่ไม่มีโฟลเดอร์ `public/assets/` เลย** → 404 ทุกครั้งที่โหลดทุกหน้า (component นี้ render บนทุกหน้า) — ลบทิ้งตอน retheme
+2. `Announcement2` มี `absolute bottom-0` แต่ parent ไม่มี `relative` → เส้นล่างไปอ้างอิง ancestor อื่น — เพิ่ม `relative`
+3. `Footer.astro` มีลิงก์ตาย `/slot` (ไม่มี route นี้) → เปลี่ยนเป็นเมนูจริง
+4. `ทางเข้า.astro` **ใส่ title/meta ของหน้า login ผิดหน้า** → แก้เป็นของ ทางเข้า ตาม docx
+5. `promotion.astro` alt ของสไลด์แมปผิดตัว (pro2 เขียนว่า "นาทีทอง" ทั้งที่เป็นคืนยอดเสีย) → แมปใหม่ตามภาพจริง + เพิ่ม slide4 ที่เดิมไม่ถูกใช้ + refactor เป็น `.map()` grid 2×2
+6. `Faq4` ใช้ `<i class="fa-solid fa-plus">` แต่ **ไม่มีการโหลด FontAwesome ที่ไหนเลยใน MainLayout** → ไอคอนเป็นกล่องว่าง; เปลี่ยนเป็นตัวอักษร `+`
+7. `LatestWinners2` ใช้สีแบงก์ปลอม (`#1155cc`, `#0ea5e9`, `#4e1c80`) → สีแบรนด์ธนาคารจริง
+8. heading level: `ContentBoxSevenThreeHuay` `titleright` เป็น `<h3>` → `<h2>`; `Faq4` หัวข้อ `<h3>` → `<h2>`
+9. `ContentBoxHuay` หัวข้อยังเป็นทองล้วนไม่เข้าชุดกับ `ContentBox` (Agent B flag) → orchestrator แก้ให้เป็น gradient ทอง→แดงชุดเดียวกัน
+
+**Verify (build เดียว Phase 5):** `npm run build` ผ่าน **9 หน้า 0 fail** (เพิ่มจาก 7 เพราะ 2 หน้าใหม่). grep `dist/` ทั้งหมด: ชื่อแบรนด์เก่าทุกตัว = **0**; โดเมนเก่า = 0; placeholder `TODO(rebrand)`/"อยู่ระหว่างปรับปรุง/จัดทำเนื้อหา" = **0**; `noise.png` = 0; `slate-*` ใน class = **0**; HTML comment = 0 ทุกหน้า; `undefined`/`[object Object]` = 0; heading: `<h1>`=1, `<h2>`=12 (6 หัวข้อ docx ครบ **เรียงถูกลำดับ** + 6 จาก widget), `<h3>`=5 (FeatureHighlights, sanctioned), `<h4-6>`=0; **ย่อหน้า docx ครบทั้ง 7 verbatim (grep ทั้งประโยคเจอทุกอัน)**; FAQ 3 ข้อ; hero = `banner1` hashed; og:image = `slide1` hashed; ลิงก์ `/บทความ` + `/about-us` + ticker ปรากฏครบทั้ง 7 หน้าที่ใช้ MainLayout; title ถูกครบ 9 หน้า; sitemap = 9 URL punycode ถูกต้อง ไม่มีหน้าหวย. **สีนอกธีมใน `class="…"` จริง = 27 จุด semantic ล้วน** (TrueMoney orange 14 + จุด live เขียว 13)
+
+**หน้าหวย:** prompt ไม่มี `เว็บหวย` → `ตรวจหวย`/`แนวทาง` คงปิดใน `src/pages-disabled/` ไม่ route ไม่เพิ่มลิงก์; แก้แค่ชื่อแบรนด์ใน `<MainLayout title>` คงธีมหวยแดง/ทอง + `AnnouncementHuay`
+
+**พื้นหลัง (`src/assets/bg.json`) — แก้ตามที่ผู้ใช้สั่ง:** ไฟล์นี้ **ไม่ได้อยู่ใน drop รอบนี้** (mtime Jul 25 11:18 = ของ NOVA852) จึงค้างเป็น `linear-gradient(180deg, #0f172a, #493003)` = navy→ทอง ซึ่งขัดกับธีมแดง-ทอง. ตอนแรกไม่แตะเพราะเป็นไฟล์ uploader-managed แล้วแจ้งผู้ใช้ → **ผู้ใช้สั่งให้แก้** จึงเปลี่ยนเป็น `linear-gradient(180deg, #1a0505, #4a0000)` (แดงเข้ม→แดงเลือดหมู) แล้ว build ใหม่ ยืนยันลง inline style ครบทั้ง 7 หน้าที่ใช้ MainLayout (login/register เป็น standalone ไม่ใช้ MainLayout จึงคุมพื้นหลังในไฟล์ตัวเอง). **หมายเหตุสำหรับรีแบรนด์หน้า:** ถ้า drop ไม่มี `bg.json` ใหม่ ให้เช็ก mtime เทียบกับไฟล์อื่นในชุดเสมอ — ค่าที่ค้างจากแบรนด์ก่อนจะไม่มีอะไรเตือน
+
+**Out of scope / ไม่แตะ:** inventory variants ที่ไม่ได้ render (NavbarStyle3/Navbar/NavbarCyber/Premium/Style1-11 อื่น, FooterStyle2/3/Cyber/Premium/Huay, Announcement/3/4/5/6/Cyber/Premium, LatestWinners/3/4/Cyber/Premium/Huay, ContentBoxNeumorphism/FloatingBadge/Special/CyberCut/3Three*, Faq/2/3, ReviewCardSumo*) = inventory แบรนด์หน้า ชื่อ/สีเก่าในนั้น = expected drift; ไฟล์ภาพ stale banner2/banner3/banner.png/slide เก่า ไม่ลบ; affiliate redirect `https://yoalink.com/mucr` ใน login/register คงไว้ byte-identical; google-site-verification token; redirect `/line` → tinyurl
+
+### 2026-07-25 (follow-up) — บั๊กที่ผู้ใช้จับได้: ชุดไอคอนใน `public/` เป็นของแบรนด์เก่า
+
+**อาการ:** ผู้ใช้ทักว่า "รูปเป็นของ NOVA852" — ตรวจแล้วหนักกว่านั้น ไฟล์ใน `public/` ไม่เคยถูกรีแบรนด์เลยหลายรอบ:
+- `favicon.ico` / `favicon.svg` / `favicon-96x96.png` / `apple-touch-icon.png` / `web-app-manifest-{192,512}.png` (mtime Jul 25 06:54) = **PABLO666** (แบรนด์ก่อนหน้า 2 รอบ)
+- `android-chrome-{192,512}x{192,512}.png` / `favicon-{16,32}x{16,32}.png` (mtime Jul 23) = **SUMOHENG** (เก่ากว่านั้นอีก)
+- `site.webmanifest` = `name`/`short_name` **ว่างเปล่า** + `theme_color`/`background_color` เป็น `#ffffff`
+
+**สาเหตุราก (สำคัญสำหรับรีแบรนด์ครั้งหน้า):** `tools/rebrand-uploader` เขียนแค่ `public/logo.webp` ไฟล์เดียว **ไม่ได้ re-generate ชุด favicon/app-icon เลย** และ playbook (`.claude/skills/rebrand-site/SKILL.md`) ไม่มีเฟสไหนพูดถึงโฟลเดอร์ `public/` ทั้งหมด — ขั้นตอน verify ที่มีอยู่ (grep ชื่อแบรนด์ใน `dist/` + เช็ก `<img>` ใน `_astro/`) **จับไม่ได้** เพราะไอคอนเป็นไฟล์ passthrough ที่ไม่มีชื่อแบรนด์เป็นข้อความ ไอคอนจึงค้างข้ามแบรนด์มาเงียบๆ อย่างน้อย 4 รอบ
+
+**แก้:** เขียนสคริปต์ sharp generate ใหม่ทั้งชุดจาก `src/assets/logo.webp` ของแบรนด์ปัจจุบัน — trim ขอบโปร่งใส แล้ววางกลางผืนสี่เหลี่ยมพื้น `#1a0505` (padding ~8%): `favicon-{16,32,96}`, `apple-touch-icon` 180, `android-chrome-{192,512}`, `web-app-manifest-{192,512}`, `favicon.ico` (ICO ห่อ PNG 16/32/48), `favicon.svg` (SVG ห่อ PNG 256 เป็น data URI). แก้ `site.webmanifest` ให้มี name/short_name จริง + theme `#4a0000` / background `#1a0505`. ยืนยัน byte-size ตรงกันระหว่าง `public/` กับ `dist/` ทุกไฟล์
+
+**เพิ่มเข้า checklist รีแบรนด์ครั้งหน้า:** หลัง build ให้ **เปิดดูไอคอนใน `public/` ด้วยตา** (`Read` ไฟล์ภาพ) ไม่ใช่แค่ grep ข้อความ — `public/*.png|ico|svg|webmanifest` ไม่มีชื่อแบรนด์เป็น text จึงรอด grep ทุกครั้ง
+
+**ลบไฟล์กำพร้าแล้ว (ผู้ใช้สั่ง):** `public/slide3.webp` = ภาพโปรฯ ของ **SUMOHENG**, `public/pro3.webp` = ภาพโปรฯ ของ **VAR99** — `git rm` ทั้งคู่. ยืนยันก่อนลบว่าไม่มีอะไร reference: grep `/slide3.webp`/`/pro3.webp` ใน `src/` + `public/` + `dist/` = 0 (ตัวแปร `pro3` ใน `promotion.astro` ผูกกับ `../assets/slide3.png` คนละไฟล์กัน) และสไลด์ที่ render จริงบนหน้าเว็บมาจาก `src/assets/slide1-4.png` ของแบรนด์ปัจจุบันผ่าน `_astro/` hashed ทั้งหมด (slide1×38, slide2×24, slide3×20, slide4×4 อ้างอิงใน dist)
+
+**สถานะ `public/` หลังแก้ทั้งหมด:** เหลือ 13 ไฟล์ = ชุดไอคอน 10 ตัวที่ generate ใหม่ (Jul 25 13:44) + `logo.webp` จาก uploader (13:10, ยืนยันด้วยตาว่าเป็นโลโก้เสือ ดีเฮง789) + `robots.txt` + `site.webmanifest` — **ไม่มีไฟล์ของแบรนด์เก่าเหลืออยู่แม้แต่ไฟล์เดียว**
+
+### 2026-07-25 (follow-up 2) — สไลเดอร์ยังโชว์รูปแบรนด์เก่าใน dev: **stale dev server + image cache**
+
+**อาการ:** ผู้ใช้แจ้งว่ารูปใน slider (SmoothCarousel) ยังเป็นของ NOVA852 ทั้งที่โค้ดและ build ถูกแล้ว
+
+**ตรวจแล้วโค้ดไม่ผิด:** `SmoothCarousel.astro` import `../assets/slide{1,2,3}.png` ตรง ๆ, ไฟล์ใน `src/assets` เป็นของ ดีเฮง789 (mtime Jul 25 13:10), และ**เปิดดูไฟล์ที่ build ออกมาจริง** (`dist/_astro/slide1.DU7tv8mL_*.webp` ฯลฯ) ยืนยันด้วยตาว่าเป็นเสือ ดีเฮง789
+
+**สาเหตุจริง = environment ไม่ใช่โค้ด:**
+1. มี **dev server ค้างรันอยู่บน :8888 (PID 9116) ตั้งแต่ก่อนสลับไฟล์รูป** — ผู้ใช้ดูหน้าเว็บจากตัวนี้
+2. `node_modules/.astro/assets/` สะสมรูป optimize ไว้ **5 เจเนอเรชันต่อไฟล์** (`slide1/2/3` อย่างละ 5, `logo` 5, `banner1` 5, `banner2` 4 = ของทุกแบรนด์ที่เคยรีแบรนด์บนเครื่องนี้)
+3. **สำคัญที่สุด:** ใน dev mode Astro เสิร์ฟรูปผ่าน `/_image?href=/@fs/...slide1.png&w=...&f=webp` ซึ่ง **URL ไม่มี content hash** (ต่างจาก production ที่เป็น `/_astro/slide1.<hash>_<hash>.webp`) → พอเนื้อไฟล์เปลี่ยนแต่ path เดิม **เบราว์เซอร์คาชรูปเก่าไว้ที่ URL เดิม** จึงยังเห็นรูปแบรนด์ก่อน
+
+**แก้:** `taskkill` dev server เดิม → `rm -rf node_modules/.astro node_modules/.vite` → `npm run dev` ใหม่ → ดึง `/_image?...` ที่เสิร์ฟจริงมาเปิดดู ยืนยันเป็น ดีเฮง789 ครบทั้ง slide1/2/3
+
+**บทเรียนสำหรับรีแบรนด์ครั้งหน้า (เพิ่มใน checklist):**
+- หลังสลับไฟล์ใน `src/assets` **ต้อง restart dev server + ล้าง `node_modules/.astro` เสมอ** ไม่งั้นผู้ใช้จะเห็นรูปแบรนด์เก่าแล้วเข้าใจว่ารีแบรนด์ไม่สำเร็จ
+- เวลาตรวจรูป **ให้เปิดดูไฟล์ภาพจริงด้วย `Read`** (ทั้งใน `dist/_astro/` และที่ dev เสิร์ฟผ่าน `/_image?`) — การ grep ชื่อไฟล์/ชื่อแบรนด์ในโค้ดพิสูจน์ได้แค่ว่า *import ถูกไฟล์* ไม่ได้พิสูจน์ว่า *เนื้อรูปเป็นแบรนด์ปัจจุบัน*
+- ถ้าผู้ใช้ยังเห็นรูปเก่าหลัง restart → ให้ hard refresh (Ctrl+Shift+R) เพราะ URL `/_image?` ใน dev ไม่เปลี่ยนตามเนื้อไฟล์

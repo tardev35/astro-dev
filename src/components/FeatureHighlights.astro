@@ -3,7 +3,7 @@ export interface FeatureItem {
   icon: string;
   title: string;
   description: string;
-  accent?: "gold" | "blue";
+  accent?: "gold" | "red";
 }
 
 export interface Props {
@@ -16,19 +16,19 @@ const { items } = Astro.props;
 <div class="mt-4 flex flex-col gap-5">
   {
     items.map((item) => {
-      const isGold = item.accent !== "blue";
+      const isGold = item.accent !== "red";
       return (
         <div
           class={`group flex flex-col items-start gap-4 rounded-2xl border p-6 transition-all duration-300 hover:-translate-y-1 sm:flex-row ${
             isGold
-              ? "border-amber-900/40 bg-[#141008]/60 hover:border-amber-400/60 hover:bg-[#1a1505] hover:shadow-[0_10px_20px_rgba(251,191,36,0.15)]"
-              : "border-slate-500/25 bg-[#0b1120]/60 hover:border-slate-300/50 hover:bg-[#0f1523] hover:shadow-[0_10px_20px_rgba(203,213,225,0.15)]"
+              ? "border-amber-700/40 bg-[#1a0505]/70 hover:border-amber-400/60 hover:bg-[#24080a] hover:shadow-[0_10px_20px_rgba(251,191,36,0.18)]"
+              : "border-red-600/30 bg-[#14040a]/70 hover:border-red-400/60 hover:bg-[#210608] hover:shadow-[0_10px_20px_rgba(220,38,38,0.2)]"
           }`}>
           <div
             class={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl text-3xl transition-transform duration-300 group-hover:scale-110 ${
               isGold
                 ? "border border-amber-300/50 bg-gradient-to-br from-amber-400 to-amber-600 shadow-[0_0_15px_rgba(251,191,36,0.4)] group-hover:rotate-3"
-                : "border border-slate-200/50 bg-gradient-to-br from-slate-200 to-slate-500 shadow-[0_0_15px_rgba(203,213,225,0.35)]"
+                : "border border-red-400/50 bg-gradient-to-br from-red-500 to-red-800 shadow-[0_0_15px_rgba(220,38,38,0.4)]"
             }`}>
             {item.icon}
           </div>
@@ -37,11 +37,11 @@ const { items } = Astro.props;
               class={`text-xl font-black tracking-wide drop-shadow-sm ${
                 isGold
                   ? "bg-gradient-to-r from-yellow-300 to-amber-500 bg-clip-text text-transparent"
-                  : "bg-gradient-to-r from-slate-100 to-slate-400 bg-clip-text text-transparent"
+                  : "bg-gradient-to-r from-amber-200 via-amber-400 to-red-500 bg-clip-text text-transparent"
               }`}>
               {item.title}
             </h3>
-            <p class="text-sm leading-relaxed text-slate-400 transition-colors group-hover:text-slate-300">{item.description}</p>
+            <p class="text-sm leading-relaxed text-red-100/70 transition-colors group-hover:text-red-50/90">{item.description}</p>
           </div>
         </div>
       );

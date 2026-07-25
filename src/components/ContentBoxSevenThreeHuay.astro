@@ -4,26 +4,26 @@ const { titleleft, titleright } = Astro.props;
 
 <section class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="group relative w-full overflow-hidden rounded-3xl border border-red-500/30 bg-[#5f0914]/60 p-8 text-white/90 shadow-[0_10px_30px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all duration-500 hover:border-yellow-400/40 hover:shadow-[0_15px_40px_rgba(250,204,21,0.15)] md:p-10">
+    class="group relative w-full overflow-hidden rounded-3xl border border-red-500/40 bg-[#4a0000]/60 p-8 text-white/90 shadow-[0_10px_30px_rgba(10,3,3,0.6)] backdrop-blur-xl transition-all duration-500 hover:border-amber-400/50 hover:shadow-[0_15px_40px_rgba(251,191,36,0.18)] md:p-10">
     <div class="grid grid-cols-1 gap-8 md:grid-cols-[3fr_7fr] md:items-center">
-      <article class="flex flex-col gap-2 border-b border-red-500/30 pb-6 md:border-r md:border-b-0 md:pr-6 md:pb-0">
+      <article class="flex flex-col gap-2 border-b border-red-500/30 pb-6 text-center text-sm font-medium text-red-100 md:border-r md:border-b-0 md:pr-6 md:pb-0 md:text-left">
         {
           titleleft && (
-            <h2 class="bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 bg-clip-text text-center text-3xl font-black tracking-wider text-transparent uppercase drop-shadow-sm md:text-left">
+            <h2 class="bg-gradient-to-r from-amber-200 via-amber-400 to-red-500 bg-clip-text text-center text-3xl leading-normal font-black tracking-wider text-transparent uppercase drop-shadow-sm md:text-left">
               {titleleft}
             </h2>
           )
         }
-        <div class="text-center text-sm font-medium text-red-200 md:text-left">
-          <slot name="left" />
-        </div>
+        <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-3 md:pl-6">
-        {titleright && <h3 class="flex items-center gap-2 text-xl font-black text-white drop-shadow-[0_0_5px_rgba(250,204,21,0.5)]">{titleright}</h3>}
-        <div class="text-base leading-relaxed text-red-50/80">
-          <slot name="right" />
-        </div>
+      <article class="flex flex-col gap-3 text-base leading-relaxed text-red-50/85 md:pl-6">
+        {
+          titleright && (
+            <h2 class="text-2xl leading-normal font-black tracking-widest text-amber-300 uppercase drop-shadow-[0_0_6px_rgba(220,38,38,0.6)]">{titleright}</h2>
+          )
+        }
+        <slot name="right" />
       </article>
     </div>
   </div>

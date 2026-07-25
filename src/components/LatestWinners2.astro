@@ -6,22 +6,22 @@ import ktbLogo from "../assets/banks/ktb.png";
 import ttbLogo from "../assets/banks/ttb.png";
 
 const bankPool = [
-  { name: "KBank", color: "bg-[#1155cc]", icon: kbankLogo.src },
-  { name: "SCB", color: "bg-[#4e1c80]", icon: scbLogo.src },
-  { name: "Krungsri", color: "bg-[#fcd34d]", icon: krungsriLogo.src },
-  { name: "KTB", color: "bg-[#0ea5e9]", icon: ktbLogo.src },
-  { name: "TTB", color: "bg-[#ca8a04]", icon: ttbLogo.src },
+  { name: "KBank", color: "bg-[#118A44]", icon: kbankLogo.src },
+  { name: "SCB", color: "bg-[#4E2B7A]", icon: scbLogo.src },
+  { name: "Krungsri", color: "bg-[#FEC43B]", icon: krungsriLogo.src },
+  { name: "KTB", color: "bg-[#1BA1E2]", icon: ktbLogo.src },
+  { name: "TTB", color: "bg-[#00508F]", icon: ttbLogo.src },
 ];
 ---
 
-<div class="mx-auto w-full max-w-[1300px] p-4 font-sans">
-  <div class="relative overflow-hidden rounded-[30px] border-2 border-blue-500/30 bg-[#050d16]/90 px-4 py-8 shadow-[0_10px_40px_rgba(37,99,235,0.15)] backdrop-blur-md md:p-10">
-    <div class="pointer-events-none absolute -top-10 left-1/2 h-32 w-64 -translate-x-1/2 rounded-full bg-blue-600/20 blur-[50px]"></div>
+<div class="relative z-10 mx-auto w-full max-w-[1300px] p-4 font-sans">
+  <div class="relative overflow-hidden rounded-[30px] border-2 border-red-500/40 bg-[#14040a]/90 px-4 py-8 shadow-[0_10px_40px_rgba(220,38,38,0.2)] backdrop-blur-md md:p-10">
+    <div class="pointer-events-none absolute -top-10 left-1/2 h-32 w-64 -translate-x-1/2 rounded-full bg-red-600/25 blur-[50px]"></div>
 
     <div class="relative z-10 mb-8 flex items-center justify-center gap-3">
-      <span class="text-2xl drop-shadow-[0_0_8px_rgba(234,179,8,0.6)]">🏆</span>
-      <h2 class="bg-gradient-to-b from-[#fef08a] to-[#ca8a04] bg-clip-text text-xl font-black tracking-wide text-transparent drop-shadow-sm md:text-3xl">รายการถอนเงินล่าสุด HENGJUD365</h2>
-      <span class="text-2xl drop-shadow-[0_0_8px_rgba(234,179,8,0.6)]">🏆</span>
+      <span class="text-2xl drop-shadow-[0_0_8px_rgba(251,191,36,0.6)]">🏆</span>
+      <h2 class="bg-gradient-to-b from-[#fef08a] to-[#dc2626] bg-clip-text text-xl font-black tracking-wide text-transparent drop-shadow-sm md:text-3xl">รายการถอนเงินล่าสุด ดีเฮง789</h2>
+      <span class="text-2xl drop-shadow-[0_0_8px_rgba(251,191,36,0.6)]">🏆</span>
     </div>
 
     <div id="feed-grid" class="relative z-10 grid grid-cols-1 gap-4 md:grid-cols-2"></div>
@@ -41,12 +41,12 @@ const bankPool = [
     const user = `${getRandomStr(2, "abcdefghijklmnopqrstuvwxyz")}***${getRandomStr(4, "0123456789")}`;
     const isPending = Math.random() > 0.6;
 
-    const statusClass = isPending ? "text-gray-300 bg-gray-600/40 animate-pulse" : "text-yellow-900 bg-gradient-to-r from-yellow-300 to-yellow-500 font-black shadow-md";
+    const statusClass = isPending ? "text-red-100 bg-red-900/50 animate-pulse" : "text-[#4a0000] bg-gradient-to-r from-yellow-300 to-amber-500 font-black shadow-md";
     const statusText = isPending ? "กำลังดำเนินการ" : "ถอนสำเร็จแล้ว";
 
     return `
       <div class="winner-card transform scale-95 opacity-0 transition-all duration-500 ease-out">
-        <div class="flex flex-col rounded-[20px] border border-blue-500/20 bg-[#0a1830]/80 p-5 shadow-sm transition-all hover:border-blue-400/50 hover:bg-[#0f2340]">
+        <div class="flex flex-col rounded-[20px] border border-red-500/25 bg-[#1a0505]/85 p-5 shadow-sm transition-all hover:border-amber-400/50 hover:bg-[#240709]">
           <div class="flex justify-between items-start mb-4">
             <div class="flex h-10 w-10 items-center justify-center rounded-full ${bank.color} shadow-inner border border-white/10">
               <img src="${bank.icon}" alt="bank" class="h-6 w-6 object-contain" />
@@ -54,8 +54,8 @@ const bankPool = [
             <div class="rounded-full px-3 py-1 text-[10px] ${statusClass}">${statusText}</div>
           </div>
           <div>
-            <div class="text-sm text-blue-100/80">ยูสเซอร์: <span class="font-bold text-white">${user}</span></div>
-            <div class="mt-1 text-2xl font-black text-yellow-400 drop-shadow-[0_0_5px_rgba(234,179,8,0.4)]">${getAmount()} <span class="text-xs text-yellow-600">THB</span></div>
+            <div class="text-sm text-red-100/80">ยูสเซอร์: <span class="font-bold text-white">${user}</span></div>
+            <div class="mt-1 text-2xl font-black text-amber-400 drop-shadow-[0_0_5px_rgba(251,191,36,0.4)]">${getAmount()} <span class="text-xs text-amber-600">THB</span></div>
           </div>
         </div>
       </div>

@@ -4,8 +4,8 @@ import Bg from "../assets/bg.png";
 import bgConfig from "../assets/bg.json";
 import ogImage from "../assets/slide1.png";
 import "../styles/global.css";
-import Navbar from "../components/NavbarStyle3.astro";
-import Footer from "../components/FooterStyle2.astro";
+import Navbar from "../components/NavbarStyle7.astro";
+import Footer from "../components/Footer.astro";
 
 const bannerImages = import.meta.glob<{ default: ImageMetadata }>("../assets/banner*.{png,webp,jpg,jpeg}", { eager: true });
 const bannerPaths = Object.keys(bannerImages);
@@ -15,8 +15,8 @@ const mainBannerPath = preferredBannerPath ?? webpBannerPath ?? bannerPaths[0];
 const mainBanner = mainBannerPath ? bannerImages[mainBannerPath].default : null;
 
 const {
-  title = "NOVA852 | เว็บพนันออนไลน์ค่ายดัง ฝากถอนระบบออโต้ ปลอดภัย มั่นคง",
-  description = "ปั้นพอร์ตทำกำไรกับ NOVA852 เว็บพนันออนไลน์ค่ายดัง ฝากถอนระบบออโต้ผ่าน AI อัจฉริยะ API แท้ไม่ล็อคยูสเซอร์ ปลอดภัย มั่นคง จ่ายจริงถอนได้เต็ม 100%",
+  title = "ดีเฮง789 สล็อตสุดเฮงแตกง่าย ฝากถอนสะดวกออโต้ ไม่มีขั้นต่ำจ่ายจริง",
+  description = "ปั้นพอร์ตทำกำไรกับ ดีเฮง789 สล็อตสุดเฮงแตกง่าย ฝากถอนสะดวกออโต้ ไม่มีขั้นต่ำจ่ายจริง ทำรายการผ่าน AI อัจฉริยะ API แท้ไม่ล็อคยูสเซอร์ จ่ายเต็ม 100%",
   robots = "index, follow",
   ImageOg = ogImage.src,
 } = Astro.props;
@@ -38,7 +38,7 @@ const bgCss =
 const currentPath = Astro.url.pathname;
 const canonicalURL = new URL(currentPath, Astro.site);
 const ogImageURL = new URL(ImageOg, Astro.site);
-const ogSiteName = "NOVA852";
+const ogSiteName = "ดีเฮง789";
 ---
 
 <html lang="th">
@@ -58,7 +58,7 @@ const ogSiteName = "NOVA852";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="nova852" />
+    <meta name="apple-mobile-web-app-title" content="ดีเฮง789" />
     <link rel="manifest" href="/site.webmanifest" />
 
     <meta property="og:type" content="website" />
@@ -118,7 +118,7 @@ const ogSiteName = "NOVA852";
     <div class="mb-2.5 flex w-full items-center justify-center">
       <Image
         src={mainBanner!}
-        alt="NOVA852 banner"
+        alt="ดีเฮง789 banner"
         loading="eager"
         fetchpriority="high"
         widths={[412, 768, 1900]}

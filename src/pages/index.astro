@@ -1,50 +1,48 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement5 from "../components/Announcement5.astro";
-import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
-import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
-import ContentBoxSevenThree from "../components/ContentBoxSevenThree.astro";
-import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
-import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
+import Announcement2 from "../components/Announcement2.astro";
+import ContentBox from "../components/ContentBox.astro";
+import ContentBoxPremium from "../components/ContentBoxPremium.astro";
+import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
+import ContentBoxSevenThreeHuay from "../components/ContentBoxSevenThreeHuay.astro";
 import FeatureHighlights from "../components/FeatureHighlights.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
 import ProviderGrid from "../components/ProviderGrid.astro";
 import GameRankingBoard from "../components/GameRankingBoard.astro";
-import LatestWinners4 from "../components/LatestWinners4.astro";
+import LatestWinners2 from "../components/LatestWinners2.astro";
 import SmoothCarousel from "../components/SmoothCarousel.astro";
-import Faq3 from "../components/Faq3.astro";
+import Faq4 from "../components/Faq4.astro";
 import Navfoot from "../components/Navfoot.astro";
 
 import { Picture } from "astro:assets";
-import imgProviders from "../assets/slide1.png";
-import imgAutoWallet from "../assets/slide2.png";
-import imgFreeCredit from "../assets/banner2.png";
+import imgCashback from "../assets/slide2.png";
+import imgNewMember from "../assets/slide1.png";
 
 const currentPath = Astro.url.pathname;
 const homePage = Astro.url.origin;
 const logoUrl = homePage + "/logo.webp";
 
-const pageTitle = "NOVA852 | เว็บพนันออนไลน์ค่ายดัง ฝากถอนระบบออโต้ ปลอดภัย มั่นคง";
-const pageDescription = "ปั้นพอร์ตทำกำไรกับ NOVA852 เว็บพนันออนไลน์ค่ายดัง ฝากถอนระบบออโต้ผ่าน AI อัจฉริยะ API แท้ไม่ล็อคยูสเซอร์ ปลอดภัย มั่นคง จ่ายจริงถอนได้เต็ม 100%";
+const pageTitle = "ดีเฮง789 สล็อตสุดเฮงแตกง่าย ฝากถอนสะดวกออโต้ ไม่มีขั้นต่ำจ่ายจริง";
+const pageDescription = "ปั้นพอร์ตทำกำไรกับ ดีเฮง789 สล็อตสุดเฮงแตกง่าย ฝากถอนสะดวกออโต้ ไม่มีขั้นต่ำจ่ายจริง ทำรายการผ่าน AI อัจฉริยะ API แท้ไม่ล็อคยูสเซอร์ จ่ายเต็ม 100%";
 
 const webPageSchema = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  name: "NOVA852",
+  name: "ดีเฮง789",
   description: pageDescription,
   url: currentPath,
 };
 const webSiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "NOVA852",
-  alternateName: ["NOVA852", "NOVA852 เว็บพนันออนไลน์ค่ายดัง ฝากถอนระบบออโต้ ปลอดภัย มั่นคง"],
-  url: "https://www.nova852.online/",
+  name: "ดีเฮง789",
+  alternateName: ["ดีเฮง789", "DEEHENG789", "ดีเฮง789 สล็อตสุดเฮงแตกง่าย ฝากถอนสะดวกออโต้ ไม่มีขั้นต่ำจ่ายจริง"],
+  url: "https://ดีเฮง7899.com/",
 };
 const orgSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "NOVA852",
+  name: "ดีเฮง789",
   logo: logoUrl,
   url: homePage,
 };
@@ -54,14 +52,14 @@ const gameCategories = [
   {
     icon: "🎰",
     title: "สล็อตออนไลน์",
-    description: "รวมเกมสล็อตจากค่ายชั้นนำระดับโลกไว้ในที่เดียว เชื่อมต่อผ่าน API แท้ เลือกเล่นได้ตามสไตล์ที่ชอบ เริ่มต้นด้วยทุนก้อนเล็กก็ปั้นพอร์ตได้",
+    description: "รวมเกมสล็อตจากค่ายลิขสิทธิ์แท้ระดับโลกไว้ในที่เดียว เชื่อมต่อผ่าน API แท้ เลือกเล่นได้ตามสไตล์ที่ชอบ เริ่มต้นด้วยทุนก้อนเล็กก็ปั้นพอร์ตได้",
     accent: "gold" as const,
   },
   {
     icon: "🎴",
     title: "คาสิโนสด",
     description: "ถ่ายทอดสดจากสตูดิโอจริงแบบเรียลไทม์ ทั้งบาคาร่า รูเล็ต และเกมยอดนิยม ภาพคมชัดไม่มีสะดุด เล่นได้เหมือนนั่งอยู่ในบ่อนระดับสากล",
-    accent: "blue" as const,
+    accent: "red" as const,
   },
   {
     icon: "🎲",
@@ -73,7 +71,7 @@ const gameCategories = [
     icon: "⚽",
     title: "กีฬาออนไลน์",
     description: "เดิมพันกีฬาหลากหลายลีกทั่วโลก ดูราคาต่อรองและติดตามผลการแข่งขันแบบสดได้ครบภายในบัญชีเดียว",
-    accent: "blue" as const,
+    accent: "red" as const,
   },
   {
     icon: "👤",
@@ -87,58 +85,52 @@ const gameCategories = [
 <MainLayout title={pageTitle} description={pageDescription}>
   <script type="application/ld+json" set:html={JSON.stringify(allSchemas)} />
 
-  <Announcement5 />
+  <Announcement2 />
 
-  <ContentBoxNeumorphism as="h1" title="NOVA852 เว็บพนันออนไลน์ค่ายดัง ฝากถอนระบบออโต้ ปลอดภัย มั่นคง">
+  <ContentBoxPremium as="h1" title="ดีเฮง789 สล็อตสุดเฮงแตกง่าย ฝากถอนสะดวกออโต้ ไม่มีขั้นต่ำจ่ายจริง">
     <p class="mx-auto max-w-4xl leading-relaxed">
-      ยินดีต้อนรับสู่อาณาจักรการลงทุนออนไลน์ที่ล้ำสมัยที่สุดกับ <strong class="text-amber-300">NOVA852</strong> เว็บพนันออนไลน์ค่ายดัง ฝากถอนระบบออโต้ ปลอดภัย มั่นคง แพลตฟอร์มที่เชื่อมต่อระบบ API แท้
-      มอบประสบการณ์เสี่ยงโชคที่โปร่งใส ไม่มีการล็อคยูสเซอร์ เปิดโอกาสให้คุณเข้ามาโกยเงินรางวัลก้อนโตกลับบ้านได้อย่างมั่นใจและรวดเร็วที่สุดผ่านนวัตกรรมที่ล้ำหน้า
+      ยินดีต้อนรับสู่อาณาจักรการลงทุนออนไลน์ที่ล้ำสมัยที่สุดกับ ดีเฮง789 สล็อตสุดเฮงแตกง่าย ฝากถอนสะดวกออโต้ ไม่มีขั้นต่ำจ่ายจริง แพลตฟอร์มที่เชื่อมต่อระบบ API แท้ มอบประสบการณ์เสี่ยงโชคที่โปร่งใส ไม่มีการล็อคยูสเซอร์
+      เปิดโอกาสให้คุณเข้ามาโกยเงินรางวัลก้อนโตกลับบ้านได้อย่างมั่นใจและรวดเร็วที่สุดผ่านนวัตกรรมที่ทันสมัย
     </p>
-  </ContentBoxNeumorphism>
+  </ContentBoxPremium>
 
   <SmoothCarousel />
 
-  <ContentBoxNeumorphism as="h2" title="NOVA852 เว็บพนันออนไลน์ค่ายดัง รวมตัวเลือกเกมยอดนิยม">
+  <ContentBoxPremium as="h2" title="เปิดประสบการณ์เล่นสล็อตกับ ดีเฮง789 เกมแตกง่าย ไม่ซับซ้อน">
     <p class="mx-auto max-w-4xl leading-relaxed">
-      เปิดประสบการณ์ทำกำไรไร้ขีดจำกัดไปกับ <strong class="text-amber-300">NOVA852</strong> เว็บพนันออนไลน์ค่ายดัง รวมตัวเลือกเกมยอดนิยม เราคัดสรรเฉพาะแบรนด์ชั้นนำระดับโลกที่ได้มาตรฐานสากลมาไว้ในที่เดียว
-      ตอบโจทย์นักลงทุนยุคดิจิทัลที่ต้องการความหลากหลาย ช่วยให้คุณขยายพอร์ตความมั่งคั่งและสนุกกับการสร้างรายได้แบบไม่มีเบื่อ พร้อมกวาดกำไรเข้าบัญชีได้อย่างง่ายดาย
+      ทลายทุกข้อจำกัดของการลงทุนเมื่อคุณ เปิดประสบการณ์เล่นสล็อตกับ ดีเฮง789 เกมแตกง่าย ไม่ซับซ้อน เราคัดสรรเฉพาะซอฟต์แวร์ลิขสิทธิ์แท้ระดับโลกมาไว้ในที่เดียว ตอบโจทย์นักลงทุนยุคดิจิทัลที่ต้องการความคล่องตัว
+      ช่วยให้คุณขยายพอร์ตความมั่งคั่งและสนุกกับการสร้างรายได้แบบไม่มีเบื่อ พร้อมกวาดกำไรเข้าบัญชีได้อย่างง่ายดายผ่านระบบอัจฉริยะ
     </p>
-  </ContentBoxNeumorphism>
+  </ContentBoxPremium>
 
-  <div class="mx-auto mb-10 w-full max-w-[1400px] px-4">
+  <div class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4">
     <FeatureHighlights items={gameCategories} />
   </div>
 
   <ProviderGrid />
 
-  <ContentBoxSevenThreeNeumorphism titleright="แนะนำจุดเด่นของเกมจากค่ายชั้นนำที่เล่นง่าย">
-    <div slot="left" class="flex h-full flex-col justify-center">
-      <Picture
-        src={imgProviders}
-        loading="lazy"
-        fetchpriority="low"
-        widths={[200, 400, 600, 800]}
-        sizes="(max-width: 768px) 100vw, 30vw"
-        decoding="async"
-        formats={["avif", "webp"]}
-        fallbackFormat="webp"
-        quality={80}
-        alt="NOVA852 รวมเกมค่ายดังระบบ API แท้ ไม่ล็อคยูสเซอร์ สปินโปร่งใสทุกตา"
-        class="mx-auto h-auto w-full rounded-2xl border-2 border-amber-400/25 shadow-[0_10px_30px_rgba(251,191,36,0.25)]"
-      />
-    </div>
-    <p slot="right" class="leading-relaxed">
-      สัมผัสความเหนือระดับของการเสี่ยงโชคพร้อม แนะนำจุดเด่นของเกมจากค่ายชั้นนำที่เล่นง่าย ระบบของเราทำงานผ่านนวัตกรรมสุดล้ำ ไม่มีการแทรกแซงกลไกหลังบ้าน มั่นใจได้ว่าทุกการสปินจะโปร่งใส ยุติธรรม
-      และให้อัตราการจ่ายผลตอบแทนที่สูงปรี๊ดตามสถิติความน่าจะเป็นระดับสากลอย่างแท้จริง ไร้กังวลเรื่องโดนโกงหรือดึงเรทแพ้ชนะแน่นอน
+  <ContentBox as="h2" title="รวมเกมสล็อตน่าเล่น สำหรับผู้ที่ชอบจังหวะไวและลุ้นรางวัลได้ต่อเนื่อง">
+    <p class="mx-auto max-w-4xl leading-relaxed">
+      สัมผัสความเหนือระดับของการเสี่ยงโชคเมื่อเรา รวมเกมสล็อตน่าเล่น สำหรับผู้ที่ชอบจังหวะไวและลุ้นรางวัลได้ต่อเนื่อง ระบบของเราทำงานผ่านนวัตกรรมสุดล้ำ ไม่มีการแทรกแซงกลไกหลังบ้าน มั่นใจได้ว่าทุกการสปินจะโปร่งใส ยุติธรรม
+      และให้อัตราการจ่ายผลตอบแทนที่สูงปรี๊ดตามสถิติความน่าจะเป็นระดับสากลอย่างแท้จริง ไร้กังวลเรื่องโดนโกงแน่นอนร้อยเปอร์เซ็นต์
     </p>
-  </ContentBoxSevenThreeNeumorphism>
+  </ContentBox>
 
   <GameRankingBoard />
 
-  <ContentBoxSevenThree titleright="NOVA852 ฝากถอนระบบออโต้ ทำรายการสะดวกและรวดเร็ว">
+  <ContentBoxPremium as="h2" title="ฝากถอนสะดวกด้วยระบบออโต้ ช่วยลดขั้นตอนและทำรายการได้รวดเร็ว">
+    <p class="mx-auto max-w-4xl leading-relaxed">
+      บริหารกระแสเงินสดของคุณอย่างลื่นไหลเพราะเรามีฟีเจอร์ ฝากถอนสะดวกด้วยระบบออโต้ ช่วยลดขั้นตอนและทำรายการได้รวดเร็ว นวัตกรรมเอไออัจฉริยะจะทำหน้าที่ประมวลผลธุรกรรมทางการเงินในเสี้ยววินาที เมื่อคุณทำกำไรทะลุเป้าหมายหลักล้าน
+      ระบบก็พร้อมโอนยอดเงินสดเข้าบัญชีทันที ขจัดปัญหาความล่าช้าและไม่ต้องรอนาน มอบสภาพคล่องที่ตอบโจทย์วัยรุ่นยุคใหม่
+    </p>
+  </ContentBoxPremium>
+
+  <LoginRtpSection />
+
+  <ContentBoxSevenThreePremium titleright="ดีเฮง789 เหมาะกับผู้เล่นแบบไหน และควรรู้อะไรก่อนเริ่มใช้งาน">
     <div slot="left" class="flex h-full flex-col justify-center">
       <Picture
-        src={imgAutoWallet}
+        src={imgCashback}
         loading="lazy"
         fetchpriority="low"
         widths={[200, 400, 600, 800]}
@@ -147,70 +139,62 @@ const gameCategories = [
         formats={["avif", "webp"]}
         fallbackFormat="webp"
         quality={80}
-        alt="NOVA852 ฝากถอนระบบออโต้ด้วย AI อัจฉริยะ โอนเข้าบัญชีทันทีในเสี้ยววินาที"
-        class="mx-auto h-auto w-full rounded-2xl border-2 border-amber-400/25 shadow-[0_10px_30px_rgba(251,191,36,0.25)]"
+        alt="ดีเฮง789 ยิ่งฝากเยอะ ยิ่งได้เยอะ คืนยอดเสียสูงสุด 10,000 บาท"
+        class="mx-auto h-auto w-full rounded-2xl border-2 border-amber-400/30 shadow-[0_10px_30px_rgba(220,38,38,0.3)]"
       />
     </div>
     <p slot="right" class="leading-relaxed">
-      บริหารกระแสเงินสดของคุณอย่างลื่นไหลเพราะ <strong class="text-amber-300">NOVA852</strong> ฝากถอนระบบออโต้ ทำรายการสะดวกและรวดเร็ว นวัตกรรมเอไออัจฉริยะจะทำหน้าที่ประมวลผลธุรกรรมทางการเงินในเสี้ยววินาที
-      เมื่อคุณทำกำไรทะลุเป้าหมายหลักล้าน ระบบก็พร้อมโอนยอดเงินสดเข้าบัญชีทันที ขจัดปัญหาความล่าช้าและไม่ต้องรอนาน มอบสภาพคล่องที่ตอบโจทย์วัยรุ่นยุคใหม่
+      ก้าวเข้าสู่อาณาจักรทำเงินยุคดิจิทัลเพื่อเจาะลึกว่า ดีเฮง789 เหมาะกับผู้เล่นแบบไหน และควรรู้อะไรก่อนเริ่มใช้งาน แพลตฟอร์มนี้ออกแบบมาเพื่อนักเก็งกำไรทุกระดับตั้งแต่สายน้อยไปจนถึงวีไอพี โครงสร้างเว็บไซต์มีความเสถียรและปลอดภัยขั้นสุด
+      ฐานข้อมูลถูกคุ้มครองด้วยเทคโนโลยีเข้ารหัสระดับสถาบันการเงิน มอบความสบายใจให้เซียนพนันเทหมดตักได้ทุกวัน
     </p>
-  </ContentBoxSevenThree>
+  </ContentBoxSevenThreePremium>
 
-  <LoginRtpSection />
-
-  <ContentBoxFloatingBadge as="h2" title="เหตุผลที่เว็บพนันออนไลน์มั่นคงได้รับความไว้วางใจอย่างต่อเนื่อง">
-    <p class="mx-auto max-w-4xl leading-relaxed">
-      ค้นพบคำตอบสุดเอ็กซ์คลูซีฟและ เหตุผลที่เว็บพนันออนไลน์มั่นคงได้รับความไว้วางใจอย่างต่อเนื่อง โครงสร้างเว็บไซต์ของเรามีความเสถียรขั้นสูงสุด ฐานข้อมูลถูกคุ้มครองด้วยเทคโนโลยีเข้ารหัสขั้นสูง
-      ป้องกันการแฮ็กได้อย่างไร้รอยรั่ว ผสานกับระบบที่ไม่ล็อคผลรางวัล จึงทำให้เซียนพนันยุคใหม่มั่นใจในการเลือกลงทุนด้วยเงินก้อนโต
+  <ContentBoxSevenThreeHuay titleright="ไม่มีขั้นต่ำในการฝากถอน ดีเฮง789 เพิ่มความยืดหยุ่นให้กับผู้เล่น">
+    <div slot="left" class="flex h-full flex-col justify-center">
+      <Picture
+        src={imgNewMember}
+        loading="lazy"
+        fetchpriority="low"
+        widths={[200, 400, 600, 800]}
+        sizes="(max-width: 768px) 100vw, 30vw"
+        decoding="async"
+        formats={["avif", "webp"]}
+        fallbackFormat="webp"
+        quality={80}
+        alt="ดีเฮง789 สมาชิกใหม่ ฝากทันทีรับเพิ่ม 50% ฝากถอนไม่มีขั้นต่ำ"
+        class="mx-auto h-auto w-full rounded-2xl border-2 border-amber-400/30 shadow-[0_10px_30px_rgba(220,38,38,0.3)]"
+      />
+    </div>
+    <p slot="right" class="leading-relaxed">
+      มอบอิสระทางการลงทุนแบบไร้ขีดจำกัดด้วยเงื่อนไข ไม่มีขั้นต่ำในการฝากถอน ดีเฮง789 เพิ่มความยืดหยุ่นให้กับผู้เล่น นโยบายนี้ทำหน้าที่เสมือนเครื่องมือบริหารความเสี่ยงชั้นเยี่ยม ช่วยให้คุณเริ่มต้นปั้นพอร์ตด้วยทุนเท่าไหร่ก็ได้
+      และสามารถถอนกำไรออกไปใช้จ่ายได้อย่างอิสระ เปิดทางให้คุณดักจับแจ็กพอตใหญ่ได้อย่างแม่นยำและเพิ่มโอกาสรวยได้อย่างรวดเร็ว
     </p>
-  </ContentBoxFloatingBadge>
+  </ContentBoxSevenThreeHuay>
 
-  <ContentBoxNeumorphism as="h2" title="สรุปความน่าสนใจของ NOVA852 ทั้งเกมค่ายดัง ระบบอัตโนมัติ">
-    <p class="mx-auto max-w-4xl leading-relaxed">
-      ก้าวเข้าสู่อาณาจักรทำเงินที่ตอบโจทย์คนยุคดิจิทัลเพื่อ สรุปความน่าสนใจของ <strong class="text-amber-300">NOVA852</strong> ทั้งเกมค่ายดัง ระบบอัตโนมัติ สมัครเปิดยูสเซอร์ใหม่กับเราวันนี้ผ่านแพลตฟอร์มที่รวดเร็วและเป็นความลับ
-      ทันทีที่ยืนยันตัวตนสำเร็จ คุณก็พร้อมนำเครดิตฟรีเข้ามาสอยแจ็กพอตใหญ่และพลิกชีวิตสู่เศรษฐีหน้าใหม่ได้อย่างยั่งยืน การันตีจ่ายจริงร้อยเปอร์เซ็นต์
-    </p>
-    <Picture
-      src={imgFreeCredit}
-      loading="lazy"
-      fetchpriority="low"
-      widths={[400, 672, 900]}
-      sizes="(max-width: 768px) 100vw, 672px"
-      decoding="async"
-      formats={["avif", "webp"]}
-      fallbackFormat="webp"
-      quality={80}
-      alt="NOVA852 สมาชิกใหม่รับเครดิตฟรี 100 เปิดยูสเซอร์ผ่านระบบออโต้"
-      class="mx-auto mt-8 h-auto w-full max-w-2xl rounded-2xl border border-amber-400/25 shadow-[0_10px_30px_rgba(251,191,36,0.2)]"
-    />
-  </ContentBoxNeumorphism>
-
-  <div class="mx-auto mb-10 flex flex-nowrap justify-center gap-3 px-4 sm:gap-6">
+  <div class="relative z-10 mx-auto mb-10 flex flex-nowrap justify-center gap-3 px-4 sm:gap-6">
     <a
       href="/login"
-      class="group relative flex flex-1 items-center justify-center rounded-full border border-slate-300/50 bg-[#0b1120]/80 px-4 py-3 text-sm font-black whitespace-nowrap text-slate-100 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-slate-700/40 hover:shadow-[0_0_15px_rgba(203,213,225,0.4)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
+      class="group relative flex flex-1 items-center justify-center rounded-full border border-amber-400/50 bg-gradient-to-r from-[#4a0000] via-[#ef4444] to-[#4a0000] px-4 py-3 text-sm font-black whitespace-nowrap text-amber-50 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-amber-300 hover:shadow-[0_0_18px_rgba(220,38,38,0.6)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
       เข้าสู่ระบบ
     </a>
 
     <a
       href="/register"
-      class="group relative flex flex-1 items-center justify-center rounded-full bg-gradient-to-r from-yellow-300 via-amber-400 to-amber-500 px-4 py-3 text-sm font-black whitespace-nowrap text-[#0b1120] shadow-[0_5px_20px_rgba(251,191,36,0.4)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_8px_25px_rgba(251,191,36,0.6)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
+      class="group relative flex flex-1 items-center justify-center rounded-full bg-gradient-to-r from-amber-300 via-amber-400 to-amber-600 px-4 py-3 text-sm font-black whitespace-nowrap text-[#4a0000] shadow-[0_5px_20px_rgba(251,191,36,0.45)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_8px_25px_rgba(251,191,36,0.65)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
       สมัครสมาชิก
     </a>
   </div>
 
-  <ContentBoxSpecial as="h2" title="ระบบความปลอดภัยที่ช่วยดูแลข้อมูลสมาชิกอย่างเป็นมาตรฐาน">
-    <p slot="left" class="leading-relaxed">
-      ทลายทุกข้อจำกัดของการลงทุนด้วย ระบบความปลอดภัยที่ช่วยดูแลข้อมูลสมาชิกอย่างเป็นมาตรฐาน แพลตฟอร์มของเราเลือกใช้เทคโนโลยีไฟร์วอลล์ระดับสถาบันการเงิน
-      เพื่อปกป้องข้อมูลส่วนบุคคลและกระเป๋าเงินดิจิทัลของคุณจากการโจรกรรมทางไซเบอร์
+  <ContentBox as="h2" title="ตรวจสอบระบบจ่ายจริง พร้อมขั้นตอนถอนเงินที่ชัดเจน ดีเฮง789">
+    <p class="mx-auto max-w-4xl leading-relaxed">
+      ยกระดับความมั่นใจก่อนลงทุนเมื่อคุณ ตรวจสอบระบบจ่ายจริง พร้อมขั้นตอนถอนเงินที่ชัดเจน ดีเฮง789 เพียงสมัครเปิดยูสเซอร์ใหม่ผ่านระบบออโต้ คุณก็พร้อมนำเครดิตฟรีเข้ามาสอยแจ็กพอตใหญ่และพลิกชีวิตสู่เศรษฐีหน้าใหม่ได้อย่างยั่งยืน
+      การันตีความปลอดภัยและโอนจ่ายเต็มร้อยเปอร์เซ็นต์ทุกยอดถอน ไร้ประวัติการดึงเช็งหรือล็อคยูสเซอร์จากแอดมินหลังบ้านแน่นอน
     </p>
-    <p slot="right" class="leading-relaxed">มอบความสบายใจขั้นสุดให้คุณสามารถมุ่งสมาธิไปกับการวางแผนกลยุทธ์ทำกำไรได้อย่างเต็มประสิทธิภาพ</p>
-  </ContentBoxSpecial>
+  </ContentBox>
 
-  <Faq3 />
+  <Faq4 />
 
-  <LatestWinners4 />
+  <LatestWinners2 />
 
   <Navfoot />
 </MainLayout>

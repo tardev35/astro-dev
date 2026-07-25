@@ -2,7 +2,7 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBoxHuay.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/Announcement5.astro";
+import Announcement from "../components/Announcement2.astro";
 
 import { Picture } from "astro:assets";
 import imgLine from "../assets/contact-line.webp";
@@ -14,12 +14,12 @@ const logoUrl = homePage + "/logo.webp";
 const contactPageSchema = {
   "@context": "https://schema.org",
   "@type": "ContactPage",
-  name: "ติดต่อ NOVA852 ทีมแอดมินมืออาชีพ ดูแลตลอด 24 ชั่วโมง",
-  description: "ติดต่อ NOVA852 ทีมแอดมินมืออาชีพ ดูแลตลอด 24 ชั่วโมง",
+  name: "ติดต่อ ดีเฮง789 ทีมแอดมินมืออาชีพ ดูแลตลอด 24 ชั่วโมง",
+  description: "ติดต่อ ดีเฮง789 ทีมแอดมินมืออาชีพ ดูแลตลอด 24 ชั่วโมง",
   url: currentPath,
   mainEntity: {
     "@type": "Organization",
-    name: "NOVA852",
+    name: "ดีเฮง789",
     logo: logoUrl,
     url: homePage,
     contactPoint: [
@@ -37,14 +37,14 @@ const contactPageSchema = {
 ---
 
 <script type="application/ld+json" set:html={JSON.stringify(contactPageSchema)} />
-<MainLayout title="ติดต่อ NOVA852 | ทีมแอดมินมืออาชีพ สแตนด์บายดูแลลูกค้า 24 ชม." description="หากพบปัญหาขัดข้องหรือต้องการคำแนะนำ ทีมงานมืออาชีพของ NOVA852 พร้อมสแตนด์บายซัพพอร์ตและแก้ไขทุกข้อสงสัยให้คุณอย่างรวดเร็วตลอด 24 ชั่วโมง">
+<MainLayout title="ติดต่อ ดีเฮง789 | ทีมแอดมินมืออาชีพ สแตนด์บายดูแลลูกค้า 24 ชม." description="หากพบปัญหาขัดข้องหรือต้องการคำแนะนำ ทีมงานมืออาชีพของ ดีเฮง789 พร้อมสแตนด์บายซัพพอร์ตและแก้ไขทุกข้อสงสัยให้คุณอย่างรวดเร็วตลอด 24 ชั่วโมง">
   <Announcement />
 
   <ContentBox>
-    <h1 class="mb-8 bg-gradient-to-r from-slate-100 via-slate-300 to-amber-400 bg-clip-text text-3xl font-black text-transparent">ติดต่อ NOVA852 ทีมแอดมินมืออาชีพ ดูแลตลอด 24 ชั่วโมง</h1>
+    <h1 class="mb-8 bg-gradient-to-r from-amber-200 via-amber-400 to-red-500 bg-clip-text text-3xl font-black text-transparent">ติดต่อ ดีเฮง789 ทีมแอดมินมืออาชีพ ดูแลตลอด 24 ชั่วโมง</h1>
     <Picture
       src={imgLine}
-      alt="ติดต่อแอดมิน NOVA852 ผ่าน LINE Official"
+      alt="ติดต่อแอดมิน ดีเฮง789 ผ่าน LINE Official"
       loading="lazy"
       fetchpriority="low"
       widths={[200, 400, 600]}
@@ -55,12 +55,12 @@ const contactPageSchema = {
       fallbackFormat="webp"
       quality={60}
     />
-    <p class="my-5 mb-8 text-slate-200">หากพบปัญหาขัดข้องหรือต้องการคำแนะนำ ทีมงานมืออาชีพของ NOVA852 พร้อมสแตนด์บายซัพพอร์ตและแก้ไขทุกข้อสงสัยให้คุณอย่างรวดเร็วตลอด 24 ชั่วโมง ดูแลครบทุกขั้นตอนตั้งแต่สมัครสมาชิก ฝากถอนระบบออโต้ ไปจนถึงการเข้าเล่นเกม</p>
+    <p class="my-5 mb-8 text-red-50/85">หากพบปัญหาขัดข้องหรือต้องการคำแนะนำ ทีมงานมืออาชีพของ ดีเฮง789 พร้อมสแตนด์บายซัพพอร์ตและแก้ไขทุกข้อสงสัยให้คุณอย่างรวดเร็วตลอด 24 ชั่วโมง ดูแลครบทุกขั้นตอนตั้งแต่สมัครสมาชิก ฝากถอนสะดวกด้วยระบบออโต้ ไปจนถึงการเข้าเล่นเกมผ่านระบบ API แท้ที่ไม่มีการล็อคยูสเซอร์</p>
     <div class="flex flex-wrap justify-center gap-4">
       <a
         href="/register"
         aria-label="สมัครสมาชิก"
-        class="flex items-center justify-center rounded-lg border border-slate-300 bg-gradient-to-b from-slate-400 to-slate-700 px-8 py-3 font-bold text-white shadow-[0_0_15px_rgba(203,213,225,0.35)] transition-transform hover:scale-105">
+        class="flex items-center justify-center rounded-lg border border-red-400 bg-gradient-to-b from-red-500 to-red-800 px-8 py-3 font-bold text-white shadow-[0_0_15px_rgba(220,38,38,0.45)] transition-transform hover:scale-105">
         สมัครสมาชิก
       </a>
 

@@ -580,6 +580,27 @@ Phase 5 build covers all pages at once.) For each page:
    verify they carry **zero** old-brand-name references; only the theme
    is exempt, not the brand name. Note this decision in the workspec.
 
+**Lottery brand trigger — `เว็บหวย`.** The two lottery pages
+`ตรวจหวย.astro` and `แนวทาง.astro` live in **`src/pages-disabled/`**, which
+Astro does **not** route (only `src/pages/` is routed) — so by default a
+casino brand ships without them, and that's correct. **If the rebrand prompt
+contains the word `เว็บหวย` (or the brand is clearly a lottery site), turn
+both ON:**
+- **Enable the pages** — move `ตรวจหวย.astro` and `แนวทาง.astro` from
+  `src/pages-disabled/` into `src/pages/`, so they become the routes
+  `/ตรวจหวย` and `/แนวทาง`.
+- **Add their menu links to the ACTIVE navbar** — insert
+  `{ name: "ตรวจหวย", path: "/ตรวจหวย" }` and
+  `{ name: "แนวทาง", path: "/แนวทาง" }` into **both** the desktop and mobile
+  link arrays of the active navbar (same edit as the ส่วนที่ 5 created-page
+  rule — resolve the active navbar from `MainLayout.astro`'s import, it
+  rotates each rebrand).
+- Rebrand their copy like any other page (brand name, title, stale assets),
+  **but keep their intentional `Huay` theme + `AnnouncementHuay`** per the
+  exception above.
+For a **non-lottery** brand, leave both files in `pages-disabled/` (off) and
+do **not** add the nav links. Record the on/off decision in the workspec.
+
 **The `tools/rebrand-uploader` "ส่วนที่ 4 — Title/Meta หน้าย่อย" is an
 OPTIONAL shortcut, NOT a replacement for this phase.** The uploader can
 parse a `SUB-PAGES (Title & Meta Description)` section out of the brand's

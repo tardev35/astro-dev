@@ -1,133 +1,118 @@
 ---
-import { Picture } from "astro:assets";
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement6 from "../components/Announcement6.astro";
-import ContentBoxPremium from "../components/ContentBoxPremium.astro";
-import ContentBox from "../components/ContentBox.astro";
-import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
+import AnnouncementCyber from "../components/AnnouncementCyber.astro";
+import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
+import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
 import ContentBoxSevenThree from "../components/ContentBoxSevenThree.astro";
-import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
+import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
 import FeatureHighlights from "../components/FeatureHighlights.astro";
-import SmoothCarousel from "../components/SmoothCarousel.astro";
+import LoginRtpSection from "../components/LoginRtpSection.astro";
 import ProviderGrid from "../components/ProviderGrid.astro";
 import GameRankingBoard from "../components/GameRankingBoard.astro";
-import LoginRtpSection from "../components/LoginRtpSection.astro";
-import LatestWinners2 from "../components/LatestWinners2.astro";
-import Faq3 from "../components/Faq3.astro";
+import LatestWinnersCyber from "../components/LatestWinnersCyber.astro";
+import SmoothCarousel from "../components/SmoothCarousel.astro";
 import Navfoot from "../components/Navfoot.astro";
+const currentPath = Astro.url.pathname;
+const homePage = Astro.url.origin;
+const logoUrl = homePage + "/logo.webp";
 
-import imgFastTransfer from "../assets/slide1.png";
-import imgSecurity from "../assets/slide4.png";
-import imgBonusBanner from "../assets/banner2.png";
-
-const siteUrl = "https://london999vip.org/";
-const logoUrl = "https://london999vip.org/logo.webp";
-
-const pageTitle = "LONDON999VIP | รวมค่ายเกมสล็อตยอดฮิต มั่นคงปลอดภัย ฝากถอนไว";
-const pageDescription = "ปั้นพอร์ตทำกำไรกับ LONDON999VIP รวมค่ายเกมสล็อตยอดฮิต มั่นคงปลอดภัย ฝากถอนไวผ่านระบบ AI อัจฉริยะ API แท้ไม่ล็อคยูสเซอร์ จ่ายจริงถอนได้เต็ม 100%";
+const pageTitle = "PABLO666 รีวิวเว็บตรง สล็อต1บาท ก็ฝากได้ ทดลองเล่นจริง ระบบออโต้";
+const pageDescription = "PABLO666 รีวิวเว็บตรง ไม่ได้มีดีแค่เรื่องเกมสล็อต ทดลองเล่นสล็อต1บาท ก็ฝากได้ เหมาะกับใครที่ไม่อยากเริ่มด้วยทุนสูง ระบบออโต้หลังบ้านอัจริยะ ทางเข้า ปลอดภัย";
 
 const webPageSchema = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  name: "LONDON999VIP",
+  name: "PABLO666",
   description: pageDescription,
-  url: siteUrl,
+  url: currentPath,
 };
 const webSiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "LONDON999VIP",
-  alternateName: ["LONDON999VIP", "LONDON999VIP | รวมค่ายเกมสล็อตยอดฮิต มั่นคงปลอดภัย ฝากถอนไว"],
-  url: siteUrl,
+  name: "PABLO666",
+  alternateName: ["PABLO666", "PABLO666 รีวิวเว็บตรง สล็อต1บาท ก็ฝากได้ ทดลองเล่นจริง ระบบออโต้"],
+  url: "https://www.pablo666-brand.com/",
 };
 const orgSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "LONDON999VIP",
+  name: "PABLO666",
   logo: logoUrl,
-  url: siteUrl,
+  url: homePage,
 };
 const allSchemas = [webPageSchema, orgSchema, webSiteSchema];
 
-const memberHighlights = [
+const gameCategories = [
   {
-    icon: "🎁",
-    title: "โบนัสต้อนรับสมาชิกใหม่ 100%",
-    description: "เปิดยูสเซอร์ใหม่ครั้งแรกรับโบนัสเพิ่มทันที 100% สูงสุด 3,000 บาท ต่อยอดเงินลงทุนก้อนแรกให้หมุนได้นานขึ้น ลุ้นแจ็กพอตได้หลายรอบกว่าเดิม",
+    icon: "🎰",
+    title: "สล็อต",
+    description: "รวมเกมสล็อตจากหลายค่ายไว้ในที่เดียว เลือกเล่นได้ตามสไตล์ที่ชอบ เริ่มต้นด้วยงบเพียงเล็กน้อย",
     accent: "gold" as const,
   },
   {
-    icon: "💸",
-    title: "คืนยอดเสีย 10% สูงสุด 100,000 บาท",
-    description: "สำหรับผู้เล่นประจำที่วางแผนลงทุนระยะยาว ระบบจะคำนวณยอดเสียสะสมและคืนเครดิตให้อัตโนมัติ ช่วยลดความเสี่ยงและรักษาสภาพคล่องของพอร์ต",
+    icon: "🎴",
+    title: "คาสิโนสด",
+    description: "ถ่ายทอดสดคาสิโนแบบเรียลไทม์ ทั้งบาคาร่า รูเล็ต และเกมยอดนิยม เล่นได้เหมือนอยู่ในบ่อนจริง",
     accent: "blue" as const,
   },
   {
-    icon: "📊",
-    title: "เปิดค่า RTP ทุกเกมแบบโปร่งใส",
-    description: "ศึกษากลไกเกมและอัตราการจ่ายผลตอบแทนของแต่ละค่ายได้อย่างละเอียดก่อนลงเงินจริง เพื่อหารูปแบบการเล่นที่เข้ากับสไตล์การลงทุนของตัวเองมากที่สุด",
+    icon: "🎲",
+    title: "เกมโต๊ะ",
+    description: "เกมโต๊ะครบทุกรูปแบบ กติกาเข้าใจง่าย เหมาะกับผู้เล่นทุกระดับตั้งแต่มือใหม่จนถึงขาประจำ",
+    accent: "gold" as const,
+  },
+  {
+    icon: "⚽",
+    title: "กีฬา",
+    description: "เดิมพันกีฬาหลากหลายลีก ดูราคาและติดตามผลการแข่งขันได้ครบภายในบัญชีเดียว",
     accent: "blue" as const,
   },
   {
-    icon: "👑",
-    title: "สิทธิพิเศษระดับวีไอพี ยิ่งฝากยิ่งได้",
-    description: "ยิ่งเล่นต่อเนื่องยิ่งไต่ระดับสมาชิก ปลดล็อกโบนัสรายวัน กงล้อลุ้นโชค และวงเงินถอนที่สูงขึ้น พร้อมทีมแอดมินดูแลเฉพาะทางตลอด 24 ชั่วโมง",
+    icon: "👤",
+    title: "ระบบสมาชิก",
+    description: "จัดการข้อมูล ฝากถอน และตรวจสอบประวัติทุกรายการผ่านบัญชีเดียวที่เชื่อมต่อทุกบริการเข้าด้วยกัน",
     accent: "gold" as const,
   },
 ];
 
-const faqs = [
-  {
-    q: "ระบบ API แท้ ส่งผลดีต่อการปั่นสล็อตออนไลน์อย่างไร?",
-    a: "ทำให้อัตราการจ่ายโบนัสแตกง่ายและยุติธรรมตามสถิติสากลครับ ไม่มีการล็อคยูสเซอร์หรือปรับเรทแพ้ชนะจากหลังบ้าน ให้คุณกวาดกำไรได้อย่างเต็มที่ 100%",
-  },
-  {
-    q: "ระบบฝากถอนอัตโนมัติตลอด 24 ชั่วโมง ช่วยเพิ่มความคล่องตัวแบบไหน?",
-    a: "ช่วยให้คุณได้รับเงินสดเข้าบัญชีทันทีในเสี้ยววินาทีเมื่อกดสั่งถอนครับ ไม่ต้องรอคิว โยกย้ายเงินได้อย่างอิสระและนำไปใช้จ่ายได้รวดเร็วทันใจ",
-  },
-  {
-    q: "เว็บไซต์ที่มีความมั่นคงปลอดภัยสูง ดีต่อนักลงทุนระยะยาวอย่างไร?",
-    a: "ช่วยให้คุณมั่นใจในการวางแผนลงทุนด้วยเงินก้อนโตครับ เพราะมีทุนสำรองจ่ายจริงทุกยอดบิล และมีระบบเข้ารหัสปกป้องข้อมูลไม่ให้รั่วไหลแน่นอน",
-  },
-];
+import { Picture } from "astro:assets";
+import imgCategories from "../assets/slide3.png";
+import imgTestDay from "../assets/slide2.png";
+import imgOneBaht from "../assets/slide4.png";
+import imgEntrance from "../assets/slide1.png";
 ---
 
 <MainLayout title={pageTitle} description={pageDescription}>
   <script type="application/ld+json" set:html={JSON.stringify(allSchemas)} />
 
-  <Announcement6 />
+  <AnnouncementCyber />
 
-  <ContentBoxPremium as="h1" title="LONDON999VIP รวมค่ายเกมสล็อตยอดฮิต มั่นคงปลอดภัย ฝากถอนไว">
-    <p class="mx-auto max-w-5xl leading-relaxed">
-      ยินดีต้อนรับสู่อาณาจักรการลงทุนออนไลน์ที่ล้ำสมัยที่สุดกับ <strong class="text-yellow-300">LONDON999VIP</strong> รวมค่ายเกมสล็อตยอดฮิต มั่นคงปลอดภัย ฝากถอนไว แพลตฟอร์มที่เชื่อมต่อระบบ API แท้
-      มอบประสบการณ์เสี่ยงโชคที่โปร่งใส ไม่มีการล็อคยูสเซอร์ เปิดโอกาสให้คุณเข้ามาโกยเงินรางวัลก้อนโตกลับบ้านได้อย่างมั่นใจและรวดเร็วที่สุดผ่านระบบออโต้อัจฉริยะระดับวีไอพี
+  <ContentBoxCyberCut as="h1" title="PABLO666 รีวิวเว็บตรง สล็อต1บาท ก็ฝากได้ ทดลองเล่นจริง ระบบออโต้">
+    <p class="mx-auto max-w-4xl leading-relaxed">
+      <strong class="text-yellow-300">PABLO666</strong> เป็นเว็บไซต์ที่ให้บริการเกมสล็อตออนไลน์ผ่านระบบเว็บตรง โดยรองรับการสมัครสมาชิก ฝากถอน และเข้าเล่นผ่านระบบอัตโนมัติแบบครบวงจร จุดที่หลายคนให้ความสนใจคือการเริ่มต้นเล่นด้วยงบไม่สูง
+      เนื่องจากรองรับการฝากขั้นต่ำเพียง 1 บาท ทำให้ผู้เล่นสามารถทดลองใช้งานระบบจริงก่อนตัดสินใจเล่นต่อได้
     </p>
-  </ContentBoxPremium>
+  </ContentBoxCyberCut>
 
   <SmoothCarousel />
 
-  <ContentBox as="h2" title="LONDON999VIP รวมค่ายเกมสล็อตยอดฮิต ครบในเว็บไซต์เดียว">
+  <ContentBoxCyberCut as="h2" title="PABLO666 รีวิวเว็บตรง ไม่ได้มีดีแค่เรื่องเกมสล็อต">
     <p class="leading-relaxed">
-      เปิดประสบการณ์ทำกำไรไร้ขีดจำกัดไปกับ <strong class="text-yellow-300">LONDON999VIP</strong> รวมค่ายเกมสล็อตยอดฮิต ครบในเว็บไซต์เดียว เราคัดสรรเฉพาะแบรนด์ชั้นนำระดับโลกที่ได้มาตรฐานสากลมาไว้ในที่เดียว
-      ตอบโจทย์นักลงทุนยุคดิจิทัลที่ต้องการความหลากหลาย ช่วยให้คุณขยายพอร์ตความมั่งคั่งและสนุกกับการสร้างรายได้แบบไม่มีเบื่อ พร้อมกวาดกำไรเข้าบัญชีได้อย่างง่ายดาย
+      แม้หลายคนจะรู้จัก <strong class="text-yellow-300">PABLO666</strong> ในฐานะเว็บไซต์สล็อต แต่เมื่อทดลองสำรวจโครงสร้างเว็บไซต์จะพบว่า จุดเด่นไม่ได้มีเพียงจำนวนเกมเท่านั้น ภายในเว็บไซต์ยังแบ่งหมวดหมู่บริการไว้อย่างชัดเจน
+      ทั้งเกมสล็อต คาสิโนสด เกมโต๊ะ กีฬา และระบบสมาชิกที่เชื่อมต่ออยู่บนบัญชีเดียว
     </p>
-  </ContentBox>
+  </ContentBoxCyberCut>
+
+  <div class="mx-auto mb-10 w-full max-w-[1400px] px-4">
+    <FeatureHighlights items={gameCategories} />
+  </div>
 
   <ProviderGrid />
 
-  <ContentBoxPremium as="h2" title="เปิดประสบการณ์สล็อตหลากหลายจากค่ายชั้นนำ LONDON999VIP">
-    <p class="leading-relaxed">
-      สัมผัสความเหนือระดับของการเสี่ยงโชคและ เปิดประสบการณ์สล็อตหลากหลายจากค่ายชั้นนำ <strong class="text-yellow-300">LONDON999VIP</strong> ระบบของเราทำงานผ่านนวัตกรรมสุดล้ำ ไม่มีการแทรกแซงกลไกหลังบ้าน
-      มั่นใจได้ว่าทุกการสปินจะโปร่งใส ยุติธรรม และให้อัตราการจ่ายผลตอบแทนที่สูงปรี๊ดตามสถิติความน่าจะเป็นระดับสากลอย่างแท้จริง ไร้กังวลเรื่องโดนโกงหรือดึงเรทแพ้ชนะ
-    </p>
-  </ContentBoxPremium>
-
-  <GameRankingBoard />
-
-  <ContentBoxSevenThreePremium titleright="รองรับการทำรายการสะดวกตลอด 24 ชั่วโมง ฝากถอนไวอัตโนมัติ">
+  <ContentBoxSevenThreeCyberCut titleright="เราใช้เวลา 1 วันทดลองเล่น PABLO666 เจออะไรบ้าง">
     <div slot="left" class="flex h-full flex-col justify-center">
       <Picture
-        src={imgFastTransfer}
+        src={imgTestDay}
         loading="lazy"
         fetchpriority="low"
         widths={[200, 400, 600, 800]}
@@ -136,43 +121,21 @@ const faqs = [
         formats={["avif", "webp"]}
         fallbackFormat="webp"
         quality={80}
-        alt="LONDON999VIP นาทีทอง 07:00-09:00 ฝากถอนไวอัตโนมัติ รับเพิ่มอีก 20%"
-        class="mx-auto h-auto w-full rounded-2xl border-2 border-blue-500/30 shadow-[0_10px_30px_rgba(37,99,235,0.3)]"
+        alt="PABLO666 ทดลองเล่น 1 วัน ตั้งแต่สมัคร เข้าสู่ระบบ ฝากเงิน เลือกเกม จนตรวจสอบผล"
+        class="mx-auto h-auto w-full rounded-2xl border-2 border-yellow-400/20 shadow-[0_10px_30px_rgba(234,179,8,0.25)]"
       />
     </div>
     <p slot="right" class="leading-relaxed">
-      บริหารกระแสเงินสดของคุณอย่างลื่นไหลเพราะเรา รองรับการทำรายการสะดวกตลอด 24 ชั่วโมง ฝากถอนไวอัตโนมัติ นวัตกรรมเอไออัจฉริยะจะทำหน้าที่ประมวลผลธุรกรรมทางการเงินในเสี้ยววินาที
-      เมื่อคุณทำกำไรทะลุเป้าหมายหลักล้าน ระบบก็พร้อมโอนยอดเงินสดเข้าบัญชีทันที ขจัดปัญหาความล่าช้าและไม่ต้องรอนาน มอบสภาพคล่องที่ตอบโจทย์วัยรุ่นยุคใหม่
+      การทดลองใช้งานเริ่มตั้งแต่ขั้นตอนสมัครสมาชิก ซึ่งใช้เวลาไม่นาน หลังจากยืนยันข้อมูลแล้วสามารถเข้าสู่ระบบได้ทันที จากนั้นทดลองฝากเงิน เข้าเลือกเกม ทดลองเล่น และตรวจสอบการทำงานของเมนูต่าง ๆ
+      ภายในเว็บไซต์ ระหว่างการใช้งานพบว่าการเปลี่ยนหน้าเว็บไซต์ทำได้ต่อเนื่อง เมนูตอบสนองได้รวดเร็ว และการสลับไปยังหมวดเกมต่าง ๆ ไม่พบอาการโหลดซ้ำบ่อยครั้ง
+      ส่วนการใช้งานผ่านโทรศัพท์มือถือก็สามารถแสดงผลได้ครบทั้งแนวตั้งและแนวนอน
     </p>
-  </ContentBoxSevenThreePremium>
+  </ContentBoxSevenThreeCyberCut>
 
-  <ContentBox as="h2" title="แนะนำจุดเด่นที่ตอบโจทย์ทั้งสมาชิกใหม่และผู้เล่นประจำ">
-    <p class="leading-relaxed">
-      ค้นพบขุมทรัพย์ทำเงินสุดเอ็กซ์คลูซีฟพร้อม แนะนำจุดเด่นที่ตอบโจทย์ทั้งสมาชิกใหม่และผู้เล่นประจำ แพลตฟอร์มของเรามีตัวเลือกเกมที่ครอบคลุมทุกสไตล์การลงทุน ช่วยให้คุณศึกษากลไกและค่า RTP ของแต่ละเกมได้อย่างละเอียด
-      เพื่อหารูปแบบที่เข้ากับตัวเอง ช่วยเพิ่มโอกาสดักจับแจ็กพอตและลดความเสี่ยงได้อย่างยอดเยี่ยม ทำกำไรได้อย่างมั่นคง
-    </p>
-
-    <Picture
-      src={imgBonusBanner}
-      loading="lazy"
-      fetchpriority="low"
-      widths={[400, 672, 900]}
-      sizes="(max-width: 768px) 100vw, 672px"
-      decoding="async"
-      formats={["avif", "webp"]}
-      fallbackFormat="webp"
-      quality={80}
-      alt="LONDON999VIP โบนัสสมาชิกใหม่ 100% สูงสุด 3,000 บาท และคืนยอดเสีย 10% สูงสุด 100,000 บาท"
-      class="mx-auto mt-8 h-auto w-full max-w-2xl rounded-2xl"
-    />
-
-    <FeatureHighlights items={memberHighlights} />
-  </ContentBox>
-
-  <ContentBoxSevenThree titleright="LONDON999VIP มั่นคงปลอดภัย ด้วยระบบที่ช่วยดูแลข้อมูล">
+  <ContentBoxSevenThree titleright="สล็อต 1 บาท ก็ฝากได้ อีกหนึ่งตัวเลือกสำหรับคนที่ไม่อยากเริ่มด้วยทุนสูง">
     <div slot="left" class="flex h-full flex-col justify-center">
       <Picture
-        src={imgSecurity}
+        src={imgOneBaht}
         loading="lazy"
         fetchpriority="low"
         widths={[200, 400, 600, 800]}
@@ -181,42 +144,64 @@ const faqs = [
         formats={["avif", "webp"]}
         fallbackFormat="webp"
         quality={80}
-        alt="LONDON999VIP ระบบปลอดภัยมั่นคง 100% ฝาก-ถอนรวดเร็ว บริการ 24 ชั่วโมง ยิ่งฝากเยอะยิ่งได้เยอะ"
-        class="mx-auto h-auto w-full rounded-2xl border-2 border-blue-500/30 shadow-[0_10px_30px_rgba(37,99,235,0.3)]"
+        alt="PABLO666 สล็อต 1 บาท ก็ฝากได้ รองรับฝากขั้นต่ำ 1 บาทผ่านธนาคารชั้นนำ"
+        class="mx-auto h-auto w-full rounded-2xl border-2 border-amber-400/20 shadow-[0_10px_30px_rgba(234,179,8,0.25)]"
       />
     </div>
     <p slot="right" class="leading-relaxed">
-      ทลายทุกข้อจำกัดของการลงทุนด้วยมาตรฐานสูงสุด <strong class="text-yellow-300">LONDON999VIP</strong> มั่นคงปลอดภัย ด้วยระบบที่ช่วยดูแลข้อมูล โครงสร้างเว็บไซต์ของเราถูกออกแบบมาให้มีความเสถียรขั้นสูงสุด
-      ฐานข้อมูลถูกคุ้มครองด้วยเทคโนโลยีเข้ารหัสระดับสถาบันการเงิน ป้องกันการแฮ็กข้อมูลได้อย่างไร้รอยรั่ว มอบความสบายใจให้เซียนพนันไว้วางใจเทหมดตักโดยไม่ต้องระแวง
+      หนึ่งในรายละเอียดที่หลายคนสนใจคือการเริ่มต้นใช้งานด้วยเงินจำนวนไม่มาก รองรับการฝากขั้นต่ำเพียง 1 บาท ทำให้ผู้เล่นสามารถทดลองระบบจริงได้ก่อน โดยไม่จำเป็นต้องใช้เงินทุนสูงเหมือนบางเว็บไซต์
+      แนวทางนี้เหมาะกับผู้ที่ต้องการทดลองความเสถียรของเว็บไซต์ ทดลองเลือกเกม หรือศึกษารูปแบบการให้บริการก่อนวางแผนการเล่นในระยะยาว
     </p>
   </ContentBoxSevenThree>
 
-  <ContentBoxNeumorphism as="h2" title="สรุปความน่าสนใจของ LONDON999VIP เกมค่ายดัง ปลอดภัย">
-    <p class="mx-auto max-w-5xl leading-relaxed">
-      ก้าวเข้าสู่อาณาจักรทำเงินที่ตอบโจทย์คนยุคดิจิทัลเพื่อ สรุปความน่าสนใจของ <strong class="text-yellow-300">LONDON999VIP</strong> เกมค่ายดัง ปลอดภัย สมัครเปิดยูสเซอร์ใหม่กับเราวันนี้ผ่านแพลตฟอร์มที่รวดเร็วและเป็นความลับ
-      ทันทีที่ยืนยันตัวตนสำเร็จ คุณก็พร้อมนำเครดิตฟรีเข้ามาสอยแจ็กพอตใหญ่และพลิกชีวิตสู่เศรษฐีหน้าใหม่ได้อย่างยั่งยืน การันตีจ่ายจริงทุกยอดถอน
+  <ContentBoxCyberCut as="h2" title="ระบบออโต้หลังบ้านอัจริยะ PABLO666 ช่วยให้ทุกขั้นตอนใช้งานง่ายขึ้นมากๆ">
+    <p class="leading-relaxed">
+      ในส่วนของการฝากและถอน ระบบรองรับช่องทางการทำรายการหลายรูปแบบ ผู้ใช้งานสามารถเลือกวิธีที่สะดวกได้ตามต้องการ พร้อมมีหน้าตรวจสอบสถานะรายการและประวัติธุรกรรมภายในบัญชีสมาชิก โดยภาพรวม ระบบออโต้ของ <strong
+        class="text-yellow-300">
+        PABLO666
+      </strong> ไม่ได้ช่วยเฉพาะเรื่องการฝากถอนเท่านั้น แต่ยังเชื่อมโยงการจัดการสมาชิก การตรวจสอบรายการ และการติดต่อฝ่ายบริการให้อยู่ในลำดับเดียวกัน ส่งผลให้การใช้งานตั้งแต่เริ่มต้นจนจบเป็นไปอย่างต่อเนื่องและสะดวกมากขึ้น
     </p>
-  </ContentBoxNeumorphism>
+  </ContentBoxCyberCut>
 
-  <div class="relative z-10 mx-auto mb-10 flex flex-nowrap justify-center gap-3 px-4 sm:gap-6">
+  <LoginRtpSection />
+
+  <GameRankingBoard />
+
+  <ContentBoxCyberCut as="h2" title="วิธีเลือกทางเข้า PABLO666 ให้เป็นเว็บไซต์จริงและปลอดภัย">
+    <p class="leading-relaxed">
+      ปัจจุบันมีเว็บไซต์จำนวนไม่น้อยที่ใช้ชื่อคล้ายกับ <strong class="text-yellow-300">PABLO666</strong> จึงควรตรวจสอบชื่อโดเมนและความถูกต้องของหน้าเว็บไซต์ทุกครั้งก่อนเข้าสู่ระบบ โดยสังเกตการเชื่อมต่อผ่าน
+      HTTPS รูปแบบหน้าเว็บไซต์ และเมนูต่าง ๆ ว่าครบถ้วนหรือไม่ หากไม่แน่ใจว่าควรใช้ลิงก์ใดเพื่อเข้าสู่เว็บไซต์จริง ภายในหน้านี้เราได้จัดเตรียมลิงก์สำหรับ "ทางเข้า PABLO666" และ "สมัครสมาชิก PABLO666 เว็บแท้"
+      ไว้เรียบร้อยแล้ว ผู้ใช้งานสามารถกดผ่านลิงก์ดังกล่าวเพื่อเข้าสู่เว็บไซต์ได้โดยตรง
+    </p>
+  </ContentBoxCyberCut>
+
+  <ContentBoxSpecial as="h2" title="สรุปหลังรีวิว PABLO666 เหมาะกับใคร">
+    <p slot="left" class="leading-relaxed">
+      หลังจากทดลองใช้งาน <strong class="text-yellow-300">PABLO666</strong> พบว่าเว็บไซต์นี้เหมาะกับผู้เล่นที่ให้ความสำคัญกับ ความสะดวก ความเสถียร และการบริการ มากกว่าคำโฆษณาว่าเกมแตกหนักหรือแตกบ่อย
+    </p>
+    <p slot="right" class="leading-relaxed">
+      หากเปรียบเทียบง่าย ๆ ก็เหมือนการเลือกรถ หลายคนไม่ได้เลือกคันที่แรงที่สุด แต่เลือกคันที่ ขับสบาย ใช้งานคุ้ม แอร์เย็น และมีศูนย์บริการที่ไว้ใจได้ ซึ่งให้ความสบายใจในการใช้งานทุกวัน เช่นเดียวกับ <strong
+        class="text-yellow-300">
+        PABLO666
+      </strong>
+    </p>
+  </ContentBoxSpecial>
+
+  <div class="mx-auto mb-10 flex flex-nowrap justify-center gap-3 px-4 sm:gap-6">
     <a
       href="/login"
-      class="group relative flex flex-1 items-center justify-center rounded-full border border-blue-400/50 bg-[#040b1e]/80 px-4 py-3 text-sm font-black whitespace-nowrap text-blue-200 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-blue-950/60 hover:shadow-[0_0_15px_rgba(37,99,235,0.5)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
+      class="group relative flex flex-1 items-center justify-center rounded-full border border-red-500/50 bg-[#0a0806]/80 px-4 py-3 text-sm font-black whitespace-nowrap text-red-300 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-red-950/60 hover:shadow-[0_0_15px_rgba(220,38,38,0.4)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
       เข้าสู่ระบบ
     </a>
 
     <a
       href="/register"
-      class="group relative flex flex-1 items-center justify-center rounded-full bg-gradient-to-r from-red-500 via-red-600 to-red-700 px-4 py-3 text-sm font-black whitespace-nowrap text-white shadow-[0_5px_20px_rgba(220,38,38,0.45)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_8px_25px_rgba(220,38,38,0.65)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
+      class="group relative flex flex-1 items-center justify-center rounded-full bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 px-4 py-3 text-sm font-black whitespace-nowrap text-[#1a1206] shadow-[0_5px_20px_rgba(234,179,8,0.4)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_8px_25px_rgba(234,179,8,0.6)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
       สมัครสมาชิก
     </a>
   </div>
 
-  <LoginRtpSection />
-
-  <LatestWinners2 />
-
-  <Faq3 faqs={faqs} />
+  <LatestWinnersCyber />
 
   <Navfoot />
 </MainLayout>

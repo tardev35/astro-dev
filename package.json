@@ -7,12 +7,16 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "rebrand:upload": "node tools/rebrand-uploader/server.mjs"
+    "rebrand:upload": "node tools/rebrand-uploader/server.mjs",
+    "rebrand:upload:open": "start \"\" http://localhost:4000 & node tools/rebrand-uploader/server.mjs",
+    "domain:manager": "node --env-file=tools/domain-manager/.env tools/domain-manager/server.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.2",
     "@tailwindcss/vite": "^4.2.1",
     "astro": "^5.17.1",
+    "express": "^4.22.2",
+    "node-ssh": "^13.2.1",
     "sharp": "^0.34.5",
     "swiper": "^12.1.2",
     "tailwindcss": "^4.2.1"

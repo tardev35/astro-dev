@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VPS Domain Manager</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        body { font-family: sans-serif; padding: 2rem; max-width: 500px; margin: 0 auto; background-color: #f4f7f6; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        input { padding: 12px; font-size: 16px; margin-top: 10px; width: 100%; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        button { padding: 12px; font-size: 16px; margin-top: 15px; width: 100%; box-sizing: border-box; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; transition: 0.3s; }
+        button:hover { background-color: #0056b3; }
+        button:disabled { background-color: #a0c4ff; cursor: not-allowed; }
+        .hint { font-size: 12px; color: #6b7280; margin-top: 10px; }
+        #log { margin-top: 20px; background: #282a36; color: #50fa7b; padding: 15px; border-radius: 6px; white-space: pre-wrap; font-family: monospace; font-size: 14px; min-height: 100px; display: none; overflow-x: auto; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2 style="margin-top: 0; color: #333;">เพิ่มโดเมนใหม่เข้า VPS</h2>
+        <input type="text" id="domainInput" placeholder="ex: cashot123-brand.com" />
+        <button id="submitBtn" onclick="addDomain()">➕ Add Site</button>
+        <p class="hint">รัน <code>./add-site.sh &lt;domain&gt;</code> บน VPS ผ่าน SSH · เพิ่ม site อย่างเดียว (deploy content แยกด้วย deploy.ps1)</p>
+    </div>
+
+    <div id="log"></div>
+
+    <script>
+        async function addDomain() {
+            const domain = document.getElementById('domainInput').value.trim();
+            const btn = document.getElementById('submitBtn');
+            const log = document.getElementById('log');
+
+            if (!domain) {
+                Swal.fire({ icon: 'warning', title: 'ข้อผิดพลาด', text: 'กรุณากรอกชื่อโดเมนก่อนทำรายการ!', confirmButtonColor: '#007bff' });
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerText = 'กำลังประมวลผล...';
+            log.style.display = 'block';
+            log.innerText = `[INFO] กำลังเชื่อมต่อ SSH เพื่อเพิ่มโดเมน: ${domain}...\n`;
+
+            Swal.fire({
+                title: 'กำลังเชื่อมต่อเซิร์ฟเวอร์...',
+                text: 'กรุณารอสักครู่ ระบบกำลังรันสคริปต์บน VPS',
+                allowOutsideClick: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
+
+            try {
+                const response = await fetch('/api/add-site', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ domain })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    log.innerText += `\n[SUCCESS]\n${data.output || '(no output)'}`;
+                    if (data.errorOutput) log.innerText += `\n[WARNINGS]\n${data.errorOutput}`;
+                    Swal.fire({ icon: 'success', title: 'สำเร็จ!', text: `เพิ่มโดเมน ${domain} เรียบร้อยแล้ว`, confirmButtonColor: '#28a745' });
+                    document.getElementById('domainInput').value = '';
+                } else {
+                    log.innerText += `\n[ERROR]\n${data.error}`;
+                    Swal.fire({ icon: 'error', title: 'รันสคริปต์ไม่สำเร็จ', text: data.error, confirmButtonColor: '#dc3545' });
+                }
+            } catch (err) {
+                log.innerText += `\n[SYSTEM ERROR]\n${err.message}`;
+                Swal.fire({ icon: 'error', title: 'เชื่อมต่อขัดข้อง', text: 'ไม่สามารถติดต่อ Backend บน Localhost ได้', confirmButtonColor: '#dc3545' });
+            } finally {
+                btn.disabled = false;
+                btn.innerText = '➕ Add Site';
+            }
+        }
+
+        // Enter key submits
+        document.getElementById('domainInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') addDomain();
+        });
+    </script>
+</body>
+</html>

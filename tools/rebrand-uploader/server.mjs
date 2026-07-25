@@ -21,7 +21,12 @@ const ASSETS = join(ROOT, "src", "assets");
 const PUBLIC = join(ROOT, "public");
 const PAGES = join(ROOT, "src", "pages");
 const CONFIG = join(ROOT, "astro.config.mjs");
-const PORT = 4000;
+// Port/host are env-overridable but default to a localhost-only bind: every
+// endpoint rewrites source files with NO auth, so it must never be reachable
+// off-machine as-is. A future hosted deployment sets HOST=0.0.0.0 *after*
+// adding auth/HTTPS — the default keeps a bare run safe.
+const PORT = Number(process.env.PORT) || 4000;
+const HOST = process.env.HOST || "127.0.0.1";
 
 const IMAGE_EXTS = ["png", "webp", "jpg", "jpeg", "avif", "gif", "svg"];
 
@@ -284,6 +289,27 @@ const PAGE_META = {
   entrance: { file: "ทางเข้า.astro", label: "ทางเข้า", match: ["ทางเข้า", "entrance"] },
 };
 
+// ── Optional extra pages the operator can toggle on ─────────────────────────
+// Unlike PAGE_META (which edits pages that always exist), these files may not
+// exist yet. Toggling one on SCAFFOLDS a new src/pages/*.astro — a blank shell
+// that inherits the current brand's chrome (it clones the frontmatter of an
+// existing sub-page so it picks up whatever Announcement/ContentBox variant the
+// brand uses) and gets a nav link wired in — leaving a TODO body for Claude to
+// fill from the docx during the rebrand. Toggling off does NOTHING (never
+// deletes): off simply means "don't create". `route` is the Astro file-based
+// route (Thai filename → Thai route); `navLabel` is the menu text; `boxTitle`
+// is the placeholder ContentBox heading. Add a row here to offer another page.
+const PRESET_PAGES = {
+  article: { file: "บทความ.astro", route: "/บทความ", navLabel: "บทความ", boxTitle: "บทความ" },
+  aboutus: { file: "about-us.astro", route: "/about-us", navLabel: "เกี่ยวกับเรา", boxTitle: "เกี่ยวกับเรา" },
+};
+// A generated page is cloned from this existing sub-page's frontmatter so it
+// stays on the brand's current component variants without hardcoding names here.
+const CANONICAL_PAGE = "ทางเข้า.astro";
+// The layout imports exactly one active navbar; a new page's link must go into
+// whichever file that is (it rotates each rebrand), so resolve it dynamically.
+const NAV_IMPORT_RE = /import\s+Navbar\s+from\s+["']\.\.\/components\/([^"']+)["']/;
+
 // Anchor on the <MainLayout ...> opening tag specifically. The Thai pages also
 // pass a title= to <ContentBox>, so a bare /title=/ would hit the wrong tag —
 // these two regexes only ever touch attributes inside the MainLayout tag.
@@ -395,6 +421,14 @@ function parseSubPages(lines) {
   return { pages: result, warnings };
 }
 
+// Parse a docx buffer straight into sub-page copy — used both for the staged
+// file and for a file the operator has only browsed (not uploaded yet), so the
+// preview reflects the source they actually picked.
+function parseDocxBuffer(buf) {
+  const xml = extractZipEntry(buf, "word/document.xml").toString("utf8");
+  return parseSubPages(docxToLines(xml));
+}
+
 async function readDocxSubPages() {
   let buf;
   try {
@@ -402,8 +436,7 @@ async function readDocxSubPages() {
   } catch {
     return { pages: {}, warnings: ["ยังไม่มี content.docx — อัพโหลด Content brief ในส่วนที่ 1 ก่อน"] };
   }
-  const xml = extractZipEntry(buf, "word/document.xml").toString("utf8");
-  return parseSubPages(docxToLines(xml));
+  return parseDocxBuffer(buf);
 }
 
 // Read the title/description currently on each page's <MainLayout> tag so the UI
@@ -422,15 +455,12 @@ async function readCurrentPageMeta() {
   return out;
 }
 
-// Write a page's Title/Meta onto its <MainLayout> tag. Errors (rather than
-// silently no-ops) if either prop anchor is missing.
-async function writePageMeta(key, title, desc) {
-  const cfg = PAGE_META[key];
-  if (!cfg) throw new Error(`unknown page: ${key}`);
-  const label = `${cfg.label} (${cfg.file})`;
+// Write Title/Meta onto a file's <MainLayout> tag. Errors (rather than silently
+// no-ops) if either prop anchor is missing. Shared by the existing sub-pages and
+// the optional preset pages, which use the same <MainLayout title/desc> shape.
+async function setMainLayoutMeta(file, title, desc, label) {
   const t = validateText(title, `Title ${label}`);
   const d = validateText(desc, `Meta ${label}`);
-  const file = join(PAGES, cfg.file);
   const src = await readFile(file, "utf8");
   if (!ML_TITLE_RE.test(src)) throw new Error(`${label}: ไม่พบ title บนแท็ก <MainLayout>`);
   if (!ML_DESC_RE.test(src)) throw new Error(`${label}: ไม่พบ description บนแท็ก <MainLayout>`);
@@ -438,7 +468,109 @@ async function writePageMeta(key, title, desc) {
     .replace(ML_TITLE_RE, `$1"${t}"`)
     .replace(ML_DESC_RE, `$1 description="${d}"`);
   await writeFile(file, next);
+}
+
+async function writePageMeta(key, title, desc) {
+  const cfg = PAGE_META[key];
+  if (!cfg) throw new Error(`unknown page: ${key}`);
+  const label = `${cfg.label} (${cfg.file})`;
+  await setMainLayoutMeta(join(PAGES, cfg.file), title, desc, label);
   return [`src/pages/${cfg.file}`];
+}
+
+async function fileExists(p) {
+  try { await readFile(p); return true; } catch { return false; }
+}
+
+// Scaffold (or refresh) an optional preset page. Title/Meta are OPTIONAL: blank
+// is fine — the tool has no AI to "write" copy, so a blank new page gets safe
+// default Title/Meta (just enough to build with non-empty SEO) and a ContentBox
+// body holding a 1-paragraph placeholder. Claude writes the real Title/Meta AND
+// the real ~1-paragraph article at rebrand time (SKILL.md Phase 4.5). If the
+// file already exists we NEVER overwrite the body, and only refresh Title/Meta
+// when BOTH were supplied (blank = leave the existing page untouched).
+async function createPage(key, title, desc) {
+  const cfg = PRESET_PAGES[key];
+  if (!cfg) throw new Error(`ไม่รู้จักหน้า preset: ${key}`);
+  const label = `${cfg.navLabel} (${cfg.file})`;
+  const file = join(PAGES, cfg.file);
+  const hasTitle = !!(title && title.trim());
+  const hasDesc = !!(desc && desc.trim());
+  if (await fileExists(file)) {
+    if (hasTitle && hasDesc) await setMainLayoutMeta(file, title, desc, label);
+    return { written: [`src/pages/${cfg.file}`], created: false };
+  }
+  // new page: blank Title/Meta fall back to safe defaults (Claude rewrites both
+  // + the article body when the rebrand runs).
+  const t = hasTitle ? validateText(title, `Title ${label}`) : cfg.boxTitle;
+  const d = hasDesc ? validateText(desc, `Meta ${label}`) : `หน้า${cfg.navLabel} (อยู่ระหว่างจัดทำเนื้อหา)`;
+  const canonical = await readFile(join(PAGES, CANONICAL_PAGE), "utf8");
+  const fm = canonical.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  if (!fm) throw new Error(`ไม่พบ frontmatter ใน ${CANONICAL_PAGE} (ต้นแบบหน้าย่อย)`);
+  const page =
+    `---\n${fm[1]}\n---\n\n` +
+    `<MainLayout title="${t}" description="${d}">\n` +
+    `  <Announcement />\n\n` +
+    `  <ContentBox title="${cfg.boxTitle}">\n` +
+    `    <!-- TODO(rebrand): เขียนบทความจริงของ "${cfg.navLabel}" ~1 ย่อหน้าใน <ContentBox> นี้ + ตั้ง title/description บน <MainLayout> จาก content.docx ตอนรีแบรนด์ -->\n` +
+    `    <p class="py-6 text-center text-white/70">อยู่ระหว่างปรับปรุงเนื้อหา</p>\n` +
+    `  </ContentBox>\n\n` +
+    `  <Navfoot />\n` +
+    `</MainLayout>\n`;
+  await writeFile(file, page);
+  return { written: [`src/pages/${cfg.file}`], created: true };
+}
+
+// Best-effort: add a { name, path } entry to the ACTIVE navbar's link arrays
+// (resolved from MainLayout's import, since the active file rotates each
+// rebrand). Inserts into every inline `[ {…path…} ].map(` array (desktop +
+// mobile). Idempotent — skips if the route is already linked. If the navbar
+// variant doesn't use that array shape, it writes nothing and returns a warning
+// telling the operator/Claude to wire the link by hand.
+async function addNavLink(route, label) {
+  const ml = await readFile(join(ROOT, "src", "layouts", "MainLayout.astro"), "utf8");
+  const m = ml.match(NAV_IMPORT_RE);
+  if (!m) return { warning: `หา import Navbar ใน MainLayout.astro ไม่เจอ — เพิ่มลิงก์ ${route} (${label}) ในเมนูเองตอนรีแบรนด์` };
+  const navName = m[1];
+  const navFile = join(ROOT, "src", "components", navName);
+  let src;
+  try { src = await readFile(navFile, "utf8"); }
+  catch { return { navFile: navName, warning: `เปิด navbar ${navName} ไม่ได้ — เพิ่มลิงก์ ${route} (${label}) ในเมนูเองตอนรีแบรนด์` }; }
+  if (src.includes(`path: "${route}"`) || src.includes(`path: '${route}'`)) {
+    return { navFile: navName, already: true };
+  }
+  // Match the LAST object before `].map(` in each nav array; `[^{}]*` keeps the
+  // match to a single object. Rebuild it (normalising its trailing comma) and
+  // append the new sibling right after it, at the same indentation.
+  const re = /(\n([ \t]*))(\{[^{}]*\bpath:\s*["'][^"']*["'][^{}]*\}),?(\s*\]\.map\()/g;
+  const item = `{ name: "${label}", path: "${route}" }`;
+  let count = 0;
+  const next = src.replace(re, (_full, lead, _indent, lastObj, tail) => {
+    count++;
+    return `${lead}${lastObj},${lead}${item},${tail}`;
+  });
+  if (count === 0) {
+    return { navFile: navName, warning: `navbar ${navName} ไม่ตรงรูปแบบ array ที่รองรับ — เพิ่มลิงก์ ${route} (${label}) ในเมนูเองตอนรีแบรนด์` };
+  }
+  await writeFile(navFile, next);
+  return { navFile: navName, inserted: count };
+}
+
+// Read the current state of each preset page so the UI can set its toggle
+// (exists → on + prefilled) or badge it as "will be created".
+async function readCurrentNewPages() {
+  const out = {};
+  for (const [key, cfg] of Object.entries(PRESET_PAGES)) {
+    const entry = { file: `src/pages/${cfg.file}`, route: cfg.route, label: cfg.navLabel, exists: false, title: "", meta: "" };
+    try {
+      const src = await readFile(join(PAGES, cfg.file), "utf8");
+      entry.exists = true;
+      entry.title = src.match(ML_TITLE_RE)?.[0]?.match(/"([^"]*)"$/)?.[1] || "";
+      entry.meta = src.match(ML_DESC_RE)?.[0]?.match(/description=("|')([^"']*)\1/)?.[2] || "";
+    } catch { /* not created yet — leave blank */ }
+    out[key] = entry;
+  }
+  return out;
 }
 
 async function handleUpload(slot, index, ext, buf) {
@@ -545,7 +677,7 @@ const PAGE = /* html */ `<!doctype html>
     backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--line-soft);
   }
-  .head-inner { max-width: 1180px; margin: 0 auto; }
+  .head-inner { margin: 0; }
   header h1 {
     margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -0.02em;
     display: flex; align-items: center; gap: 12px;
@@ -563,17 +695,18 @@ const PAGE = /* html */ `<!doctype html>
   header code { background: rgba(148,163,184,0.14); padding: 1px 6px; border-radius: 5px; font-size: 11.5px; color: #cbd5e1; }
   header strong { color: #cbd5e1; }
 
-  /* ── layout: 2-col dashboard, big card left, 2/3/4 stacked right ─ */
+  /* ── layout: full-width grid, cards flow 1→5 left→right, wrap on overflow ─ */
+  /* auto-fill (not auto-fit) keeps column tracks fixed, so a lone card on the
+     last row stays one column wide instead of stretching across the full width. */
   main {
     counter-reset: card;
-    display: flex; align-items: flex-start;
-    gap: 22px; padding: 26px 30px 120px; max-width: 1180px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    align-items: start;
+    gap: 22px; padding: 26px 30px 120px; margin: 0;
   }
-  .col-main { flex: 1.22 1 0; min-width: 0; }
-  .col-side { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 22px; }
-  @media (max-width: 900px) {
-    main { flex-direction: column; padding: 20px 16px 120px; }
-    .col-main, .col-side { width: 100%; }
+  @media (max-width: 640px) {
+    main { grid-template-columns: 1fr; padding: 20px 16px 120px; }
     header { padding: 16px; }
   }
 
@@ -643,6 +776,20 @@ const PAGE = /* html */ `<!doctype html>
   }
   .field .status { font-size: 11.5px; min-height: 15px; color: var(--muted); }
 
+  /* toggle switch + status badge (ส่วนที่ 5 — optional pages) */
+  .switch { position: relative; display: inline-flex; width: 42px; height: 24px; flex: none; cursor: pointer; }
+  .switch input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .switch .slider { position: absolute; inset: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 999px; transition: .18s; }
+  .switch .slider::before { content: ""; position: absolute; width: 16px; height: 16px; left: 3px; top: 3px; background: var(--muted); border-radius: 50%; transition: .18s; }
+  .switch input:checked + .slider { background: #0b2b40; border-color: var(--accent); }
+  .switch input:checked + .slider::before { transform: translateX(18px); background: var(--accent); }
+  .switch input:focus-visible + .slider { box-shadow: 0 0 0 3px rgba(56,189,248,0.16); }
+  .badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 999px; }
+  .badge.new { color: var(--ok); background: rgba(74,222,128,0.12); border: 1px solid rgba(74,222,128,0.3); }
+  .badge.exists { color: var(--faint); background: rgba(148,163,184,0.1); border: 1px solid var(--line); }
+  .np-body { display: flex; flex-direction: column; gap: 7px; margin-top: 8px; }
+  .np-body[hidden] { display: none; }
+
   .thumb { width: 46px; height: 46px; object-fit: contain; border-radius: 9px; background: var(--panel); border: 1px solid var(--line); display: none; }
   .thumb.show { display: block; }
 
@@ -704,7 +851,6 @@ const PAGE = /* html */ `<!doctype html>
   </div>
 </header>
 <main>
-  <div class="col-main">
   <section class="card" id="card1">
     <h2>ไฟล์แบรนด์ · src/assets</h2>
     <p class="sub">โลโก้ / เนื้อหา (docx) / พื้นหลัง (รูป หรือ สี/ไล่สี) / แบนเนอร์ / รูป promotion + carousel</p>
@@ -798,21 +944,17 @@ const PAGE = /* html */ `<!doctype html>
     </div>
   </section>
 
-  </div>
-  <div class="col-side">
   <section class="card" id="card2">
     <h2>ไอคอนเว็บ · public</h2>
     <p class="sub">favicon (สร้างชุดไอคอนให้อัตโนมัติ) — โลโก้ public ดึงจาก Logo ในส่วนที่ 1 ให้เอง</p>
     <div class="field" data-img>
       <div class="row"><label>Favicon</label><span class="target">favicon.ico + .png set + .svg</span></div>
       <div class="row"><input type="file" accept="image/*,.svg" data-slot="favicon" /><img class="thumb" /></div>
-      <span class="status">สร้างชุด PNG + .ico + .svg ให้อัตโนมัติ (รูป raster จะฝังลงใน favicon.svg; ถ้าอัพโหลด .svg จะใช้ไฟล์นั้นตรงๆ)</span>
     </div>
   </section>
 
   <section class="card" id="card3">
     <h2>ลิงก์ · aff / ไลน์</h2>
-    <p class="sub">ลิงก์ aff (หน้า login/register) และลิงก์ไลน์ (redirect /line) — เว้นว่างไว้ถ้าไม่ต้องการแก้</p>
     <div class="field" id="affField">
       <div class="row"><label>ลิงก์ aff</label><span class="target">src/pages/login.astro + register.astro</span></div>
       <div class="row"><input type="url" class="linkinput" id="affInput" placeholder="https://..." spellcheck="false" /></div>
@@ -827,7 +969,6 @@ const PAGE = /* html */ `<!doctype html>
 
   <section class="card" id="card4">
     <h2>SEO · Title / Meta หน้าย่อย</h2>
-    <p class="sub">แก้ &lt;title&gt; และ meta description ของ 4 หน้าย่อย — กด "ดึงจาก content.docx" เพื่อดึง section SUB-PAGES มาเติมให้ (ตรวจ/แก้ก่อนได้) แล้วค่อยกด "อัพโหลดทั้งหมด" เพื่อบันทึก</p>
     <div class="pull-row">
       <button type="button" id="pullDocx" class="ghost">📄 ดึงจาก content.docx</button>
       <span class="pull-hint">อัพ Content brief (docx) ในส่วนที่ 1 ก่อน แล้วค่อยกดปุ่มนี้</span>
@@ -857,7 +998,58 @@ const PAGE = /* html */ `<!doctype html>
       <span class="status"></span>
     </div>
   </section>
-  </div>
+
+  <section class="card" id="card5">
+    <h2>สร้างหน้าเพิ่ม</h2>
+    <div class="field newpage" data-newpage="article">
+      <div class="row">
+        <label class="switch"><input type="checkbox" class="np-toggle" /><span class="slider"></span></label>
+        <label>บทความ</label>
+        <span class="target">src/pages/บทความ.astro</span>
+        <span class="badge np-badge"></span>
+      </div>
+      <div class="np-body" hidden>
+        <input type="text" class="metatitle" data-k="title" placeholder="Title (เว้นว่างได้ — Claude เขียนให้)" spellcheck="false" />
+        <textarea class="metadesc" data-k="desc" rows="2" placeholder="Meta description (เว้นว่างได้ — Claude เขียนให้)" spellcheck="false"></textarea>
+      </div>
+      <span class="status"></span>
+    </div>
+    <div class="field newpage" data-newpage="aboutus">
+      <div class="row">
+        <label class="switch"><input type="checkbox" class="np-toggle" /><span class="slider"></span></label>
+        <label>เกี่ยวกับเรา</label>
+        <span class="target">src/pages/about-us.astro</span>
+        <span class="badge np-badge"></span>
+      </div>
+      <div class="np-body" hidden>
+        <input type="text" class="metatitle" data-k="title" placeholder="Title (เว้นว่างได้ — Claude เขียนให้)" spellcheck="false" />
+        <textarea class="metadesc" data-k="desc" rows="2" placeholder="Meta description (เว้นว่างได้ — Claude เขียนให้)" spellcheck="false"></textarea>
+      </div>
+      <span class="status"></span>
+    </div>
+  </section>
+
+  <section class="card" id="card6">
+    <h2>สร้างคำสั่ง Rebrand (สำหรับ Claude Code)</h2>
+    <div class="field">
+      <div class="row"><label>ชื่อแบรนด์</label></div>
+      <input type="text" class="linkinput" id="rbBrand" placeholder="เช่น PABLO666" spellcheck="false" />
+    </div>
+    <div class="field">
+      <div class="row"><label>URL production จริง</label><span class="opt">optional</span></div>
+      <input type="url" class="linkinput" id="rbUrl" placeholder="เช่น https://www.pablo666-brand.com" spellcheck="false" />
+      <span class="status">ใส่เมื่อรู้โดเมนจริง — เว้นว่างได้ คำสั่งจะสั่งห้ามเปลี่ยนโดเมนเดิม</span>
+    </div>
+    <div class="field">
+      <div class="row"><label>หมายเหตุ / variant hints</label><span class="opt">optional</span></div>
+      <textarea class="metadesc" id="rbNotes" rows="2" placeholder="เช่น โทนทอง-ดำ, ใช้ NavbarPremium, เน้นหน้าโปรโมชั่น" spellcheck="false"></textarea>
+    </div>
+    <div class="field">
+      <div class="row"><label>คำสั่งที่จะ copy</label><button type="button" id="rbCopy" class="ghost">📋 Copy คำสั่ง</button></div>
+      <textarea class="metadesc" id="rbPrompt" rows="3" readonly spellcheck="false"></textarea>
+      <span class="status" id="rbHint">flow: Copy → วางใน Claude Code → รอเสร็จ → <code>npm run preview</code> ตรวจด้วยตา → ค่อย deploy แยกด้วย deploy.ps1 (ห้าม deploy อัตโนมัติ)</span>
+    </div>
+  </section>
 </main>
 <div class="bar">
   <button id="uploadAll">อัพโหลดทั้งหมด</button>
@@ -997,7 +1189,13 @@ const PAGE = /* html */ `<!doctype html>
 
   document.getElementById('pullDocx').addEventListener('click', async () => {
     try {
-      const res = await fetch('/parse-docx');
+      // Prefer the file the operator just browsed (not yet uploaded) so the
+      // preview reads the original source; fall back to the staged content.docx.
+      const docxInput = document.querySelector('input[data-slot="docx"]');
+      const picked = docxInput && docxInput.files && docxInput.files[0];
+      const res = picked
+        ? await fetch('/parse-docx', { method: 'POST', body: picked })
+        : await fetch('/parse-docx');
       const j = await res.json();
       if (!res.ok || !j.ok) throw new Error(j.error || ('HTTP ' + res.status));
       let filled = 0;
@@ -1014,7 +1212,8 @@ const PAGE = /* html */ `<!doctype html>
         }
       }
       (j.warnings || []).forEach((w) => addLog('docx: ' + w, false));
-      addLog('ดึงจาก content.docx: เติมได้ ' + filled + ' หน้า', filled > 0);
+      const src = picked ? ('ไฟล์ที่เลือก (' + picked.name + ')') : 'content.docx ในโปรเจค';
+      addLog('ดึงจาก ' + src + ': เติมได้ ' + filled + ' หน้า', filled > 0);
     } catch (e) {
       addLog('ดึงจาก docx: ' + e.message, false);
     }
@@ -1042,6 +1241,94 @@ const PAGE = /* html */ `<!doctype html>
     return true;
   }
 
+  // ── Optional preset pages (ส่วนที่ 5): toggle → scaffold file + nav link ────
+  const newpageFields = [...document.querySelectorAll('.field[data-newpage]')];
+  const npEls = (f) => ({
+    toggle: f.querySelector('.np-toggle'),
+    body: f.querySelector('.np-body'),
+    title: f.querySelector('[data-k=title]'),
+    desc: f.querySelector('[data-k=desc]'),
+    status: f.querySelector('.status'),
+    badge: f.querySelector('.np-badge'),
+  });
+  for (const f of newpageFields) {
+    const { toggle, body } = npEls(f);
+    toggle.addEventListener('change', () => { body.hidden = !toggle.checked; });
+  }
+  fetch('/current-newpages').then((r) => r.json()).then((cur) => {
+    for (const f of newpageFields) {
+      const c = cur[f.dataset.newpage];
+      if (!c) continue;
+      const { toggle, body, title, desc, badge } = npEls(f);
+      if (c.exists) {
+        toggle.checked = true; body.hidden = false;
+        title.value = c.title || ''; desc.value = c.meta || '';
+        badge.textContent = 'มีอยู่แล้ว'; badge.className = 'badge np-badge exists';
+      } else {
+        badge.textContent = 'จะสร้างใหม่'; badge.className = 'badge np-badge new';
+      }
+    }
+  }).catch(() => {});
+
+  // POST one preset page if its toggle is on. Off = do nothing (never deletes).
+  // Title/Meta are optional — blank is fine, the page is scaffolded with default
+  // meta + a placeholder article for Claude to write at rebrand time.
+  async function sendNewPage(f) {
+    const { toggle, title, desc, status } = npEls(f);
+    if (!toggle.checked) return false;
+    const t = title.value.trim(), d = desc.value.trim();
+    const q = new URLSearchParams({ slot: 'newpage', page: f.dataset.newpage, title: t, desc: d });
+    status.textContent = (!t && !d) ? '⏳ กำลังสร้าง (Claude เขียนเนื้อหาให้ตอนรีแบรนด์)...' : '⏳ กำลังสร้าง...';
+    try {
+      const res = await fetch('/upload?' + q.toString(), { method: 'POST' });
+      const j = await res.json();
+      if (!res.ok || !j.ok) throw new Error(j.error || ('HTTP ' + res.status));
+      status.textContent = '✅ ' + j.written.join(', ');
+      addLog(f.dataset.newpage + ' → ' + j.written.join(', '), true);
+      if (j.navAlready) addLog(f.dataset.newpage + ': ลิงก์เมนูมีอยู่แล้ว (ข้าม)', true);
+      if (j.navWarning) addLog('navbar: ' + j.navWarning, false);
+    } catch (e) {
+      status.textContent = '❌ ' + e.message;
+      addLog(f.dataset.newpage + ': ' + e.message, false);
+    }
+    return true;
+  }
+
+  // ── Rebrand prompt (ส่วนที่ 6): assemble the exact prompt, client-side only ──
+  // No server call — just helps a dev paste a correct, typo-free command into
+  // Claude Code, in the one-liner style they actually use. URL clause is dropped
+  // when empty (playbook + the URL-scope rule already keep a bare rebrand off the
+  // domain); the verify / stop-at-preview reminder lives in the UI hint, not the
+  // copied text, to keep the prompt short.
+  const rbBrand = document.getElementById('rbBrand');
+  const rbUrl = document.getElementById('rbUrl');
+  const rbNotes = document.getElementById('rbNotes');
+  const rbPrompt = document.getElementById('rbPrompt');
+  const rbCopy = document.getElementById('rbCopy');
+  function buildPrompt() {
+    const brand = rbBrand.value.trim() || '<ชื่อแบรนด์>';
+    const url = rbUrl.value.trim();
+    const notes = rbNotes.value.trim();
+    let p = 'rebrand and retheme to "' + brand + '"';
+    if (url) p += ' then real url is "' + url + '"';
+    p += ' ทำแบบ 2-agent ขนานตาม playbook';
+    if (notes) p += ' — ' + notes;
+    return p;
+  }
+  function refreshPrompt() { rbPrompt.value = buildPrompt(); }
+  [rbBrand, rbUrl, rbNotes].forEach((el) => el.addEventListener('input', refreshPrompt));
+  refreshPrompt();
+  rbCopy.addEventListener('click', async () => {
+    refreshPrompt();
+    try {
+      await navigator.clipboard.writeText(rbPrompt.value);
+      addLog('คัดลอกคำสั่ง rebrand แล้ว — วางใน Claude Code ได้เลย', true);
+    } catch {
+      rbPrompt.select();
+      addLog('คัดลอกอัตโนมัติไม่ได้ (เลือกข้อความให้แล้ว กด Ctrl+C)', false);
+    }
+  });
+
   document.getElementById('uploadAll').addEventListener('click', async () => {
     const inputs = [...document.querySelectorAll('input[type=file]')].filter((i) => i !== bgFile);
     let any = false;
@@ -1049,6 +1336,7 @@ const PAGE = /* html */ `<!doctype html>
     if (await sendLink('aff', affInput, 'affField', 'ลิงก์ aff')) any = true;
     if (await sendLink('line', lineInput, 'lineField', 'ลิงก์ไลน์')) any = true;
     for (const f of metaFields) { if (await sendPageMeta(f)) any = true; }
+    for (const f of newpageFields) { if (await sendNewPage(f)) any = true; }
 
     const bgReq = bgRequest();
     if (bgReq) {
@@ -1109,10 +1397,25 @@ const server = http.createServer(async (req, res) => {
     res.end(JSON.stringify(await readCurrentPageMeta()));
     return;
   }
-  if (req.method === "GET" && url.pathname === "/parse-docx") {
+  if (req.method === "GET" && url.pathname === "/current-newpages") {
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(await readCurrentNewPages()));
+    return;
+  }
+  if ((req.method === "GET" || req.method === "POST") && url.pathname === "/parse-docx") {
     try {
+      // POST body = the docx the operator just browsed (preview before upload);
+      // GET = fall back to the staged src/assets/content.docx.
+      let result;
+      if (req.method === "POST") {
+        const buf = await readBody(req);
+        if (!buf.length) throw new Error("ไม่พบไฟล์ docx ที่ส่งมา");
+        result = parseDocxBuffer(buf);
+      } else {
+        result = await readDocxSubPages();
+      }
       res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ ok: true, ...(await readDocxSubPages()) }));
+      res.end(JSON.stringify({ ok: true, ...result }));
     } catch (err) {
       res.writeHead(400, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ ok: false, error: err.message }));
@@ -1126,6 +1429,7 @@ const server = http.createServer(async (req, res) => {
       const ext = (url.searchParams.get("ext") || "").toLowerCase();
       const buf = await readBody(req);
       let written;
+      let extra = {};
       if (slot === "bg") {
         // the one slot that may arrive with no body (colour / gradient mode)
         written = await handleBackground(url.searchParams, buf);
@@ -1141,12 +1445,22 @@ const server = http.createServer(async (req, res) => {
           url.searchParams.get("title"),
           url.searchParams.get("desc"),
         );
+      } else if (slot === "newpage") {
+        // optional preset page: scaffold the file + wire its nav link, no body
+        const key = url.searchParams.get("page") || "";
+        const cfg = PRESET_PAGES[key];
+        if (!cfg) throw new Error(`ไม่รู้จักหน้า preset: ${key}`);
+        const pageRes = await createPage(key, url.searchParams.get("title"), url.searchParams.get("desc"));
+        const navRes = await addNavLink(cfg.route, cfg.navLabel);
+        written = [...pageRes.written];
+        if (navRes.inserted) written.push(`navbar ${navRes.navFile} (+${navRes.inserted})`);
+        extra = { created: pageRes.created, navWarning: navRes.warning || null, navAlready: !!navRes.already };
       } else {
         if (!buf.length) throw new Error("empty upload");
         written = await handleUpload(slot, index, ext, buf);
       }
       res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ ok: true, written }));
+      res.end(JSON.stringify({ ok: true, written, ...extra }));
     } catch (err) {
       res.writeHead(400, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ ok: false, error: err.message }));
@@ -1161,8 +1475,9 @@ const server = http.createServer(async (req, res) => {
 await mkdir(ASSETS, { recursive: true });
 await mkdir(PUBLIC, { recursive: true });
 
-server.listen(PORT, () => {
-  console.log(`\n  Rebrand asset uploader running:\n  → http://localhost:${PORT}\n`);
+server.listen(PORT, HOST, () => {
+  const shown = HOST === "0.0.0.0" ? "localhost" : HOST;
+  console.log(`\n  Rebrand asset uploader running:\n  → http://${shown}:${PORT}   (bind ${HOST})\n`);
   console.log(`  Writes into:\n  - ${ASSETS}\n  - ${PUBLIC}\n`);
   console.log("  Ctrl+C to stop. This only stages files; run the rebrand via Claude afterward.\n");
 });

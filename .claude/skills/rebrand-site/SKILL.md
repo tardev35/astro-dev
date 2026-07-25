@@ -74,7 +74,12 @@ overlap:**
 - **Agent B — Sub-pages.** Owns every *other* `src/pages/*.astro` and the
   components *only* those pages render (e.g. `AnnouncementHuay`,
   `ContentBoxHuay`), MINUS the P1 shared set. Runs Phase 4.5 for those
-  pages (including the `Huay`-theme exception).
+  pages (including the `Huay`-theme exception). **Any preset page the
+  uploader scaffolded (e.g. `บทความ.astro`, `about-us.astro` — spot them by
+  a `TODO(rebrand)` placeholder body) is Agent B's too:** fill its body from
+  the docx and verify its navbar link, per Phase 4.5. Note the active navbar
+  itself lives in the P1 shared set, so if Agent B needs to hand-add a nav
+  link there, flag it for P1/orchestrator rather than editing it directly.
 
 Each subagent's brief MUST state, explicitly: (1) the exact file list it
 owns; (2) a **"do NOT touch"** list = the P1 shared-chrome files + the
@@ -99,6 +104,19 @@ splitting it. Fewer files in the parallel zone is always safer than a
 collision; when in doubt, widen P1 and shrink the fan-out.
 
 ## Phase 1 — Gather brand inputs
+
+**How this rebrand was likely triggered.** The `tools/rebrand-uploader` tool
+(launch by double-clicking `tools/rebrand-uploader/start-uploader.cmd` — no VS
+Code needed — or `npm run rebrand:upload`, opens `localhost:4000`) is where the
+operator stages the brand files first. Its **"ส่วนที่ 6 — สร้างคำสั่ง Rebrand"**
+card generates the very prompt that starts you, in the form
+`rebrand and retheme to "<BRAND>" then real url is "<URL>" ทำแบบ 2-agent ขนานตาม
+playbook`. So when you receive that shape of request: the logo/banner/slide/docx
+are already in `src/assets`, the `2-agent ขนาน`/`playbook` phrase means run the
+default parallel workflow above, and `real url is "<URL>"` is the explicit real
+domain (per the URL-scope rule below) — if that clause is absent, the operator
+left it blank on purpose: **do not change the domain.** Still run every phase in
+full; the prompt is only the trigger, not a shortcut around verification.
 
 1. **Find the brief.** Look for a `.docx` file dropped into `src/assets`
    or `src/components` (past runs named it `<brand>-content.docx`). The
@@ -150,6 +168,13 @@ collision; when in doubt, widen P1 and shrink the fan-out.
      older brand — a `banner3.png` dated before the new `banner1/2`
      drop is old inventory, skip it). It's fine to leave a `banner2+`
      unused if no section fits; don't force it or turn it into a hero.
+   - **`slide*` (promotion/carousel) images are the exact opposite of
+     `banner2/3/4`: they go ONLY inside a `ContentBoxSevenThree*`
+     image+text block — never a plain `ContentBox`, a standalone `<img>`,
+     a full-width strip, or a card grid (see the Phase 2 HARD RULE).** So
+     the whole front-page image split is: **`banner1` = hero, `banner2/3/4`
+     = single-column `ContentBox` illustrations (if present), `slide*` =
+     `ContentBoxSevenThree*` only.**
 3. Confirm the new brand name and check `astro.config.mjs` `site:` —
    it's often already been updated to the new domain before you're
    asked to do the content work.
@@ -375,6 +400,15 @@ sections, use it **once**. Every other docx section should lean on
 **single-column `ContentBox*` and two-column `ContentBoxTwo*`** instead
 — those carry the bulk of the page.
 
+**HARD RULE — `slide*` / promotion images may appear ONLY inside a
+`ContentBoxSevenThree*` block, nowhere else.** That image+text layout is the
+only place a slide/promotion image looks right, so **never** drop a slide
+into a plain `ContentBox`, a bare/full-width `<img>` or strip, a card grid,
+or any other component. Because SevenThree is capped at 2 per rebrand (rule
+above), at most **2 slides are ever used** — if a slide has no SevenThree
+home, or you've already used your 2 SevenThree blocks, **leave that slide
+unused**; do not relocate it into another box just to place it.
+
 **Pick exactly the 2 (or 1) `slide*` images that best illustrate their
 sections for those SevenThree blocks; the rest of the slides can go
 unused.** The image pool for SevenThree is the **`slide*` files only**
@@ -564,8 +598,47 @@ titles. (The uploader anchors only on the `<MainLayout>` tag and leaves
 `<ContentBox>` titles alone, so re-setting a title here never conflicts
 with what it may have written.)
 
+**The uploader's "ส่วนที่ 5 — สร้างหน้าเพิ่ม (ตัวเลือก)" can scaffold NEW
+pages before you start.** An operator may toggle on one of the preset extra
+pages (currently `บทความ.astro` and `about-us.astro`) in the uploader. When
+they do, the tool creates that `src/pages/*.astro` for real — cloning an
+existing sub-page's frontmatter (so it inherits the brand's current
+`Announcement*`/`ContentBox*` variants) — but leaves the **body as a blank
+placeholder**: a `<ContentBox>` holding an HTML comment
+`<!-- TODO(rebrand): … -->` plus a "อยู่ระหว่างปรับปรุงเนื้อหา" line.
+**Title/Meta are optional in the tool**, so when the operator left them blank
+the page ships with a throwaway default title (the page label) and a
+`(อยู่ระหว่างจัดทำเนื้อหา)` description — those are placeholders for you, not
+final copy. **These pages are in scope for this phase like any other
+`src/pages/*.astro`, and writing their content is YOUR job, not the tool's**
+(the uploader has no AI — it only scaffolds). For each (grep `src/pages` for
+`TODO(rebrand)` to find them — none may exist, that's fine):
+1. **Write a real ~1-paragraph article** for that page inside its `<ContentBox>`
+   (keep using `ContentBox`/the brand's box variant), built from the
+   `content.docx` — replacing the TODO comment + the "อยู่ระหว่างปรับปรุงเนื้อหา"
+   placeholder entirely. A `บทความ` page especially should read as genuine copy,
+   not a stub.
+2. **Set real `<MainLayout title/description>`** with the brand name (overwrite
+   the tool's default label/`(อยู่ระหว่างจัดทำเนื้อหา)` placeholder), same as
+   item 1 of this phase.
+3. Run the same brand-name / hue / chrome / stale-asset sweep on it.
+
+The uploader also tries to add the page's `{ name, path }`
+to the **active navbar's** link arrays (both desktop + mobile) on a
+best-effort basis — but it only understands the inline
+`[ {…path…} ].map(` array shape. If the active navbar variant uses a
+different markup (or the tool logged a `navbar: …` warning), the link won't
+be there: **grep the active navbar for the new page's `path:` and, if
+missing, add `{ name, path }` to both arrays yourself** (same edit you'd make
+when rotating navbar variants in Phase 2/3). A newly created page whose route
+isn't linked in the menu is the failure mode to watch for.
+
 Verify in Phase 5 by grepping **all** of `dist/` (not just
 `dist/index.html`) for the old brand name → must be 0 across every page.
+When a preset page was scaffolded, also confirm **zero** `TODO(rebrand)` /
+"อยู่ระหว่างปรับปรุงเนื้อหา" / "อยู่ระหว่างจัดทำเนื้อหา" placeholders survive into
+`dist/`, that the page now carries a real article + brand-name title, and that
+the new page's route appears in the rendered navbar.
 
 **Components can be nested — don't stop at grepping `index.astro`'s own
 JSX.** Some sections get extracted into their own wrapper component

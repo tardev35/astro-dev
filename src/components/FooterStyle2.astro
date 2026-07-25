@@ -6,9 +6,9 @@ const imagePaths = Object.keys(images);
 const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 ---
 
-<footer class="relative w-full overflow-hidden border-t-[3px] border-[#10b981] bg-[#021207] pt-16 pb-8 font-sans text-white shadow-[0_-10px_30px_rgba(16,185,129,0.15)]">
-  <div class="pointer-events-none absolute top-0 right-0 h-96 w-96 rounded-full bg-[#10b981]/10 blur-[100px]"></div>
-  <div class="pointer-events-none absolute bottom-0 left-0 h-96 w-96 rounded-full bg-yellow-500/5 blur-[100px]"></div>
+<footer class="relative w-full overflow-hidden border-t-[3px] border-amber-400 bg-[#0b1120] pt-16 pb-8 font-sans text-white shadow-[0_-10px_30px_rgba(251,191,36,0.15)]">
+  <div class="pointer-events-none absolute top-0 right-0 h-96 w-96 rounded-full bg-amber-400/10 blur-[100px]"></div>
+  <div class="pointer-events-none absolute bottom-0 left-0 h-96 w-96 rounded-full bg-slate-300/5 blur-[100px]"></div>
 
   <div class="relative z-10 mx-auto w-full max-w-[1200px] px-6">
     <div class="mb-12 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
@@ -16,18 +16,20 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
         <a href="/" class="inline-block origin-left transition-transform hover:scale-105">
           {
             mainLogo ? (
-              <Picture src={mainLogo} alt="CHOKDEE1688 Logo" class="h-[50px] w-auto drop-shadow-[0_0_15px_rgba(16,185,129,0.4)]" formats={["avif", "webp"]} fallbackFormat="webp" />
+              <Picture src={mainLogo} alt="NOVA852 Logo" class="h-[50px] w-auto drop-shadow-[0_0_15px_rgba(251,191,36,0.4)]" formats={["avif", "webp"]} fallbackFormat="webp" />
             ) : (
-              <h2 class="bg-gradient-to-b from-[#fef08a] to-[#ca8a04] bg-clip-text text-4xl font-black text-transparent drop-shadow-[0_0_10px_rgba(234,179,8,0.3)]">CHOKDEE1688</h2>
+              <p class="bg-gradient-to-r from-slate-100 via-slate-300 to-amber-400 bg-clip-text text-4xl font-black text-transparent drop-shadow-[0_0_10px_rgba(251,191,36,0.3)]">NOVA852</p>
             )
           }
         </a>
-        <p class="text-sm leading-relaxed text-green-50/80">CHOKDEE1688 เว็บสล็อตที่นิยม รวมเกมสล็อตจากหลายค่ายไว้ในเว็บเดียว ระบบออโต้ครบวงจร สมัคร ฝาก-ถอน สะดวกรวดเร็ว รองรับทุกธนาคารและ True Wallet</p>
+        <p class="text-sm leading-relaxed text-slate-200/80">
+          NOVA852 เว็บพนันออนไลน์ค่ายดัง เชื่อมต่อระบบ API แท้ไม่ล็อคยูสเซอร์ ฝากถอนระบบออโต้ด้วย AI อัจฉริยะ ปลอดภัย มั่นคง รองรับทุกธนาคารและ True Wallet จ่ายจริงเต็ม 100%
+        </p>
         <div class="mt-2 flex items-center gap-3">
-          <div class="flex items-center gap-1.5 rounded border border-[#10b981]/50 bg-[#10b981]/10 px-3 py-1.5 text-xs font-bold text-[#34d399] shadow-[0_0_10px_rgba(16,185,129,0.2)]">
+          <div class="flex items-center gap-1.5 rounded border border-slate-300/40 bg-slate-300/10 px-3 py-1.5 text-xs font-bold text-slate-100 shadow-[0_0_10px_rgba(203,213,225,0.15)]">
             <span class="text-base">🛡️</span> 100% SECURE
           </div>
-          <div class="flex items-center gap-1.5 rounded border border-yellow-500/50 bg-yellow-500/10 px-3 py-1.5 text-xs font-bold text-yellow-400">
+          <div class="flex items-center gap-1.5 rounded border border-amber-400/50 bg-amber-400/10 px-3 py-1.5 text-xs font-bold text-amber-400">
             <span class="text-base">⚡</span> AUTO 24H
           </div>
         </div>
@@ -35,19 +37,22 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 
       <nav aria-label="Quick Links" class="flex flex-col gap-4 lg:pl-8">
         <p class="flex items-center gap-2 text-lg font-extrabold text-white">
-          <span class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#34d399] to-[#047857]"></span> เมนูหลัก
+          <span class="h-6 w-1.5 rounded-full bg-gradient-to-b from-slate-200 to-amber-500"></span> เมนูหลัก
         </p>
         <ul class="flex flex-col gap-3 text-sm">
           {
             [
               { name: "หน้าแรก", path: "/" },
               { name: "โปรโมชั่น", path: "/promotion" },
+              { name: "ทดลองเล่น", path: "/ทดลองเล่น" },
+              { name: "ทางเข้า", path: "/ทางเข้า" },
+              { name: "ติดต่อเรา", path: "/contact-us" },
               { name: "สมัครสมาชิก", path: "/register" },
               { name: "เข้าสู่ระบบ", path: "/login" },
             ].map((link) => (
               <li>
-                <a href={link.path} class="group flex items-center text-green-50/80 transition-all hover:text-yellow-400">
-                  <span class="mr-2 -ml-4 text-[#10b981] opacity-0 transition-all group-hover:ml-0 group-hover:opacity-100">➤</span>
+                <a href={link.path} class="group flex items-center text-slate-200/80 transition-all hover:text-amber-400">
+                  <span class="mr-2 -ml-4 text-amber-400 opacity-0 transition-all group-hover:ml-0 group-hover:opacity-100">➤</span>
                   {link.name}
                 </a>
               </li>
@@ -58,14 +63,14 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 
       <nav aria-label="Game Categories" class="flex flex-col gap-4">
         <p class="flex items-center gap-2 text-lg font-extrabold text-white">
-          <span class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#34d399] to-[#047857]"></span> หมวดหมู่เกม
+          <span class="h-6 w-1.5 rounded-full bg-gradient-to-b from-slate-200 to-amber-500"></span> หมวดหมู่เกม
         </p>
         <ul class="flex flex-col gap-3 text-sm">
           {
             ["สล็อตออนไลน์ (Slot)", "คาสิโนสด (Live Casino)", "บาคาร่า (Baccarat)", "เดิมพันกีฬา (Sportsbook)"].map((game) => (
               <li>
-                <a href="/register" class="group flex items-center text-green-50/80 transition-all hover:text-white">
-                  <span class="mr-3 h-1.5 w-1.5 rounded-full bg-[#064e3b] transition-colors group-hover:bg-[#10b981] group-hover:shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+                <a href="/register" class="group flex items-center text-slate-200/80 transition-all hover:text-white">
+                  <span class="mr-3 h-1.5 w-1.5 rounded-full bg-slate-500 transition-colors group-hover:bg-amber-400 group-hover:shadow-[0_0_8px_rgba(251,191,36,0.8)]" />
                   {game}
                 </a>
               </li>
@@ -76,41 +81,41 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 
       <div class="flex flex-col gap-5">
         <p class="flex items-center gap-2 text-lg font-extrabold text-white">
-          <span class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#34d399] to-[#047857]"></span> บริการลูกค้า
+          <span class="h-6 w-1.5 rounded-full bg-gradient-to-b from-slate-200 to-amber-500"></span> บริการลูกค้า
         </p>
 
         <a
           href="/line"
           class="flex w-full items-center justify-center gap-2 rounded-lg bg-[#00B900] py-3 font-bold text-white shadow-[0_0_15px_rgba(0,185,0,0.3)] transition-transform hover:scale-105">
-          <span class="text-xl font-black">LINE</span> @CHOKDEE1688
+          <span class="text-xl font-black">LINE</span> @NOVA852
         </a>
 
         <div class="mt-2">
-          <p class="mb-3 text-xs font-bold tracking-wider text-[#10b981]/80 uppercase">รองรับทุกธนาคาร & True Wallet</p>
+          <p class="mb-3 text-xs font-bold tracking-wider text-amber-400/80 uppercase">รองรับทุกธนาคาร &amp; True Wallet</p>
           <div class="flex flex-wrap gap-2">
-            <div class="flex h-6 w-10 items-center justify-center rounded border border-[#10b981]/30 bg-[#118A44] text-[10px] font-bold text-white">K</div>
-            <div class="flex h-6 w-10 items-center justify-center rounded border border-[#10b981]/30 bg-[#4E2B7A] text-[10px] font-bold text-white">S</div>
-            <div class="flex h-6 w-10 items-center justify-center rounded border border-[#10b981]/30 bg-[#1BA1E2] text-[10px] font-bold text-white">K</div>
-            <div class="flex h-6 w-10 items-center justify-center rounded border border-[#10b981]/30 bg-[#00508F] text-[10px] font-bold text-white">B</div>
-            <div class="flex h-6 w-10 items-center justify-center rounded border border-[#10b981]/30 bg-gradient-to-r from-orange-500 to-orange-400 text-[10px] font-bold text-white">TW</div>
+            <div class="flex h-6 w-10 items-center justify-center rounded border border-amber-400/30 bg-[#118A44] text-[10px] font-bold text-white">K</div>
+            <div class="flex h-6 w-10 items-center justify-center rounded border border-amber-400/30 bg-[#4E2B7A] text-[10px] font-bold text-white">S</div>
+            <div class="flex h-6 w-10 items-center justify-center rounded border border-amber-400/30 bg-[#1BA1E2] text-[10px] font-bold text-white">K</div>
+            <div class="flex h-6 w-10 items-center justify-center rounded border border-amber-400/30 bg-[#00508F] text-[10px] font-bold text-white">B</div>
+            <div class="flex h-6 w-10 items-center justify-center rounded border border-amber-400/30 bg-gradient-to-r from-orange-500 to-orange-400 text-[10px] font-bold text-white">TW</div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="mb-6 flex flex-wrap justify-center gap-4 border-y border-[#10b981]/30 py-6 opacity-60 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0 md:gap-8">
-      <span class="text-lg font-black text-gray-300 italic md:text-2xl">PG<span class="text-yellow-500">SLOT</span></span>
-      <span class="text-lg font-black text-gray-300 italic md:text-2xl">SEXY<span class="text-pink-500">BACCARAT</span></span>
-      <span class="text-lg font-black text-gray-300 italic md:text-2xl">SA<span class="text-green-500">GAMING</span></span>
-      <span class="text-lg font-black text-gray-300 italic md:text-2xl">JOKER<span class="text-red-500">GAMING</span></span>
-      <span class="text-lg font-black text-gray-300 italic md:text-2xl">JILI<span class="text-yellow-500">CITY</span></span>
+    <div class="mb-6 flex flex-wrap justify-center gap-4 border-y border-amber-400/25 py-6 opacity-60 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0 md:gap-8">
+      <span class="text-lg font-black text-slate-300 italic md:text-2xl">PG<span class="text-amber-400">SLOT</span></span>
+      <span class="text-lg font-black text-slate-300 italic md:text-2xl">SEXY<span class="text-amber-400">BACCARAT</span></span>
+      <span class="text-lg font-black text-slate-300 italic md:text-2xl">SA<span class="text-amber-400">GAMING</span></span>
+      <span class="text-lg font-black text-slate-300 italic md:text-2xl">JOKER<span class="text-amber-400">GAMING</span></span>
+      <span class="text-lg font-black text-slate-300 italic md:text-2xl">JILI<span class="text-amber-400">CITY</span></span>
     </div>
 
-    <div class="flex flex-col items-center justify-between gap-4 text-xs text-green-200/50 md:flex-row">
-      <p>&copy; {new Date().getFullYear()} <span class="font-bold text-[#10b981]">CHOKDEE1688</span>. All rights reserved. เว็บสล็อตที่นิยม</p>
+    <div class="flex flex-col items-center justify-between gap-4 text-xs text-slate-300/50 md:flex-row">
+      <p>&copy; {new Date().getFullYear()} <span class="font-bold text-amber-400">NOVA852</span>. All rights reserved. เว็บพนันออนไลน์ค่ายดัง ฝากถอนระบบออโต้</p>
       <div class="flex gap-4">
-        <a href="/" class="transition-colors hover:text-yellow-400">เงื่อนไขการให้บริการ</a>
-        <a href="/" class="transition-colors hover:text-yellow-400">นโยบายความเป็นส่วนตัว</a>
+        <a href="/" class="transition-colors hover:text-amber-400">เงื่อนไขการให้บริการ</a>
+        <a href="/" class="transition-colors hover:text-amber-400">นโยบายความเป็นส่วนตัว</a>
       </div>
     </div>
   </div>

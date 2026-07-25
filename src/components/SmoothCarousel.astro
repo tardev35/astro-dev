@@ -3,13 +3,12 @@ import "swiper/css";
 
 import { Picture } from "astro:assets";
 
-import banner1 from "../assets/slide1.png";
-import banner2 from "../assets/slide2.png";
-import banner3 from "../assets/slide3.png";
-import banner4 from "../assets/slide4.png";
+import slide1 from "../assets/slide1.png";
+import slide2 from "../assets/slide2.png";
+import slide3 from "../assets/slide3.png";
 
-const images = [banner1, banner2, banner3, banner4];
-const displayImages = [...images, ...images, ...images];
+const images = [slide1, slide2, slide3];
+const displayImages = [...images, ...images, ...images, ...images];
 ---
 
 <div class="mx-auto w-full max-w-[1301px] overflow-hidden px-4 py-5">
@@ -20,8 +19,8 @@ const displayImages = [...images, ...images, ...images];
           <div class="swiper-slide">
             <Picture
               src={img}
-              alt={`Banner ${index + 1}`}
-              class="block w-full rounded-xl border border-amber-900/30 object-contain object-cover shadow-[0_5px_15px_rgba(234,179,8,0.2)]"
+              alt={`โปรโมชั่น NOVA852 ลำดับที่ ${(index % 3) + 1}`}
+              class="block w-full rounded-xl border border-amber-500/25 object-contain object-cover shadow-[0_5px_15px_rgba(251,191,36,0.2)]"
               width={img.width}
               height={img.height}
               loading={index < 2 ? "eager" : "lazy"}

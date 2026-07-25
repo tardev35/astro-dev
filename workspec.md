@@ -1145,3 +1145,41 @@ NavbarStyle family, Footer family** โดย:
 **Verify (build เดียว Phase 5):** `npm run build` ผ่าน 7 หน้า 0 fail. grep `dist/` ทั้งหมด: GROW268/grow268 = 0, MARINA65/marina65 = 0, grow268-brand.com/marina65-review.com = 0; undefined/NaN/[object Object] = 0; HTML comment ทุกหน้า = 0; off-brand hue ใน `class="..."` = 0; `<h1>` = 1, heading order ตรง docx เป๊ะ (H1 + 6×H2), `<h3>` = 5 (FeatureHighlights, sanctioned); og:image = hashed slide1 ✓; hero = banner1 avif hashed (ไม่โดน glob trap, banner2 หาย) ✓; ทุกหน้า title = PABLO666 ✓; 4 หน้า shared-chrome ใช้ AnnouncementCyber ✓; aff redirect yoalink คงอยู่ทั้ง login/register ✓. `#14040a` โผล่ 10 ครั้งใน dist/index.html = **นิยาม CSS ที่ไม่ถูกใช้** (inlined จาก inventory comps ที่ Tailwind สแกน, ไม่มี element ใช้จริง) = noise ตาม playbook ไม่ใช่บั๊ก. `ring/ring-1/ring-2` ใน login/register = **custom class ใน `<style>` ของหน้าเอง** (ไม่ใช่ Tailwind util) linter false-positive → ไม่แตะ.
 
 **Out of scope / ไม่แตะ:** inventory variants ที่ไม่ได้ใช้ (NavbarPremium/FooterPremium/Announcement3/LatestWinnersPremium/ContentBoxPremium/SevenThreePremium + Style*/Cyber/Huay อื่น) = เก็บเป็น inventory แบรนด์หน้า; banner2/banner3/banner.png/bg.png = ไม่ import/uploader-managed ไม่แตะ; redirect /line → yoalink อยู่ใน FooterCyber (intentional, คงไว้).
+
+---
+
+# 2026-07-25 — รีแบรนด์ NOVA852 (จาก PABLO666) — 2-agent ขนาน
+
+**เป้าหมาย:** รีแบรนด์ + retheme template จาก PABLO666 → **NOVA852**, URL จริงที่ผู้ใช้ให้ `https://www.nova852.online`. รันแบบ 2-agent ขนานตาม playbook (`.claude/skills/rebrand-site`): orchestrator ทำ P0 brand-spec + P1 shared chrome เอง แล้ว fan out Agent A = Landing / Agent B = Sub-pages, กลับมา merge+verify เอง
+
+**อินพุตแบรนด์:** `content.docx` (มี section `SUB-PAGES` → ใช้ Title/Meta หน้าย่อย verbatim), โลโก้ `Nova852` เงิน(silver)+ทอง บนดำ, hero (banner1) ดำ+ทอง+รูเล็ต+สล็อต 777. **Palette = ทอง (หลัก) + เงิน/platinum (accent) + ดำ-navy** (`bg.json` = `linear-gradient(180deg,#0f172a,#493003)` uploader-managed ไม่แตะ)
+
+**Docx:** 1×H1 + 6×H2 + Q&A 3 ชุด — render ครบทุกหัวข้อ ตามลำดับ body verbatim (มี `<strong>NOVA852</strong>` ครอบชื่อแบรนด์ในย่อหน้าเท่านั้น) + FAQ 3 ข้อ
+
+**Assets (drop ใหม่ Jul 25 11:18):** logo.webp, banner1 (hero), banner2 (สมาชิกใหม่รับเครดิตฟรี 100 → inline illustration), slide1/2/3. **slide4.png (Jul 25 06:54) = STALE ของ PABLO666** (มีโลโก้ PABLO666 ฝังในภาพ) — ลบ import ออกจาก `index.astro`, `SmoothCarousel.astro`, `promotion.astro`; banner3.png/banner.png stale ไม่ import
+- แมป: slide1 → SevenThree #1 (sec.3) + OG image, slide2 → SevenThree #2 (sec.4), banner2 → inline ใน ContentBox คอลัมน์เดียว sec.6 (`max-w-2xl`), **slide3 = ไม่ใช้ใน SevenThree** (ครบโควตา 2 บล็อก) แต่ยังอยู่ใน SmoothCarousel/promotion ตามเดิม
+
+**Variant rotation (PABLO666 → NOVA852):**
+- Navbar: **NavbarCyber → NavbarStyle3** (pill ลอย rounded-full, cyan → ทอง/เงิน)
+- Footer: **FooterCyber → FooterStyle2** (4 คอลัมน์ + แถบค่ายเกม, emerald → ทอง/เงิน)
+- Announcement: **AnnouncementCyber → Announcement5** (ทุกหน้า, แดง → ทอง/เงิน + ตั้ง default message NOVA852)
+- LatestWinners: **LatestWinnersCyber → LatestWinners4**
+- ContentBox mix: **CyberCut-led → Neumorphism-led + SevenThree plain + FloatingBadge + Special**
+- FAQ: **เดิมไม่มี FAQ บนหน้าแรกเลย → เพิ่ม `Faq3`** (เขียน `const faqs` ใหม่จาก Q&A 3 ข้อใน docx; ไม่มีหน้าอื่น import จึงแก้ในไฟล์ได้)
+- **ตระกูล Cyber ทั้งชุดถูกปลดเป็น inventory** ไม่ใช้ในแบรนด์นี้
+
+**Palette map:** `red-*`/`rose-*` (accent ทับทิม PABLO666) → `slate-*` (เงิน); `cyan-*`/`blue-*` (NavbarStyle3 เดิม) → `amber-*`; `emerald-*`/`green-*` (FooterStyle2 เดิม = CHOKDEE1688) → `amber-*`/`slate-*`; hex เข้ม `#001a33`/`#000a14`/`#021207`/`#14040a` → `#0b1120`/`#060a14`/`#141008`; glow → `rgba(251,191,36,α)` ทอง / `rgba(203,213,225,α)` เงิน. **คง semantic:** LINE `#00B900`, จุด live เขียว, สีแบงก์จริง, TrueMoney orange badge
+
+**P1 — shared chrome (orchestrator ทำเอง ก่อน fan out):** `MainLayout.astro` (repoint Navbar→NavbarStyle3 / Footer→FooterStyle2 + default title/desc/ogSiteName/apple-title/banner alt), `NavbarStyle3.astro`, `FooterStyle2.astro` (logo fallback `<h2>`→`<p>` กัน h2 เกิน), `Announcement5.astro`, `Navfoot.astro` (ปุ่ม login แดง→เงิน). **`ContentBox.astro` + `ContentBoxHuay.astro` ตรวจแล้วเป็นทอง/ดำอยู่แล้ว ไม่มีชื่อแบรนด์/HTML comment → ไม่แก้.** URL 2 จุด: `astro.config.mjs` `site:` + `public/robots.txt` `Sitemap:` (จุดที่ 3 = `webSiteSchema.url` ใน index.astro ให้ Agent A ตั้ง)
+
+**Agent A — Landing:** เขียน `index.astro` ใหม่ทั้งหน้า (H1 → carousel → sec2 → FeatureHighlights → ProviderGrid → sec3(SevenThree#1) → GameRankingBoard → sec4(SevenThree#2) → LoginRtpSection → sec5 → sec6+banner2 → CTA → sec7 → Faq3 → LatestWinners4 → Navfoot) + retheme 13 component ที่ index render เท่านั้น. hoist slot-wrapper `<div>` ใน SevenThree 2 ตัว (+`leading-normal` กัน line-height รั่วลง heading), แก้สีชิปธนาคารใน LatestWinners4 ให้เป็นสีแบงก์จริง
+
+**Agent B — Sub-pages:** 6 หน้า live + 2 หน้าใน `pages-disabled`. ทุกหน้า repoint `AnnouncementCyber`→`Announcement5` (bare, ใช้ default). ตั้ง Title/Meta จาก section SUB-PAGES ของ docx (register ไม่มีใน docx → เขียนเอง). `login`/`register` เป็น standalone HTML → retheme hex/rgba ใน `<style>` (rename var `--brand-red`/`--brand-pink` → `--brand-gold`/`--brand-silver`), **เพิ่ม `<meta name="description">` ที่เดิมทั้ง 2 หน้าไม่มีเลย**, แก้ CSS ผิดรูป `min-h-screen: 100vh` → `min-height: 100vh`, แก้ข้อความ login ที่เขียนว่า "กำลังพาไปหน้าสมัครสมาชิก". `promotion` ลบ slide4 + re-flow grid เป็น 3 คอลัมน์. `contact-us` แก้ schema `contactPoint.url` จาก LINE ลิงก์ hardcode เก่า → `homePage + "/line"` (ผ่าน redirect ใน astro.config)
+
+**บั๊ก/แก้เพิ่มโดย orchestrator หลัง merge (P3):** `ContentBoxFloatingBadge` — (1) เดิมใส่ `✦` **ข้างใน** `<HeadingTag>` ทำให้ข้อความ h2 ที่ render ไม่ตรงหัวข้อ docx → ย้าย `✦` ออกเป็น `<span aria-hidden>` พี่น้อง; (2) badge เป็น `absolute -top-6` แล้วพึ่ง `pt-*` ที่คำนวณจากจำนวนบรรทัดที่ "เดา" (สภาพแวดล้อมนี้ไม่มี headless browser วัดจริงได้) → เปลี่ยนเป็น **in-flow บนมือถือ / absolute เฉพาะ `md:` ขึ้นไป** (`md:absolute md:-top-6 … md:pt-28`) + ลดขนาดหัวข้อบนมือถือ (`text-lg md:text-2xl`) = ไม่มีทางทับเนื้อหาไม่ว่าหัวข้อจะ wrap กี่บรรทัด
+
+**Verify (Phase 5):** `npm run build` ผ่าน **7 หน้า 0 fail**. grep `dist/` ทั้งหมด: ชื่อแบรนด์เก่าทุกตัว (pablo666/grow268/bestclub88/marina65/oho21/sumoheng/var99/brazil999/teenoi168/marangs777/chokdee1688/funnemo/takdee999/hengjud) = **0**; `slide4` = 0; โดเมนเก่า = 0; `nova852.online` = 62 จุด; HTML comment = **0 ทุกหน้า**; `undefined`/`NaN`/`[object Object]` = 0 จริง (ที่ match คือคำว่า "Bo**nan**za" = false positive); heading: `<h1>`=1, `<h2>`=12 (6 หัวข้อ docx ครบ **เรียงตรงตามลำดับ** + 6 ตัวจาก widget), `<h3>`=5 (FeatureHighlights เท่านั้น = sanctioned), `<h4-h6>`=0; FAQ render ครบ 3 ข้อ; hero = `/_astro/banner1.*` (ไม่โดน glob trap); og:image = `/_astro/slide1.*` hashed ✓; ticker Announcement5 อยู่ครบทั้ง 5 หน้าที่ใช้ MainLayout; title ถูกต้องครบ 7 หน้า; sitemap = 7 URL ไม่มีหน้าหวย. **สีนอกธีมใน `class="…"` จริง (ไม่นับ CSS bundle) เหลือ 23 จุด = semantic ล้วน**: `green-400` จุด live pulse 13 จุด + `orange-400/500` TrueMoney badge 10 จุด
+
+**หน้าหวย:** prompt ไม่มีคำว่า `เว็บหวย` และ NOVA852 เป็นแบรนด์คาสิโน → `ตรวจหวย`/`แนวทาง` **คงปิดไว้ใน `src/pages-disabled/`** ไม่ route ไม่เพิ่มลิงก์ใน navbar; แก้แค่ชื่อแบรนด์เก่า (`BESTCLUB88` → `NOVA852`) คงธีมหวยแดง/ทอง + `AnnouncementHuay` ตามข้อยกเว้น
+
+**Out of scope / ไม่แตะ:** inventory variants ที่ไม่ได้ render (ตระกูล Cyber ทั้งชุด, NavbarPremium/NavbarStyle*/Footer* อื่น, Announcement2/3/4/6/Premium, ContentBoxCyberCut/Premium/*, LatestWinners/2/3/Premium, Faq/Faq2/Faq4, ReviewCardSumo*) = เก็บเป็น inventory แบรนด์หน้า ชื่อ/สีเก่าในนั้น = expected drift; **`AnnouncementHuay.astro` ยังมี `BESTCLUB88` ใน default `message`** — ทั้ง 2 หน้าที่ใช้ส่ง `message` prop ชัดเจนอยู่แล้วและหน้าอยู่ใน pages-disabled จึงไม่ render ที่ไหน (ถ้ารีแบรนด์หน้าเปิดหวย ต้องแก้ default นี้ด้วย); ไฟล์ภาพ stale `slide4.png`/`banner3.png`/`banner.png` ไม่ลบตามกฎ; affiliate redirect ใน login/register = **`https://yoalink.com/mucr`** คงไว้ byte-identical (หมายเหตุ: brief แรกเขียนว่า `/22hs` ซึ่งเป็นของแบรนด์เก่า — ของจริงในไฟล์คือ `/mucr`); `bg.json`/`bg.png` uploader-managed; google-site-verification token

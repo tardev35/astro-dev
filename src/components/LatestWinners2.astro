@@ -14,14 +14,15 @@ const bankPool = [
 ];
 ---
 
-<div class="mx-auto w-full max-w-[1300px] p-4 font-sans">
-  <div class="relative overflow-hidden rounded-[30px] border-2 border-blue-500/30 bg-[#050d16]/90 px-4 py-8 shadow-[0_10px_40px_rgba(37,99,235,0.15)] backdrop-blur-md md:p-10">
-    <div class="pointer-events-none absolute -top-10 left-1/2 h-32 w-64 -translate-x-1/2 rounded-full bg-blue-600/20 blur-[50px]"></div>
+<div class="relative z-10 mx-auto w-full max-w-[1300px] p-4 font-sans">
+  <div class="relative overflow-hidden rounded-[30px] border-2 border-blue-500/35 bg-[#040b1e]/90 px-4 py-8 shadow-[0_10px_40px_rgba(37,99,235,0.18)] backdrop-blur-md md:p-10">
+    <div class="pointer-events-none absolute -top-10 left-1/2 h-32 w-64 -translate-x-1/2 rounded-full bg-blue-600/25 blur-[50px]"></div>
+    <div class="pointer-events-none absolute -bottom-10 right-1/4 h-32 w-64 rounded-full bg-red-600/15 blur-[50px]"></div>
 
     <div class="relative z-10 mb-8 flex items-center justify-center gap-3">
-      <span class="text-2xl drop-shadow-[0_0_8px_rgba(234,179,8,0.6)]">🏆</span>
-      <h2 class="bg-gradient-to-b from-[#fef08a] to-[#ca8a04] bg-clip-text text-xl font-black tracking-wide text-transparent drop-shadow-sm md:text-3xl">รายการถอนเงินล่าสุด HENGJUD365</h2>
-      <span class="text-2xl drop-shadow-[0_0_8px_rgba(234,179,8,0.6)]">🏆</span>
+      <span class="text-2xl drop-shadow-[0_0_8px_rgba(250,204,21,0.6)]">🏆</span>
+      <p class="bg-gradient-to-r from-blue-300 via-white to-yellow-300 bg-clip-text text-xl font-black tracking-wide text-transparent drop-shadow-sm md:text-3xl">รายการถอนเงินล่าสุด LONDON999VIP</p>
+      <span class="text-2xl drop-shadow-[0_0_8px_rgba(250,204,21,0.6)]">🏆</span>
     </div>
 
     <div id="feed-grid" class="relative z-10 grid grid-cols-1 gap-4 md:grid-cols-2"></div>
@@ -41,21 +42,21 @@ const bankPool = [
     const user = `${getRandomStr(2, "abcdefghijklmnopqrstuvwxyz")}***${getRandomStr(4, "0123456789")}`;
     const isPending = Math.random() > 0.6;
 
-    const statusClass = isPending ? "text-gray-300 bg-gray-600/40 animate-pulse" : "text-yellow-900 bg-gradient-to-r from-yellow-300 to-yellow-500 font-black shadow-md";
+    const statusClass = isPending ? "text-blue-100 bg-blue-800/50 animate-pulse" : "text-white bg-gradient-to-r from-green-500 to-green-700 font-black shadow-md";
     const statusText = isPending ? "กำลังดำเนินการ" : "ถอนสำเร็จแล้ว";
 
     return `
       <div class="winner-card transform scale-95 opacity-0 transition-all duration-500 ease-out">
-        <div class="flex flex-col rounded-[20px] border border-blue-500/20 bg-[#0a1830]/80 p-5 shadow-sm transition-all hover:border-blue-400/50 hover:bg-[#0f2340]">
+        <div class="flex flex-col rounded-[20px] border border-blue-500/25 bg-[#071433]/85 p-5 shadow-sm transition-all hover:border-blue-400/60 hover:bg-[#0a1a3d]">
           <div class="flex justify-between items-start mb-4">
             <div class="flex h-10 w-10 items-center justify-center rounded-full ${bank.color} shadow-inner border border-white/10">
-              <img src="${bank.icon}" alt="bank" class="h-6 w-6 object-contain" />
+              <img src="${bank.icon}" alt="${bank.name}" class="h-6 w-6 object-contain" />
             </div>
             <div class="rounded-full px-3 py-1 text-[10px] ${statusClass}">${statusText}</div>
           </div>
           <div>
             <div class="text-sm text-blue-100/80">ยูสเซอร์: <span class="font-bold text-white">${user}</span></div>
-            <div class="mt-1 text-2xl font-black text-yellow-400 drop-shadow-[0_0_5px_rgba(234,179,8,0.4)]">${getAmount()} <span class="text-xs text-yellow-600">THB</span></div>
+            <div class="mt-1 text-2xl font-black text-yellow-300 drop-shadow-[0_0_6px_rgba(250,204,21,0.4)]">${getAmount()} <span class="text-xs text-yellow-500">THB</span></div>
           </div>
         </div>
       </div>

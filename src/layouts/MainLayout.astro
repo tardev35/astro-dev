@@ -4,8 +4,8 @@ import Bg from "../assets/bg.png";
 import bgConfig from "../assets/bg.json";
 import ogImage from "../assets/slide1.png";
 import "../styles/global.css";
-import Navbar from "../components/NavbarCyber.astro";
-import Footer from "../components/FooterCyber.astro";
+import Navbar from "../components/NavbarStyle10.astro";
+import Footer from "../components/FooterPremiumSumo.astro";
 
 const bannerImages = import.meta.glob<{ default: ImageMetadata }>("../assets/banner*.{png,webp,jpg,jpeg}", { eager: true });
 const bannerPaths = Object.keys(bannerImages);
@@ -15,8 +15,8 @@ const mainBannerPath = preferredBannerPath ?? webpBannerPath ?? bannerPaths[0];
 const mainBanner = mainBannerPath ? bannerImages[mainBannerPath].default : null;
 
 const {
-  title = "PABLO666 รีวิวเว็บตรง สล็อต1บาท ก็ฝากได้ ทดลองเล่นจริง ระบบออโต้",
-  description = "PABLO666 รีวิวเว็บตรง ไม่ได้มีดีแค่เรื่องเกมสล็อต ทดลองเล่นสล็อต1บาท ก็ฝากได้ เหมาะกับใครที่ไม่อยากเริ่มด้วยทุนสูง ระบบออโต้หลังบ้านอัจริยะ ทางเข้า ปลอดภัย",
+  title = "LONDON999VIP | รวมค่ายเกมสล็อตยอดฮิต มั่นคงปลอดภัย ฝากถอนไว",
+  description = "ปั้นพอร์ตทำกำไรกับ LONDON999VIP รวมค่ายเกมสล็อตยอดฮิต มั่นคงปลอดภัย ฝากถอนไวผ่านระบบ AI อัจฉริยะ API แท้ไม่ล็อคยูสเซอร์ จ่ายจริงถอนได้เต็ม 100%",
   robots = "index, follow",
   ImageOg = ogImage.src,
 } = Astro.props;
@@ -38,7 +38,7 @@ const bgCss =
 const currentPath = Astro.url.pathname;
 const canonicalURL = new URL(currentPath, Astro.site);
 const ogImageURL = new URL(ImageOg, Astro.site);
-const ogSiteName = "PABLO666";
+const ogSiteName = "LONDON999VIP";
 ---
 
 <html lang="th">
@@ -58,7 +58,7 @@ const ogSiteName = "PABLO666";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="pablo666" />
+    <meta name="apple-mobile-web-app-title" content="LONDON999VIP" />
     <link rel="manifest" href="/site.webmanifest" />
 
     <meta property="og:type" content="website" />
@@ -118,7 +118,7 @@ const ogSiteName = "PABLO666";
     <div class="mb-2.5 flex w-full items-center justify-center">
       <Image
         src={mainBanner!}
-        alt="PABLO666 banner"
+        alt="LONDON999VIP banner"
         loading="eager"
         fetchpriority="high"
         widths={[412, 768, 1900]}

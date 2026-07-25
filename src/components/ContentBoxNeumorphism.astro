@@ -1,19 +1,24 @@
 ---
+export interface Props {
+  title?: string;
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+}
 const { title, as: HeadingTag = "h1" } = Astro.props;
-const headingSize = HeadingTag === "h1" ? "text-3xl" : "text-2xl";
+const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
 ---
 
-<section class="my-6 flex w-full justify-center px-4 font-sans">
-  <div class="w-full max-w-[1400px] rounded-[25px] bg-[#0d1420] p-8 text-center text-white/90 shadow-[10px_10px_20px_#05080f,-10px_-10px_20px_#141c2e]">
+<section class="relative z-10 my-6 flex w-full justify-center px-4 font-sans">
+  <div class="w-full max-w-[1400px] rounded-[25px] bg-[#071433] p-8 text-center text-white/90 shadow-[10px_10px_24px_#02060f,-10px_-10px_24px_#0c2050]">
     {
       title && (
         <header class="mb-8">
-          <HeadingTag class={`bg-gradient-to-r from-blue-300 via-blue-400 to-orange-400 bg-clip-text ${headingSize} font-black text-transparent drop-shadow-md`}>{title}</HeadingTag>
+          <HeadingTag class={`bg-gradient-to-r from-blue-300 via-white to-yellow-300 bg-clip-text ${headingSize} font-black text-transparent drop-shadow-md`}>{title}</HeadingTag>
+          <div class="mx-auto mt-4 h-[3px] w-28 rounded-full bg-gradient-to-r from-transparent via-red-500/70 to-transparent" />
         </header>
       )
     }
 
-    <div class="text-lg leading-relaxed text-blue-100/70">
+    <div class="text-lg leading-relaxed text-blue-100/80">
       <slot />
     </div>
   </div>

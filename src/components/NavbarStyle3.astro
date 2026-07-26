@@ -13,25 +13,19 @@ const isActive = (path: string) => {
 };
 ---
 
-<header class="sticky top-4 z-50 w-full px-4 font-sans drop-shadow-[0_10px_20px_rgba(11,17,32,0.6)]">
+<header class="sticky top-4 z-50 w-full px-4 font-sans drop-shadow-[0_10px_20px_rgba(0,26,51,0.5)]">
   <nav
-    class="mx-auto flex h-[70px] w-full max-w-7xl items-center justify-between rounded-full border border-amber-400/30 bg-[#0b1120]/85 px-6 shadow-[0_0_20px_rgba(251,191,36,0.15)] backdrop-blur-md xl:px-8">
+    class="mx-auto flex h-[70px] w-full max-w-7xl items-center justify-between rounded-full border border-cyan-500/30 bg-[#001a33]/85 px-6 shadow-[0_0_20px_rgba(6,182,212,0.15)] backdrop-blur-md xl:px-8">
     <a href="/" class="z-50 flex-shrink-0 transition-transform hover:scale-105">
-      {
-        mainLogo ? (
-          <Picture
-            src={mainLogo}
-            alt="NOVA852 Logo"
-            loading="eager"
-            fetchpriority="high"
-            class="h-[35px] w-auto drop-shadow-[0_0_10px_rgba(251,191,36,0.4)] xl:h-[40px]"
-            formats={["avif", "webp"]}
-            fallbackFormat="webp"
-          />
-        ) : (
-          <span class="bg-gradient-to-r from-slate-100 via-slate-300 to-amber-400 bg-clip-text text-2xl font-black tracking-widest text-transparent">NOVA852</span>
-        )
-      }
+      <Picture
+        src={mainLogo!}
+        alt="FUNNEMO Logo"
+        loading="eager"
+        fetchpriority="high"
+        class="h-[35px] w-auto drop-shadow-[0_0_10px_rgba(6,182,212,0.4)] xl:h-[40px]"
+        formats={["avif", "webp"]}
+        fallbackFormat="webp"
+      />
     </a>
 
     <div class="hidden h-full items-center gap-6 lg:flex xl:gap-10">
@@ -42,15 +36,13 @@ const isActive = (path: string) => {
           { name: "ทดลองเล่น", path: "/ทดลองเล่น" },
           { name: "ทางเข้า", path: "/ทางเข้า" },
           { name: "ติดต่อเรา", path: "/contact-us" },
-          { name: "บทความ", path: "/บทความ" },
-          { name: "เกี่ยวกับเรา", path: "/about-us" },
         ].map((item) => (
           <a
             href={item.path}
-            class={`group relative flex h-full items-center text-sm font-bold transition-colors xl:text-base ${isActive(item.path) ? "text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]" : "text-slate-200/80 hover:text-amber-300"}`}>
+            class={`group relative flex h-full items-center text-sm font-bold transition-colors xl:text-base ${isActive(item.path) ? "text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.5)]" : "text-cyan-50/80 hover:text-cyan-400"}`}>
             <span>{item.name}</span>
             <div
-              class={`absolute bottom-[15px] left-0 h-[3px] w-full origin-left rounded-full bg-gradient-to-r from-slate-200 to-amber-400 transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+              class={`absolute bottom-[15px] left-0 h-[3px] w-full origin-left rounded-full bg-gradient-to-r from-cyan-500 to-blue-400 transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
             />
           </a>
         ))
@@ -60,23 +52,23 @@ const isActive = (path: string) => {
     <div class="z-50 flex items-center gap-3">
       <a
         href="/login"
-        class="hidden items-center justify-center rounded-full border border-slate-300/50 bg-transparent px-5 py-2 text-sm font-bold text-slate-200 transition-all hover:bg-slate-300/10 hover:text-white lg:flex">
+        class="hidden items-center justify-center rounded-full border border-yellow-500/50 bg-transparent px-5 py-2 text-sm font-bold text-yellow-400 transition-all hover:bg-yellow-500/10 lg:flex">
         เข้าสู่ระบบ
       </a>
       <a
         href="/register"
-        class="hidden items-center justify-center rounded-full bg-gradient-to-r from-amber-400 to-amber-600 px-6 py-2 text-sm font-extrabold text-[#141008] shadow-[0_0_15px_rgba(251,191,36,0.4)] transition-all hover:scale-105 lg:flex">
+        class="hidden items-center justify-center rounded-full bg-gradient-to-r from-cyan-600 to-blue-500 px-6 py-2 text-sm font-extrabold text-white shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all hover:scale-105 lg:flex">
         สมัครสมาชิก
       </a>
 
       <button id="hamburger-btn" class="relative flex h-[40px] w-[40px] flex-col items-end justify-center gap-[6px] p-2 lg:hidden" aria-label="Menu">
-        <span class="line-1 h-[2px] w-6 origin-center rounded-full bg-amber-400 shadow-sm transition-all duration-300"></span>
-        <span class="line-2 h-[2px] w-4 origin-center rounded-full bg-amber-400 shadow-sm transition-all duration-300"></span>
+        <span class="line-1 h-[2px] w-6 origin-center rounded-full bg-cyan-400 shadow-sm transition-all duration-300"></span>
+        <span class="line-2 h-[2px] w-4 origin-center rounded-full bg-cyan-400 shadow-sm transition-all duration-300"></span>
       </button>
     </div>
   </nav>
 
-  <div id="fullscreen-menu" class="pointer-events-none fixed inset-0 z-[60] flex flex-col items-center justify-center bg-[#060a14]/98 opacity-0 backdrop-blur-2xl transition-opacity duration-500">
+  <div id="fullscreen-menu" class="pointer-events-none fixed inset-0 z-[60] flex flex-col items-center justify-center bg-[#000a14]/98 opacity-0 backdrop-blur-2xl transition-opacity duration-500">
     <div class="flex w-full flex-col items-center space-y-6 px-6">
       {
         [
@@ -85,12 +77,10 @@ const isActive = (path: string) => {
           { name: "ทดลองเล่น", path: "/ทดลองเล่น" },
           { name: "ทางเข้า", path: "/ทางเข้า" },
           { name: "ติดต่อเรา", path: "/contact-us" },
-          { name: "บทความ", path: "/บทความ" },
-          { name: "เกี่ยวกับเรา", path: "/about-us" },
         ].map((item) => (
           <a
             href={item.path}
-            class={`fs-item text-3xl font-black tracking-widest uppercase transition-all duration-300 ${isActive(item.path) ? "text-amber-400 drop-shadow-[0_0_10px_rgba(251,191,36,0.6)]" : "text-slate-200/80 hover:text-white"}`}>
+            class={`fs-item text-3xl font-black tracking-widest uppercase transition-all duration-300 ${isActive(item.path) ? "text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,0.6)]" : "text-white/80 hover:text-white"}`}>
             {item.name}
           </a>
         ))
@@ -99,12 +89,12 @@ const isActive = (path: string) => {
       <div class="fs-item mt-4 flex w-full max-w-[250px] flex-col gap-4 pt-8">
         <a
           href="/register"
-          class="flex w-full items-center justify-center rounded-full bg-gradient-to-r from-amber-400 to-amber-600 py-3.5 text-lg font-extrabold text-[#141008] shadow-[0_0_20px_rgba(251,191,36,0.4)]">
+          class="flex w-full items-center justify-center rounded-full bg-gradient-to-r from-cyan-600 to-blue-500 py-3.5 text-lg font-extrabold text-white shadow-[0_0_20px_rgba(6,182,212,0.4)]">
           สมัครสมาชิก
         </a>
         <a
           href="/login"
-          class="flex w-full items-center justify-center rounded-full border-2 border-slate-300/50 bg-slate-300/10 py-3.5 text-lg font-bold text-slate-100 transition-colors hover:bg-slate-300/20">
+          class="flex w-full items-center justify-center rounded-full border-2 border-yellow-500/50 bg-yellow-500/10 py-3.5 text-lg font-bold text-yellow-400 transition-colors hover:bg-yellow-500/20">
           เข้าสู่ระบบ
         </a>
       </div>

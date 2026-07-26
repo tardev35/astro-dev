@@ -366,24 +366,69 @@ heading:
   is a flex-sibling of the hoisted slot. Confirm in the Phase 5 build
   (don't build now) by grepping `dist/index.html` that the `<article>`
   now carries the text classes and the wrapper `<div>` is gone.
-- The single-child count must stay the same for `gap-N` to behave: this
-  works because the *consumer* already wraps slot content in one element
-  (`<div slot="right"><p>…</p></div>`). Don't flatten a case where the
-  slot would inject multiple block children directly into the
-  `gap-N` flex column — the gap would then apply between them and shift
-  spacing.
+- **House rule that makes all of this safe: a consumer passes exactly
+  ONE element per slot.** Every page currently does
+  (`<div slot="right"><p>…</p></div>`, `<p slot="left">…</p>`). Because
+  the flattened column is a `gap-N` flex container, injecting *two*
+  block children straight into a slot would put a gap between them and
+  shift spacing. If a section genuinely needs multiple blocks, wrap them
+  yourself in one `<div>` — do not pass siblings into the slot, and do
+  not "fix" it by re-adding a wrapper inside the component.
 
-**Do NOT flatten the single-slot variants the same way** (`ContentBox`,
-`*Premium`, `*CyberCut`, `*FloatingBadge`, `*Huay`, `*Special`). Their
-content wrapper carries `relative z-10` so text paints *above* the
-decorative `absolute` aura/corner layers inside the card (or uses
-`bg-clip-text`, which must stay on the text element itself). Hoisting
-those classes away removes the stacking context and the decoration
-paints over the text — a real regression, not a zero-change edit. Leave
-them unless you also convert the decoration to `::before`/`::after`
-pseudo-elements (a deliberate CSS change to verify visually, not a
-"safe merge"). Applied this to HENGJUD365 on 2026-07-15: flattened the 5
-live multi-column variants only; see that `workspec.md` entry.
+**The single-slot variants are ALREADY flattened too — keep them that
+way; do not re-add a wrapper `<div>`.** (`ContentBox`, `*Premium`,
+`*CyberCut`, `*FloatingBadge`, `*Huay`, `*Neumorphism`.) These used to
+carry a `relative z-10` content wrapper so text painted *above* the
+decorative `absolute` aura/corner layers in the card, and this skill used
+to say they were unflattenable for that reason. That was solved on
+2026-07-26 (CASHOT123) with a cheaper fix than `::before`/`::after`:
+
+- put **`isolate`** (`isolation: isolate`) on the card, and
+- give each decorative `absolute` layer **`-z-10`**.
+
+A negative-z-index child paints *after* its stacking context's own
+background but *before* in-flow content, so the decoration still sits on
+the card yet can never cover the text — no wrapper needed. **`isolate` is
+what makes this sound**: several of these cards happen to have
+`backdrop-blur-*`, which already creates a stacking context, but relying
+on that silently breaks the day someone removes the blur. Declare the
+stacking context explicitly.
+
+Then hoist the wrapper's text classes onto the card and delete it. **One
+gotcha when hoisting a text colour:** the card usually already has its
+own (`text-white/90`). Adding a second colour class of equal specificity
+makes the winner depend on the order Tailwind happens to emit them —
+**replace** the card's colour rather than adding alongside it.
+
+**The only wrappers that must stay** are ones doing real layout, not
+carrying inheritable text classes — as of 2026-07-26 exactly three:
+`ContentBoxSpecial` ×2 (the wrapper is a flex sibling of the icon box;
+deleting it turns each `<p>` into its own flex item beside the icon) and
+`ContentBoxTwoCyberCut` ×1 (its intro-slot wrapper carries a real `mb-8`
+and sits next to the grid, so it can't be hoisted onto the card).
+
+All 25 `ContentBox*` files were swept on 2026-07-26; see that
+`workspec.md` entry.
+
+**House style for body copy inside any content box — headings may be
+centered, paragraphs are always flush left at `text-base`.** Set on
+2026-07-26 and applied across all 25 `ContentBox*` files; hold it on
+every rebrand:
+
+- The element carrying the slot gets **`text-left text-base
+  leading-relaxed <colour>`**. No `text-sm`, no `text-lg` for body prose.
+- A heading may keep `text-center` (e.g. `ContentBoxNeumorphism`'s
+  `<header>`), but put the centering **on the header/heading itself, not
+  on the card or `<section>`** — `text-center` on an ancestor inherits
+  straight into the slot and centers the paragraph too. That exact bug
+  shipped in `ContentBoxNeumorphism` and `ContentBoxHuay`.
+- **Don't narrow paragraphs with `mx-auto max-w-4xl` / `max-w-5xl` in
+  the page.** The card already caps its own width; the extra cap makes
+  the text stop lining up with its heading and reads as a stray indent.
+  Pages have shipped this three times — grep `src/pages/*.astro` for
+  `<p class="[^"]*\(mx-auto\|max-w-\)` before calling a rebrand done.
+- Genuinely centered UI *labels* are fine and out of scope for this rule
+  — provider-tile captions, section header lines, stat/score chips.
 
 When a docx has many sections (6+), pick a *different* `ContentBox*`
 variant for several of them so the page has rhythm instead of eight
@@ -673,6 +718,22 @@ A shallow `grep "<ComponentName" src/pages/index.astro` will miss
 `import ... from "./..."` components it renders, and repeat, before
 doing the hue/brand-name sweep in this phase or the verification pass
 in Phase 5.
+
+**Two import path shapes — a grep for only one of them lies.** Pages
+import as `from "../components/X.astro"`, but a component importing a
+sibling writes `from "./X.astro"`. So an "is this component used?" check
+built on `grep -rl "components/X.astro"` reports **inventory** for
+anything reached only from another component — on 2026-07-26 that
+wrongly cleared `ContentBoxTwo` (used by `LoginRtpSection`) as unused.
+Match the **bare filename** instead:
+
+```bash
+grep -rl "\bX\.astro" src/pages/ src/components/
+```
+
+This matters beyond bookkeeping: "rendered vs inventory" decides which
+files get the retheme, and mislabelling a live component as inventory
+ships the previous brand's colours to production.
 
 ## Phase 4 — Fix stale asset references (the actual bug class this skill exists for)
 

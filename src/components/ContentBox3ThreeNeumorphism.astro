@@ -6,25 +6,19 @@ const { titleleft, titlecenter, titleright } = Astro.props;
   <div
     class="w-full rounded-[25px] bg-[#141414] p-8 shadow-[10px_10px_20px_#080808,-10px_-10px_20px_#202020] transition-all duration-300 hover:shadow-[15px_15px_30px_#050505,-15px_-15px_30px_#2a2a2a]">
     <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-      <article class="flex flex-col gap-4 border-b border-white/5 pb-6 md:border-r md:border-b-0 md:pr-6 md:pb-0">
-        {titleleft && <h3 class="text-xl font-bold text-white">{titleleft}</h3>}
-        <div class="text-sm leading-relaxed text-gray-400">
-          <slot name="left" />
-        </div>
+      <article class="flex flex-col gap-4 border-b border-white/5 pb-6 text-left text-base leading-relaxed text-gray-400 md:border-r md:border-b-0 md:pr-6 md:pb-0">
+        {titleleft && <h3 class="text-xl leading-normal font-bold text-white">{titleleft}</h3>}
+        <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 border-b border-white/5 pb-6 md:border-r md:border-b-0 md:px-4 md:pb-0">
-        {titlecenter && <h3 class="text-xl font-bold text-white">{titlecenter}</h3>}
-        <div class="text-sm leading-relaxed text-gray-400">
-          <slot name="center" />
-        </div>
+      <article class="flex flex-col gap-4 border-b border-white/5 pb-6 text-left text-base leading-relaxed text-gray-400 md:border-r md:border-b-0 md:px-4 md:pb-0">
+        {titlecenter && <h3 class="text-xl leading-normal font-bold text-white">{titlecenter}</h3>}
+        <slot name="center" />
       </article>
 
-      <article class="flex flex-col gap-4 md:pl-6">
-        {titleright && <h3 class="text-xl font-bold text-white">{titleright}</h3>}
-        <div class="text-sm leading-relaxed text-gray-400">
-          <slot name="right" />
-        </div>
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-gray-400 md:pl-6">
+        {titleright && <h3 class="text-xl leading-normal font-bold text-white">{titleright}</h3>}
+        <slot name="right" />
       </article>
     </div>
   </div>

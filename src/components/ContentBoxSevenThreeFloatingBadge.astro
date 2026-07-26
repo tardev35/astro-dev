@@ -13,12 +13,12 @@ const { title, titleleft, titleright } = Astro.props;
     }
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-[3fr_7fr]">
-      <article class="flex flex-col gap-4 text-lg leading-relaxed text-blue-50/80">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-blue-50/80">
         {titleleft && <h2 class="text-2xl font-bold leading-normal text-blue-300 italic drop-shadow-[0_0_5px_rgba(37,99,235,0.4)]">{titleleft}</h2>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-lg leading-relaxed text-blue-50/80 md:border-l md:border-blue-500/30 md:pl-10">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-blue-50/80 md:border-l md:border-blue-500/30 md:pl-10">
         {titleright && <h2 class="text-2xl font-bold leading-normal text-blue-300 italic drop-shadow-[0_0_5px_rgba(37,99,235,0.4)]">{titleright}</h2>}
         <slot name="right" />
       </article>

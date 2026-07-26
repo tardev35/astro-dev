@@ -4,39 +4,39 @@ const { titleleft, titlecenter, titleright } = Astro.props;
 
 <section class="mx-auto mb-8 w-full max-w-7xl px-4 font-sans">
   <div
-    class="group relative w-full overflow-hidden rounded-3xl border border-purple-600/30 bg-[#120322]/80 p-8 text-white/90 shadow-[0_10px_30px_rgba(59,7,100,0.6)] backdrop-blur-xl transition-all duration-500 hover:border-purple-500/60 hover:shadow-[0_15px_40px_rgba(147,51,234,0.25)] md:p-10">
+    class="group relative w-full overflow-hidden rounded-3xl border border-red-600/30 bg-[#14040a]/80 p-8 text-white/90 shadow-[0_10px_30px_rgba(127,29,29,0.6)] backdrop-blur-xl transition-all duration-500 hover:border-red-500/60 hover:shadow-[0_15px_40px_rgba(220,38,38,0.35)] md:p-10">
     <div class="relative z-10 grid grid-cols-1 gap-8 md:grid-cols-3">
-      <article class="flex flex-col gap-3 border-b border-purple-800/50 pb-8 md:border-r md:border-b-0 md:pr-8 md:pb-0">
+      <article class="flex flex-col gap-3 border-b border-red-900/50 pb-8 text-left text-base leading-relaxed text-red-200/70 md:border-r md:border-b-0 md:pr-8 md:pb-0">
         {
           titleleft && (
-            <h3 class="flex items-center gap-2 text-lg font-black tracking-widest text-yellow-400 uppercase">
+            <h3 class="flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-yellow-400 uppercase">
               <div class="h-1.5 w-1.5 rounded-full bg-yellow-400 shadow-[0_0_8px_rgba(234,179,8,1)]" /> {titleleft}
             </h3>
           )
         }
-        <div class="text-sm leading-relaxed text-purple-200/70"><slot name="left" /></div>
+        <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-3 border-b border-purple-800/50 pb-8 md:border-r md:border-b-0 md:px-4 md:pb-0">
+      <article class="flex flex-col gap-3 border-b border-red-900/50 pb-8 text-left text-base leading-relaxed text-red-200/70 md:border-r md:border-b-0 md:px-4 md:pb-0">
         {
           titlecenter && (
-            <h3 class="flex items-center gap-2 text-lg font-black tracking-widest text-yellow-400 uppercase">
+            <h3 class="flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-yellow-400 uppercase">
               <div class="h-1.5 w-1.5 rounded-full bg-yellow-400 shadow-[0_0_8px_rgba(234,179,8,1)]" /> {titlecenter}
             </h3>
           )
         }
-        <div class="text-sm leading-relaxed text-purple-200/70"><slot name="center" /></div>
+        <slot name="center" />
       </article>
 
-      <article class="flex flex-col gap-3 md:pl-8">
+      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-red-200/70 md:pl-8">
         {
           titleright && (
-            <h3 class="flex items-center gap-2 text-lg font-black tracking-widest text-yellow-400 uppercase">
+            <h3 class="flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-yellow-400 uppercase">
               <div class="h-1.5 w-1.5 rounded-full bg-yellow-400 shadow-[0_0_8px_rgba(234,179,8,1)]" /> {titleright}
             </h3>
           )
         }
-        <div class="text-sm leading-relaxed text-purple-200/70"><slot name="right" /></div>
+        <slot name="right" />
       </article>
     </div>
   </div>

@@ -7,32 +7,26 @@ const { title, titleleft, titlecenter, titleright } = Astro.props;
     {
       title && (
         <div class="absolute -top-6 left-1/2 w-[92%] max-w-2xl -translate-x-1/2 rounded-lg border-2 border-[#10b981]/60 bg-gradient-to-b from-[#064e3b] to-[#021207] px-5 py-3 text-center shadow-[0_10px_20px_rgba(0,0,0,0.5)] sm:px-10">
-          <h2 class="bg-gradient-to-r from-yellow-100 via-yellow-400 to-yellow-600 bg-clip-text text-lg font-black tracking-widest text-transparent uppercase sm:text-2xl">{title}</h2>
+          <h2 class="bg-gradient-to-r from-yellow-100 via-yellow-400 to-yellow-600 bg-clip-text text-lg leading-normal font-black tracking-widest text-transparent uppercase sm:text-2xl">{title}</h2>
           <div class="absolute bottom-1 left-1/2 h-[2px] w-1/2 -translate-x-1/2 bg-[#10b981]/80 shadow-[0_0_5px_rgba(16,185,129,1)]" />
         </div>
       )
     }
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
-      <article class="flex flex-col gap-3 text-center md:border-r md:border-[#10b981]/20 md:pr-6">
-        {titleleft && <h3 class="text-xl font-black text-yellow-400 uppercase drop-shadow-md">{titleleft}</h3>}
-        <div class="text-sm leading-relaxed text-green-50/70">
-          <slot name="left" />
-        </div>
+      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-green-50/70 md:border-r md:border-[#10b981]/20 md:pr-6">
+        {titleleft && <h3 class="text-center text-xl leading-normal font-black text-yellow-400 uppercase drop-shadow-md">{titleleft}</h3>}
+        <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-3 text-center md:border-r md:border-[#10b981]/20 md:px-4">
-        {titlecenter && <h3 class="text-xl font-black text-yellow-400 uppercase drop-shadow-md">{titlecenter}</h3>}
-        <div class="text-sm leading-relaxed text-green-50/70">
-          <slot name="center" />
-        </div>
+      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-green-50/70 md:border-r md:border-[#10b981]/20 md:px-4">
+        {titlecenter && <h3 class="text-center text-xl leading-normal font-black text-yellow-400 uppercase drop-shadow-md">{titlecenter}</h3>}
+        <slot name="center" />
       </article>
 
-      <article class="flex flex-col gap-3 text-center md:pl-6">
-        {titleright && <h3 class="text-xl font-black text-yellow-400 uppercase drop-shadow-md">{titleright}</h3>}
-        <div class="text-sm leading-relaxed text-green-50/70">
-          <slot name="right" />
-        </div>
+      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-green-50/70 md:pl-6">
+        {titleright && <h3 class="text-center text-xl leading-normal font-black text-yellow-400 uppercase drop-shadow-md">{titleright}</h3>}
+        <slot name="right" />
       </article>
     </div>
   </div>

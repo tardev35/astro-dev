@@ -4,19 +4,15 @@ const { titleleft, titleright } = Astro.props;
 
 <section class="mx-auto mb-8 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="w-full rounded-[25px] bg-[#0b1120] p-8 shadow-[10px_10px_20px_#060a14,-10px_-10px_20px_#141c2e] transition-all duration-300 hover:shadow-[15px_15px_30px_#04070e,-15px_-15px_30px_#1a2438]">
-    <div class="grid grid-cols-1 gap-8 md:grid-cols-[3fr_7fr] md:items-center">
-      <article class="flex flex-col gap-4 text-sm leading-relaxed text-slate-300/80">
+    class="w-full rounded-[25px] bg-[#150406] p-8 shadow-[10px_10px_20px_#070102,-10px_-10px_20px_#25080c] transition-all duration-300 hover:shadow-[15px_15px_30px_#050101,-15px_-15px_30px_#2e0a10]">
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-[3fr_7fr]">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-red-100/70">
         {titleleft && <h2 class="text-2xl leading-normal font-black text-white/90">{titleleft}</h2>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-base leading-relaxed text-slate-300/80 md:border-l md:border-amber-400/15 md:pl-8">
-        {
-          titleright && (
-            <h2 class="bg-gradient-to-r from-slate-100 via-slate-300 to-amber-400 bg-clip-text text-2xl leading-normal font-black text-transparent drop-shadow-sm">{titleright}</h2>
-          )
-        }
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-red-100/70 md:border-l md:border-amber-400/15 md:pl-8">
+        {titleright && <h2 class="text-2xl leading-normal font-black text-white/90">{titleright}</h2>}
         <slot name="right" />
       </article>
     </div>

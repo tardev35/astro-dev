@@ -4,28 +4,28 @@ const { titleleft, titleright } = Astro.props;
 
 <section class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-    <article class="flex flex-col gap-4">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-white/90">
       {
         titleleft && (
-          <h2 class="flex items-center gap-3 border-b border-red-500/30 pb-3 text-xl font-black tracking-widest text-yellow-400 uppercase drop-shadow-md">
+          <h2 class="flex items-center gap-3 border-b border-red-500/30 pb-3 text-xl leading-normal font-black tracking-widest text-yellow-400 uppercase drop-shadow-md">
             <span class="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-yellow-400 to-yellow-500 text-sm text-[#5f0914] shadow-[0_0_10px_rgba(250,204,21,0.5)]">🔐</span>
             {titleleft}
           </h2>
         )
       }
-      <div class="text-base leading-relaxed text-white/90"><slot name="left" /></div>
+      <slot name="left" />
     </article>
 
-    <article class="flex flex-col gap-4">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-white/90">
       {
         titleright && (
-          <h2 class="flex items-center gap-3 border-b border-red-500/30 pb-3 text-xl font-black tracking-widest text-yellow-400 uppercase drop-shadow-md">
+          <h2 class="flex items-center gap-3 border-b border-red-500/30 pb-3 text-xl leading-normal font-black tracking-widest text-yellow-400 uppercase drop-shadow-md">
             <span class="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-yellow-400 to-yellow-500 text-sm text-[#5f0914] shadow-[0_0_10px_rgba(250,204,21,0.5)]">🏆</span>
             {titleright}
           </h2>
         )
       }
-      <div class="h-full text-base leading-relaxed text-white/90"><slot name="right" /></div>
+      <slot name="right" />
     </article>
   </div>
 </section>

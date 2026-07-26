@@ -6,18 +6,14 @@ const { titleleft, titleright } = Astro.props;
   <div
     class="w-full rounded-[25px] bg-[#0d1811] p-8 shadow-[10px_10px_20px_#060c08,-10px_-10px_20px_#14241a] transition-all duration-300 hover:shadow-[15px_15px_30px_#040805,-15px_-15px_30px_#1a2f22]">
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-      <article class="flex flex-col gap-4">
-        {titleleft && <h3 class="text-2xl font-black tracking-wide text-white">{titleleft}</h3>}
-        <div class="text-base leading-relaxed text-gray-400">
-          <slot name="left" />
-        </div>
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-gray-400">
+        {titleleft && <h3 class="text-2xl leading-normal font-black tracking-wide text-white">{titleleft}</h3>}
+        <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 md:border-l md:border-lime-400/10 md:pl-8">
-        {titleright && <h3 class="text-2xl font-black tracking-wide text-white">{titleright}</h3>}
-        <div class="text-base leading-relaxed text-gray-400">
-          <slot name="right" />
-        </div>
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-gray-400 md:border-l md:border-lime-400/10 md:pl-8">
+        {titleright && <h3 class="text-2xl leading-normal font-black tracking-wide text-white">{titleright}</h3>}
+        <slot name="right" />
       </article>
     </div>
   </div>

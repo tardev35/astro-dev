@@ -4,39 +4,39 @@ const { titleleft, titlecenter, titleright } = Astro.props;
 
 <section class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="group relative w-full overflow-hidden rounded-3xl border border-red-500/30 bg-[#5f0914]/60 p-8 text-white/90 shadow-[0_10px_30px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all duration-500 hover:border-yellow-400/40 hover:shadow-[0_15px_40px_rgba(250,204,21,0.15)] md:p-10">
-    <div class="relative z-10 grid grid-cols-1 gap-8 md:grid-cols-3">
-      <article class="flex flex-col gap-3 border-b border-red-500/30 pb-8 md:border-r md:border-b-0 md:pr-8 md:pb-0">
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-red-500/30 bg-[#5f0914]/60 p-8 text-white/90 shadow-[0_10px_30px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all duration-500 hover:border-yellow-400/40 hover:shadow-[0_15px_40px_rgba(250,204,21,0.15)] md:p-10">
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+      <article class="flex flex-col gap-3 border-b border-red-500/30 pb-8 text-left text-base leading-relaxed text-red-100/80 md:border-r md:border-b-0 md:pr-8 md:pb-0">
         {
           titleleft && (
-            <h3 class="flex items-center gap-2 text-lg font-black tracking-widest text-yellow-400 uppercase">
+            <h3 class="flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-yellow-400 uppercase">
               <span class="text-xl drop-shadow-[0_0_5px_rgba(250,204,21,0.8)]">💸</span> {titleleft}
             </h3>
           )
         }
-        <div class="text-sm leading-relaxed text-red-100/80"><slot name="left" /></div>
+        <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-3 border-b border-red-500/30 pb-8 md:border-r md:border-b-0 md:px-4 md:pb-0">
+      <article class="flex flex-col gap-3 border-b border-red-500/30 pb-8 text-left text-base leading-relaxed text-red-100/80 md:border-r md:border-b-0 md:px-4 md:pb-0">
         {
           titlecenter && (
-            <h3 class="flex items-center gap-2 text-lg font-black tracking-widest text-yellow-400 uppercase">
+            <h3 class="flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-yellow-400 uppercase">
               <span class="text-xl drop-shadow-[0_0_5px_rgba(250,204,21,0.8)]">⚡</span> {titlecenter}
             </h3>
           )
         }
-        <div class="text-sm leading-relaxed text-red-100/80"><slot name="center" /></div>
+        <slot name="center" />
       </article>
 
-      <article class="flex flex-col gap-3 md:pl-8">
+      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-red-100/80 md:pl-8">
         {
           titleright && (
-            <h3 class="flex items-center gap-2 text-lg font-black tracking-widest text-yellow-400 uppercase">
+            <h3 class="flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-yellow-400 uppercase">
               <span class="text-xl drop-shadow-[0_0_5px_rgba(250,204,21,0.8)]">💎</span> {titleright}
             </h3>
           )
         }
-        <div class="text-sm leading-relaxed text-red-100/80"><slot name="right" /></div>
+        <slot name="right" />
       </article>
     </div>
   </div>

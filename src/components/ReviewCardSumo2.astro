@@ -1,100 +1,99 @@
 ---
 const reviews = [
   {
-    name: "ทีม web develop หมีขาว",
-    role: "ผู้เชี่ยวชาญด้านระบบเว็บไซต์",
-    stars: 4,
-    content: "ระบบหลังบ้านแน่นและเสถียรมากครับ โครงสร้าง API ของระบบฝาก-ถอนออโต้ทำงานได้ไวระดับเสี้ยววินาที ไร้รอยต่อจริงๆ แถม UI/UX ออกแบบมาให้ผู้เล่นใช้งานง่ายมาก หัก 1 ดาวเพราะอยากให้มีฟีเจอร์ปรับโหมดสว่างบ้าง รวมๆ คือโคตรตึง!",
-    avatar: "🐻‍❄️"
-  },
-  {
-    name: "ชุมนุม เว็บสล็อตออนไลน์",
-    role: "คอมมูนิตี้รีวิวเว็บตรง",
-    stars: 4,
-    content: "ทางเพจเราเทสแล้ว คอนเฟิร์มว่าที่นี่คือ 'สล็อตเว็บตรงของแท้ 100%' รวมค่ายเกมไว้เยอะมาก และที่สำคัญคืออัตราการแตก (RTP) สูงกว่าเว็บเอเย่นต์ทั่วไป ไม่มีการปรับเรทหรือล็อคยูสเซอร์แน่นอน จ่ายจริงทุกบิล เป็นเว็บคุณภาพที่อยากแนะนำ",
-    avatar: "🎰"
-  },
-  {
-    name: "อาสาสมัครนักเล่นสล็อต",
-    role: "ผู้เล่นระดับ VIP",
+    name: "ทีมทดสอบระบบ ฝั่งเทคนิค",
+    role: "ตรวจสอบระบบฝากถอนอัตโนมัติ",
     stars: 5,
-    content: "ลองเทสมาแล้วหลายเว็บ สุดท้ายจบที่ PABLO666 ครับ! สล็อตแตกง่ายมาก ฟรีสปินเข้าบ่อยจัด โปรโมชั่นก็ให้มาแบบจัดเต็มคุ้มค่าสุดๆ แอดมินบริการดีตอบไว 24 ชม. เงินเข้าปุ๊บปั๊บ เอาไปเลย 5 ดาวเต็มๆ ไม่ผิดหวังแน่นอนครับ!",
-    avatar: "👑"
-  }
+    tag: "ระบบออโต้",
+    content:
+      "จับเวลาจริงตั้งแต่กดเข้าหน้าเติมเงินจนยืนยันรายการ อยู่ที่ราว 2–5 วินาที ส่วนยอดเครดิตอัปเดตหลังฝากสำเร็จประมาณ 10–60 วินาที ถอนเงินเข้าบัญชีส่วนใหญ่ 30 วินาที–5 นาที ถือว่าคงที่ตลอดการทดสอบ",
+    avatar: "⚡",
+  },
+  {
+    name: "ผู้ใช้งานทั่วไป สายมือถือ",
+    role: "ทดลองผ่าน Windows 11 และ Android 14",
+    stars: 5,
+    tag: "UX / UI",
+    content:
+      "แบ่งหมวดเกมชัดเจน เมนูหลักหาไม่ยาก สลับหน้าได้ต่อเนื่อง สมัครสมาชิกจนเข้าสู่ระบบใช้เวลาประมาณ 1–2 นาที ระหว่างทดลองเล่นสล็อต 12 เกม คาสิโนสด 3 ห้อง และกีฬา 5 ลีก ไม่พบอาการค้าง",
+    avatar: "📱",
+  },
+  {
+    name: "ผู้ตรวจสอบความปลอดภัย",
+    role: "ตรวจใบรับรองและลิงก์ทางเข้า",
+    stars: 4,
+    tag: "ความปลอดภัย",
+    content:
+      "เชื่อมต่อผ่าน HTTPS พร้อมการเข้ารหัส SSL/TLS 256-bit ตรวจแล้วไม่พบคำเตือน Not Secure จาก Google Chrome ใบรับรองดูได้จากไอคอนแม่กุญแจบนแถบที่อยู่ แนะนำให้เข้าผ่านลิงก์ทางการทุกครั้ง",
+    avatar: "🔒",
+  },
 ];
 
-const [featured, ...rest] = reviews;
+const totalStars = reviews.reduce((sum, r) => sum + r.stars, 0);
+const average = (totalStars / reviews.length).toFixed(1);
 ---
 
-<section class="mx-auto mb-12 w-full max-w-[1400px] px-4 font-sans relative z-10">
-
+<section class="relative z-10 mx-auto mb-12 w-full max-w-[1400px] px-4 font-sans">
   <div class="mb-8 flex w-full flex-col items-center justify-center gap-2 text-center">
-    <h2 class="text-3xl font-black uppercase tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-amber-500 via-amber-800 to-amber-300 drop-shadow-[0_2px_10px_rgba(255,255,255,0.2)]">
-      เสียงตอบรับจาก <span class="text-amber-400">ผู้ใช้งานจริง</span>
-    </h2>
-    <div class="h-[4px] w-24 rounded-full bg-gradient-to-r from-transparent via-amber-500 to-transparent mt-2"></div>
+    <p
+      class="bg-gradient-to-r from-amber-200 via-amber-400 to-amber-600 bg-clip-text text-3xl font-black tracking-widest text-transparent uppercase drop-shadow-[0_2px_10px_rgba(220,38,38,0.35)]">
+      เสียงตอบรับจาก <span class="text-red-400">ผู้ใช้งานจริง</span>
+    </p>
+    <div class="mt-2 h-[4px] w-24 rounded-full bg-gradient-to-r from-transparent via-red-500 to-transparent"></div>
   </div>
 
-  <div class="grid grid-cols-1 gap-6 lg:grid-cols-5 lg:gap-8">
-
-    <article class="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-yellow-500/30 bg-gradient-to-br from-[#1a1000] via-[#0a0a0a] to-black p-8 shadow-[0_15px_40px_rgba(0,0,0,0.8)] lg:col-span-3 lg:p-10">
-
-      <div class="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-amber-600/20 blur-[70px]"></div>
-      <div class="pointer-events-none absolute -left-10 -bottom-10 h-40 w-40 rounded-full bg-yellow-500/10 blur-[60px]"></div>
-
-      <div class="relative z-10">
-        <div class="mb-6 flex items-center justify-between">
-          <span class="inline-flex items-center gap-1.5 rounded-full border border-yellow-400/40 bg-yellow-400/10 px-3 py-1 text-[11px] font-bold tracking-wider text-yellow-400 uppercase">
-            <span class="h-1.5 w-1.5 rounded-full bg-yellow-400 animate-pulse"></span>
-            รีวิวเด่นประจำสัปดาห์
-          </span>
-          <div class="flex gap-1 text-xl">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <span class={`${i < featured.stars ? 'text-yellow-400 drop-shadow-[0_0_5px_rgba(250,204,21,0.8)]' : 'text-gray-700'}`}>★</span>
-            ))}
-          </div>
-        </div>
-
-        <p class="font-serif text-6xl leading-none text-amber-600/40">"</p>
-        <p class="-mt-6 text-lg leading-relaxed text-gray-200 italic">
-          {featured.content}
-        </p>
+  <div
+    class="mx-auto mb-8 flex max-w-md items-center justify-center gap-5 rounded-2xl border border-red-500/30 bg-[#14040a]/80 px-6 py-4 shadow-[0_10px_30px_rgba(220,38,38,0.2)] backdrop-blur-xl">
+    <div class="flex flex-col items-center">
+      <span class="bg-gradient-to-b from-amber-200 to-amber-500 bg-clip-text text-4xl leading-none font-black text-transparent">{average}</span>
+      <span class="mt-1 text-[10px] font-bold tracking-widest text-red-100/60 uppercase">คะแนนเฉลี่ย</span>
+    </div>
+    <div class="h-12 w-px bg-red-500/25"></div>
+    <div class="flex flex-col gap-1.5">
+      <div class="flex gap-1 text-lg">
+        {
+          Array.from({ length: 5 }).map((_, i) => (
+            <span class={i < Math.round(Number(average)) ? "text-amber-400 drop-shadow-[0_0_6px_rgba(245,158,11,0.7)]" : "text-red-900/70"}>★</span>
+          ))
+        }
       </div>
+      <span class="text-xs font-bold text-red-100/70">จากการทดสอบใช้งานจริง {reviews.length} ด้าน</span>
+    </div>
+  </div>
 
-      <div class="relative z-10 mt-8 flex items-center gap-4 border-t border-white/10 pt-6">
-        <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-yellow-400/40 bg-gradient-to-br from-amber-700 to-black text-3xl shadow-inner transition-transform duration-300 group-hover:scale-110">
-          {featured.avatar}
-        </div>
-        <div class="flex flex-col">
-          <p class="text-lg font-black text-white">{featured.name}</p>
-          <span class="text-xs font-bold tracking-wider text-amber-500/80 uppercase">{featured.role}</span>
-        </div>
-      </div>
-    </article>
+  <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+    {
+      reviews.map((review) => (
+        <article class="group relative isolate flex flex-col gap-4 overflow-hidden rounded-2xl border border-red-500/25 bg-[#14040a]/80 p-6 text-left shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-amber-400/50 hover:shadow-[0_18px_40px_rgba(220,38,38,0.3)]">
+          <span class="absolute inset-y-0 left-0 -z-10 w-1 bg-gradient-to-b from-red-500 via-amber-400 to-red-700 opacity-70 transition-opacity duration-300 group-hover:opacity-100" />
+          <span class="pointer-events-none absolute -top-14 -right-14 -z-10 h-32 w-32 rounded-full bg-red-600/20 blur-[50px] transition-all duration-300 group-hover:bg-amber-500/20" />
 
-    <div class="flex flex-col gap-6 lg:col-span-2">
-      {rest.map((review) => (
-        <article class="group relative flex items-start gap-4 rounded-2xl border border-amber-600/30 bg-[#0a0a0a]/80 p-5 shadow-[0_8px_20px_rgba(0,0,0,0.7)] backdrop-blur-xl transition-all duration-300 hover:border-amber-500/60 hover:bg-[#141006]">
-          <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-amber-500/30 bg-gradient-to-br from-amber-700 to-black text-xl shadow-inner">
-            {review.avatar}
-          </div>
-          <div class="flex flex-1 flex-col gap-1.5">
-            <div class="flex items-center justify-between">
-              <p class="text-sm font-black text-white group-hover:text-amber-400 transition-colors">{review.name}</p>
-              <div class="flex gap-0.5 text-sm">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <span class={`${i < review.stars ? 'text-yellow-400' : 'text-gray-700'}`}>★</span>
-                ))}
-              </div>
+          <div class="flex items-center justify-between gap-3">
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-amber-400/35 bg-amber-400/10 px-3 py-1 text-[10px] font-bold tracking-widest text-amber-300 uppercase">
+              <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-amber-400" />
+              {review.tag}
+            </span>
+            <div class="flex gap-0.5 text-sm">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <span class={i < review.stars ? "text-amber-400 drop-shadow-[0_0_5px_rgba(245,158,11,0.7)]" : "text-red-900/70"}>★</span>
+              ))}
             </div>
-            <span class="text-[10px] font-bold tracking-wider text-amber-500/70 uppercase">{review.role}</span>
-            <p class="text-xs leading-relaxed text-gray-400">
-              {review.content}
-            </p>
+          </div>
+
+          <p class="text-base leading-relaxed text-red-50/85">{review.content}</p>
+
+          <div class="mt-auto flex items-center gap-3 border-t border-red-500/20 pt-4">
+            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-amber-400/30 bg-gradient-to-br from-red-700 to-[#0d0304] text-xl shadow-inner transition-transform duration-300 group-hover:scale-110">
+              {review.avatar}
+            </span>
+            <span class="flex flex-col">
+              <span class="text-sm font-black text-white transition-colors group-hover:text-amber-300">{review.name}</span>
+              <span class="text-[10px] font-bold tracking-wider text-red-200/60 uppercase">{review.role}</span>
+            </span>
           </div>
         </article>
-      ))}
-    </div>
+      ))
+    }
   </div>
 </section>
 <style>

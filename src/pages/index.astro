@@ -1,17 +1,18 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement2 from "../components/Announcement2.astro";
+import Announcement5 from "../components/Announcement5.astro";
+import SmoothCarousel from "../components/SmoothCarousel.astro";
+import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
+import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
 import ContentBox from "../components/ContentBox.astro";
-import ContentBoxPremium from "../components/ContentBoxPremium.astro";
-import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
-import ContentBoxSevenThreeHuay from "../components/ContentBoxSevenThreeHuay.astro";
-import FeatureHighlights from "../components/FeatureHighlights.astro";
-import LoginRtpSection from "../components/LoginRtpSection.astro";
+import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
+import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
 import ProviderGrid from "../components/ProviderGrid.astro";
 import GameRankingBoard from "../components/GameRankingBoard.astro";
-import LatestWinners2 from "../components/LatestWinners2.astro";
-import SmoothCarousel from "../components/SmoothCarousel.astro";
-import Faq4 from "../components/Faq4.astro";
+import LatestWinnersPremium from "../components/LatestWinnersPremium.astro";
+import FeatureHighlights from "../components/FeatureHighlights.astro";
+import LoginRtpSection from "../components/LoginRtpSection.astro";
+import Faq2 from "../components/Faq2.astro";
 import Navfoot from "../components/Navfoot.astro";
 
 import { Picture } from "astro:assets";
@@ -22,62 +23,71 @@ const currentPath = Astro.url.pathname;
 const homePage = Astro.url.origin;
 const logoUrl = homePage + "/logo.webp";
 
-const pageTitle = "ดีเฮง789 สล็อตสุดเฮงแตกง่าย ฝากถอนสะดวกออโต้ ไม่มีขั้นต่ำจ่ายจริง";
-const pageDescription = "ปั้นพอร์ตทำกำไรกับ ดีเฮง789 สล็อตสุดเฮงแตกง่าย ฝากถอนสะดวกออโต้ ไม่มีขั้นต่ำจ่ายจริง ทำรายการผ่าน AI อัจฉริยะ API แท้ไม่ล็อคยูสเซอร์ จ่ายเต็ม 100%";
+const pageTitle = "KINGHENG168 สล็อตทำเงินง่ายรายได้ดี แตกง่ายจ่ายจริง ฝากถอนไว";
+const pageDescription = "ปั้นพอร์ตทำกำไรกับ KINGHENG168 สล็อตทำเงินง่ายรายได้ดี แตกง่ายจ่ายจริง ฝากถอนไวด้วยระบบออโต้ผ่าน AI อัจฉริยะ API แท้ไม่ล็อคยูสเซอร์ จ่ายเต็ม 100%";
 
 const webPageSchema = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  name: "ดีเฮง789",
+  name: "KINGHENG168",
   description: pageDescription,
   url: currentPath,
 };
 const webSiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "ดีเฮง789",
-  alternateName: ["ดีเฮง789", "DEEHENG789", "ดีเฮง789 สล็อตสุดเฮงแตกง่าย ฝากถอนสะดวกออโต้ ไม่มีขั้นต่ำจ่ายจริง"],
-  url: "https://ดีเฮง7899.com/",
+  name: "KINGHENG168",
+  alternateName: ["KINGHENG168", "คิงเฮง168", "KINGHENG168 สล็อตทำเงินง่ายรายได้ดี แตกง่ายจ่ายจริง ฝากถอนไว"],
+  url: "https://kingheng168v.com/",
 };
 const orgSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "ดีเฮง789",
+  name: "KINGHENG168",
   logo: logoUrl,
   url: homePage,
 };
 const allSchemas = [webPageSchema, orgSchema, webSiteSchema];
 
-const gameCategories = [
+const playTips = [
   {
-    icon: "🎰",
-    title: "สล็อตออนไลน์",
-    description: "รวมเกมสล็อตจากค่ายลิขสิทธิ์แท้ระดับโลกไว้ในที่เดียว เชื่อมต่อผ่าน API แท้ เลือกเล่นได้ตามสไตล์ที่ชอบ เริ่มต้นด้วยทุนก้อนเล็กก็ปั้นพอร์ตได้",
+    icon: "🎮",
+    title: "เริ่มจากโหมดเดโม่ก่อนลงสนามจริง",
+    description: "ทดลองปั่นสล็อตด้วยเครดิตเสมือนได้ไม่จำกัดรอบ เพื่อจับจังหวะการออกรางวัลและทำความเข้าใจฟีเจอร์โบนัสของแต่ละเกมก่อนใช้เงินทุนจริง",
     accent: "gold" as const,
   },
   {
-    icon: "🎴",
-    title: "คาสิโนสด",
-    description: "ถ่ายทอดสดจากสตูดิโอจริงแบบเรียลไทม์ ทั้งบาคาร่า รูเล็ต และเกมยอดนิยม ภาพคมชัดไม่มีสะดุด เล่นได้เหมือนนั่งอยู่ในบ่อนระดับสากล",
+    icon: "📊",
+    title: "ศึกษาค่า RTP ของแต่ละเกมอย่างละเอียด",
+    description: "เปรียบเทียบอัตราการคืนเงินของเกมจาก PG Soft, Pragmatic Play, JILI, Habanero และ CQ9 Gaming แล้วเลือกเกมที่ให้ผลตอบแทนตามสถิติสูงที่สุด",
     accent: "red" as const,
   },
   {
-    icon: "🎲",
-    title: "เกมโต๊ะ",
-    description: "เกมโต๊ะครบทุกรูปแบบ กติกาเข้าใจง่าย เหมาะกับนักลงทุนทุกระดับตั้งแต่มือใหม่ที่เพิ่งเปิดยูสจนถึงเซียนขาประจำ",
+    icon: "🎯",
+    title: "หารูปแบบที่เข้ากับสไตล์การเดิมพัน",
+    description: "สายทุนน้อยเน้นเกมความผันผวนต่ำเก็บกำไรทีละนิด ส่วนสายลุยเลือกเกมตัวคูณสูงเพื่อดักจับแจ็กพอตใหญ่ในรอบเดียว",
     accent: "gold" as const,
   },
   {
-    icon: "⚽",
-    title: "กีฬาออนไลน์",
-    description: "เดิมพันกีฬาหลากหลายลีกทั่วโลก ดูราคาต่อรองและติดตามผลการแข่งขันแบบสดได้ครบภายในบัญชีเดียว",
+    icon: "🛡️",
+    title: "วางงบและบริหารความเสี่ยงทุกครั้ง",
+    description: "กำหนดวงเงินต่อรอบและจุดหยุดทำกำไรไว้ล่วงหน้า ช่วยให้พอร์ตเติบโตอย่างมั่นคงและลดความเสี่ยงจากการเดิมพันเกินตัว",
     accent: "red" as const,
   },
+];
+
+const faqs = [
   {
-    icon: "👤",
-    title: "ระบบสมาชิกอัตโนมัติ",
-    description: "จัดการข้อมูล ฝากถอน และตรวจสอบประวัติทุกธุรกรรมผ่านบัญชีเดียวที่เชื่อมต่อทุกบริการเข้าด้วยกันด้วยระบบ AI อัจฉริยะ",
-    accent: "gold" as const,
+    q: "ระบบคาสิโน API แท้ ดีกว่าเว็บที่ผ่านเอเย่นต์ทั่วไปอย่างไร?",
+    a: "ช่วยให้ระบบโปร่งใสและไม่มีการล็อคยูสเซอร์จากหลังบ้านครับ ทำให้โบนัสแตกง่าย จ่ายผลตอบแทนและสุ่มรางวัลอย่างยุติธรรมตามสถิติสากล 100%",
+  },
+  {
+    q: "นวัตกรรมฝากถอนออโต้อัจฉริยะ ช่วยเพิ่มสภาพคล่องแบบไหน?",
+    a: "ช่วยโอนเงินสดเข้าบัญชีคุณทันทีในเสี้ยววินาทีเมื่อกดถอนครับ ไม่ต้องรอคิวแอดมิน ทำให้โยกย้ายเงินเพื่อปั้นพอร์ตหรือนำไปใช้จ่ายได้รวดเร็วทันใจ",
+  },
+  {
+    q: "โหมดเดโม่ทดลองเล่นฟรี มีประโยชน์ต่อนักลงทุนมือใหม่อย่างไร?",
+    a: "ช่วยให้คุณได้ศึกษากลไกและจังหวะของแต่ละเกมก่อนลงสนามจริงครับ ทำให้ค้นหารูปแบบที่เข้ากับสไตล์ตัวเองและช่วยลดความเสี่ยงในการลงทุนได้อย่างดีเยี่ยม",
   },
 ];
 ---
@@ -85,49 +95,47 @@ const gameCategories = [
 <MainLayout title={pageTitle} description={pageDescription}>
   <script type="application/ld+json" set:html={JSON.stringify(allSchemas)} />
 
-  <Announcement2 />
-
-  <ContentBoxPremium as="h1" title="ดีเฮง789 สล็อตสุดเฮงแตกง่าย ฝากถอนสะดวกออโต้ ไม่มีขั้นต่ำจ่ายจริง">
-    <p class="mx-auto max-w-4xl leading-relaxed">
-      ยินดีต้อนรับสู่อาณาจักรการลงทุนออนไลน์ที่ล้ำสมัยที่สุดกับ ดีเฮง789 สล็อตสุดเฮงแตกง่าย ฝากถอนสะดวกออโต้ ไม่มีขั้นต่ำจ่ายจริง แพลตฟอร์มที่เชื่อมต่อระบบ API แท้ มอบประสบการณ์เสี่ยงโชคที่โปร่งใส ไม่มีการล็อคยูสเซอร์
-      เปิดโอกาสให้คุณเข้ามาโกยเงินรางวัลก้อนโตกลับบ้านได้อย่างมั่นใจและรวดเร็วที่สุดผ่านนวัตกรรมที่ทันสมัย
-    </p>
-  </ContentBoxPremium>
+  <Announcement5 />
 
   <SmoothCarousel />
 
-  <ContentBoxPremium as="h2" title="เปิดประสบการณ์เล่นสล็อตกับ ดีเฮง789 เกมแตกง่าย ไม่ซับซ้อน">
-    <p class="mx-auto max-w-4xl leading-relaxed">
-      ทลายทุกข้อจำกัดของการลงทุนเมื่อคุณ เปิดประสบการณ์เล่นสล็อตกับ ดีเฮง789 เกมแตกง่าย ไม่ซับซ้อน เราคัดสรรเฉพาะซอฟต์แวร์ลิขสิทธิ์แท้ระดับโลกมาไว้ในที่เดียว ตอบโจทย์นักลงทุนยุคดิจิทัลที่ต้องการความคล่องตัว
-      ช่วยให้คุณขยายพอร์ตความมั่งคั่งและสนุกกับการสร้างรายได้แบบไม่มีเบื่อ พร้อมกวาดกำไรเข้าบัญชีได้อย่างง่ายดายผ่านระบบอัจฉริยะ
+  <ContentBoxNeumorphism as="h1" title="KINGHENG168 สล็อตทำเงินง่ายรายได้ดี แตกง่ายจ่ายจริง ฝากถอนไว">
+    <p class="text-left text-base leading-relaxed text-amber-50/80">
+      ยินดีต้อนรับสู่อาณาจักรการลงทุนออนไลน์ที่ล้ำสมัยที่สุดกับ KINGHENG168 สล็อตทำเงินง่ายรายได้ดี แตกง่ายจ่ายจริง ฝากถอนไว แพลตฟอร์มที่เชื่อมต่อระบบ API แท้ มอบประสบการณ์เสี่ยงโชคที่โปร่งใส ไม่มีการล็อคยูสเซอร์
+      เปิดโอกาสให้คุณเข้ามาโกยเงินรางวัลก้อนโตกลับบ้านได้อย่างมั่นใจและรวดเร็วที่สุดผ่านนวัตกรรมที่ทันสมัย
     </p>
-  </ContentBoxPremium>
+  </ContentBoxNeumorphism>
 
-  <div class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4">
-    <FeatureHighlights items={gameCategories} />
-  </div>
+  <ContentBoxCyberCut as="h2" title="ทำความรู้จัก KINGHENG168 สล็อตทำเงินที่เน้นการเล่นง่าย">
+    <p class="text-left text-base leading-relaxed text-amber-50/80">
+      ทลายทุกข้อจำกัดของการลงทุนเมื่อคุณเข้ามา ทำความรู้จัก KINGHENG168 สล็อตทำเงินที่เน้นการเล่นง่าย เราคัดสรรเฉพาะซอฟต์แวร์ลิขสิทธิ์แท้ระดับโลกมาไว้ในที่เดียว ตอบโจทย์นักลงทุนยุคดิจิทัลที่ต้องการความคล่องตัว
+      ช่วยให้คุณขยายพอร์ตความมั่งคั่งและสนุกกับการสร้างรายได้แบบไม่มีเบื่อ พร้อมกวาดกำไรเข้าบัญชีได้อย่างราบรื่น
+    </p>
+  </ContentBoxCyberCut>
 
-  <ProviderGrid />
-
-  <ContentBox as="h2" title="รวมเกมสล็อตน่าเล่น สำหรับผู้ที่ชอบจังหวะไวและลุ้นรางวัลได้ต่อเนื่อง">
-    <p class="mx-auto max-w-4xl leading-relaxed">
-      สัมผัสความเหนือระดับของการเสี่ยงโชคเมื่อเรา รวมเกมสล็อตน่าเล่น สำหรับผู้ที่ชอบจังหวะไวและลุ้นรางวัลได้ต่อเนื่อง ระบบของเราทำงานผ่านนวัตกรรมสุดล้ำ ไม่มีการแทรกแซงกลไกหลังบ้าน มั่นใจได้ว่าทุกการสปินจะโปร่งใส ยุติธรรม
-      และให้อัตราการจ่ายผลตอบแทนที่สูงปรี๊ดตามสถิติความน่าจะเป็นระดับสากลอย่างแท้จริง ไร้กังวลเรื่องโดนโกงแน่นอนร้อยเปอร์เซ็นต์
+  <ContentBox as="h2" title="คัดเกมสล็อตแตกง่าย เพื่อผู้เล่นที่มองหาโอกาสรับรางวัล KINGHENG168">
+    <p class="text-left text-base leading-relaxed text-amber-50/85">
+      สัมผัสความเหนือระดับของการเสี่ยงโชคเมื่อเรา คัดเกมสล็อตแตกง่าย เพื่อผู้เล่นที่มองหาโอกาสรับรางวัล KINGHENG168 ระบบของเราทำงานผ่านนวัตกรรมสุดล้ำ ไม่มีการแทรกแซงกลไกหลังบ้าน มั่นใจได้ว่าทุกการสปินจะโปร่งใส
+      ยุติธรรม และให้อัตราการจ่ายผลตอบแทนที่สูงปรี๊ดตามสถิติความน่าจะเป็นระดับสากลอย่างแท้จริง ไร้กังวลเรื่องโดนโกงแน่นอน
     </p>
   </ContentBox>
 
+  <ProviderGrid />
+
   <GameRankingBoard />
 
-  <ContentBoxPremium as="h2" title="ฝากถอนสะดวกด้วยระบบออโต้ ช่วยลดขั้นตอนและทำรายการได้รวดเร็ว">
-    <p class="mx-auto max-w-4xl leading-relaxed">
-      บริหารกระแสเงินสดของคุณอย่างลื่นไหลเพราะเรามีฟีเจอร์ ฝากถอนสะดวกด้วยระบบออโต้ ช่วยลดขั้นตอนและทำรายการได้รวดเร็ว นวัตกรรมเอไออัจฉริยะจะทำหน้าที่ประมวลผลธุรกรรมทางการเงินในเสี้ยววินาที เมื่อคุณทำกำไรทะลุเป้าหมายหลักล้าน
-      ระบบก็พร้อมโอนยอดเงินสดเข้าบัญชีทันที ขจัดปัญหาความล่าช้าและไม่ต้องรอนาน มอบสภาพคล่องที่ตอบโจทย์วัยรุ่นยุคใหม่
+  <ContentBoxSpecial as="h2" title="ระบบจ่ายจริงพร้อมขั้นตอนรับเงินรางวัลที่ชัดเจนและตรวจสอบได้">
+    <p slot="left" class="text-left text-base leading-relaxed text-amber-50/80">
+      ยกระดับความมั่นใจให้ผู้เล่นด้วย ระบบจ่ายจริงพร้อมขั้นตอนรับเงินรางวัลที่ชัดเจนและตรวจสอบได้ โครงสร้างเว็บไซต์ของเราถูกออกแบบมาให้มีความปลอดภัยขั้นสุด
     </p>
-  </ContentBoxPremium>
+    <p slot="right" class="text-left text-base leading-relaxed text-amber-50/80">
+      ฐานข้อมูลถูกคุ้มครองด้วยเทคโนโลยีเข้ารหัสระดับสถาบันการเงิน ป้องกันการแฮ็กข้อมูลได้อย่างไร้รอยรั่ว มอบความสบายใจให้เซียนพนันไว้วางใจเทหมดตักโดยไม่ต้องระแวงเรื่องระบบล่ม
+    </p>
+  </ContentBoxSpecial>
 
-  <LoginRtpSection />
+  <LatestWinnersPremium />
 
-  <ContentBoxSevenThreePremium titleright="ดีเฮง789 เหมาะกับผู้เล่นแบบไหน และควรรู้อะไรก่อนเริ่มใช้งาน">
+  <ContentBoxSevenThreeCyberCut titleright="ฝากถอนไวด้วยระบบอัตโนมัติ KINGHENG168 ทำรายการตลอดวัน">
     <div slot="left" class="flex h-full flex-col justify-center">
       <Picture
         src={imgCashback}
@@ -139,17 +147,17 @@ const gameCategories = [
         formats={["avif", "webp"]}
         fallbackFormat="webp"
         quality={80}
-        alt="ดีเฮง789 ยิ่งฝากเยอะ ยิ่งได้เยอะ คืนยอดเสียสูงสุด 10,000 บาท"
-        class="mx-auto h-auto w-full rounded-2xl border-2 border-amber-400/30 shadow-[0_10px_30px_rgba(220,38,38,0.3)]"
+        alt="KINGHENG168 ยิ่งฝากเยอะยิ่งได้เยอะ คืนยอดเสียสูงสุด 10,000 บาท"
+        class="mx-auto h-auto w-full rounded-2xl border-2 border-amber-400/40 shadow-[0_10px_30px_rgba(245,158,11,0.3)]"
       />
     </div>
-    <p slot="right" class="leading-relaxed">
-      ก้าวเข้าสู่อาณาจักรทำเงินยุคดิจิทัลเพื่อเจาะลึกว่า ดีเฮง789 เหมาะกับผู้เล่นแบบไหน และควรรู้อะไรก่อนเริ่มใช้งาน แพลตฟอร์มนี้ออกแบบมาเพื่อนักเก็งกำไรทุกระดับตั้งแต่สายน้อยไปจนถึงวีไอพี โครงสร้างเว็บไซต์มีความเสถียรและปลอดภัยขั้นสุด
-      ฐานข้อมูลถูกคุ้มครองด้วยเทคโนโลยีเข้ารหัสระดับสถาบันการเงิน มอบความสบายใจให้เซียนพนันเทหมดตักได้ทุกวัน
+    <p slot="right" class="text-left text-base leading-relaxed text-amber-50/80">
+      บริหารกระแสเงินสดของคุณอย่างลื่นไหลเพราะเรา ฝากถอนไวด้วยระบบอัตโนมัติ KINGHENG168 ทำรายการตลอดวัน นวัตกรรมเอไออัจฉริยะจะทำหน้าที่ประมวลผลธุรกรรมทางการเงินในเสี้ยววินาที เมื่อคุณทำกำไรทะลุเป้าหมายหลักล้าน
+      ระบบก็พร้อมโอนยอดเงินสดเข้าบัญชีทันที ขจัดปัญหาความล่าช้าและไม่ต้องรอนาน มอบสภาพคล่องที่ตอบโจทย์วัยรุ่นยุคใหม่ที่สุด
     </p>
-  </ContentBoxSevenThreePremium>
+  </ContentBoxSevenThreeCyberCut>
 
-  <ContentBoxSevenThreeHuay titleright="ไม่มีขั้นต่ำในการฝากถอน ดีเฮง789 เพิ่มความยืดหยุ่นให้กับผู้เล่น">
+  <ContentBoxSevenThreeCyberCut titleright="KINGHENG168 เหมาะกับใคร พร้อมข้อควรรู้ก่อนเริ่มเล่นสล็อตออนไลน์">
     <div slot="left" class="flex h-full flex-col justify-center">
       <Picture
         src={imgNewMember}
@@ -161,40 +169,30 @@ const gameCategories = [
         formats={["avif", "webp"]}
         fallbackFormat="webp"
         quality={80}
-        alt="ดีเฮง789 สมาชิกใหม่ ฝากทันทีรับเพิ่ม 50% ฝากถอนไม่มีขั้นต่ำ"
-        class="mx-auto h-auto w-full rounded-2xl border-2 border-amber-400/30 shadow-[0_10px_30px_rgba(220,38,38,0.3)]"
+        alt="KINGHENG168 สมาชิกใหม่ ฝากทันที รับเพิ่ม 50%"
+        class="mx-auto h-auto w-full rounded-2xl border-2 border-amber-400/40 shadow-[0_10px_30px_rgba(245,158,11,0.3)]"
       />
     </div>
-    <p slot="right" class="leading-relaxed">
-      มอบอิสระทางการลงทุนแบบไร้ขีดจำกัดด้วยเงื่อนไข ไม่มีขั้นต่ำในการฝากถอน ดีเฮง789 เพิ่มความยืดหยุ่นให้กับผู้เล่น นโยบายนี้ทำหน้าที่เสมือนเครื่องมือบริหารความเสี่ยงชั้นเยี่ยม ช่วยให้คุณเริ่มต้นปั้นพอร์ตด้วยทุนเท่าไหร่ก็ได้
-      และสามารถถอนกำไรออกไปใช้จ่ายได้อย่างอิสระ เปิดทางให้คุณดักจับแจ็กพอตใหญ่ได้อย่างแม่นยำและเพิ่มโอกาสรวยได้อย่างรวดเร็ว
+    <p slot="right" class="text-left text-base leading-relaxed text-amber-50/80">
+      ก้าวเข้าสู่อาณาจักรทำเงินยุคดิจิทัลเพื่อเจาะลึกว่า KINGHENG168 เหมาะกับใคร พร้อมข้อควรรู้ก่อนเริ่มเล่นสล็อตออนไลน์ แพลตฟอร์มนี้ออกแบบมาเพื่อนักเก็งกำไรทุกระดับตั้งแต่สายน้อยไปจนถึงวีไอพี
+      เพียงสมัครเปิดยูสเซอร์ใหม่ผ่านระบบออโต้ คุณก็พร้อมนำเครดิตฟรีเข้ามาสอยแจ็กพอตใหญ่และพลิกชีวิตสู่เศรษฐีหน้าใหม่ได้อย่างยั่งยืน การันตีความปลอดภัย
     </p>
-  </ContentBoxSevenThreeHuay>
+  </ContentBoxSevenThreeCyberCut>
 
-  <div class="relative z-10 mx-auto mb-10 flex flex-nowrap justify-center gap-3 px-4 sm:gap-6">
-    <a
-      href="/login"
-      class="group relative flex flex-1 items-center justify-center rounded-full border border-amber-400/50 bg-gradient-to-r from-[#4a0000] via-[#ef4444] to-[#4a0000] px-4 py-3 text-sm font-black whitespace-nowrap text-amber-50 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-amber-300 hover:shadow-[0_0_18px_rgba(220,38,38,0.6)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
-      เข้าสู่ระบบ
-    </a>
+  <ContentBoxCyberCut as="h2" title="พร้อมข้อควรรู้ก่อนเริ่มเล่นสล็อตออนไลน์ รวมทริกการเล่น">
+    <p class="text-left text-base leading-relaxed text-amber-50/80">
+      อัปเกรดทักษะการลงทุนของคุณให้เฉียบคมยิ่งขึ้น พร้อมข้อควรรู้ก่อนเริ่มเล่นสล็อตออนไลน์ รวมทริกการเล่น แพลตฟอร์มของเรามีโหมดเดโม่ที่ช่วยให้คุณศึกษากลไกและค่า RTP ของแต่ละเกมได้อย่างละเอียด
+      เพื่อหารูปแบบที่เข้ากับสไตล์การเดิมพันของคุณ ช่วยเพิ่มโอกาสดักจับแจ็กพอตใหญ่และลดความเสี่ยงได้อย่างยอดเยี่ยม ทำกำไรได้อย่างมั่นคง
+    </p>
+  </ContentBoxCyberCut>
 
-    <a
-      href="/register"
-      class="group relative flex flex-1 items-center justify-center rounded-full bg-gradient-to-r from-amber-300 via-amber-400 to-amber-600 px-4 py-3 text-sm font-black whitespace-nowrap text-[#4a0000] shadow-[0_5px_20px_rgba(251,191,36,0.45)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_8px_25px_rgba(251,191,36,0.65)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
-      สมัครสมาชิก
-    </a>
+  <div class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4">
+    <FeatureHighlights items={playTips} />
   </div>
 
-  <ContentBox as="h2" title="ตรวจสอบระบบจ่ายจริง พร้อมขั้นตอนถอนเงินที่ชัดเจน ดีเฮง789">
-    <p class="mx-auto max-w-4xl leading-relaxed">
-      ยกระดับความมั่นใจก่อนลงทุนเมื่อคุณ ตรวจสอบระบบจ่ายจริง พร้อมขั้นตอนถอนเงินที่ชัดเจน ดีเฮง789 เพียงสมัครเปิดยูสเซอร์ใหม่ผ่านระบบออโต้ คุณก็พร้อมนำเครดิตฟรีเข้ามาสอยแจ็กพอตใหญ่และพลิกชีวิตสู่เศรษฐีหน้าใหม่ได้อย่างยั่งยืน
-      การันตีความปลอดภัยและโอนจ่ายเต็มร้อยเปอร์เซ็นต์ทุกยอดถอน ไร้ประวัติการดึงเช็งหรือล็อคยูสเซอร์จากแอดมินหลังบ้านแน่นอน
-    </p>
-  </ContentBox>
+  <LoginRtpSection />
 
-  <Faq4 />
-
-  <LatestWinners2 />
+  <Faq2 faqs={faqs} />
 
   <Navfoot />
 </MainLayout>

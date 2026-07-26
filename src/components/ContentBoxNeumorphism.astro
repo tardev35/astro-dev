@@ -1,15 +1,23 @@
 ---
+export interface Props {
+  title?: string;
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+}
 const { title, as: HeadingTag = "h1" } = Astro.props;
 const headingSize = HeadingTag === "h1" ? "text-3xl" : "text-2xl";
 ---
 
 <section class="my-6 flex w-full justify-center px-4 font-sans">
   <div
-    class="w-full max-w-[1400px] rounded-[25px] bg-[#150406] p-8 text-left text-base leading-relaxed text-red-100/75 shadow-[10px_10px_20px_#070102,-10px_-10px_20px_#25080c]">
+    class="w-full max-w-[1400px] rounded-[25px] bg-[#140406] p-8 text-left text-base leading-relaxed text-amber-50/80 shadow-[10px_10px_20px_#060102,-10px_-10px_20px_#26100a]">
     {
       title && (
         <header class="mb-8 text-center">
-          <HeadingTag class={`bg-gradient-to-r from-red-300 via-red-400 to-amber-400 bg-clip-text ${headingSize} leading-normal font-black text-transparent drop-shadow-md`}>{title}</HeadingTag>
+          <HeadingTag
+            class={`bg-gradient-to-r from-white via-amber-100 to-amber-300 bg-clip-text ${headingSize} leading-normal font-black text-transparent drop-shadow-[0_2px_12px_rgba(245,158,11,0.35)]`}>
+            {title}
+          </HeadingTag>
+          <span class="mx-auto mt-4 block h-[3px] w-28 rounded-full bg-gradient-to-r from-transparent via-amber-400 to-transparent" />
         </header>
       )
     }

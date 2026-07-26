@@ -3,12 +3,12 @@ import "swiper/css";
 
 import { Picture } from "astro:assets";
 
-import banner1 from "../assets/slide1.png";
-import banner2 from "../assets/slide2.png";
-import banner3 from "../assets/slide3.png";
-import banner4 from "../assets/slide4.png";
+import slide1 from "../assets/slide1.png";
+import slide2 from "../assets/slide2.png";
+import slide3 from "../assets/slide3.png";
+import slide4 from "../assets/slide4.png";
 
-const images = [banner1, banner2, banner3, banner4];
+const images = [slide1, slide2, slide3, slide4];
 const displayImages = [...images, ...images, ...images];
 ---
 
@@ -20,8 +20,8 @@ const displayImages = [...images, ...images, ...images];
           <div class="swiper-slide">
             <Picture
               src={img}
-              alt={`CASHOT123 โปรโมชั่นและบริการเว็บตรงครบวงจร ภาพที่ ${index + 1}`}
-              class="block w-full rounded-xl border border-red-900/40 object-contain object-cover shadow-[0_5px_15px_rgba(220,38,38,0.25)]"
+              alt={`KINGHENG168 โปรโมชั่นและบริการสล็อตทำเงิน API แท้ครบวงจร ภาพที่ ${index + 1}`}
+              class="block w-full rounded-xl border border-amber-500/35 object-contain object-cover shadow-[0_5px_15px_rgba(245,158,11,0.25)]"
               width={img.width}
               height={img.height}
               loading={index < 2 ? "eager" : "lazy"}

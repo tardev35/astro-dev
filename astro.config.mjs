@@ -19,6 +19,6 @@ export default defineConfig({
     "/line": "https://tinyurl.com/suhng",
   },
 
-  site: "https://ดีเฮง7899.com",
+  site: "https://kingheng168v.com",
   integrations: [sitemap()],
 });

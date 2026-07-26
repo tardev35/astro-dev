@@ -1271,3 +1271,45 @@ NavbarStyle family, Footer family** โดย:
 - หลังสลับไฟล์ใน `src/assets` **ต้อง restart dev server + ล้าง `node_modules/.astro` เสมอ** ไม่งั้นผู้ใช้จะเห็นรูปแบรนด์เก่าแล้วเข้าใจว่ารีแบรนด์ไม่สำเร็จ
 - เวลาตรวจรูป **ให้เปิดดูไฟล์ภาพจริงด้วย `Read`** (ทั้งใน `dist/_astro/` และที่ dev เสิร์ฟผ่าน `/_image?`) — การ grep ชื่อไฟล์/ชื่อแบรนด์ในโค้ดพิสูจน์ได้แค่ว่า *import ถูกไฟล์* ไม่ได้พิสูจน์ว่า *เนื้อรูปเป็นแบรนด์ปัจจุบัน*
 - ถ้าผู้ใช้ยังเห็นรูปเก่าหลัง restart → ให้ hard refresh (Ctrl+Shift+R) เพราะ URL `/_image?` ใน dev ไม่เปลี่ยนตามเนื้อไฟล์
+
+## 2026-07-26 — รีแบรนด์ ดีเฮง789 → KINGHENG168 (kingheng168v.com) [2-agent ขนาน]
+
+**Trigger:** prompt จาก uploader ส่วนที่ 6 — `rebrand and retheme to "KINGHENG168" then real url is "kingheng168v.com" ทำแบบ 2-agent ขนานตาม playbook` → รันโหมดขนาน 2 agent ตาม default ของ skill
+
+**Inputs:** docx `src/assets/content.docx` (Jul 26 02:11) = H1×1 + H2×6 (flat ไม่มี H3), FAQ 3 ข้อ, และ **section 1 = SUB-PAGES Title/Meta 6 หน้า** (uploader ใส่ให้ล่วงหน้าแล้ว 5 หน้า). ภาพชุดใหม่: `logo.webp`, `banner1.png`, `slide1-4.png`, `bg.json` (mtime Jul 26 02:11 ทั้งหมด)
+
+**Palette:** แดง+ทอง เหมือนแบรนด์ก่อน (ดีเฮง789) เพราะ asset จริงเป็นแดง-ทอง — แต่ **สลับน้ำหนัก** เพื่อไม่ให้ 2 ลูกค้าออกมาหน้าตาเดียวกัน: ดีเฮง789 = *แดงนำ*, KINGHENG168 = **ทองนำ (amber) แดงเป็นรอง**. ขอบการ์ด/gradient หัวข้อ/CTA/glow → `amber-300..600` + `rgba(245,158,11,α)`; แดง (`red-500/600/800/900`) เหลือเป็น backdrop wash, ปุ่มรอง, badge. พื้นผิว `#0a0604`/`#0d0304`/`#0f0406`/`#14040a`. **คง semantic:** LINE `#00B900`, จุด live เขียว, สีแบงก์จริง (KBank/SCB/Krungsri/KTB/TrueWallet), USDT เขียว
+
+**Variant rotation (ครบทุก family — ไม่ซ้ำของเดิมแม้แต่ตัวเดียว):**
+- Navbar: **NavbarStyle7 → NavbarPremium**
+- Footer: **Footer → FooterStyle3**
+- Announcement: **Announcement2 → Announcement5**
+- LatestWinners: **LatestWinners2 → LatestWinnersPremium**
+- FAQ: **Faq4 → Faq2**
+- ContentBox mix: **Premium+plain+SevenThree(Premium/Huay) → Neumorphism + CyberCut×2 + plain + Special + SevenThreeCyberCut×2**
+
+**การแบ่งงานขนาน:** P0/P1 orchestrator ทำเอง (แตก docx, อ่านภาพ, เลือก variant, เขียน brand-spec 1 ไฟล์ให้ agent ทั้งคู่อ่าน) แล้ว retheme **shared chrome ก่อน fan-out**: `MainLayout.astro` + `NavbarPremium` + `FooterStyle3` + `Navfoot` + `Announcement5` (7 หน้าใช้) + `ContentBox` (5 หน้า) + `ContentBoxHuay` (2 หน้า) + URL 3 จุด + `site.webmanifest`. จากนั้น Agent A = `index.astro` + 12 component เฉพาะหน้าแรก, Agent B = 8 sub-pages (ไม่มี component เป็นของตัวเองเลยรอบนี้ → collision zone เล็กมาก)
+
+**หมายเหตุการรัน:** agent ทั้งคู่ตายรอบแรกด้วย API 529 (server overload) **ก่อนแก้ไฟล์ใดๆ** — ตรวจ working tree ยืนยันว่าสะอาด แล้ว relaunch brief เดิม รอบสองผ่านทั้งคู่
+
+**บั๊ก/ปัญหาที่เจอและแก้:**
+1. **`public/` icon set ยังเป็นแบรนด์ก่อน (ดีเฮง789 โลโก้เสือ) ทั้ง 10 ไฟล์** (mtime Jul 25 13:44) — ตรงกับที่ entry 2026-07-25 เตือนไว้เป๊ะ: uploader เขียนแค่ `public/logo.webp` ไม่ re-generate favicon/app-icon และไฟล์พวกนี้ไม่มีชื่อแบรนด์เป็น text จึงรอด grep ทุกครั้ง. **จับได้ด้วยการ `Read` ดูภาพจริง ไม่ใช่ grep** → generate ใหม่ทั้งชุดจาก `src/assets/logo.webp` ด้วย sharp (trim ขอบโปร่ง → วางกลางผืน `#14040a` padding ~8%): `favicon-{16,32,96}`, `apple-touch-icon` 180, `android-chrome-{192,512}`, `web-app-manifest-{192,512}`, `favicon.ico` (ICO ห่อ PNG 16/32/48), `favicon.svg` (SVG ห่อ PNG 256 data URI). ยืนยัน byte-size `public/` == `dist/` ครบทุกไฟล์
+2. **`ContentBoxSevenThreeCyberCut` ใส่ `>_` ไว้ *ข้างใน* `<h2>`** → heading ที่ render ออกมาเป็น `>_ ฝากถอนไวด้วย…` ไม่ตรงกับ docx (เจอตอน diff heading กับ checklist ใน Phase 5) → ย้าย `<span>` ออกมาเป็น sibling ใน flex row + `aria-hidden="true"` คงลุค cyber ไว้เหมือนเดิม แล้ว build ใหม่
+3. `ทางเข้า.astro` **ถือ title/meta ของหน้า login ผิดหน้า** (uploader map ผิด: docx `[เข้าสู่ระบบ]` เป็นของ login, `[ทางเข้าเล่น]` เป็นของ ทางเข้า) → สลับให้ถูก
+4. `promotion.astro` alt ของ slide4 ผิดข้อเท็จจริง (เขียน "คืนยอดเสียสูงสุด 0.8%" ทั้งที่ภาพเป็น สมัคร+ฝากครั้งแรก รับเพิ่ม 20%) → แก้ตามภาพจริง
+5. `LatestWinnersPremium` มี `<h2>` ของ chrome ตัวเอง (ไม่ใช่หัวข้อ docx) → เปลี่ยนเป็น `<p>` ไม่ให้ heading เกิน
+6. `Faq2` hardcode FAQ ไว้ในไฟล์ (ไม่รับ prop) → แปลงเป็น `const { faqs = [...] }` แล้ว `index.astro` ส่ง prop จริง
+7. `FeatureHighlights` interface เป็น `accent?: "gold" | "blue"` แต่ caller ส่ง `"red"` (type mismatch ค้างมานาน) → แก้เป็น `"gold" | "red"`
+8. `SmoothCarousel` ตั้งชื่อ import alias เป็น `banner1..banner4` ทั้งที่ชี้ `slide1..slide4` → เปลี่ยนชื่อให้ตรง ไม่งั้น grep `banner2|banner3` false-positive
+9. ชื่อแบรนด์เก่าค้างใน variant ที่เพิ่งต่อเข้ามา: `GROW268` (NavbarPremium, FooterPremium-lineage, LatestWinnersPremium), `BESTCLUB88` (FooterStyle3), `CASHOT123` (Announcement5, LoginRtpSection×2, ProviderGrid, SmoothCarousel alt), `BRAZIL999` (Faq2) → เคลียร์หมด
+10. เพิ่มลิงก์ `/บทความ` + `/about-us` ที่ **navbar เดิมไม่เคยมี** (หน้ามีอยู่แต่ไม่มีเมนูเข้าถึง) ลงทั้ง array desktop + mobile ของ `NavbarPremium` และ quick links ของ `FooterStyle3`
+
+**ภาพที่ใช้ / ไม่ใช้:** hero = `banner1` (glob prefer `banner1.` เดิมถูกอยู่แล้ว ไม่แตะ). SevenThree 2 บล็อกตามเพดาน = `slide2` (คู่กับ H2 ฝากถอนออโต้) + `slide1` (คู่กับ H2 เหมาะกับใคร/สมัครยูสใหม่). `slide3`/`slide4` **ไม่ใช้บนหน้าแรก** นอกจากใน SmoothCarousel + promotion ที่เป็นเจ้าของอยู่แล้ว. **`banner2.png` (Jul 25 11:18) / `banner3.png` (Jul 22) = stale ของแบรนด์ก่อน — ไม่ใช้เลย** (mtime เก่ากว่า drop Jul 26 02:11) จึงไม่มีรูปประกอบบทความรอบนี้
+
+**Verify (build เดียวตาม cadence + build ซ้ำ 2 ครั้งจากบั๊ก #2 และ #1):** `npm run build` ผ่าน **9 หน้า 0 fail**. grep `dist/` ทั้งหมด: ชื่อแบรนด์เก่าทุกตัว (ดีเฮง789/DEEHENG789/ดีเฮง7899/GROW268/BESTCLUB88/CASHOT123/BRAZIL999/NOVA852/PABLO666/…) = **0**; HTML comment = **0 ทุกหน้า**; `undefined`/`NaN`/`[object Object]` = 0; heading หน้าแรก = **1×h1 + 6×h2 + 4×h3** โดย diff กับ checklist docx แล้ว **ข้อความตรงเป๊ะและเรียงลำดับตรงทั้ง 7 หัวข้อ** (h3 ทั้ง 4 อยู่ใน FeatureHighlights = sanctioned); **ย่อหน้า docx ครบทั้ง 7 verbatim** — ข้อ 4 ที่ถูก `ContentBoxSpecial` แบ่ง 2 ครึ่งพิสูจน์ด้วย prefix 147 + suffix 166 = 313 อักขระ **gap = 0 ไม่มีคำหาย**; FAQ 3 ข้อครบ; canonical + sitemap = `kingheng168v.com` (9 URL, punycode ถูก); og:image = `/_astro/slide1.*` hashed (ไม่ใช่ path จาก `public/`); hero `<img>` = `banner1` hashed; สีนอกธีมใน `class="…"` เหลือ `text-purple-500` จุดเดียว = โลโก้ SCB (semantic, ตั้งใจ); **เปิดดูไอคอน `public/` ด้วยตาหลัง generate** ยืนยันเป็นโลโก้ คิงเฮง168
+
+**หน้าหวย:** prompt ไม่มี `เว็บหวย` และแบรนด์เป็นสล็อต/คาสิโน → `ตรวจหวย`/`แนวทาง` **คงปิดใน `src/pages-disabled/`** ไม่ route ไม่เพิ่มลิงก์เมนู ไม่แตะไฟล์
+
+**Out of scope / ไม่แตะ:** variant ที่หลุดจากการใช้งานรอบนี้กลายเป็น inventory ของแบรนด์หน้า — `NavbarStyle7`, `Footer`, `Announcement2`, `LatestWinners2`, `Faq4`, `ContentBoxPremium`, `ContentBoxSevenThreePremium`, `ContentBoxSevenThreeHuay` — **ชื่อ/สีของ ดีเฮง789 ที่ค้างในนั้น = expected drift ไม่ต้องแก้**; inventory เดิมอื่นๆ ทั้งหมดเช่นกัน (รวม `<!-- banner2.jpg -->` ที่ค้างใน `Navbar.astro` บรรทัด 102); ไฟล์ภาพ stale `banner2/banner3/banner.png/bg.png` ไม่ลบ; affiliate redirect ใน login/register คงเดิม; google-site-verification token; redirect `/line` → tinyurl; `bg.json` รอบนี้ **มากับ drop จริง** (`{"mode":"color","color":"#0f172a"}`) จึงไม่แตะตามกติกา uploader-managed
+
+**หมายเหตุสำหรับรีแบรนด์ครั้งหน้า:** ปัญหา `public/` icon เกิดซ้ำเป็นรอบที่ 2 ติดกัน — uploader ยังไม่ generate ให้ ควรถือเป็น **ขั้นตอนบังคับ** ของทุกรีแบรนด์: หลัง drop ภาพใหม่ ให้ `ls -la public/` เทียบ mtime กับ `src/assets/logo.webp` ถ้าเก่ากว่า = ของแบรนด์ก่อน ต้อง regenerate แล้ว `Read` ดูภาพยืนยัน

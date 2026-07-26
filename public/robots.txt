@@ -13,5 +13,5 @@ Disallow: /
 User-agent: Anthropic-ai
 Disallow: /
 
-Sitemap: https://ดีเฮง7899.com/sitemap-0.xml
+Sitemap: https://kingheng168v.com/sitemap-0.xml
 

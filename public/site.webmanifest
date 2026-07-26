@@ -1,11 +1,11 @@
 {
-  "name": "KINGHENG168 สล็อตทำเงินง่ายรายได้ดี แตกง่ายจ่ายจริง ฝากถอนไว",
-  "short_name": "KINGHENG168",
+  "name": "PGZEED168 | สล็อตเกมยอดนิยม โบนัสเข้าง่าย ฝากถอนออโต้ มั่นคง",
+  "short_name": "PGZEED168",
   "icons": [
     { "src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
     { "src": "/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
   ],
-  "theme_color": "#0a0604",
-  "background_color": "#14040a",
+  "theme_color": "#04120a",
+  "background_color": "#04120a",
   "display": "standalone"
 }

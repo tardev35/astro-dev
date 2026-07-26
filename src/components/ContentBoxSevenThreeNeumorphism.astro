@@ -4,14 +4,14 @@ const { titleleft, titleright } = Astro.props;
 
 <section class="mx-auto mb-8 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="w-full rounded-[25px] bg-[#150406] p-8 shadow-[10px_10px_20px_#070102,-10px_-10px_20px_#25080c] transition-all duration-300 hover:shadow-[15px_15px_30px_#050101,-15px_-15px_30px_#2e0a10]">
+    class="w-full rounded-[25px] bg-[#061409] p-8 shadow-[10px_10px_20px_#020a05,-10px_-10px_20px_#0a2013] transition-all duration-300 hover:shadow-[15px_15px_30px_#010603,-15px_-15px_30px_#0e2a18]">
     <div class="grid grid-cols-1 gap-8 md:grid-cols-[3fr_7fr]">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-red-100/70">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-lime-100/75">
         {titleleft && <h2 class="text-2xl leading-normal font-black text-white/90">{titleleft}</h2>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-red-100/70 md:border-l md:border-amber-400/15 md:pl-8">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-lime-100/75 md:border-l md:border-lime-400/20 md:pl-8">
         {titleright && <h2 class="text-2xl leading-normal font-black text-white/90">{titleright}</h2>}
         <slot name="right" />
       </article>

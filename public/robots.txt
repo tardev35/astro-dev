@@ -13,5 +13,5 @@ Disallow: /
 User-agent: Anthropic-ai
 Disallow: /
 
-Sitemap: https://kingheng168v.com/sitemap-0.xml
+Sitemap: https://pgzeed168-auto.com/sitemap-0.xml
 

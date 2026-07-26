@@ -1313,3 +1313,74 @@ NavbarStyle family, Footer family** โดย:
 **Out of scope / ไม่แตะ:** variant ที่หลุดจากการใช้งานรอบนี้กลายเป็น inventory ของแบรนด์หน้า — `NavbarStyle7`, `Footer`, `Announcement2`, `LatestWinners2`, `Faq4`, `ContentBoxPremium`, `ContentBoxSevenThreePremium`, `ContentBoxSevenThreeHuay` — **ชื่อ/สีของ ดีเฮง789 ที่ค้างในนั้น = expected drift ไม่ต้องแก้**; inventory เดิมอื่นๆ ทั้งหมดเช่นกัน (รวม `<!-- banner2.jpg -->` ที่ค้างใน `Navbar.astro` บรรทัด 102); ไฟล์ภาพ stale `banner2/banner3/banner.png/bg.png` ไม่ลบ; affiliate redirect ใน login/register คงเดิม; google-site-verification token; redirect `/line` → tinyurl; `bg.json` รอบนี้ **มากับ drop จริง** (`{"mode":"color","color":"#0f172a"}`) จึงไม่แตะตามกติกา uploader-managed
 
 **หมายเหตุสำหรับรีแบรนด์ครั้งหน้า:** ปัญหา `public/` icon เกิดซ้ำเป็นรอบที่ 2 ติดกัน — uploader ยังไม่ generate ให้ ควรถือเป็น **ขั้นตอนบังคับ** ของทุกรีแบรนด์: หลัง drop ภาพใหม่ ให้ `ls -la public/` เทียบ mtime กับ `src/assets/logo.webp` ถ้าเก่ากว่า = ของแบรนด์ก่อน ต้อง regenerate แล้ว `Read` ดูภาพยืนยัน
+
+---
+
+## 2026-07-26 — รีแบรนด์ KINGHENG168 → PGZEED168 (pgzeed168-auto.com) [2-agent ขนาน]
+
+**เป้าหมาย:** รีแบรนด์ + retheme ทั้งไซต์จาก KINGHENG168 (แดง+ทอง) → **PGZEED168** ธีม **นีออนเขียว/ไลม์บนพื้นดำ** ตามโลโก้ pixel-neon + banner1 พร้อมตั้งโดเมนจริง `https://pgzeed168-auto.com` (ผู้ใช้ระบุมาชัดเจนในคำสั่ง)
+
+**Palette:** `amber-*`/`yellow-*` → `lime-*`, `red-*`/`rose-*` → `green-*`, `blue-*` (Announcement6) → `green-*`; พื้นเข้ม `#0f0406`/`#14040a`/`#0a0806`/`#04101f` → `#04120a`/`#061409`/`#0a1a0e`; glow `rgba(245,158,11,x)`/`rgba(250,204,21,x)` → `rgba(163,230,53,x)`, `rgba(220,38,38,x)`/`rgba(37,99,235,x)` → `rgba(34,197,94,x)`
+**คงสี semantic ไว้:** LINE `#00B900`/`#009900`, สีธนาคารจริง (KBank/SCB/KTB/BBL/BAY/TrueWallet), จุด live/success เขียว
+
+### Variant rotation (ก่อน → หลัง)
+- Navbar: **`NavbarPremium` → `NavbarStyle8`** (แถบ sticky + sidebar drawer ขวา; เดิมเป็นแถบเหลือง `#eeff12` → retheme เป็นพื้นดำ `#061409` + ไลม์/เขียว; แปลงลิงก์ hardcode 5 อันเป็น `.map()` array 7 ลิงก์ ใช้ร่วมทั้ง desktop+mobile; ลบ global `a { color: black }` ที่จะรั่วไปทั้งไซต์) [P1 orchestrator]
+- Footer: **`FooterStyle3` → `FooterCyber`** (inventory ธีม PABLO666 อำพัน/ทอง → ไลม์/เขียว; brand PABLO666→PGZEED168 ทั้ง logo fallback `<h2>`→`<p>` และ copyright; เพิ่มลิงก์ ทดลองเล่น/ทางเข้า/บทความ/เกี่ยวกับเรา/ติดต่อเรา) [P1]
+- Announcement: **`Announcement5` → `Announcement6`** (inventory ธีม HENGJUD365 น้ำเงิน/เหลือง → เขียว/ไลม์; ตั้ง default `message` เป็น copy PGZEED168; ทุกหน้า repoint import มาที่ตัวนี้) [P1 retheme; แต่ละหน้า repoint เอง]
+- LatestWinners: **`LatestWinnersPremium` → `LatestWinners`** (ตัว base; emerald/เหลือง → ไลม์/เขียว; ใส่ชื่อแบรนด์ "รายการถอนเงินล่าสุด PGZEED168"; `<h2>`→`<p>` เพราะเป็น widget label ไม่ใช่หัวข้อ docx; แก้สี swatch ธนาคารให้เป็น hex จริง; ตัด import `ttbLogo` ที่ไม่ได้ใช้) [Agent A]
+- ContentBox mix: (KINGHENG168 = `Neumorphism`(H1) + `CyberCut`×2 + plain + `Special` + `SevenThreeCyberCut`×2)
+  → **PGZEED168 = Premium-led**: `ContentBoxPremium`×3 (H1, H2#3, H2#7) + plain `ContentBox`×2 (H2#2, H2#6) + `ContentBoxSevenThreePremium` (H2#4) + `ContentBoxSevenThreeNeumorphism` (H2#5) + `FeatureHighlights`
+  — เลิกใช้ `Neumorphism`/`CyberCut`/`Special`/`SevenThreeCyberCut` ของแบรนด์ที่แล้ว และเลี่ยง `*FloatingBadge` ทั้งตระกูล (บั๊ก `whitespace-nowrap` + padding ชนเนื้อหา) [Agent A]
+- Faq: `Faq2` **คงเดิม** — ไม่ใช่ family ที่มีกฎ rotate และ index ส่ง `faqs` prop เข้าไปตรงๆ อยู่แล้ว (retheme สีเป็นไลม์)
+
+### แมป docx → slot (7 หัวข้อ ครบ เรียงตามเอกสาร)
+| # | ระดับ | หัวข้อ | slot |
+|---|---|---|---|
+| 1 | H1 | PGZEED168 สล็อตเกมยอดนิยม โบนัสเข้าง่ายฯ | `ContentBoxPremium as="h1"` |
+| 2 | H2 | สำรวจ PGZEED168 แหล่งรวมสล็อตยอดนิยมฯ | plain `ContentBox` → `ProviderGrid` |
+| 3 | H2 | เจาะเสน่ห์ของเกมฮิตฯ | `ContentBoxPremium` → `GameRankingBoard` |
+| 4 | H2 | โบนัสเข้าง่ายช่วยเติมสีสันฯ | `ContentBoxSevenThreePremium` + **slide2** → `LatestWinners` |
+| 5 | H2 | จัดการเงินคล่องตัว ฝากถอนออโต้ฯ | `ContentBoxSevenThreeNeumorphism` + **slide3** |
+| 6 | H2 | เล่นต่อเนื่องได้อย่างมั่นใจฯ | plain `ContentBox` + `FeatureHighlights` (4 ข้อ = `<h3>` เดียวในเว็บ) |
+| 7 | H2 | เลือกเกมสล็อตให้ตรงสไตล์ฯ | `ContentBoxPremium` → `LoginRtpSection`, `Faq2`, `Navfoot` |
+
+**รูปที่ใช้:** hero = `banner1.png`; SevenThree = `slide2` (แคชแบ็ก) + `slide3` (ฝากรับเพิ่ม 5%) — ครบโควตา 2 บล็อก; og:image = `slide1` ผ่าน `MainLayout` (hash `/_astro/slide1.*.png` ยืนยันแล้ว)
+**รูปที่ไม่ได้ใช้เป็นภาพประกอบ:** `slide1`, `slide4` (ยังโผล่ใน `SmoothCarousel` ซึ่งเป็น role คาโรเซลโปรโมชั่นเดิมของ template ไม่ใช่การวาง slide ลง ContentBox)
+**ไม่มี banner ประกอบบทความรอบนี้:** `banner2.png` (25 ก.ค.) และ `banner3.png` (22 ก.ค.) เก่ากว่า asset drop (26 ก.ค. 08:24) = inventory ของแบรนด์ก่อน จึงไม่ถูกใช้ตามกฎ
+
+### ไฟล์ที่แก้
+**P1 shared chrome (orchestrator ทำเองก่อน fan-out):** `astro.config.mjs` (`site:`), `public/robots.txt` (`Sitemap:`), `src/assets/bg.json` (`#0f172a`→`#04120a`), `src/layouts/MainLayout.astro` (repoint navbar/footer + brand/title/meta), `NavbarStyle8.astro`, `FooterCyber.astro`, `Announcement6.astro`, `ContentBox.astro`, `ContentBoxHuay.astro`, `Navfoot.astro`
+**Agent A (หน้าแรก + component เฉพาะหน้าแรก):** `src/pages/index.astro` (เขียนใหม่ทั้งไฟล์ + JSON-LD → `https://pgzeed168-auto.com`), `ContentBoxPremium`, `ContentBoxSevenThreePremium`, `ContentBoxSevenThreeNeumorphism`, `ContentBoxTwo`, `SmoothCarousel`, `ProviderGrid`, `GameRankingBoard`, `FeatureHighlights` (union `"gold"|"red"` → `"lime"|"green"`), `LoginRtpSection`, `Faq2`, `LatestWinners`
+**Agent B (8 หน้าย่อย):** `about-us`, `contact-us`, `promotion`, `login`, `register`, `ทดลองเล่น`, `ทางเข้า`, `บทความ`
+**P3 หลังรวมงาน (orchestrator):** เพิ่มลิงก์ `/about-us` เข้า `NavbarStyle8` (+`nth-child(7)` delay) และเพิ่ม `/about-us`+`/contact-us` ใน `FooterCyber`; `public/site.webmanifest`; regenerate ไอคอนใน `public/`
+
+### บั๊ก/ของค้างที่เจอรอบนี้
+1. **`public/site.webmanifest` ยังเป็น KINGHENG168** — ไม่มี agent ไหนเป็นเจ้าของ หลุดจาก Phase 4.5 ที่กวาดแค่ `src/pages/`; เจอตอน Phase 5 (`grep -ril kingheng dist/` ชี้มาที่ไฟล์นี้ไฟล์เดียว) แก้ทั้ง `name`/`short_name`/`theme_color`/`background_color` → **บทเรียน: Phase 5 ต้อง grep ทั้ง `dist/` ไม่ใช่แค่ `dist/*.html`** เพราะ manifest เป็น `.webmanifest`
+2. **ไอคอนใน `public/` ยังเป็นของแบรนด์ก่อน (รอบที่ 3 ติดกัน)** — mtime 02:49 vs `logo.webp` 08:24; regenerate ครบชุดจาก `src/assets/logo.webp` ด้วย sharp (trim → contain → pad 6% → พื้น `#04120a`): `favicon-16/32/96`, `apple-touch-icon` 180, `android-chrome-192/512`, `web-app-manifest-192/512`, `favicon.ico` (ICO ห่อ PNG 16/32/48), `favicon.svg` (ฝัง PNG 512 เป็น data URI) แล้ว `Read` ดูภาพยืนยันว่าเป็นโลโก้ PGZEED168 จริง
+3. **`/about-us` เป็น route กำพร้า** — `NavbarStyle8`/`FooterCyber` ที่เพิ่งสลับมาไม่มีลิงก์ (มีแต่ `NavbarPremium`/`FooterStyle3` ที่กลายเป็น inventory ไปแล้ว) Agent B ตรวจเจอและ **รายงานกลับแทนที่จะแก้เอง** ถูกต้องตามกติกา orchestrator แก้ใน P3
+4. **`alt=` ของสไลด์ใน `promotion.astro` บรรยายโปรฯ คนละชุดกับรูปจริง** — อ่านรูปจริงแล้วเขียน alt ใหม่ให้ตรงทั้ง 4 ใบ
+5. **ปุ่ม LINE ใน `contact-us.astro`** เดิมใช้ `green-300/400/700` ของ Tailwind — พอธีมแบรนด์เปลี่ยนเป็นเขียวก็กลืนกัน จึงเปลี่ยนไปใช้ hex จริงของ LINE `#00B900`/`#009900` ให้แยกออกจากสีแบรนด์
+6. **`login`/`register` เป็น HTML เดี่ยว ไม่ผ่าน MainLayout** — theme ผ่าน CSS var ชื่อหลอก (`--brand-gold`/`--brand-red`) + raw hex/rgba ใน `<style>` ซึ่ง grep คลาส Tailwind จับไม่ได้ ต้องไล่แก้ hex/rgba มือ (เปลี่ยนชื่อ var เป็น `--brand-lime`/`--brand-green` ให้ตรงความจริง)
+
+### การ verify ที่ทำจริง (Phase 5)
+- `npm run build` ผ่าน **9/9 หน้า 0 error** (build 3 ครั้ง: ครั้งแรกตามกติกา build เดียว, อีก 2 ครั้งหลังแก้บั๊กที่ Phase 5 เจอ)
+- `grep -ril kingheng dist/` → **0** (ก่อนแก้ manifest ได้ 1 hit คือ `site.webmanifest`), `grep -ro "kingheng168v\.com" dist/` → 0
+- คลาสสีเก่าใน `class="..."` ทุกหน้า (`amber|rose|yellow|red-[0-9]{2,3}`) → **0 ทุกหน้า**
+- `<!--` ในทุกหน้า → **0**; `undefined`/`NaN`/`[object Object]` → **0**
+- heading: ทุกหน้ามี `<h1>` = 1; `<h3>` = 0 ทุกหน้ายกเว้น `index` ที่มี 4 (มาจาก `FeatureHighlights` ใต้ H2#6 ตามที่ตั้งใจ)
+- ดึง `<h1>/<h2>` จาก `dist/index.html` มาไล่เทียบเช็กลิสต์ docx → **ครบ 7 หัวข้อ ข้อความตรง ลำดับตรง**
+- FAQ: 3 คำถามจาก docx render ครบ (`sport-faq-btn` ×3)
+- hero: `/_astro/banner1.*.avif` ✅ ไม่หลุดไป `banner.png`/`banner2`/`banner3`
+- `og:image` → `https://pgzeed168-auto.com/_astro/slide1.KzDqy6J3.png` ✅ ไม่ใช่ path จาก `public/`
+- `sitemap-0.xml` → 9 URL ขึ้น `https://pgzeed168-auto.com/` ครบ
+- navbar/footer render ลิงก์ `/about-us`, `/contact-us`, `/บทความ`, `/ทางเข้า`, `/ทดลองเล่น`, `/promotion` ครบ
+- `Read` ไอคอน `android-chrome-512x512.png` ที่ generate ใหม่ ยืนยันด้วยตาว่าเป็นโลโก้ PGZEED168
+
+**หน้าหวย:** prompt ไม่มีคำว่า `เว็บหวย` และแบรนด์เป็นสล็อต/คาสิโน → `ตรวจหวย.astro`/`แนวทาง.astro` **คงปิดไว้ใน `src/pages-disabled/`** ไม่ route ไม่เพิ่มลิงก์เมนู ไม่แตะไฟล์
+
+**Out of scope / ไม่แตะ:** variant ที่หลุดจากการใช้งานรอบนี้กลายเป็น inventory ของแบรนด์หน้า — `NavbarPremium`, `FooterStyle3`, `Announcement5`, `LatestWinnersPremium`, `ContentBoxNeumorphism`, `ContentBoxCyberCut`, `ContentBoxSpecial`, `ContentBoxSevenThreeCyberCut` — **ชื่อ/สีของ KINGHENG168 ที่ค้างในนั้น = expected drift ไม่ต้องแก้**; inventory เดิมอื่นๆ ทั้งหมดเช่นกัน; ไฟล์ภาพ stale `banner.png`/`banner2.png`/`banner3.png`/`bg.png` และ `src/assets/banks/ttb.png` (ไม่มีใคร import แล้วหลังสลับมา `LatestWinners`) **ไม่ลบ**; affiliate redirect ใน login/register คงเดิม; redirect `/line` → tinyurl คงเดิม; hint `is:inline` (code 4000) บน `login`/`register`/`ทดลองเล่น` เป็นของเดิมก่อนรีแบรนด์ ไม่แก้ semantics ของ script กลางงาน; `Faq2` ไม่มี JSON-LD `FAQPage` — เป็นดีไซน์เดิมของ component ไม่ได้อยู่ในสโคปรอบนี้
+
+**หมายเหตุสำหรับรีแบรนด์ครั้งหน้า:**
+1. ไอคอน `public/` ไม่มาพร้อม uploader **3 รอบติดแล้ว** — ให้ถือเป็นขั้นตอนบังคับ: หลัง drop ภาพใหม่ `ls -la public/` เทียบ mtime กับ `src/assets/logo.webp` ถ้าเก่ากว่า = ของแบรนด์ก่อน ต้อง regenerate ทั้งชุด (สคริปต์ sharp ตามข้อ 2 ด้านบน) แล้ว `Read` ดูภาพยืนยัน
+2. เพิ่ม `public/site.webmanifest` เข้าเช็กลิสต์ Phase 4.5 ด้วย — มันไม่ใช่ `src/pages/` เลยหลุดทุกครั้ง
+3. **โลโก้/สไลด์ของ PGZEED168 มีข้อความโดเมนอื่นพิมพ์อยู่ในรูป** (`pgzeed168-pg.org`, `pgzeed168th.com`) — เป็นอาร์ตเวิร์กที่ลูกค้าส่งมา ไม่ได้ถูกนำเข้าโค้ด; โดเมนในโค้ดทั้งหมดคือ `pgzeed168-auto.com` ตามที่ผู้ใช้สั่ง

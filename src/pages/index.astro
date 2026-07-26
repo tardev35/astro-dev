@@ -1,78 +1,78 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement5 from "../components/Announcement5.astro";
+import Announcement6 from "../components/Announcement6.astro";
 import SmoothCarousel from "../components/SmoothCarousel.astro";
-import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
-import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
+import ContentBoxPremium from "../components/ContentBoxPremium.astro";
 import ContentBox from "../components/ContentBox.astro";
-import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
-import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
+import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
+import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
 import ProviderGrid from "../components/ProviderGrid.astro";
 import GameRankingBoard from "../components/GameRankingBoard.astro";
-import LatestWinnersPremium from "../components/LatestWinnersPremium.astro";
+import LatestWinners from "../components/LatestWinners.astro";
 import FeatureHighlights from "../components/FeatureHighlights.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
 import Faq2 from "../components/Faq2.astro";
 import Navfoot from "../components/Navfoot.astro";
 
 import { Picture } from "astro:assets";
-import imgCashback from "../assets/slide2.png";
-import imgNewMember from "../assets/slide1.png";
+import imgBonus from "../assets/slide2.png";
+import imgAutoBanking from "../assets/slide3.png";
 
 const currentPath = Astro.url.pathname;
 const homePage = Astro.url.origin;
 const logoUrl = homePage + "/logo.webp";
 
-const pageTitle = "KINGHENG168 สล็อตทำเงินง่ายรายได้ดี แตกง่ายจ่ายจริง ฝากถอนไว";
-const pageDescription = "ปั้นพอร์ตทำกำไรกับ KINGHENG168 สล็อตทำเงินง่ายรายได้ดี แตกง่ายจ่ายจริง ฝากถอนไวด้วยระบบออโต้ผ่าน AI อัจฉริยะ API แท้ไม่ล็อคยูสเซอร์ จ่ายเต็ม 100%";
+const pageTitle = "PGZEED168 | สล็อตเกมยอดนิยม โบนัสเข้าง่าย ฝากถอนออโต้ มั่นคง";
+const pageDescription =
+  "ปั้นพอร์ตทำกำไรกับ PGZEED168 สล็อตเกมยอดนิยม โบนัสเข้าง่าย ฝากถอนออโต้ มั่นคง ปลอดภัย ทำรายการผ่าน AI อัจฉริยะ API แท้ไม่ล็อคยูสเซอร์ จ่ายเต็ม 100%";
 
 const webPageSchema = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  name: "KINGHENG168",
+  name: "PGZEED168",
   description: pageDescription,
   url: currentPath,
 };
 const webSiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "KINGHENG168",
-  alternateName: ["KINGHENG168", "คิงเฮง168", "KINGHENG168 สล็อตทำเงินง่ายรายได้ดี แตกง่ายจ่ายจริง ฝากถอนไว"],
-  url: "https://kingheng168v.com/",
+  name: "PGZEED168",
+  alternateName: ["PGZEED168", "พีจีซี้ด168", "PGZEED168 สล็อตเกมยอดนิยม โบนัสเข้าง่าย ฝากถอนออโต้ มั่นคง"],
+  url: "https://pgzeed168-auto.com",
 };
 const orgSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "KINGHENG168",
+  name: "PGZEED168",
   logo: logoUrl,
   url: homePage,
 };
 const allSchemas = [webPageSchema, orgSchema, webSiteSchema];
 
-const playTips = [
+const stabilityPoints = [
   {
-    icon: "🎮",
-    title: "เริ่มจากโหมดเดโม่ก่อนลงสนามจริง",
-    description: "ทดลองปั่นสล็อตด้วยเครดิตเสมือนได้ไม่จำกัดรอบ เพื่อจับจังหวะการออกรางวัลและทำความเข้าใจฟีเจอร์โบนัสของแต่ละเกมก่อนใช้เงินทุนจริง",
-    accent: "gold" as const,
-  },
-  {
-    icon: "📊",
-    title: "ศึกษาค่า RTP ของแต่ละเกมอย่างละเอียด",
-    description: "เปรียบเทียบอัตราการคืนเงินของเกมจาก PG Soft, Pragmatic Play, JILI, Habanero และ CQ9 Gaming แล้วเลือกเกมที่ให้ผลตอบแทนตามสถิติสูงที่สุด",
-    accent: "red" as const,
-  },
-  {
-    icon: "🎯",
-    title: "หารูปแบบที่เข้ากับสไตล์การเดิมพัน",
-    description: "สายทุนน้อยเน้นเกมความผันผวนต่ำเก็บกำไรทีละนิด ส่วนสายลุยเลือกเกมตัวคูณสูงเพื่อดักจับแจ็กพอตใหญ่ในรอบเดียว",
-    accent: "gold" as const,
+    icon: "🔐",
+    title: "เข้ารหัสข้อมูลระดับสถาบันการเงิน",
+    description: "ฐานข้อมูลสมาชิกและทุกธุรกรรมถูกคุ้มครองด้วยเทคโนโลยีเข้ารหัสมาตรฐานเดียวกับธนาคาร ป้องกันการแฮ็กข้อมูลได้อย่างไร้รอยรั่ว",
+    accent: "lime" as const,
   },
   {
     icon: "🛡️",
-    title: "วางงบและบริหารความเสี่ยงทุกครั้ง",
-    description: "กำหนดวงเงินต่อรอบและจุดหยุดทำกำไรไว้ล่วงหน้า ช่วยให้พอร์ตเติบโตอย่างมั่นคงและลดความเสี่ยงจากการเดิมพันเกินตัว",
-    accent: "red" as const,
+    title: "โครงสร้างเว็บปลอดภัยขั้นสุด",
+    description: "ระบบหลังบ้านถูกออกแบบมาให้รองรับผู้เล่นพร้อมกันจำนวนมาก มอบความสบายใจให้เซียนพนันไว้วางใจเทหมดตักโดยไม่ต้องระแวงเรื่องระบบล่ม",
+    accent: "green" as const,
+  },
+  {
+    icon: "⚡",
+    title: "เล่นต่อเนื่องลื่นไหลไม่มีสะดุด",
+    description: "ทลายทุกข้อจำกัดของการลงทุนออนไลน์ด้วยเซิร์ฟเวอร์ที่เสถียร ทุกการสปินตอบสนองทันที ไม่มีอาการค้างหรือหลุดกลางรอบโบนัส",
+    accent: "lime" as const,
+  },
+  {
+    icon: "🕑",
+    title: "ดูแลตลอด 24 ชั่วโมงทุกวัน",
+    description: "ทีมงานมืออาชีพเฝ้าระวังระบบและพร้อมให้บริการทุกช่วงเวลา ให้คุณเล่นต่อเนื่องได้อย่างมั่นใจไม่ว่าจะเข้ามาทำกำไรตอนไหน",
+    accent: "green" as const,
   },
 ];
 
@@ -95,50 +95,39 @@ const faqs = [
 <MainLayout title={pageTitle} description={pageDescription}>
   <script type="application/ld+json" set:html={JSON.stringify(allSchemas)} />
 
-  <Announcement5 />
+  <Announcement6 message="🎰 PGZEED168 สล็อตเกมยอดนิยม โบนัสเข้าง่าย ฝากถอนออโต้ มั่นคง ปลอดภัย ระบบ AI อัจฉริยะ API แท้ไม่ล็อคยูสเซอร์ จ่ายเต็ม 100%" />
 
   <SmoothCarousel />
 
-  <ContentBoxNeumorphism as="h1" title="KINGHENG168 สล็อตทำเงินง่ายรายได้ดี แตกง่ายจ่ายจริง ฝากถอนไว">
-    <p class="text-left text-base leading-relaxed text-amber-50/80">
-      ยินดีต้อนรับสู่อาณาจักรการลงทุนออนไลน์ที่ล้ำสมัยที่สุดกับ KINGHENG168 สล็อตทำเงินง่ายรายได้ดี แตกง่ายจ่ายจริง ฝากถอนไว แพลตฟอร์มที่เชื่อมต่อระบบ API แท้ มอบประสบการณ์เสี่ยงโชคที่โปร่งใส ไม่มีการล็อคยูสเซอร์
+  <ContentBoxPremium as="h1" title="PGZEED168 สล็อตเกมยอดนิยม โบนัสเข้าง่าย ฝากถอนออโต้ มั่นคง">
+    <p class="text-left text-base leading-relaxed text-lime-50/85">
+      ยินดีต้อนรับสู่อาณาจักรการลงทุนออนไลน์ที่ล้ำสมัยที่สุดกับ PGZEED168 สล็อตเกมยอดนิยม โบนัสเข้าง่าย ฝากถอนออโต้ มั่นคง แพลตฟอร์มที่เชื่อมต่อระบบ API แท้ มอบประสบการณ์เสี่ยงโชคที่โปร่งใส ไม่มีการล็อคยูสเซอร์
       เปิดโอกาสให้คุณเข้ามาโกยเงินรางวัลก้อนโตกลับบ้านได้อย่างมั่นใจและรวดเร็วที่สุดผ่านนวัตกรรมที่ทันสมัย
     </p>
-  </ContentBoxNeumorphism>
+  </ContentBoxPremium>
 
-  <ContentBoxCyberCut as="h2" title="ทำความรู้จัก KINGHENG168 สล็อตทำเงินที่เน้นการเล่นง่าย">
-    <p class="text-left text-base leading-relaxed text-amber-50/80">
-      ทลายทุกข้อจำกัดของการลงทุนเมื่อคุณเข้ามา ทำความรู้จัก KINGHENG168 สล็อตทำเงินที่เน้นการเล่นง่าย เราคัดสรรเฉพาะซอฟต์แวร์ลิขสิทธิ์แท้ระดับโลกมาไว้ในที่เดียว ตอบโจทย์นักลงทุนยุคดิจิทัลที่ต้องการความคล่องตัว
-      ช่วยให้คุณขยายพอร์ตความมั่งคั่งและสนุกกับการสร้างรายได้แบบไม่มีเบื่อ พร้อมกวาดกำไรเข้าบัญชีได้อย่างราบรื่น
-    </p>
-  </ContentBoxCyberCut>
-
-  <ContentBox as="h2" title="คัดเกมสล็อตแตกง่าย เพื่อผู้เล่นที่มองหาโอกาสรับรางวัล KINGHENG168">
-    <p class="text-left text-base leading-relaxed text-amber-50/85">
-      สัมผัสความเหนือระดับของการเสี่ยงโชคเมื่อเรา คัดเกมสล็อตแตกง่าย เพื่อผู้เล่นที่มองหาโอกาสรับรางวัล KINGHENG168 ระบบของเราทำงานผ่านนวัตกรรมสุดล้ำ ไม่มีการแทรกแซงกลไกหลังบ้าน มั่นใจได้ว่าทุกการสปินจะโปร่งใส
-      ยุติธรรม และให้อัตราการจ่ายผลตอบแทนที่สูงปรี๊ดตามสถิติความน่าจะเป็นระดับสากลอย่างแท้จริง ไร้กังวลเรื่องโดนโกงแน่นอน
+  <ContentBox as="h2" title="สำรวจ PGZEED168 แหล่งรวมสล็อตยอดนิยมที่สายเกมไม่ควรพลาด">
+    <p class="text-left text-base leading-relaxed text-lime-50/85">
+      เปิดประสบการณ์ทำกำไรไร้ขีดจำกัดเมื่อคุณเข้ามา สำรวจ PGZEED168 แหล่งรวมสล็อตยอดนิยมที่สายเกมไม่ควรพลาด เราคัดสรรเฉพาะซอฟต์แวร์ลิขสิทธิ์แท้ระดับโลกมาไว้ในที่เดียว ตอบโจทย์นักลงทุนยุคดิจิทัลที่ต้องการความคล่องตัว
+      ช่วยให้คุณขยายพอร์ตความมั่งคั่งและสนุกกับการสร้างรายได้แบบไม่มีเบื่อ พร้อมกวาดกำไรเข้าบัญชีได้อย่างง่ายดายผ่านระบบอัจฉริยะ
     </p>
   </ContentBox>
 
   <ProviderGrid />
 
+  <ContentBoxPremium as="h2" title="เจาะเสน่ห์ของเกมฮิต ตั้งแต่รูปแบบการเล่นจนถึงรอบโบนัส PGZEED168">
+    <p class="text-left text-base leading-relaxed text-lime-50/85">
+      สัมผัสความเหนือระดับของการเสี่ยงโชคเพื่อ เจาะเสน่ห์ของเกมฮิต ตั้งแต่รูปแบบการเล่นจนถึงรอบโบนัส PGZEED168 ระบบของเราทำงานผ่านนวัตกรรมสุดล้ำ ไม่มีการแทรกแซงกลไกหลังบ้าน มั่นใจได้ว่าทุกการสปินจะโปร่งใส
+      ยุติธรรม และให้อัตราการจ่ายผลตอบแทนที่สูงปรี๊ดตามสถิติความน่าจะเป็นระดับสากลอย่างแท้จริง ไร้กังวลเรื่องโดนโกงแน่นอนร้อยเปอร์เซ็นต์
+    </p>
+  </ContentBoxPremium>
+
   <GameRankingBoard />
 
-  <ContentBoxSpecial as="h2" title="ระบบจ่ายจริงพร้อมขั้นตอนรับเงินรางวัลที่ชัดเจนและตรวจสอบได้">
-    <p slot="left" class="text-left text-base leading-relaxed text-amber-50/80">
-      ยกระดับความมั่นใจให้ผู้เล่นด้วย ระบบจ่ายจริงพร้อมขั้นตอนรับเงินรางวัลที่ชัดเจนและตรวจสอบได้ โครงสร้างเว็บไซต์ของเราถูกออกแบบมาให้มีความปลอดภัยขั้นสุด
-    </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-amber-50/80">
-      ฐานข้อมูลถูกคุ้มครองด้วยเทคโนโลยีเข้ารหัสระดับสถาบันการเงิน ป้องกันการแฮ็กข้อมูลได้อย่างไร้รอยรั่ว มอบความสบายใจให้เซียนพนันไว้วางใจเทหมดตักโดยไม่ต้องระแวงเรื่องระบบล่ม
-    </p>
-  </ContentBoxSpecial>
-
-  <LatestWinnersPremium />
-
-  <ContentBoxSevenThreeCyberCut titleright="ฝากถอนไวด้วยระบบอัตโนมัติ KINGHENG168 ทำรายการตลอดวัน">
+  <ContentBoxSevenThreePremium titleright="โบนัสเข้าง่ายช่วยเติมสีสันให้ทุกการหมุนสนุกยิ่งกว่าเดิม">
     <div slot="left" class="flex h-full flex-col justify-center">
       <Picture
-        src={imgCashback}
+        src={imgBonus}
         loading="lazy"
         fetchpriority="low"
         widths={[200, 400, 600, 800]}
@@ -147,20 +136,22 @@ const faqs = [
         formats={["avif", "webp"]}
         fallbackFormat="webp"
         quality={80}
-        alt="KINGHENG168 ยิ่งฝากเยอะยิ่งได้เยอะ คืนยอดเสียสูงสุด 10,000 บาท"
-        class="mx-auto h-auto w-full rounded-2xl border-2 border-amber-400/40 shadow-[0_10px_30px_rgba(245,158,11,0.3)]"
+        alt="PGZEED168 โบนัสคืนยอดเสีย สล็อต 20% คาสิโน 5% ยิงปลา 3%"
+        class="mx-auto h-auto w-full rounded-2xl border-2 border-lime-400/40 shadow-[0_10px_30px_rgba(163,230,53,0.3)]"
       />
     </div>
-    <p slot="right" class="text-left text-base leading-relaxed text-amber-50/80">
-      บริหารกระแสเงินสดของคุณอย่างลื่นไหลเพราะเรา ฝากถอนไวด้วยระบบอัตโนมัติ KINGHENG168 ทำรายการตลอดวัน นวัตกรรมเอไออัจฉริยะจะทำหน้าที่ประมวลผลธุรกรรมทางการเงินในเสี้ยววินาที เมื่อคุณทำกำไรทะลุเป้าหมายหลักล้าน
-      ระบบก็พร้อมโอนยอดเงินสดเข้าบัญชีทันที ขจัดปัญหาความล่าช้าและไม่ต้องรอนาน มอบสภาพคล่องที่ตอบโจทย์วัยรุ่นยุคใหม่ที่สุด
+    <p slot="right" class="text-left text-base leading-relaxed text-lime-50/85">
+      ยกระดับความบันเทิงให้การลงทุนเมื่อฟีเจอร์ โบนัสเข้าง่ายช่วยเติมสีสันให้ทุกการหมุนสนุกยิ่งกว่าเดิม ระบบ API แท้จะทำหน้าที่แจกจ่ายเงินรางวัลอย่างยุติธรรม เพิ่มโอกาสเข้าสู่รอบฟรีสปินและแจ็กพอตใหญ่อย่างต่อเนื่อง
+      ช่วยลดความเสี่ยงของพอร์ตหลัก เปิดทางให้คุณดักจับผลกำไรได้อย่างแม่นยำและเพิ่มโอกาสรวยได้อย่างรวดเร็วคุ้มค่าที่สุดทุกช่วงเวลา
     </p>
-  </ContentBoxSevenThreeCyberCut>
+  </ContentBoxSevenThreePremium>
 
-  <ContentBoxSevenThreeCyberCut titleright="KINGHENG168 เหมาะกับใคร พร้อมข้อควรรู้ก่อนเริ่มเล่นสล็อตออนไลน์">
+  <LatestWinners />
+
+  <ContentBoxSevenThreeNeumorphism titleright="จัดการเงินคล่องตัวผ่านระบบ PGZEED168 ฝากถอนออโต้ที่ไม่ยุ่งยาก">
     <div slot="left" class="flex h-full flex-col justify-center">
       <Picture
-        src={imgNewMember}
+        src={imgAutoBanking}
         loading="lazy"
         fetchpriority="low"
         widths={[200, 400, 600, 800]}
@@ -169,26 +160,32 @@ const faqs = [
         formats={["avif", "webp"]}
         fallbackFormat="webp"
         quality={80}
-        alt="KINGHENG168 สมาชิกใหม่ ฝากทันที รับเพิ่ม 50%"
-        class="mx-auto h-auto w-full rounded-2xl border-2 border-amber-400/40 shadow-[0_10px_30px_rgba(245,158,11,0.3)]"
+        alt="PGZEED168 ฝากรับเพิ่ม 5% ทำเทิร์น 1 เท่า ถอนได้ทันที ฝากถอนออโต้ 24 ชั่วโมง"
+        class="mx-auto h-auto w-full rounded-2xl border-2 border-lime-400/40 shadow-[0_10px_30px_rgba(163,230,53,0.3)]"
       />
     </div>
-    <p slot="right" class="text-left text-base leading-relaxed text-amber-50/80">
-      ก้าวเข้าสู่อาณาจักรทำเงินยุคดิจิทัลเพื่อเจาะลึกว่า KINGHENG168 เหมาะกับใคร พร้อมข้อควรรู้ก่อนเริ่มเล่นสล็อตออนไลน์ แพลตฟอร์มนี้ออกแบบมาเพื่อนักเก็งกำไรทุกระดับตั้งแต่สายน้อยไปจนถึงวีไอพี
+    <p slot="right" class="text-left text-base leading-relaxed text-lime-100/75">
+      บริหารกระแสเงินสดของคุณอย่างลื่นไหลเมื่อ จัดการเงินคล่องตัวผ่านระบบ PGZEED168 ฝากถอนออโต้ที่ไม่ยุ่งยาก นวัตกรรมเอไออัจฉริยะจะทำหน้าที่ประมวลผลธุรกรรมทางการเงินในเสี้ยววินาที เมื่อคุณทำกำไรทะลุเป้าหมายหลักล้าน
+      ระบบก็พร้อมโอนยอดเงินสดเข้าบัญชีทันที ขจัดปัญหาความล่าช้าและไม่ต้องรอนาน มอบสภาพคล่องที่ตอบโจทย์วัยรุ่นยุคใหม่ระดับวีไอพี
+    </p>
+  </ContentBoxSevenThreeNeumorphism>
+
+  <ContentBox as="h2" title="เล่นต่อเนื่องได้อย่างมั่นใจด้วยระบบเว็บที่มั่นคงและลื่นไหล">
+    <div class="flex flex-col gap-4">
+      <p class="text-left text-base leading-relaxed text-lime-50/85">
+        ทลายทุกข้อจำกัดของการลงทุนออนไลน์เพื่อให้คุณ เล่นต่อเนื่องได้อย่างมั่นใจด้วยระบบเว็บที่มั่นคงและลื่นไหล โครงสร้างเว็บไซต์ของเราถูกออกแบบมาให้มีความปลอดภัยขั้นสุด ฐานข้อมูลถูกคุ้มครองด้วยเทคโนโลยีเข้ารหัสระดับสถาบันการเงิน
+        ป้องกันการแฮ็กข้อมูลได้อย่างไร้รอยรั่ว มอบความสบายใจให้เซียนพนันไว้วางใจเทหมดตักโดยไม่ต้องระแวงเรื่องระบบล่ม
+      </p>
+      <FeatureHighlights items={stabilityPoints} />
+    </div>
+  </ContentBox>
+
+  <ContentBoxPremium as="h2" title="เลือกเกมสล็อตให้ตรงสไตล์ พร้อมเริ่มต้นบน PGZEED168 อย่างคุ้มค่า">
+    <p class="text-left text-base leading-relaxed text-lime-50/85">
+      ก้าวเข้าสู่อาณาจักรทำเงินยุคดิจิทัลเพื่อเจาะลึกวิธี เลือกเกมสล็อตให้ตรงสไตล์ พร้อมเริ่มต้นบน PGZEED168 อย่างคุ้มค่า แพลตฟอร์มของเรามีโหมดเดโม่ที่ช่วยให้คุณศึกษากลไกของแต่ละเกมได้อย่างละเอียด
       เพียงสมัครเปิดยูสเซอร์ใหม่ผ่านระบบออโต้ คุณก็พร้อมนำเครดิตฟรีเข้ามาสอยแจ็กพอตใหญ่และพลิกชีวิตสู่เศรษฐีหน้าใหม่ได้อย่างยั่งยืน การันตีความปลอดภัย
     </p>
-  </ContentBoxSevenThreeCyberCut>
-
-  <ContentBoxCyberCut as="h2" title="พร้อมข้อควรรู้ก่อนเริ่มเล่นสล็อตออนไลน์ รวมทริกการเล่น">
-    <p class="text-left text-base leading-relaxed text-amber-50/80">
-      อัปเกรดทักษะการลงทุนของคุณให้เฉียบคมยิ่งขึ้น พร้อมข้อควรรู้ก่อนเริ่มเล่นสล็อตออนไลน์ รวมทริกการเล่น แพลตฟอร์มของเรามีโหมดเดโม่ที่ช่วยให้คุณศึกษากลไกและค่า RTP ของแต่ละเกมได้อย่างละเอียด
-      เพื่อหารูปแบบที่เข้ากับสไตล์การเดิมพันของคุณ ช่วยเพิ่มโอกาสดักจับแจ็กพอตใหญ่และลดความเสี่ยงได้อย่างยอดเยี่ยม ทำกำไรได้อย่างมั่นคง
-    </p>
-  </ContentBoxCyberCut>
-
-  <div class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4">
-    <FeatureHighlights items={playTips} />
-  </div>
+  </ContentBoxPremium>
 
   <LoginRtpSection />
 

@@ -4,8 +4,8 @@ import Bg from "../assets/bg.png";
 import bgConfig from "../assets/bg.json";
 import ogImage from "../assets/slide1.png";
 import "../styles/global.css";
-import Navbar from "../components/NavbarPremium.astro";
-import Footer from "../components/FooterStyle3.astro";
+import Navbar from "../components/NavbarStyle8.astro";
+import Footer from "../components/FooterCyber.astro";
 
 const bannerImages = import.meta.glob<{ default: ImageMetadata }>("../assets/banner*.{png,webp,jpg,jpeg}", { eager: true });
 const bannerPaths = Object.keys(bannerImages);
@@ -15,18 +15,12 @@ const mainBannerPath = preferredBannerPath ?? webpBannerPath ?? bannerPaths[0];
 const mainBanner = mainBannerPath ? bannerImages[mainBannerPath].default : null;
 
 const {
-  title = "KINGHENG168 สล็อตทำเงินง่ายรายได้ดี แตกง่ายจ่ายจริง ฝากถอนไว",
-  description = "ปั้นพอร์ตทำกำไรกับ KINGHENG168 สล็อตทำเงินง่ายรายได้ดี แตกง่ายจ่ายจริง ฝากถอนไวด้วยระบบออโต้ผ่าน AI อัจฉริยะ API แท้ไม่ล็อคยูสเซอร์ จ่ายเต็ม 100%",
+  title = "PGZEED168 | สล็อตเกมยอดนิยม โบนัสเข้าง่าย ฝากถอนออโต้ มั่นคง",
+  description = "ปั้นพอร์ตทำกำไรกับ PGZEED168 สล็อตเกมยอดนิยม โบนัสเข้าง่าย ฝากถอนออโต้ มั่นคง ปลอดภัย ทำรายการผ่าน AI อัจฉริยะ API แท้ไม่ล็อคยูสเซอร์ จ่ายเต็ม 100%",
   robots = "index, follow",
   ImageOg = ogImage.src,
 } = Astro.props;
 
-// Background source, chosen by the rebrand uploader (src/assets/bg.json):
-//   image    → the optimized <Image> below (the historical default)
-//   color    → a flat CSS colour, no bitmap shipped
-//   gradient → a CSS gradient string, no bitmap shipped
-// Colour/gradient values are hex/clamped-angle-validated at write time, so the
-// string is safe to drop straight into the style attribute.
 const bgMode = (bgConfig as { mode?: string }).mode ?? "image";
 const bgCss =
   bgMode === "color"
@@ -38,13 +32,13 @@ const bgCss =
 const currentPath = Astro.url.pathname;
 const canonicalURL = new URL(currentPath, Astro.site);
 const ogImageURL = new URL(ImageOg, Astro.site);
-const ogSiteName = "KINGHENG168";
+const ogSiteName = "PGZEED168";
 ---
 
 <html lang="th">
   <head>
     <meta charset="utf-8" />
-    <meta name="google-site-verification" content="THWudFWFF0XOm6rXgwUIGavBdxyu7lmo9oQ1XaoA15M" />
+  
     <meta name="robots" content={robots} />
     <meta name="googlebot" content={robots} />
     <title>{title}</title>
@@ -58,7 +52,7 @@ const ogSiteName = "KINGHENG168";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="KINGHENG168" />
+    <meta name="apple-mobile-web-app-title" content="PGZEED168" />
     <link rel="manifest" href="/site.webmanifest" />
 
     <meta property="og:type" content="website" />
@@ -118,7 +112,7 @@ const ogSiteName = "KINGHENG168";
     <div class="mb-2.5 flex w-full items-center justify-center">
       <Image
         src={mainBanner!}
-        alt="KINGHENG168 banner"
+        alt="PGZEED168 banner"
         loading="eager"
         fetchpriority="high"
         widths={[412, 768, 1900]}

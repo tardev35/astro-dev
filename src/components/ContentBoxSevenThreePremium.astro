@@ -4,14 +4,14 @@ const { titleleft, titleright } = Astro.props;
 
 <section class="mx-auto mb-8 w-full max-w-7xl px-4 font-sans">
   <div
-    class="group relative w-full overflow-hidden rounded-3xl border border-red-500/30 bg-[#14040a]/80 p-8 text-white/90 shadow-[0_10px_30px_rgba(220,38,38,0.35)] backdrop-blur-xl transition-all duration-500 hover:border-red-400/60 hover:shadow-[0_15px_40px_rgba(220,38,38,0.5)] md:p-10">
+    class="group relative w-full overflow-hidden rounded-3xl border border-green-500/30 bg-[#061409]/80 p-8 text-white/90 shadow-[0_10px_30px_rgba(34,197,94,0.35)] backdrop-blur-xl transition-all duration-500 hover:border-green-400/60 hover:shadow-[0_15px_40px_rgba(34,197,94,0.5)] md:p-10">
     <div class="relative z-10 grid grid-cols-1 gap-10 md:grid-cols-[3fr_7fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-red-50/80">
-        {titleleft && <h2 class="bg-gradient-to-r from-amber-300 to-amber-600 bg-clip-text text-center text-xl leading-normal font-black tracking-widest text-transparent uppercase md:text-left">{titleleft}</h2>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-lime-50/85">
+        {titleleft && <h2 class="bg-gradient-to-r from-lime-300 to-green-600 bg-clip-text text-center text-xl leading-normal font-black tracking-widest text-transparent uppercase md:text-left">{titleleft}</h2>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-red-50/80 md:border-l md:border-red-900/50 md:pl-10">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-lime-50/85 md:border-l md:border-green-900/60 md:pl-10">
         {titleright && <h2 class="mb-2 text-2xl leading-normal font-black tracking-widest text-white uppercase drop-shadow-sm">{titleright}</h2>}
         <slot name="right" />
       </article>

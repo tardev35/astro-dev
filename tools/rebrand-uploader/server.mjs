@@ -637,6 +637,7 @@ const PAGE = /* html */ `<!doctype html>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Rebrand Asset Uploader</title>
+<link rel="icon" href="data:," />
 <style>
   :root {
     color-scheme: dark;
@@ -950,6 +951,7 @@ const PAGE = /* html */ `<!doctype html>
     <div class="field" data-img>
       <div class="row"><label>Favicon</label><span class="target">favicon.ico + .png set + .svg</span></div>
       <div class="row"><input type="file" accept="image/*,.svg" data-slot="favicon" /><img class="thumb" /></div>
+      <span class="status"></span>
     </div>
   </section>
 
@@ -1068,7 +1070,15 @@ const PAGE = /* html */ `<!doctype html>
 
   const log = document.getElementById('log');
   function addLog(msg, ok) { const d = document.createElement('div'); d.className = ok ? 'ok' : 'err'; d.textContent = (ok ? '✓ ' : '✗ ') + msg; log.prepend(d); }
-  function setStatus(inp, txt) { const s = inp.closest('.field').querySelector('.status'); s.textContent = txt; }
+  // Never let a missing/renamed .status span abort an upload run: this is a
+  // cosmetic sink, so a markup slip must not throw out of the click handler
+  // and skip the actual fetch (that shipped once — the favicon field had no
+  // .status, so picking a favicon silently uploaded nothing).
+  function setStatus(inp, txt) {
+    const s = inp?.closest('.field')?.querySelector('.status');
+    if (s) s.textContent = txt;
+    else console.warn('[uploader] missing .status for slot:', inp?.dataset?.slot ?? inp);
+  }
 
   // ── Background: image / solid colour / gradient — pick exactly one ─────────
   const bgField = document.getElementById('bgField');

@@ -1425,24 +1425,27 @@ const PAGE = /* html */ `<!doctype html>
       refreshPrompt();  // the หวย toggle feeds the ส่วนที่ 6 prompt
     });
   }
-  // Badge the CURRENT state so the operator sees what turning the toggle off
-  // will actually do: live pages get moved to src/pages-disabled, parked ones
-  // get moved back, and only a preset that exists nowhere is really "new".
+  // Every toggle starts OFF, on purpose — including for a page that is live
+  // right now. Each brand declares its own extra pages from scratch, so an
+  // untouched run parks all of them instead of quietly inheriting whatever the
+  // previous brand happened to switch on. The badge (not the toggle) is what
+  // shows the CURRENT repo state, so the operator can see what flipping — or
+  // not flipping — is about to do. Title/Meta are deliberately NOT prefilled
+  // from a live page: that text belongs to the previous brand.
   fetch('/current-newpages').then((r) => r.json()).then((cur) => {
     for (const f of newpageFields) {
       const c = cur[f.dataset.newpage];
       if (!c) continue;
-      const { toggle, body, title, desc, badge } = npEls(f);
+      const { badge } = npEls(f);
       if (c.exists) {
-        toggle.checked = true;
-        if (body) body.hidden = false;
-        if (title) title.value = c.title || '';
-        if (desc) desc.value = c.meta || '';
-        badge.textContent = 'เปิดอยู่'; badge.className = 'badge np-badge exists';
+        badge.textContent = 'ตอนนี้เปิดอยู่ — ไม่เปิดสวิตช์ = ย้ายไป pages-disabled';
+        badge.className = 'badge np-badge exists';
       } else if (c.parked) {
-        badge.textContent = 'ปิดอยู่ (พักใน pages-disabled)'; badge.className = 'badge np-badge new';
+        badge.textContent = 'ตอนนี้ปิดอยู่ (พักใน pages-disabled)';
+        badge.className = 'badge np-badge new';
       } else {
-        badge.textContent = 'จะสร้างใหม่'; badge.className = 'badge np-badge new';
+        badge.textContent = 'ยังไม่มีไฟล์ — เปิดสวิตช์ = สร้างใหม่';
+        badge.className = 'badge np-badge new';
       }
     }
     refreshPrompt();

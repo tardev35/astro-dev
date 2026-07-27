@@ -805,9 +805,14 @@ and each writes the repo in **both** directions:
   ส่วนที่ 6 prompt — that word is the lottery trigger you read in the table
   above. A prompt without it means lottery stays off.
 
-Because the toggles only ran if the operator opened the tool, still verify the
-resulting state yourself (`ls src/pages/ src/pages-disabled/`) — the table
-above is the source of truth, not the tool.
+**All three toggles start OFF every time the tool is opened**, even for a page
+that is live right now — each brand declares its extra pages from scratch
+instead of inheriting the previous brand's. So the normal outcome of an
+operator run is: whatever they didn't switch on is parked in
+`src/pages-disabled/` for you. Because that only happened if they opened the
+tool at all, still verify the resulting state yourself
+(`ls src/pages/ src/pages-disabled/`) — the table above is the source of
+truth, not the tool.
 
 When a preset page is scaffolded fresh, the tool clones an existing sub-page's
 frontmatter (so it inherits the brand's current `Announcement*`/`ContentBox*`

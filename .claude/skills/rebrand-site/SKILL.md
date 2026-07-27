@@ -129,7 +129,7 @@ collision; when in doubt, widen P1 and shrink the fan-out.
 **How this rebrand was likely triggered.** The `tools/rebrand-uploader` tool
 (launch by double-clicking `tools/rebrand-uploader/start-uploader.cmd` — no VS
 Code needed — or `npm run rebrand:upload`, opens `localhost:4000`) is where the
-operator stages the brand files first. Its **"ส่วนที่ 6 — สร้างคำสั่ง Rebrand"**
+operator stages the brand files first. Its **"คำสั่ง Rebrand" card** (the 4th card, top-right — this UI was 6 numbered sections before 2026-07-26)
 card produces the very prompt that starts you, in the form
 `rebrand and retheme to "<BRAND>" then real url is "<URL>" ทำแบบขนานตาม
 playbook`. So when you receive that shape of request: the logo/banner/slide/docx
@@ -138,7 +138,7 @@ default parallel workflow above (older saved prompts say `2-agent ขนาน` 
 thing; the agent count comes from the playbook, not from the prompt), and `real url is "<URL>"` is the explicit real
 domain (per the URL-scope rule below) — if that clause is absent, the operator
 left it blank on purpose: **do not change the domain.** The card adds
-`เป็นเว็บหวย` only when the operator flipped the หวย toggle in ส่วนที่ 5 — that
+`เป็นเว็บหวย` only when the operator flipped the หวย toggle in the "หน้าเสริม" group (card 2) — that
 word is the lottery trigger in Phase 4.5, and its **absence means the lottery
 pages must end up off** (see the optional-pages table there). Still run every
 phase in full; the prompt is only the trigger, not a shortcut around
@@ -158,7 +158,7 @@ progress in the normal way — there is no separate channel to write to.
 1. **Find the brief.** **Try `src/assets/content.txt` first — one `Read`
    and you are done.** The uploader extracts every paragraph of the docx
    at upload time and writes it there, so in the normal flow (operator
-   staged the brief through ส่วนที่ 1) there is nothing to unzip. This is
+   staged the brief through the "ไฟล์แบรนด์" card) there is nothing to unzip. This is
    the head of the critical path: no other phase can start until the
    brief is read, so don't spend three tool calls re-deriving a file that
    already exists.
@@ -711,7 +711,7 @@ Phase 5 build covers all pages at once.) For each page:
 
 Four pages are **per-brand optional**, not part of the fixed page set:
 `ตรวจหวย.astro` + `แนวทาง.astro` (the lottery pair) and `บทความ.astro` +
-`about-us.astro` (the uploader's ส่วนที่ 5 presets). They are routed only when
+`about-us.astro` (the uploader's "หน้าเสริม" presets). They are routed only when
 they sit in `src/pages/`; Astro ignores `src/pages-disabled/` entirely, so
 **that folder is the off switch** — a page parked there is inventory for the
 next brand that wants it, exactly like the unused component variants.
@@ -730,7 +730,7 @@ brand's triggers:
 | `บทความ` | the prompt/notes ask for it, **or** the docx has article/blog content to fill it | move to `src/pages-disabled/` |
 | `about-us` | the prompt/notes ask for it, **or** the docx has an "เกี่ยวกับเรา"/about section | move to `src/pages-disabled/` |
 
-The uploader's ส่วนที่ 5 toggles are the operator's way of declaring all four
+The uploader's "หน้าเสริม" toggles (card 2) are the operator's way of declaring all four
 (see below) — but they only ran if the operator actually opened the tool, so
 **verify the state yourself; don't trust that it was set.**
 
@@ -747,7 +747,7 @@ The uploader's ส่วนที่ 5 toggles are the operator's way of declari
   `AnnouncementHuay`** per the exception above; `บทความ`/`about-us` follow the
   brand's normal theme.
 - A `บทความ`/`about-us` page that is ON must carry a **real article** written
-  from the docx — see the ส่วนที่ 5 rules below. A page kept on but left as a
+  from the docx — see the "หน้าเสริม" rules below. A page kept on but left as a
   stub is worse than one parked in `src/pages-disabled/`.
 
 **Turning one OFF — this is an action, not an absence of one:**
@@ -772,7 +772,7 @@ The uploader's ส่วนที่ 5 toggles are the operator's way of declari
 
 Record the on/off decision for **all four** pages in the workspec either way.
 
-**The `tools/rebrand-uploader` "ส่วนที่ 4 — Title/Meta หน้าย่อย" is an
+**The `tools/rebrand-uploader` "SEO · Title / Meta หน้าย่อย" card is an
 OPTIONAL shortcut, NOT a replacement for this phase.** The uploader can
 parse a `SUB-PAGES (Title & Meta Description)` section out of the brand's
 `content.docx` — when that section exists, its `[หัวข้อ]` headings use the
@@ -790,7 +790,7 @@ titles. (The uploader anchors only on the `<MainLayout>` tag and leaves
 `<ContentBox>` titles alone, so re-setting a title here never conflicts
 with what it may have written.)
 
-**The uploader's "ส่วนที่ 5 — หน้าเสริม (เปิด/ปิดต่อแบรนด์)" is where the
+**The uploader's "หน้าเสริม (เปิด/ปิดต่อแบรนด์)" group — inside card 2, alongside favicon and the aff/LINE links — is where the
 operator declares the optional pages above.** Three toggles — `บทความ`,
 `เกี่ยวกับเรา` (`about-us`), and `เว็บหวย` (the `ตรวจหวย` + `แนวทาง` pair) —
 and each writes the repo in **both** directions:
@@ -802,7 +802,7 @@ and each writes the repo in **both** directions:
 - **OFF** → the page(s) are **moved to `src/pages-disabled/`** and their links
   are stripped from the active navbar *and* footer. Nothing is deleted.
 - Turning `เว็บหวย` on is also what puts the word **`เว็บหวย`** into the
-  ส่วนที่ 6 prompt — that word is the lottery trigger you read in the table
+  "คำสั่ง Rebrand" prompt — that word is the lottery trigger you read in the table
   above. A prompt without it means lottery stays off.
 
 **All three toggles start OFF every time the tool is opened**, even for a page

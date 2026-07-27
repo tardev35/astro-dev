@@ -324,7 +324,7 @@ const PRESET_PAGES = {
   },
   // Lottery pages: move-only (they ship with the repo, hand-built with their own
   // Huay theme), and they come as a PAIR — a lottery brand gets both or neither.
-  // Turning this on is also what makes ส่วนที่ 6 put the word "เว็บหวย" in the
+  // Turning this on is also what makes the "คำสั่ง Rebrand" card put the word "เว็บหวย" in the
   // rebrand prompt, which is the trigger the skill's Phase 4.5 keys off.
   huay: {
     label: "เว็บหวย (ตรวจหวย + แนวทาง)",
@@ -467,7 +467,7 @@ async function readDocxSubPages() {
   try {
     buf = await readFile(join(ASSETS, "content.docx"));
   } catch {
-    return { pages: {}, warnings: ["ยังไม่มี content.docx — อัพโหลด Content brief ในส่วนที่ 1 ก่อน"] };
+    return { pages: {}, warnings: ["ยังไม่มี content.docx — อัพโหลด Content brief ในการ์ดแรกก่อน"] };
   }
   return parseDocxBuffer(buf);
 }
@@ -791,22 +791,23 @@ const PAGE = /* html */ `<!doctype html>
 <style>
   :root {
     color-scheme: dark;
-    --bg: #0b1120;
-    --panel: #0f172a;
-    --card-a: #1c2740;
-    --card-b: #141d33;
-    --line: #26324c;
-    --line-soft: #1e293b;
-    --ink: #e6edf7;
-    --muted: #93a3bd;
-    --faint: #64748b;
-    --accent: #38bdf8;
-    --accent-2: #6366f1;
-    --grad: linear-gradient(135deg, #38bdf8 0%, #6366f1 100%);
-    --grad-line: linear-gradient(90deg, #38bdf8, #6366f1);
-    --ok: #4ade80;
-    --err: #f87171;
-    --radius: 16px;
+    --bg: #0d1124;
+    --panel: #151b33;
+    --card-a: #1c2444;
+    --card-b: #161d36;
+    --line: #2d3760;
+    --line-soft: #232b4b;
+    --ink: #eef2ff;
+    --muted: #a6b1d2;
+    --faint: #7885ac;
+    --sky: #7dd3fc;
+    --lav: #a5b4fc;
+    --teal: #5eead4;
+    --accent: #7dd3fc;
+    --grad: linear-gradient(135deg, #5eead4 0%, #7dd3fc 52%, #a5b4fc 100%);
+    --ok: #86efac;
+    --err: #fda4af;
+    --radius: 22px;
   }
   * { box-sizing: border-box; }
   html, body { overflow-x: hidden; }
@@ -814,8 +815,9 @@ const PAGE = /* html */ `<!doctype html>
     font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
     margin: 0; color: var(--ink); min-height: 100vh;
     background:
-      radial-gradient(900px 500px at 82% -8%, rgba(99,102,241,0.18), transparent 60%),
-      radial-gradient(760px 460px at 6% 2%, rgba(56,189,248,0.14), transparent 55%),
+      radial-gradient(820px 460px at 88% -6%, rgba(165,180,252,0.15), transparent 62%),
+      radial-gradient(760px 440px at 4% 0%, rgba(125,211,252,0.15), transparent 58%),
+      radial-gradient(700px 520px at 50% 108%, rgba(94,234,212,0.10), transparent 60%),
       var(--bg);
     background-attachment: fixed;
   }
@@ -823,171 +825,219 @@ const PAGE = /* html */ `<!doctype html>
   /* ── header ─────────────────────────────────────────── */
   header {
     position: sticky; top: 0; z-index: 20;
-    padding: 18px 30px;
-    background: rgba(11,17,32,0.72);
-    backdrop-filter: blur(14px);
+    padding: 15px 26px;
+    background: rgba(13,17,36,0.74);
+    backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--line-soft);
   }
-  .head-inner { margin: 0; }
   header h1 {
-    margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -0.02em;
+    margin: 0; font-size: 21px; font-weight: 800; letter-spacing: -0.02em;
     display: flex; align-items: center; gap: 12px;
   }
   header h1 .mark {
-    width: 34px; height: 34px; border-radius: 10px; flex: none;
+    width: 36px; height: 36px; border-radius: 13px; flex: none;
     background: var(--grad); display: grid; place-items: center;
-    font-size: 18px; box-shadow: 0 8px 20px -6px rgba(56,189,248,0.55);
+    font-size: 19px; box-shadow: 0 10px 22px -8px rgba(125,211,252,0.7);
+    animation: bob 3.4s ease-in-out infinite;
   }
+  @keyframes bob { 0%,100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-3px) rotate(3deg); } }
+  @media (prefers-reduced-motion: reduce) { header h1 .mark { animation: none; } }
   header h1 .grad-text {
     background: var(--grad); -webkit-background-clip: text; background-clip: text;
     -webkit-text-fill-color: transparent;
   }
-  header p { margin: 8px 0 0; color: var(--muted); font-size: 12.5px; line-height: 1.6; max-width: 900px; }
-  header code { background: rgba(148,163,184,0.14); padding: 1px 6px; border-radius: 5px; font-size: 11.5px; color: #cbd5e1; }
-  header strong { color: #cbd5e1; }
+  header code { background: rgba(166,177,210,0.14); padding: 1px 6px; border-radius: 6px; font-size: 11.5px; color: #d5ddf5; }
 
-  /* ── layout: full-width grid, cards flow 1→5 left→right, wrap on overflow ─ */
-  /* auto-fill (not auto-fit) keeps column tracks fixed, so a lone card on the
-     last row stays one column wide instead of stretching across the full width. */
+  /* ── layout: 3 flex columns, cards stack inside each ──────────────────────
+     Column A holds the long file card; B the settings + SEO stack; C the
+     rebrand-prompt card, which is sticky so it stays on screen no matter how
+     far column A scrolls (the whole point: no hunting for it at the bottom). */
   main {
     counter-reset: card;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    align-items: start;
-    gap: 22px; padding: 26px 30px 120px; margin: 0;
+    display: flex; flex-wrap: wrap; align-items: flex-start;
+    gap: 18px; padding: 22px 26px 120px; margin: 0;
   }
-  @media (max-width: 640px) {
-    main { grid-template-columns: 1fr; padding: 20px 16px 120px; }
-    header { padding: 16px; }
+  .col { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+  .col-a { flex: 1.06 1 360px; }
+  .col-b { flex: 1 1 340px; }
+  .col-c { flex: 0.92 1 300px; position: sticky; top: 84px; }
+  @media (max-width: 900px) {
+    /* one column: flex-basis would become a HEIGHT here and align-items
+       flex-start would shrink each column to its content width — so pin the
+       columns to full width and let them size by content. */
+    main { flex-direction: column; align-items: stretch; padding: 18px 14px 120px; }
+    .col { flex: 0 0 auto; width: 100%; }
+    .col-c { position: static; }
+    header { padding: 14px 16px; }
   }
 
   /* ── card ───────────────────────────────────────────── */
   .card {
     counter-increment: card;
-    position: relative; isolation: isolate;
+    position: relative; isolation: isolate; overflow: hidden;
     background: linear-gradient(180deg, var(--card-a), var(--card-b));
     border: 1px solid var(--line); border-radius: var(--radius);
-    padding: 22px 22px 20px;
-    box-shadow: 0 14px 36px -22px rgba(0,0,0,0.85);
-    transition: border-color .18s ease, box-shadow .18s ease;
+    padding: 20px 20px 18px;
+    box-shadow: 0 16px 40px -26px rgba(0,0,0,0.9);
+    transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
   }
   .card::before {
-    content: ""; position: absolute; inset: 0 0 auto 0; height: 3px;
-    background: var(--grad-line); border-radius: var(--radius) var(--radius) 0 0;
-    opacity: .9;
+    content: ""; position: absolute; inset: 0 0 auto 0; height: 4px;
+    background: var(--grad); opacity: .95;
   }
-  .card:hover { border-color: #34456a; box-shadow: 0 22px 46px -24px rgba(0,0,0,0.95); }
+  .card::after {
+    content: ""; position: absolute; z-index: -1; top: -70px; right: -60px;
+    width: 190px; height: 190px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(125,211,252,0.18), transparent 68%);
+    filter: blur(6px); pointer-events: none;
+  }
+  .card:hover { border-color: #3d4a7d; transform: translateY(-2px); box-shadow: 0 26px 52px -26px rgba(0,0,0,0.95); }
   .card h2 {
-    margin: 0 0 6px; font-size: 16px; font-weight: 700; letter-spacing: -0.01em;
-    display: flex; align-items: center; gap: 11px;
+    margin: 0 0 6px; font-size: 15.5px; font-weight: 700; letter-spacing: -0.01em;
+    display: flex; align-items: center; gap: 10px;
   }
   .card h2::before {
     content: counter(card); flex: none;
-    width: 27px; height: 27px; border-radius: 9px;
+    width: 26px; height: 26px; border-radius: 10px;
     display: grid; place-items: center;
-    background: var(--grad); color: #05101f; font-weight: 800; font-size: 13px;
-    box-shadow: 0 5px 14px -4px rgba(56,189,248,0.5);
+    background: var(--grad); color: #101736; font-weight: 800; font-size: 13px;
+    box-shadow: 0 6px 14px -5px rgba(125,211,252,0.6);
   }
-  .card > .sub { margin: 0 0 14px; padding-left: 38px; font-size: 12px; color: var(--muted); line-height: 1.55; }
+  .card h2 .emo { font-size: 15px; }
+  .card > .sub { margin: 0 0 12px; padding-left: 36px; font-size: 11.5px; color: var(--muted); line-height: 1.55; }
+
+  /* group inside a merged card */
+  .group { margin-top: 14px; padding-top: 13px; border-top: 1px dashed var(--line); }
+  .group:first-of-type { margin-top: 4px; padding-top: 0; border-top: 0; }
+  .group > h3 {
+    margin: 0 0 2px; font-size: 12.5px; font-weight: 700; color: #d7deff;
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  }
+  .group > .note { margin: 3px 0 0; font-size: 11px; color: var(--faint); line-height: 1.55; }
 
   /* ── fields ─────────────────────────────────────────── */
-  .field { display: flex; flex-direction: column; gap: 7px; padding: 13px 0; border-top: 1px solid var(--line-soft); }
+  .field { display: flex; flex-direction: column; gap: 6px; padding: 11px 0; border-top: 1px solid var(--line-soft); }
   .field:first-of-type { border-top: 0; padding-top: 4px; }
-  .field .row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-  .field label { font-size: 13.5px; font-weight: 600; color: #dbe4f0; }
+  .group .field:first-of-type { border-top: 0; }
+  .field .row { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+  .field label { font-size: 13px; font-weight: 600; color: #dee5fb; }
   .field .target {
-    font-size: 10.5px; color: var(--accent); font-family: ui-monospace, monospace;
-    background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.2);
-    padding: 2px 8px; border-radius: 6px;
+    font-size: 10px; color: var(--sky); font-family: ui-monospace, monospace;
+    background: rgba(125,211,252,0.09); border: 1px solid rgba(125,211,252,0.22);
+    padding: 2px 8px; border-radius: 999px;
   }
   .field .opt {
-    font-size: 10px; color: var(--faint); font-weight: 600; text-transform: uppercase; letter-spacing: .05em;
-    background: rgba(148,163,184,0.1); padding: 2px 7px; border-radius: 999px;
+    font-size: 9.5px; color: var(--faint); font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
+    background: rgba(166,177,210,0.1); padding: 2px 8px; border-radius: 999px;
   }
 
   /* inputs — unified look */
-  .field input[type=file] { font-size: 12px; color: var(--muted); max-width: 100%; }
+  .field input[type=file] { font-size: 11.5px; color: var(--muted); max-width: 100%; }
   input[type=file]::file-selector-button {
-    font: inherit; font-weight: 600; font-size: 12px; cursor: pointer; margin-right: 10px;
-    color: var(--accent); background: var(--panel);
-    border: 1px solid var(--line); border-radius: 8px; padding: 7px 13px;
-    transition: background .15s, border-color .15s;
+    font: inherit; font-weight: 700; font-size: 11.5px; cursor: pointer; margin-right: 9px;
+    color: #101736; background: var(--grad);
+    border: 0; border-radius: 999px; padding: 7px 14px;
+    transition: filter .15s, transform .12s;
   }
-  input[type=file]::file-selector-button:hover { background: #0b2b40; border-color: var(--accent); }
+  input[type=file]::file-selector-button:hover { filter: brightness(1.08); transform: translateY(-1px); }
   .field input.linkinput, .field .metatitle, .field .metadesc {
-    width: 100%; font-size: 13px; color: var(--ink);
-    background: var(--panel); border: 1px solid var(--line); border-radius: 9px; padding: 10px 12px;
+    width: 100%; font-size: 12.5px; color: var(--ink);
+    background: var(--panel); border: 1px solid var(--line); border-radius: 13px; padding: 9px 12px;
     transition: border-color .15s, box-shadow .15s;
   }
   .field input.linkinput { font-family: ui-monospace, monospace; }
   .field .metadesc { resize: vertical; font-family: "Segoe UI", system-ui, sans-serif; line-height: 1.5; }
   .field input.linkinput:focus, .field .metatitle:focus, .field .metadesc:focus,
   .panel input:focus, .panel select:focus {
-    outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(56,189,248,0.16);
+    outline: none; border-color: var(--sky); box-shadow: 0 0 0 3px rgba(125,211,252,0.2);
   }
-  .field .status { font-size: 11.5px; min-height: 15px; color: var(--muted); }
+  .field .status { font-size: 11px; min-height: 14px; color: var(--muted); line-height: 1.5; }
+  .field .status code { background: rgba(166,177,210,0.12); padding: 1px 5px; border-radius: 5px; }
 
-  /* toggle switch + status badge (ส่วนที่ 5 — optional pages) */
+  /* compact image tiles (banners + slides) — keeps card 1 from running long */
+  .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(158px, 1fr)); gap: 9px; padding-top: 11px; }
+  .tiles .field {
+    padding: 10px 11px; gap: 7px;
+    border: 1px solid var(--line-soft); border-radius: 15px;
+    background: rgba(125,211,252,0.03);
+    transition: border-color .15s, background .15s;
+  }
+  .tiles .field:hover { border-color: var(--line); background: rgba(125,211,252,0.07); }
+  .tiles .field label { font-size: 12px; }
+  .tiles .field .row { gap: 7px; }
+  .tiles .field .status { font-size: 10px; min-height: 0; }
+  /* hide the long native filename inside a narrow tile; the thumb shows the pick */
+  .tiles input[type=file] { font-size: 0; width: 100%; }
+  .tiles input[type=file]::file-selector-button { font-size: 11px; padding: 6px 12px; margin-right: 0; }
+  .tiles .thumb { width: 34px; height: 34px; }
+
+  /* toggle switch + state badge (optional pages) */
   .switch { position: relative; display: inline-flex; width: 42px; height: 24px; flex: none; cursor: pointer; }
   .switch input { position: absolute; opacity: 0; width: 0; height: 0; }
   .switch .slider { position: absolute; inset: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 999px; transition: .18s; }
-  .switch .slider::before { content: ""; position: absolute; width: 16px; height: 16px; left: 3px; top: 3px; background: var(--muted); border-radius: 50%; transition: .18s; }
-  .switch input:checked + .slider { background: #0b2b40; border-color: var(--accent); }
-  .switch input:checked + .slider::before { transform: translateX(18px); background: var(--accent); }
-  .switch input:focus-visible + .slider { box-shadow: 0 0 0 3px rgba(56,189,248,0.16); }
-  .badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 999px; }
-  .badge.new { color: var(--ok); background: rgba(74,222,128,0.12); border: 1px solid rgba(74,222,128,0.3); }
-  .badge.exists { color: var(--faint); background: rgba(148,163,184,0.1); border: 1px solid var(--line); }
-  .np-body { display: flex; flex-direction: column; gap: 7px; margin-top: 8px; }
+  .switch .slider::before { content: ""; position: absolute; width: 16px; height: 16px; left: 3px; top: 3px; background: var(--faint); border-radius: 50%; transition: .18s; }
+  .switch input:checked + .slider { background: rgba(125,211,252,0.18); border-color: var(--sky); }
+  .switch input:checked + .slider::before { transform: translateX(18px); background: var(--grad); }
+  .switch input:focus-visible + .slider { box-shadow: 0 0 0 3px rgba(125,211,252,0.22); }
+  .badge { font-size: 9.5px; font-weight: 700; padding: 3px 9px; border-radius: 999px; line-height: 1.35; }
+  .badge.new { color: var(--muted); background: rgba(166,177,210,0.1); border: 1px solid var(--line); }
+  .badge.exists { color: var(--teal); background: rgba(94,234,212,0.12); border: 1px solid rgba(94,234,212,0.3); }
+  .np-body { display: flex; flex-direction: column; gap: 6px; margin-top: 7px; }
   .np-body[hidden] { display: none; }
 
-  .thumb { width: 46px; height: 46px; object-fit: contain; border-radius: 9px; background: var(--panel); border: 1px solid var(--line); display: none; }
+  .thumb { width: 42px; height: 42px; object-fit: contain; border-radius: 12px; background: var(--panel); border: 1px solid var(--line); display: none; }
   .thumb.show { display: block; }
 
   /* background mode chips + panels */
-  .modes { flex-wrap: wrap; gap: 7px; }
+  .modes { flex-wrap: wrap; gap: 6px; }
   .modes label {
-    display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; cursor: pointer;
+    display: flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 600; cursor: pointer;
     padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--panel);
     transition: all .15s;
   }
-  .modes label:has(input:checked) { border-color: var(--accent); color: var(--accent); background: #0b2b40; box-shadow: 0 0 0 3px rgba(56,189,248,0.12); }
-  .modes input { accent-color: var(--accent); margin: 0; }
+  .modes label:has(input:checked) { border-color: var(--sky); color: var(--sky); background: rgba(125,211,252,0.12); box-shadow: 0 0 0 3px rgba(125,211,252,0.14); }
+  .modes input { accent-color: var(--sky); margin: 0; }
   .panel[hidden] { display: none; }
   .panel { flex-wrap: wrap; gap: 8px; }
-  .panel input[type=color] { width: 40px; height: 32px; padding: 0; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); cursor: pointer; }
-  .panel input[type=text] { width: 92px; font-family: ui-monospace, monospace; font-size: 12px; text-transform: lowercase; background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 7px 9px; }
-  .panel select { font-size: 12px; background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 7px 9px; }
-  .panel .hint { font-size: 11px; color: var(--faint); align-self: center; }
-  #bgPreview { width: 100%; height: 56px; border-radius: 9px; border: 1px solid var(--line); }
+  .panel input[type=color] { width: 38px; height: 32px; padding: 0; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); cursor: pointer; }
+  .panel input[type=text] { width: 90px; font-family: ui-monospace, monospace; font-size: 11.5px; text-transform: lowercase; background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 10px; padding: 7px 9px; }
+  .panel select { font-size: 11.5px; background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 10px; padding: 7px 9px; }
+  .panel .hint { font-size: 10.5px; color: var(--faint); align-self: center; }
+  #bgPreview { width: 100%; height: 52px; border-radius: 13px; border: 1px solid var(--line); }
 
-  /* ghost button (pull-from-docx) */
+  /* ghost button (pull-from-docx / copy) */
   button.ghost {
-    background: var(--panel); color: var(--accent); border: 1px solid var(--line);
-    padding: 9px 16px; font-size: 13px; font-weight: 700; border-radius: 9px;
+    background: var(--panel); color: var(--sky); border: 1px solid var(--line);
+    padding: 8px 15px; font-size: 12px; font-weight: 700; border-radius: 999px; cursor: pointer;
     display: inline-flex; align-items: center; gap: 7px; transition: all .15s;
   }
-  button.ghost:hover { background: #0b2b40; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(56,189,248,0.12); }
-  .pull-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 2px 0 12px; padding-bottom: 14px; border-bottom: 1px solid var(--line-soft); }
-  .pull-hint { flex: 1 1 200px; min-width: 0; font-size: 11px; color: var(--faint); line-height: 1.5; }
+  button.ghost:hover { background: rgba(125,211,252,0.12); border-color: var(--sky); transform: translateY(-1px); }
+  .pull-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 2px 0 10px; padding-bottom: 12px; border-bottom: 1px dashed var(--line); }
+  .pull-hint { flex: 1 1 180px; min-width: 0; font-size: 10.5px; color: var(--faint); line-height: 1.5; }
+  /* the 4 sub-page SEO slots sit two-up so this card stays about as tall as
+     its neighbours — the whole point of the 3-column layout is that nothing
+     forces a scroll to reach the card next to it. */
+  .seo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(204px, 1fr)); gap: 9px; }
+  .seo-grid .field { padding: 10px 11px; border: 1px solid var(--line-soft); border-radius: 15px; background: rgba(125,211,252,0.03); }
+  .seo-grid .field:hover { border-color: var(--line); background: rgba(125,211,252,0.07); }
 
   /* ── sticky action bar ──────────────────────────────── */
   .bar {
     position: sticky; bottom: 0; z-index: 15;
-    background: rgba(11,17,32,0.82); backdrop-filter: blur(14px);
+    background: rgba(13,17,36,0.85); backdrop-filter: blur(16px);
     border-top: 1px solid var(--line-soft);
     box-shadow: 0 -10px 30px -14px rgba(0,0,0,0.7);
-    padding: 15px 30px; display: flex; align-items: center; gap: 18px;
+    padding: 13px 26px; display: flex; align-items: center; gap: 16px;
   }
   #uploadAll {
-    background: var(--grad); color: #05101f; border: 0;
-    padding: 12px 26px; font-size: 15px; font-weight: 800; border-radius: 11px; cursor: pointer;
-    box-shadow: 0 10px 24px -8px rgba(56,189,248,0.55); transition: transform .12s, filter .15s, box-shadow .15s;
+    background: var(--grad); color: #101736; border: 0;
+    padding: 12px 26px; font-size: 14.5px; font-weight: 800; border-radius: 999px; cursor: pointer;
+    box-shadow: 0 12px 26px -10px rgba(125,211,252,0.6); transition: transform .12s, filter .15s, box-shadow .15s;
     flex: none; letter-spacing: .01em;
   }
-  #uploadAll:hover { filter: brightness(1.06); transform: translateY(-1px); box-shadow: 0 14px 30px -8px rgba(56,189,248,0.6); }
+  #uploadAll:hover { filter: brightness(1.07); transform: translateY(-2px); box-shadow: 0 16px 32px -10px rgba(94,234,212,0.55); }
   #uploadAll:active { transform: translateY(0); }
-  #log { flex: 1; font-size: 11.5px; font-family: ui-monospace, monospace; max-height: 92px; overflow: auto; line-height: 1.7; }
+  #log { flex: 1; font-size: 11px; font-family: ui-monospace, monospace; max-height: 84px; overflow: auto; line-height: 1.7; }
   #log div.ok { color: var(--ok); }
   #log div.err { color: var(--err); }
   #log::-webkit-scrollbar { width: 8px; }
@@ -997,12 +1047,13 @@ const PAGE = /* html */ `<!doctype html>
 <body>
 <header>
   <div class="head-inner">
-    <h1><span class="mark">📦</span> <span class="grad-text">Rebrand Asset Uploader</span></h1>
+    <h1><span class="mark">🧁</span> <span class="grad-text">Rebrand Asset Uploader</span></h1>
   </div>
 </header>
 <main>
-  <section class="card" id="card1">
-    <h2>ไฟล์แบรนด์ · src/assets</h2>
+  <div class="col col-a">
+  <section class="card" id="cardFiles">
+    <h2><span class="emo">🎨</span> ไฟล์แบรนด์ · src/assets</h2>
     <p class="sub">โลโก้ / เนื้อหา (docx) / พื้นหลัง (รูป หรือ สี/ไล่สี) / แบนเนอร์ / รูป promotion + carousel</p>
     <div class="field" data-img>
       <div class="row"><label>Logo</label><span class="target">src/assets/logo.webp + public/logo.webp</span></div>
@@ -1052,144 +1103,160 @@ const PAGE = /* html */ `<!doctype html>
       <div class="row"><div id="bgPreview" hidden></div></div>
       <span class="status"></span>
     </div>
-    <div class="field" data-img>
-      <div class="row"><label>Banner 1</label><span class="target">banner1.png</span></div>
-      <div class="row"><input type="file" accept="image/*" data-slot="banner" data-index="1" /><img class="thumb" /></div>
-      <span class="status"></span>
+    <div class="tiles">
+      <div class="field" data-img>
+        <div class="row"><label>Banner 1</label><span class="target">banner1</span></div>
+        <div class="row"><input type="file" accept="image/*" data-slot="banner" data-index="1" /><img class="thumb" /></div>
+        <span class="status">hero</span>
+      </div>
+      <div class="field" data-img>
+        <div class="row"><label>Banner 2</label><span class="target">banner2</span></div>
+        <div class="row"><input type="file" accept="image/*" data-slot="banner" data-index="2" /><img class="thumb" /></div>
+        <span class="status">รูปประกอบบทความ · optional</span>
+      </div>
+      <div class="field" data-img>
+        <div class="row"><label>Banner 3</label><span class="target">banner3</span></div>
+        <div class="row"><input type="file" accept="image/*" data-slot="banner" data-index="3" /><img class="thumb" /></div>
+        <span class="status">รูปประกอบบทความ · optional</span>
+      </div>
+      <div class="field" data-img>
+        <div class="row"><label>Banner 4</label><span class="target">banner4</span></div>
+        <div class="row"><input type="file" accept="image/*" data-slot="banner" data-index="4" /><img class="thumb" /></div>
+        <span class="status">รูปประกอบบทความ · optional</span>
+      </div>
+      <div class="field" data-img>
+        <div class="row"><label>Slide 1</label><span class="target">slide1</span></div>
+        <div class="row"><input type="file" accept="image/*" data-slot="slide" data-index="1" /><img class="thumb" /></div>
+        <span class="status">promotion + og:image</span>
+      </div>
+      <div class="field" data-img>
+        <div class="row"><label>Slide 2</label><span class="target">slide2</span></div>
+        <div class="row"><input type="file" accept="image/*" data-slot="slide" data-index="2" /><img class="thumb" /></div>
+        <span class="status">promotion + carousel</span>
+      </div>
+      <div class="field" data-img>
+        <div class="row"><label>Slide 3</label><span class="target">slide3</span></div>
+        <div class="row"><input type="file" accept="image/*" data-slot="slide" data-index="3" /><img class="thumb" /></div>
+        <span class="status">promotion + carousel</span>
+      </div>
+      <div class="field" data-img>
+        <div class="row"><label>Slide 4</label><span class="target">slide4</span></div>
+        <div class="row"><input type="file" accept="image/*" data-slot="slide" data-index="4" /><img class="thumb" /></div>
+        <span class="status">promotion + carousel · optional</span>
+      </div>
     </div>
-    <div class="field" data-img>
-      <div class="row"><label>Banner 2</label><span class="opt">optional</span><span class="target">banner2.png</span></div>
-      <div class="row"><input type="file" accept="image/*" data-slot="banner" data-index="2" /><img class="thumb" /></div>
-      <span class="status"></span>
+  </section>
+  </div>
+
+  <div class="col col-b">
+  <section class="card" id="cardSetup">
+    <h2><span class="emo">🧩</span> ไอคอน · ลิงก์ · หน้าเสริม</h2>
+    <p class="sub">รวมของเดิมส่วนที่ 2 + 3 + 5 ไว้ที่เดียว</p>
+
+    <div class="group">
+      <h3><span class="emo">🔖</span> ไอคอนเว็บ · public</h3>
+      <p class="note">อัพ favicon ใบเดียว สร้างชุดไอคอนให้ครบ — โลโก้ใน public ดึงจาก Logo การ์ดแรกให้เอง</p>
+      <div class="field" data-img>
+        <div class="row"><label>Favicon</label><span class="target">favicon.ico + .png set + .svg</span></div>
+        <div class="row"><input type="file" accept="image/*,.svg" data-slot="favicon" /><img class="thumb" /></div>
+        <span class="status"></span>
+      </div>
     </div>
-    <div class="field" data-img>
-      <div class="row"><label>Banner 3</label><span class="opt">optional</span><span class="target">banner3.png</span></div>
-      <div class="row"><input type="file" accept="image/*" data-slot="banner" data-index="3" /><img class="thumb" /></div>
-      <span class="status"></span>
+
+    <div class="group">
+      <h3><span class="emo">🔗</span> ลิงก์ · aff / ไลน์</h3>
+      <div class="field" id="affField">
+        <div class="row"><label>ลิงก์ aff</label><span class="target">login.astro + register.astro</span></div>
+        <div class="row"><input type="url" class="linkinput" id="affInput" placeholder="https://..." spellcheck="false" /></div>
+        <span class="status">แก้ค่า <code>targetUrl</code> ในทั้งหน้า login และ register พร้อมกัน</span>
+      </div>
+      <div class="field" id="lineField">
+        <div class="row"><label>ลิงก์ไลน์</label><span class="target">astro.config.mjs → "/line"</span></div>
+        <div class="row"><input type="url" class="linkinput" id="lineInput" placeholder="https://..." spellcheck="false" /></div>
+        <span class="status">แก้ปลายทางของ redirect <code>/line</code></span>
+      </div>
     </div>
-    <div class="field" data-img>
-      <div class="row"><label>Banner 4</label><span class="opt">optional</span><span class="target">banner4.png</span></div>
-      <div class="row"><input type="file" accept="image/*" data-slot="banner" data-index="4" /><img class="thumb" /></div>
-      <span class="status"></span>
-    </div>
-    <div class="field" data-img>
-      <div class="row"><label>Promotion + Carousel 1</label><span class="target">slide1.png</span></div>
-      <div class="row"><input type="file" accept="image/*" data-slot="slide" data-index="1" /><img class="thumb" /></div>
-      <span class="status"></span>
-    </div>
-    <div class="field" data-img>
-      <div class="row"><label>Promotion + Carousel 2</label><span class="target">slide2.png</span></div>
-      <div class="row"><input type="file" accept="image/*" data-slot="slide" data-index="2" /><img class="thumb" /></div>
-      <span class="status"></span>
-    </div>
-    <div class="field" data-img>
-      <div class="row"><label>Promotion + Carousel 3</label><span class="target">slide3.png</span></div>
-      <div class="row"><input type="file" accept="image/*" data-slot="slide" data-index="3" /><img class="thumb" /></div>
-      <span class="status"></span>
-    </div>
-    <div class="field" data-img>
-      <div class="row"><label>Promotion + Carousel 4</label><span class="opt">optional</span><span class="target">slide4.png</span></div>
-      <div class="row"><input type="file" accept="image/*" data-slot="slide" data-index="4" /><img class="thumb" /></div>
-      <span class="status"></span>
+
+    <div class="group">
+      <h3><span class="emo">🗂️</span> หน้าเสริม (เปิด/ปิดต่อแบรนด์)</h3>
+      <p class="note">เปิด = อยู่ใน <code>src/pages</code> + มีลิงก์ในเมนู · ปิด = ย้ายไป <code>src/pages-disabled</code> + ถอดลิงก์ (ไม่ลบไฟล์)<br />ทุกสวิตช์เริ่มที่ปิดเสมอ — แต่ละแบรนด์เลือกเอง ไม่สืบทอดจากแบรนด์ก่อน (ป้ายบอกสถานะจริงตอนนี้)</p>
+      <div class="field newpage" data-newpage="article">
+        <div class="row">
+          <label class="switch"><input type="checkbox" class="np-toggle" /><span class="slider"></span></label>
+          <label>บทความ</label>
+          <span class="target">บทความ.astro</span>
+          <span class="badge np-badge"></span>
+        </div>
+        <div class="np-body" hidden>
+          <input type="text" class="metatitle" data-k="title" placeholder="Title (เว้นว่างได้ — Claude เขียนให้)" spellcheck="false" />
+          <textarea class="metadesc" data-k="desc" rows="2" placeholder="Meta description (เว้นว่างได้ — Claude เขียนให้)" spellcheck="false"></textarea>
+        </div>
+        <span class="status"></span>
+      </div>
+      <div class="field newpage" data-newpage="aboutus">
+        <div class="row">
+          <label class="switch"><input type="checkbox" class="np-toggle" /><span class="slider"></span></label>
+          <label>เกี่ยวกับเรา</label>
+          <span class="target">about-us.astro</span>
+          <span class="badge np-badge"></span>
+        </div>
+        <div class="np-body" hidden>
+          <input type="text" class="metatitle" data-k="title" placeholder="Title (เว้นว่างได้ — Claude เขียนให้)" spellcheck="false" />
+          <textarea class="metadesc" data-k="desc" rows="2" placeholder="Meta description (เว้นว่างได้ — Claude เขียนให้)" spellcheck="false"></textarea>
+        </div>
+        <span class="status"></span>
+      </div>
+      <div class="field newpage" data-newpage="huay">
+        <div class="row">
+          <label class="switch"><input type="checkbox" class="np-toggle" /><span class="slider"></span></label>
+          <label>เว็บหวย</label>
+          <span class="target">ตรวจหวย + แนวทาง</span>
+          <span class="badge np-badge"></span>
+        </div>
+        <span class="status">เปิดแล้วคำสั่งในการ์ดขวาจะมีคำว่า “เว็บหวย” ให้ Claude คงธีม Huay ไว้</span>
+      </div>
     </div>
   </section>
 
-  <section class="card" id="card2">
-    <h2>ไอคอนเว็บ · public</h2>
-    <p class="sub">favicon (สร้างชุดไอคอนให้อัตโนมัติ) — โลโก้ public ดึงจาก Logo ในส่วนที่ 1 ให้เอง</p>
-    <div class="field" data-img>
-      <div class="row"><label>Favicon</label><span class="target">favicon.ico + .png set + .svg</span></div>
-      <div class="row"><input type="file" accept="image/*,.svg" data-slot="favicon" /><img class="thumb" /></div>
-      <span class="status"></span>
-    </div>
-  </section>
-
-  <section class="card" id="card3">
-    <h2>ลิงก์ · aff / ไลน์</h2>
-    <div class="field" id="affField">
-      <div class="row"><label>ลิงก์ aff</label><span class="target">src/pages/login.astro + register.astro</span></div>
-      <div class="row"><input type="url" class="linkinput" id="affInput" placeholder="https://..." spellcheck="false" /></div>
-      <span class="status">แก้ค่า <code>targetUrl</code> ในทั้งหน้า login และ register พร้อมกัน</span>
-    </div>
-    <div class="field" id="lineField">
-      <div class="row"><label>ลิงก์ไลน์</label><span class="target">astro.config.mjs → redirects "/line"</span></div>
-      <div class="row"><input type="url" class="linkinput" id="lineInput" placeholder="https://..." spellcheck="false" /></div>
-      <span class="status">แก้ปลายทางของ redirect <code>/line</code></span>
-    </div>
-  </section>
-
-  <section class="card" id="card4">
-    <h2>SEO · Title / Meta หน้าย่อย</h2>
+  <section class="card" id="cardSeo">
+    <h2><span class="emo">🔍</span> SEO · Title / Meta หน้าย่อย</h2>
     <div class="pull-row">
       <button type="button" id="pullDocx" class="ghost">📄 ดึงจาก content.docx</button>
-      <span class="pull-hint">อัพ Content brief (docx) ในส่วนที่ 1 ก่อน แล้วค่อยกดปุ่มนี้</span>
+      <span class="pull-hint">อัพ Content brief (docx) ในการ์ดแรกก่อน แล้วค่อยกดปุ่มนี้</span>
     </div>
+    <div class="seo-grid">
     <div class="field" data-page="promotion">
-      <div class="row"><label>โปรโมชั่น</label><span class="target">src/pages/promotion.astro</span></div>
+      <div class="row"><label>โปรโมชั่น</label><span class="target">promotion.astro</span></div>
       <input type="text" class="metatitle" data-k="title" placeholder="Title" spellcheck="false" />
       <textarea class="metadesc" data-k="desc" rows="2" placeholder="Meta description" spellcheck="false"></textarea>
       <span class="status"></span>
     </div>
     <div class="field" data-page="contactus">
-      <div class="row"><label>ติดต่อเรา</label><span class="target">src/pages/contact-us.astro</span></div>
+      <div class="row"><label>ติดต่อเรา</label><span class="target">contact-us.astro</span></div>
       <input type="text" class="metatitle" data-k="title" placeholder="Title" spellcheck="false" />
       <textarea class="metadesc" data-k="desc" rows="2" placeholder="Meta description" spellcheck="false"></textarea>
       <span class="status"></span>
     </div>
     <div class="field" data-page="demo">
-      <div class="row"><label>ทดลองเล่น</label><span class="target">src/pages/ทดลองเล่น.astro</span></div>
+      <div class="row"><label>ทดลองเล่น</label><span class="target">ทดลองเล่น.astro</span></div>
       <input type="text" class="metatitle" data-k="title" placeholder="Title" spellcheck="false" />
       <textarea class="metadesc" data-k="desc" rows="2" placeholder="Meta description" spellcheck="false"></textarea>
       <span class="status"></span>
     </div>
     <div class="field" data-page="entrance">
-      <div class="row"><label>ทางเข้า</label><span class="target">src/pages/ทางเข้า.astro</span></div>
+      <div class="row"><label>ทางเข้า</label><span class="target">ทางเข้า.astro</span></div>
       <input type="text" class="metatitle" data-k="title" placeholder="Title" spellcheck="false" />
       <textarea class="metadesc" data-k="desc" rows="2" placeholder="Meta description" spellcheck="false"></textarea>
       <span class="status"></span>
     </div>
-  </section>
-
-  <section class="card" id="card5">
-    <h2>หน้าเสริม (เปิด/ปิดต่อแบรนด์)</h2>
-  
-    <div class="field newpage" data-newpage="article">
-      <div class="row">
-        <label class="switch"><input type="checkbox" class="np-toggle" /><span class="slider"></span></label>
-        <label>บทความ</label>
-        <span class="target">src/pages/บทความ.astro</span>
-        <span class="badge np-badge"></span>
-      </div>
-      <div class="np-body" hidden>
-        <input type="text" class="metatitle" data-k="title" placeholder="Title (เว้นว่างได้ — Claude เขียนให้)" spellcheck="false" />
-        <textarea class="metadesc" data-k="desc" rows="2" placeholder="Meta description (เว้นว่างได้ — Claude เขียนให้)" spellcheck="false"></textarea>
-      </div>
-      <span class="status"></span>
-    </div>
-    <div class="field newpage" data-newpage="aboutus">
-      <div class="row">
-        <label class="switch"><input type="checkbox" class="np-toggle" /><span class="slider"></span></label>
-        <label>เกี่ยวกับเรา</label>
-        <span class="target">src/pages/about-us.astro</span>
-        <span class="badge np-badge"></span>
-      </div>
-      <div class="np-body" hidden>
-        <input type="text" class="metatitle" data-k="title" placeholder="Title (เว้นว่างได้ — Claude เขียนให้)" spellcheck="false" />
-        <textarea class="metadesc" data-k="desc" rows="2" placeholder="Meta description (เว้นว่างได้ — Claude เขียนให้)" spellcheck="false"></textarea>
-      </div>
-      <span class="status"></span>
-    </div>
-    <div class="field newpage" data-newpage="huay">
-      <div class="row">
-        <label class="switch"><input type="checkbox" class="np-toggle" /><span class="slider"></span></label>
-        <label>เว็บหวย</label>
-        <span class="badge np-badge"></span>
-      </div>
     </div>
   </section>
+  </div>
 
-  <section class="card" id="card6">
-    <h2>สร้างคำสั่ง Rebrand (สำหรับ Claude Code)</h2>
+  <div class="col col-c">
+  <section class="card" id="cardPrompt">
+    <h2><span class="emo">✨</span> คำสั่ง Rebrand (ให้ Claude Code)</h2>
+    <p class="sub">กรอกแล้วกด Copy → วางใน Claude Code</p>
     <div class="field">
       <div class="row"><label>ชื่อแบรนด์</label></div>
       <input type="text" class="linkinput" id="rbBrand" placeholder="เช่น PABLO666" spellcheck="false" />
@@ -1204,11 +1271,12 @@ const PAGE = /* html */ `<!doctype html>
       <textarea class="metadesc" id="rbNotes" rows="2" placeholder="เช่น โทนทอง-ดำ, ใช้ NavbarPremium, เน้นหน้าโปรโมชั่น" spellcheck="false"></textarea>
     </div>
     <div class="field">
-      <div class="row"><label>คำสั่งที่จะ copy</label><button type="button" id="rbCopy" class="ghost">📋 Copy คำสั่ง</button></div>
-      <textarea class="metadesc" id="rbPrompt" rows="3" readonly spellcheck="false"></textarea>
-     
+      <div class="row"><label>คำสั่งที่จะ copy</label><button type="button" id="rbCopy" class="ghost">📋 Copy</button></div>
+      <textarea class="metadesc" id="rbPrompt" rows="4" readonly spellcheck="false"></textarea>
+      <span class="status">flow: Copy → วางใน Claude Code → รอเสร็จ → <code>npm run preview</code> ตรวจด้วยตา → ค่อย deploy แยก</span>
     </div>
   </section>
+  </div>
 </main>
 <div class="bar">
   <button id="uploadAll">อัพโหลดทั้งหมด</button>
@@ -1408,7 +1476,7 @@ const PAGE = /* html */ `<!doctype html>
     return true;
   }
 
-  // ── Optional preset pages (ส่วนที่ 5): toggle → scaffold file + nav link ────
+  // ── Optional preset pages ("หน้าเสริม"): toggle → move/scaffold + nav link ──
   const newpageFields = [...document.querySelectorAll('.field[data-newpage]')];
   const npEls = (f) => ({
     toggle: f.querySelector('.np-toggle'),
@@ -1422,7 +1490,7 @@ const PAGE = /* html */ `<!doctype html>
     const { toggle, body } = npEls(f);
     toggle.addEventListener('change', () => {
       if (body) body.hidden = !toggle.checked;
-      refreshPrompt();  // the หวย toggle feeds the ส่วนที่ 6 prompt
+      refreshPrompt();  // the หวย toggle feeds the rebrand-prompt card
     });
   }
   // Every toggle starts OFF, on purpose — including for a page that is live
@@ -1478,7 +1546,7 @@ const PAGE = /* html */ `<!doctype html>
     return true;
   }
 
-  // ── Rebrand prompt (ส่วนที่ 6): assemble the exact prompt, client-side only ──
+  // ── Rebrand prompt card: assemble the exact prompt, client-side only ───────
   // No server call — just helps a dev paste a correct, typo-free command into
   // Claude Code, in the one-liner style they actually use. URL clause is dropped
   // when empty (playbook + the URL-scope rule already keep a bare rebrand off the
@@ -1489,7 +1557,7 @@ const PAGE = /* html */ `<!doctype html>
   const rbNotes = document.getElementById('rbNotes');
   const rbPrompt = document.getElementById('rbPrompt');
   const rbCopy = document.getElementById('rbCopy');
-  // The หวย toggle in ส่วนที่ 5 is what puts the word "เว็บหวย" in here — that
+  // The หวย toggle in the "หน้าเสริม" group is what puts "เว็บหวย" in here — that
   // exact word is the trigger the skill's Phase 4.5 reads to keep the lottery
   // pages on and leave their Huay theme alone. No toggle, no word, no lottery.
   function huayOn() {

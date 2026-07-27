@@ -195,6 +195,16 @@ progress in the normal way — there is no separate channel to write to.
      nearly always the dark background. Useful for the page/section
      background, misleading as an accent.
 
+   Each image is one key (`"logo.webp"`, `"banner1.png"`, …) holding both
+   lists (5 hex each, best first) plus an **`updatedAt`** stamp — that
+   stamp is how you tell this brand's drop from a key left behind by the
+   previous one, same problem as the stale `banner3.png` in Phase 2. A key
+   that predates the current logo/banner1 upload is old inventory: ignore
+   it. `vivid` comes back **empty** for a near-black or near-white image
+   (bg plates usually) — that's the filter working, not a failure; use
+   `dominant` there. If `palette.json` is missing entirely, the operator
+   staged the assets by hand — fall back to reading the images by eye.
+
    Then **read the reference images** in `src/assets` with the `Read`
    tool (it renders images visually) — logo, banner(s), slide(s), bg.
    You still need your eyes for everything the numbers can't say. Note:

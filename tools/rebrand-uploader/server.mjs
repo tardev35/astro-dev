@@ -117,6 +117,71 @@ async function toWebp(buf, dir, base, opts) {
   return `${base}.webp`;
 }
 
+// ── palette measurement (src/assets/palette.json) ───────────────────────────
+// The rebrand reads exact hex instead of judging the artwork by eye, so every
+// image upload re-measures that image and updates one shared JSON file. Two
+// lists per image, because they answer different questions:
+//   vivid    — the brand hue. Buckets scored by saturation × area with
+//              near-black / near-white / grey dropped, so logo.webp's vivid[0]
+//              is the most reliable single "this is the brand colour".
+//   dominant — the most AREA, which on a banner or slide is nearly always the
+//              dark background: right for a page background, misleading as an
+//              accent.
+// `updatedAt` is what tells a rebrand which entries belong to the current asset
+// drop — same-name files from an older brand linger in this repo on purpose.
+const PALETTE_FILE = "palette.json";
+
+function hsv(r, g, b) {
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  return { s: max === 0 ? 0 : (max - min) / max, v: max / 255 };
+}
+const toHex = (r, g, b) => "#" + [r, g, b].map((n) => n.toString(16).padStart(2, "0")).join("");
+
+async function measurePalette(buf) {
+  // 96px is plenty to rank colours and keeps this well under a frame of work.
+  const { data } = await sharp(buf)
+    .resize(96, 96, { fit: "inside" })
+    .removeAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+  // Quantize to a 32-level cube so near-identical pixels count as one colour,
+  // then average the real pixels inside each bucket back into an exact hex.
+  const buckets = new Map();
+  for (let i = 0; i + 2 < data.length; i += 3) {
+    const r = data[i], g = data[i + 1], b = data[i + 2];
+    const key = ((r >> 5) << 10) | ((g >> 5) << 5) | (b >> 5);
+    let e = buckets.get(key);
+    if (!e) buckets.set(key, (e = { n: 0, r: 0, g: 0, b: 0 }));
+    e.n++; e.r += r; e.g += g; e.b += b;
+  }
+  const colours = [...buckets.values()].map((e) => {
+    const r = Math.round(e.r / e.n), g = Math.round(e.g / e.n), b = Math.round(e.b / e.n);
+    return { hex: toHex(r, g, b), n: e.n, ...hsv(r, g, b) };
+  });
+  const dominant = [...colours].sort((a, b) => b.n - a.n).slice(0, 5).map((c) => c.hex);
+  const vivid = colours
+    .filter((c) => c.s >= 0.25 && c.v >= 0.18 && c.v <= 0.98)
+    .sort((a, b) => b.s * b.n - a.s * a.n)
+    .slice(0, 5)
+    .map((c) => c.hex);
+  return { vivid, dominant };
+}
+
+// Best-effort: a palette we can't measure must never fail the upload itself —
+// the image is already written and the rebrand can still read it by eye.
+async function updatePalette(fileName, buf) {
+  try {
+    let all = {};
+    try { all = JSON.parse(await readFile(join(ASSETS, PALETTE_FILE), "utf8")); } catch { /* first write */ }
+    all[fileName] = { ...(await measurePalette(buf)), updatedAt: new Date().toISOString() };
+    await writeFile(join(ASSETS, PALETTE_FILE), JSON.stringify(all, null, 2) + "\n", "utf8");
+    return PALETTE_FILE;
+  } catch (err) {
+    console.warn(`[uploader] palette ${fileName}: ${err.message}`);
+    return null;
+  }
+}
+
 // sharp can't vectorize a bitmap. For a raster favicon, wrap a square PNG as a
 // base64 data URI inside a minimal SVG so favicon.svg still refreshes with the
 // new brand instead of keeping the previous one. (A real .svg upload is written
@@ -198,7 +263,7 @@ async function handleBackground(params, buf) {
     case "image": {
       const png = await toPng(buf, ASSETS, "bg");
       const cfg = await writeBgConfig({ mode: "image" });
-      return [png, cfg];
+      return [png, cfg, ...withPalette(await updatePalette(png, buf))];
     }
     case "color":
       return [await writeBgConfig({ mode: "color", color: hexColor(color, "สีพื้นหลัง") })];
@@ -723,26 +788,46 @@ async function readCurrentNewPages() {
   return out;
 }
 
+// palette.json is a side effect of an image upload, not its point — fold it
+// into the "written" list only when the measurement actually succeeded.
+const withPalette = (name) => (name ? [name] : []);
+
 async function handleUpload(slot, index, ext, buf) {
   const n = Number(index);
   switch (slot) {
-    case "logo":
+    case "logo": {
       // One upload, both destinations: src/assets/logo.webp for the component
       // imports and public/logo.webp for the absolute og/schema logo URL. They
       // must stay identical, so there is no separate "public logo" field.
-      return [
-        "src/assets/" + (await toWebp(buf, ASSETS, "logo")),
-        "public/" + (await toWebp(buf, PUBLIC, "logo")),
-      ];
-    case "docx":
+      const name = await toWebp(buf, ASSETS, "logo");
+      await toWebp(buf, PUBLIC, "logo");
+      return ["src/assets/" + name, "public/" + name, ...withPalette(await updatePalette(name, buf))];
+    }
+    case "docx": {
       await writeFile(join(ASSETS, "content.docx"), buf);
-      return ["content.docx"];
-    case "banner":
+      // Also drop the plain text next to it: the rebrand's first step is reading
+      // the brief, and one Read beats unzipping the docx by hand every time.
+      // Best-effort — a docx we can't parse still uploads fine.
+      const written = ["content.docx"];
+      try {
+        const lines = docxToLines(extractZipEntry(buf, "word/document.xml").toString("utf8"));
+        await writeFile(join(ASSETS, "content.txt"), lines.join("\n") + "\n", "utf8");
+        written.push(`content.txt (${lines.length} ย่อหน้า)`);
+      } catch (err) {
+        console.warn(`[uploader] content.txt: ${err.message}`);
+      }
+      return written;
+    }
+    case "banner": {
       if (!(n >= 1 && n <= 4)) throw new Error("banner index must be 1-4");
-      return [await toPng(buf, ASSETS, `banner${n}`)];
-    case "slide":
+      const name = await toPng(buf, ASSETS, `banner${n}`);
+      return [name, ...withPalette(await updatePalette(name, buf))];
+    }
+    case "slide": {
       if (!(n >= 1 && n <= 4)) throw new Error("slide index must be 1-4");
-      return [await toPng(buf, ASSETS, `slide${n}`, { box: SLIDE_BOX })];
+      const name = await toPng(buf, ASSETS, `slide${n}`, { box: SLIDE_BOX });
+      return [name, ...withPalette(await updatePalette(name, buf))];
+    }
     case "favicon": {
       const written = [];
       const rasters = [
@@ -810,6 +895,10 @@ const PAGE = /* html */ `<!doctype html>
     --radius: 22px;
   }
   * { box-sizing: border-box; }
+  /* the UA's [hidden] rule is weaker than any class rule that sets display —
+     .ghost { display: inline-flex } was overriding it and showing the modal's
+     close button mid-run. Make hidden mean hidden, whatever else matches. */
+  [hidden] { display: none !important; }
   html, body { overflow-x: hidden; }
   body {
     font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
@@ -1021,6 +1110,54 @@ const PAGE = /* html */ `<!doctype html>
   .seo-grid .field { padding: 10px 11px; border: 1px solid var(--line-soft); border-radius: 15px; background: rgba(125,211,252,0.03); }
   .seo-grid .field:hover { border-color: var(--line); background: rgba(125,211,252,0.07); }
 
+  /* ── upload modal ───────────────────────────────────── */
+  .modal {
+    position: fixed; inset: 0; z-index: 40; display: grid; place-items: center; padding: 20px;
+    background: rgba(7,10,22,0.68); backdrop-filter: blur(7px); animation: fadein .16s ease;
+  }
+  .modal[hidden] { display: none; }
+  @keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+  .sheet {
+    position: relative; overflow: hidden; width: min(460px, 100%); text-align: center;
+    background: linear-gradient(180deg, var(--card-a), var(--card-b));
+    border: 1px solid var(--line); border-radius: 24px; padding: 26px 24px 22px;
+    box-shadow: 0 32px 70px -30px rgba(0,0,0,0.95);
+    animation: pop .22s cubic-bezier(.2,.9,.3,1.25);
+  }
+  .sheet::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; background: var(--grad); }
+  @keyframes pop { from { transform: translateY(10px) scale(.96); opacity: 0; } to { transform: none; opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .modal, .sheet { animation: none; } }
+  .spin {
+    width: 48px; height: 48px; margin: 6px auto 13px; border-radius: 50%;
+    border: 3px solid rgba(166,177,210,0.18); border-top-color: var(--sky); border-right-color: var(--teal);
+    animation: spin .8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .sheet.done .spin, .sheet.fail .spin {
+    animation: none; border: 0; display: grid; place-items: center;
+    font-size: 25px; font-weight: 800; color: #101736;
+  }
+  .sheet.done .spin { background: var(--grad); }
+  .sheet.done .spin::after { content: "✓"; }
+  .sheet.fail .spin { background: rgba(253,164,175,0.16); color: var(--err); border: 1px solid rgba(253,164,175,0.4); }
+  .sheet.fail .spin::after { content: "!"; }
+  .sheet h3 { margin: 0 0 4px; font-size: 17px; font-weight: 800; letter-spacing: -0.01em; }
+  .upsub { margin: 0 0 14px; font-size: 11.5px; color: var(--muted); line-height: 1.55; }
+  .upbar { height: 5px; border-radius: 999px; background: rgba(166,177,210,0.14); overflow: hidden; }
+  .upbar span { display: block; height: 100%; width: 38%; border-radius: 999px; background: var(--grad); animation: slidebar 1.1s ease-in-out infinite; }
+  @keyframes slidebar { from { transform: translateX(-110%); } to { transform: translateX(300%); } }
+  .sheet.done .upbar span, .sheet.fail .upbar span { animation: none; width: 100%; transform: none; }
+  .sheet.fail .upbar span { background: var(--err); }
+  .uplist {
+    margin-top: 13px; max-height: 190px; overflow: auto; text-align: left;
+    font-family: ui-monospace, monospace; font-size: 11px; line-height: 1.7;
+  }
+  .uplist div.ok { color: var(--ok); }
+  .uplist div.err { color: var(--err); }
+  .uplist::-webkit-scrollbar { width: 8px; }
+  .uplist::-webkit-scrollbar-thumb { background: var(--line); border-radius: 8px; }
+  #upClose { margin-top: 14px; }
+
   /* ── sticky action bar ──────────────────────────────── */
   .bar {
     position: sticky; bottom: 0; z-index: 15;
@@ -1179,7 +1316,7 @@ const PAGE = /* html */ `<!doctype html>
 
     <div class="group">
       <h3><span class="emo">🗂️</span> หน้าเสริม (เปิด/ปิดต่อแบรนด์)</h3>
-      <p class="note">เปิด = อยู่ใน <code>src/pages</code> + มีลิงก์ในเมนู · ปิด = ย้ายไป <code>src/pages-disabled</code> + ถอดลิงก์ (ไม่ลบไฟล์)<br />ทุกสวิตช์เริ่มที่ปิดเสมอ — แต่ละแบรนด์เลือกเอง ไม่สืบทอดจากแบรนด์ก่อน (ป้ายบอกสถานะจริงตอนนี้)</p>
+  
       <div class="field newpage" data-newpage="article">
         <div class="row">
           <label class="switch"><input type="checkbox" class="np-toggle" /><span class="slider"></span></label>
@@ -1213,7 +1350,6 @@ const PAGE = /* html */ `<!doctype html>
           <span class="target">ตรวจหวย + แนวทาง</span>
           <span class="badge np-badge"></span>
         </div>
-        <span class="status">เปิดแล้วคำสั่งในการ์ดขวาจะมีคำว่า “เว็บหวย” ให้ Claude คงธีม Huay ไว้</span>
       </div>
     </div>
   </section>
@@ -1282,6 +1418,16 @@ const PAGE = /* html */ `<!doctype html>
   <button id="uploadAll">อัพโหลดทั้งหมด</button>
   <div id="log"></div>
 </div>
+<div class="modal" id="upModal" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="upTitle" aria-live="polite">
+    <div class="spin" id="upSpin"></div>
+    <h3 id="upTitle">กำลังอัพโหลด...</h3>
+    <p class="upsub" id="upSub">กำลังเขียนไฟล์ลงโปรเจค อย่าเพิ่งปิดหน้านี้</p>
+    <div class="upbar"><span></span></div>
+    <div class="uplist" id="upList"></div>
+    <button type="button" class="ghost" id="upClose" hidden>ปิด</button>
+  </div>
+</div>
 <script>
   // live thumbnails
   document.querySelectorAll('.field[data-img] input[type=file]').forEach((inp) => {
@@ -1293,8 +1439,54 @@ const PAGE = /* html */ `<!doctype html>
     });
   });
 
+  // ── run overlay ───────────────────────────────────────────────────────────
+  // "อัพโหลดทั้งหมด" fires a dozen requests in sequence; the bar log alone made
+  // it hard to tell whether a run was still going. The modal owns that state:
+  // it opens on click, mirrors every log line, and closes ITSELF once the run
+  // finishes clean. It deliberately stays open when something failed — an
+  // auto-dismissed error is an error nobody reads.
+  const modal = document.getElementById('upModal');
+  const sheet = modal.querySelector('.sheet');
+  const upTitle = document.getElementById('upTitle');
+  const upSub = document.getElementById('upSub');
+  const upList = document.getElementById('upList');
+  const upClose = document.getElementById('upClose');
+  let runOpen = false, runErrors = 0, runOk = 0, closeTimer = 0;
+
+  function modalStart() {
+    runOpen = true; runErrors = 0; runOk = 0;
+    clearTimeout(closeTimer);
+    sheet.className = 'sheet';
+    upList.textContent = '';
+    upTitle.textContent = 'กำลังอัพโหลด...';
+    upSub.textContent = 'กำลังเขียนไฟล์ลงโปรเจค อย่าเพิ่งปิดหน้านี้';
+    upClose.hidden = true;
+    modal.hidden = false;
+  }
+  function modalClose() { clearTimeout(closeTimer); modal.hidden = true; runOpen = false; }
+  function modalFinish(kind, title, sub) {
+    runOpen = false;
+    sheet.className = 'sheet ' + kind;
+    upTitle.textContent = title;
+    upSub.textContent = sub;
+    if (kind === 'done') closeTimer = setTimeout(modalClose, 1600);
+    else upClose.hidden = false;   // failures wait for a human
+  }
+  upClose.addEventListener('click', modalClose);
+  modal.addEventListener('click', (e) => { if (e.target === modal && !runOpen) modalClose(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hidden && !runOpen) modalClose(); });
+
   const log = document.getElementById('log');
-  function addLog(msg, ok) { const d = document.createElement('div'); d.className = ok ? 'ok' : 'err'; d.textContent = (ok ? '✓ ' : '✗ ') + msg; log.prepend(d); }
+  function addLog(msg, ok) {
+    const d = document.createElement('div'); d.className = ok ? 'ok' : 'err';
+    d.textContent = (ok ? '✓ ' : '✗ ') + msg;
+    log.prepend(d);
+    if (!runOpen) return;
+    if (ok) runOk++; else runErrors++;
+    const m = d.cloneNode(true);
+    upList.appendChild(m);
+    upList.scrollTop = upList.scrollHeight;
+  }
   // Never let a missing/renamed .status span abort an upload run: this is a
   // cosmetic sink, so a markup slip must not throw out of the click handler
   // and skip the actual fetch (that shipped once — the favicon field had no
@@ -1589,52 +1781,66 @@ const PAGE = /* html */ `<!doctype html>
     }
   });
 
-  document.getElementById('uploadAll').addEventListener('click', async () => {
+  const uploadAllBtn = document.getElementById('uploadAll');
+  uploadAllBtn.addEventListener('click', async () => {
     const inputs = [...document.querySelectorAll('input[type=file]')].filter((i) => i !== bgFile);
     let any = false;
+    uploadAllBtn.disabled = true;
+    modalStart();
+    try {
+      if (await sendLink('aff', affInput, 'affField', 'ลิงก์ aff')) any = true;
+      if (await sendLink('line', lineInput, 'lineField', 'ลิงก์ไลน์')) any = true;
+      for (const f of metaFields) { if (await sendPageMeta(f)) any = true; }
+      for (const f of newpageFields) { if (await sendNewPage(f)) any = true; }
 
-    if (await sendLink('aff', affInput, 'affField', 'ลิงก์ aff')) any = true;
-    if (await sendLink('line', lineInput, 'lineField', 'ลิงก์ไลน์')) any = true;
-    for (const f of metaFields) { if (await sendPageMeta(f)) any = true; }
-    for (const f of newpageFields) { if (await sendNewPage(f)) any = true; }
-
-    const bgReq = bgRequest();
-    if (bgReq) {
-      any = true;
-      setStatus(bgFile, '⏳ กำลังอัพโหลด...');
-      try {
-        const res = await fetch('/upload?' + bgReq.q.toString(), { method: 'POST', body: bgReq.body });
-        const j = await res.json();
-        if (!res.ok || !j.ok) throw new Error(j.error || ('HTTP ' + res.status));
-        setStatus(bgFile, '✅ ' + j.written.join(', '));
-        addLog(bgReq.label + ' → ' + j.written.join(', '), true);
-      } catch (e) {
-        setStatus(bgFile, '❌ ' + e.message);
-        addLog(bgReq.label + ': ' + e.message, false);
+      const bgReq = bgRequest();
+      if (bgReq) {
+        any = true;
+        setStatus(bgFile, '⏳ กำลังอัพโหลด...');
+        try {
+          const res = await fetch('/upload?' + bgReq.q.toString(), { method: 'POST', body: bgReq.body });
+          const j = await res.json();
+          if (!res.ok || !j.ok) throw new Error(j.error || ('HTTP ' + res.status));
+          setStatus(bgFile, '✅ ' + j.written.join(', '));
+          addLog(bgReq.label + ' → ' + j.written.join(', '), true);
+        } catch (e) {
+          setStatus(bgFile, '❌ ' + e.message);
+          addLog(bgReq.label + ': ' + e.message, false);
+        }
       }
-    }
 
-    for (const inp of inputs) {
-      if (!inp.files.length) continue;
-      any = true;
-      const file = inp.files[0];
-      const slot = inp.dataset.slot;
-      const index = inp.dataset.index || '';
-      const ext = (file.name.split('.').pop() || '').toLowerCase();
-      const q = new URLSearchParams({ slot, index, ext });
-      setStatus(inp, '⏳ กำลังอัพโหลด...');
-      try {
-        const res = await fetch('/upload?' + q.toString(), { method: 'POST', body: file });
-        const j = await res.json();
-        if (!res.ok || !j.ok) throw new Error(j.error || ('HTTP ' + res.status));
-        setStatus(inp, '✅ ' + j.written.join(', '));
-        addLog(slot + (index ? index : '') + ' → ' + j.written.join(', '), true);
-      } catch (e) {
-        setStatus(inp, '❌ ' + e.message);
-        addLog(slot + (index ? index : '') + ': ' + e.message, false);
+      for (const inp of inputs) {
+        if (!inp.files.length) continue;
+        any = true;
+        const file = inp.files[0];
+        const slot = inp.dataset.slot;
+        const index = inp.dataset.index || '';
+        const ext = (file.name.split('.').pop() || '').toLowerCase();
+        const q = new URLSearchParams({ slot, index, ext });
+        setStatus(inp, '⏳ กำลังอัพโหลด...');
+        try {
+          const res = await fetch('/upload?' + q.toString(), { method: 'POST', body: file });
+          const j = await res.json();
+          if (!res.ok || !j.ok) throw new Error(j.error || ('HTTP ' + res.status));
+          setStatus(inp, '✅ ' + j.written.join(', '));
+          addLog(slot + (index ? index : '') + ' → ' + j.written.join(', '), true);
+        } catch (e) {
+          setStatus(inp, '❌ ' + e.message);
+          addLog(slot + (index ? index : '') + ': ' + e.message, false);
+        }
       }
+      if (!any) addLog('ยังไม่ได้เลือกไฟล์ใดๆ', false);
+    } catch (e) {
+      // every step already catches its own failure, so reaching here means
+      // something unexpected broke — still close out the modal, never leave it
+      // spinning forever.
+      addLog('อัพโหลดหยุดกลางคัน: ' + e.message, false);
+    } finally {
+      uploadAllBtn.disabled = false;
+      if (!any) modalFinish('fail', 'ยังไม่มีอะไรให้อัพโหลด', 'เลือกไฟล์ กรอกลิงก์ หรือเปิดสวิตช์หน้าเสริมก่อน แล้วกดใหม่อีกครั้ง');
+      else if (runErrors) modalFinish('fail', 'เสร็จแล้ว แต่มี ' + runErrors + ' รายการไม่สำเร็จ', 'อ่านรายการด้านบน แก้แล้วกดอัพโหลดใหม่เฉพาะส่วนที่พลาดได้');
+      else modalFinish('done', 'เสร็จเรียบร้อย ✨', 'บันทึก ' + runOk + ' รายการลงโปรเจคแล้ว — หน้าต่างนี้จะปิดเอง');
     }
-    if (!any) addLog('ยังไม่ได้เลือกไฟล์ใดๆ', false);
   });
 </script>
 </body>

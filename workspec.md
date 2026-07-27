@@ -1384,3 +1384,35 @@ NavbarStyle family, Footer family** โดย:
 1. ไอคอน `public/` ไม่มาพร้อม uploader **3 รอบติดแล้ว** — ให้ถือเป็นขั้นตอนบังคับ: หลัง drop ภาพใหม่ `ls -la public/` เทียบ mtime กับ `src/assets/logo.webp` ถ้าเก่ากว่า = ของแบรนด์ก่อน ต้อง regenerate ทั้งชุด (สคริปต์ sharp ตามข้อ 2 ด้านบน) แล้ว `Read` ดูภาพยืนยัน
 2. เพิ่ม `public/site.webmanifest` เข้าเช็กลิสต์ Phase 4.5 ด้วย — มันไม่ใช่ `src/pages/` เลยหลุดทุกครั้ง
 3. **โลโก้/สไลด์ของ PGZEED168 มีข้อความโดเมนอื่นพิมพ์อยู่ในรูป** (`pgzeed168-pg.org`, `pgzeed168th.com`) — เป็นอาร์ตเวิร์กที่ลูกค้าส่งมา ไม่ได้ถูกนำเข้าโค้ด; โดเมนในโค้ดทั้งหมดคือ `pgzeed168-auto.com` ตามที่ผู้ใช้สั่ง
+
+---
+
+## 2026-07-26 — หน้าเสริมแบบเปิด/ปิดต่อแบรนด์ (บทความ / about-us / หวย) + แก้ uploader ส่วนที่ 5
+
+**เป้าหมาย:** ทำให้ `บทความ.astro` และ `about-us.astro` มี "ทริกเกอร์" แบบเดียวกับหน้าหวย — ถ้าแบรนด์ไหนไม่ได้สั่งเปิด ต้อง **ย้ายออกไป `src/pages-disabled/` ไม่ใช่ลบทิ้ง** และหน้าหวยเองก็ต้องมีสวิตช์จริงในเครื่องมือ ไม่ใช่รอให้ Claude เดาจาก prompt อย่างเดียว (รอบที่แล้ว `/about-us` เคยกลายเป็น route กำพร้าเพราะไม่มีใครถือสถานะนี้)
+
+### `tools/rebrand-uploader/server.mjs`
+- **ส่วนที่ 5 เปลี่ยนจาก "สร้างหน้าเพิ่ม" เป็น "หน้าเสริม (เปิด/ปิดต่อแบรนด์)"** — toggle กลายเป็น **declarative สองทาง** จากเดิมที่ปิด = ไม่ทำอะไรเลย
+  - เปิด → ไฟล์ไปอยู่ `src/pages/` (ย้ายกลับจาก `src/pages-disabled/` ถ้าแบรนด์ก่อนพักไว้ / scaffold ใหม่ถ้ายังไม่มีที่ไหนเลย) + แทรกลิงก์เข้า navbar ที่ active
+  - ปิด → **ย้ายไฟล์ไป `src/pages-disabled/`** + ถอดลิงก์ออกจากทั้ง navbar และ footer ที่ active — **ไม่ลบไฟล์**
+- **เพิ่มแถว `เว็บหวย`** (คู่ `ตรวจหวย` + `แนวทาง`) เป็น preset แบบ move-only (ไม่ scaffold เพราะเป็นหน้าที่เขียนมือมาพร้อม repo) และ **การเปิดสวิตช์นี้คือสิ่งที่ใส่คำว่า `เป็นเว็บหวย` ลงในคำสั่งของส่วนที่ 6** = ทริกเกอร์ที่ SKILL Phase 4.5 อ่าน
+- `PRESET_PAGES` เปลี่ยน shape เป็น `{ label, boxTitle?, pages: [{ file, route, navLabel }] }` — รองรับ preset ที่มีหลายไฟล์; `boxTitle` มี = scaffold ได้, ไม่มี = ย้ายอย่างเดียว
+- `createPage` → แยกเป็น `scaffoldPage` / `enablePreset` / `disablePreset` + `movePageFile` (ใช้ `rename`, ทับปลายทางได้ทั้งสอง OS)
+- `addNavLink` รองรับ array อีกแบบที่ repo ใช้จริง (`const links = [ … ];` ไม่ใช่แค่ `[ … ].map(`) — ของเดิมจับ `NavbarStyle8` ไม่ได้ ต้องแก้มือทุกครั้ง; ถ้าพี่น้องใน array มี `icon:` จะใส่ `icon: "📄"` ให้ด้วย
+- เพิ่ม `removeNavLink` (ลบ object ใน navbar + `<li>` ใน footer ของไฟล์ที่ active เท่านั้น) และ `checkFooterLink` — **ตอนเปิดจะไม่เขียนลิงก์ footer ให้** เพราะ markup/คลาสของ footer ต่างกันทุกธีม แต่จะเตือนเป็น warning ให้ไปเพิ่มเองตอนรีแบรนด์
+- `/current-newpages` รายงาน `exists` / `parked` / `canScaffold` เพื่อให้ badge บอกได้ว่า "เปิดอยู่" / "ปิดอยู่ (พักใน pages-disabled)" / "จะสร้างใหม่"
+
+### `.claude/skills/rebrand-site/SKILL.md`
+- Phase 4.5: หัวข้อ "Lottery brand trigger" → **"Optional pages — decide ON/OFF every rebrand, and OFF means MOVE, not delete"** พร้อม**ตารางทริกเกอร์ 4 หน้า** (หวย 2 หน้า + บทความ + about-us) และกฎว่าปิด = ย้าย + ถอดลิงก์ทั้ง navbar/footer, ห้ามลบ
+- เพิ่มกฎ: หน้า `บทความ`/`about-us` ที่เปิดไว้ต้องมีบทความจริงจาก docx — **ถ้า docx ไม่มีเนื้อหาให้ ให้ปิดหน้านั้นแทนการปล่อยหน้าบาง**
+- Phase 1 (uploader prompt): อธิบายว่า `เป็นเว็บหวย` มาจาก toggle ส่วนที่ 5 และ **การไม่มีคำนี้ = ต้องปิดหน้าหวย**
+- P2 (fan-out): ระบุชัดว่า **การตัดสินเปิด/ปิด + ย้ายไฟล์ + แก้เมนู เป็นงานของ orchestrator ใน P1 เท่านั้น** subagent ห้ามย้ายหน้าหรือถอดลิงก์
+- Phase 5: เช็ก route list กับตารางทริกเกอร์ทั้ง 4 route แทนที่จะเช็กเฉพาะหน้าหวย
+
+### การ verify ที่ทำจริง
+- `node --check` ผ่าน; รันเซิร์ฟเวอร์จริงแล้วยิง endpoint ครบทุกเส้นทาง: หวย on → ย้าย 2 ไฟล์เข้า `src/pages/` + เพิ่ม 2 ลิงก์ใน `NavbarStyle8`; หวย off → ย้ายกลับ + ถอดลิงก์ (git diff สะอาด = round-trip ตรงเป๊ะ); `article` off → ย้าย `บทความ.astro` ออก + ถอดลิงก์จาก `NavbarStyle8` **และ** `FooterCyber`; `article` on ทั้งกรณีย้ายกลับและกรณี scaffold ใหม่ (ตรวจไฟล์ที่ generate แล้วลบทิ้ง); off ซ้ำ = no-op ไม่พัง
+- คืนสภาพ repo ครบหลังทดสอบ (`git status` เหลือแค่ 2 ไฟล์ที่ตั้งใจแก้)
+
+**สถานะปัจจุบันของ PGZEED168 (ไม่เปลี่ยน):** `บทความ` + `about-us` เปิดอยู่และมีเนื้อหาจริง; หวยปิดอยู่ใน `src/pages-disabled/` — ตรงกับกฎใหม่แล้ว จึงไม่ต้องย้ายอะไร
+
+**Out of scope:** ไม่แตะหน้าเว็บ/คอมโพเนนต์ใดๆ ของแบรนด์ปัจจุบัน, ไม่ลบไฟล์ใดทั้งสิ้น, ไม่เพิ่มความสามารถเขียนลิงก์ footer อัตโนมัติให้ uploader (ตั้งใจให้เป็น warning เพราะ markup footer ต่างกันทุกธีม)

@@ -1,6 +1,6 @@
 ---
 name: rebrand-site
-description: Use when the user wants to launch/redesign a new brand on this Astro slot-site template — swapping in a new name, a docx content brief, and reference images (logo/banner/slides) in src/assets, while reusing the existing component library. Triggers on requests like "เว็บใหม่ชื่อ...", "redesign ตาม ref รูปที่แนบมา", "ตรวจสอบ SmoothCarousel/Promotion", or any ask to retheme index.astro from a new brand's assets + docx without deleting existing components. A full rebrand runs as the 2-agent parallel workflow below BY DEFAULT (this repo's owner has standing approval for it) — you do not need the user to say "ขนาน"/"parallel" each time. Only fall back to fully sequential when the user explicitly asks for it (e.g. "ทีละสเต็ป", "sequential", "อย่าแตก agent") or when the task is a Phase 7 single-component follow-up, where parallelizing isn't worth it.
+description: Use when the user wants to launch/redesign a new brand on this Astro slot-site template — swapping in a new name, a docx content brief, and reference images (logo/banner/slides) in src/assets, while reusing the existing component library. Triggers on requests like "เว็บใหม่ชื่อ...", "redesign ตาม ref รูปที่แนบมา", "ตรวจสอบ SmoothCarousel/Promotion", or any ask to retheme index.astro from a new brand's assets + docx without deleting existing components. A full rebrand runs as the parallel subagent workflow below BY DEFAULT (this repo's owner has standing approval for it) — you do not need the user to say "ขนาน"/"parallel" each time. Only fall back to fully sequential when the user explicitly asks for it (e.g. "ทีละสเต็ป", "sequential", "อย่าแตก agent") or when the task is a Phase 7 single-component follow-up, where parallelizing isn't worth it.
 ---
 
 # Rebrand this Astro site to a new brand
@@ -26,7 +26,7 @@ more build to confirm. Any instruction in an earlier phase that says
 "verify with `npm run build` then grep `dist/…`" means *defer that grep
 to the Phase 5 build*, not kick off a build then and there.
 
-## Optional: run the rebrand as 2 parallel subagents
+## Optional: run the rebrand as parallel subagents
 
 **Default for full rebrands.** Run a full rebrand this way *by default* —
 the repo owner has given standing approval, so you do **not** need the
@@ -39,8 +39,8 @@ spawn cost — do those yourself). This mode changes *who* runs Phases
 Phases 1–7 still applies in full to each subagent; nothing here relaxes
 them.
 
-The split is **by non-overlapping files, never by "type of work."** Two
-subagents must never edit the same file — so the shared "chrome" that
+The split is **by non-overlapping files, never by "type of work."** No
+two subagents may ever edit the same file — so the shared "chrome" that
 renders on *every* page has to be finished *before* the fan-out, by you,
 not by either subagent.
 
@@ -49,56 +49,77 @@ of Phase 2 yourself, up front.** Extract the docx, read the images, pick
 each family's variant (Navbar / Footer / Announcement / LatestWinners /
 ContentBox-mix per the Phase 2 rotation rule), and write brand name +
 palette (old→new hex + Tailwind hue) + chosen variants + the numbered
-docx-heading checklist into **one** scratchpad "brand spec" file. Both
+docx-heading checklist into **one** scratchpad "brand spec" file. All
 subagents read that single file — they must **not** re-extract the docx
 or re-pick variants (that would risk two agents choosing differently).
 
 **Step P1 — you retheme the SHARED chrome sequentially, before fan-out,
-then commit it as the baseline both agents build on.** Compute the shared
+then commit it as the baseline every fan-out agent builds on.** Compute the shared
 set *each run* (don't trust a stale list — variant rotation changes which
 navbar/footer is active): the active `MainLayout.astro` + the single
 `Navbar*`/`Footer*` it imports + `Navfoot.astro`, **plus any component
 imported by ≥2 files under `src/pages/`** (grep the page-level imports to
 find them; as of the 999LORD brand that extra set is `ContentBox.astro`
 and `Announcement4.astro`). Retheme all of these per Phase 3. This is the
-collision zone; getting it done first is what makes the two agents
+collision zone; getting it done first is what makes the fan-out agents
 disjoint.
 
-**Step P2 — fan out exactly two subagents (`Agent` tool), zero file
-overlap:**
+**Step P2 — fan out subagents (`Agent` tool), zero file overlap:**
 - **Agent A — Landing.** Owns `src/pages/index.astro` and every component
   *only* index renders — built **recursively** (e.g. `LoginRtpSection` →
   `ContentBoxTwo`), MINUS every file in the P1 shared set. Runs Phase 2
   (content mapping) + Phase 3 + Phase 4 (stale-asset fixes) for those
   files.
-- **Agent B — Sub-pages.** Owns every *other* `src/pages/*.astro` and the
-  components *only* those pages render (e.g. `AnnouncementHuay`,
-  `ContentBoxHuay`), MINUS the P1 shared set. Runs Phase 4.5 for those
-  pages (including the `Huay`-theme exception). **Any preset page the
-  uploader scaffolded (e.g. `บทความ.astro`, `about-us.astro` — spot them by
-  a `TODO(rebrand)` placeholder body) is Agent B's too:** fill its body from
-  the docx and verify its navbar link, per Phase 4.5. Note the active navbar
-  itself lives in the P1 shared set, so if Agent B needs to hand-add a nav
-  link there, flag it for P1/orchestrator rather than editing it directly.
+- **Agents B and C — Sub-pages, split between them.** Together they own
+  every *other* `src/pages/*.astro` and the components *only* those pages
+  render (e.g. `AnnouncementHuay`, `ContentBoxHuay`), MINUS the P1 shared
+  set. Each runs Phase 4.5 for its own pages (including the `Huay`-theme
+  exception). **Any optional page that is staying ON for this brand
+  (`บทความ.astro`, `about-us.astro`, or the lottery pair) belongs to
+  whichever of the two owns it:** fill its body from the docx and verify
+  its navbar link, per Phase 4.5. The active navbar itself lives in the
+  P1 shared set, so if either needs to hand-add a nav link there, flag it
+  for the orchestrator rather than editing it directly.
+
+  **The optional pages' ON/OFF decision is yours (the orchestrator's),
+  not theirs — settle it in P1, before fan-out.** Applying it means
+  moving files between `src/pages/` and `src/pages-disabled/` and editing
+  the shared navbar/footer, i.e. the collision zone. Decide per the
+  Phase 4.5 optional-pages table, apply it yourself, then hand each
+  surviving page to an agent; never let a subagent move a page or strip a
+  menu link.
+
+  **How to split B/C:** deal the sub-pages out so each side gets a
+  similar amount of *writing*, then assign each page's private components
+  to whichever agent owns that page. A page is one agent's or the other's
+  — never split a page. Sub-pages are already separate files, so this
+  costs nothing in collision risk; it exists because Agent A owns one
+  file (`index.astro`, the largest) while B used to own four to six
+  pages, which made B the tail everything waited on.
+
+  **Drop to a single Agent B when there are two or fewer sub-pages to
+  do** — below that the spawn overhead outweighs the split. Likewise, if
+  a rebrand somehow grows past ~8 sub-pages, add an Agent D on the same
+  rule rather than overloading C.
 
 Each subagent's brief MUST state, explicitly: (1) the exact file list it
 owns; (2) a **"do NOT touch"** list = the P1 shared-chrome files + the
-other agent's files; (3) the Phase-2 rule that unused component variants
+other agents' files; (3) the Phase-2 rule that unused component variants
 are inventory and must never be deleted; (4) "read the brand-spec
 scratchpad file for name/palette/variants; do not re-extract the docx or
 re-choose variants"; (5) **"do NOT run `npm run build`"** — the single
 build stays with you in Phase 5, per the build-cadence rule above. A
 subagent that builds mid-flight both wastes the most expensive step and
-can't see the other agent's not-yet-merged edits anyway.
+can't see the other agents' not-yet-merged edits anyway.
 
-**Step P3 — you merge + verify.** After both agents report back, run
+**Step P3 — you merge + verify.** After every fan-out agent reports back, run
 Phase 5 (the one build), Phase 6 (workspec), and any Phase 7 follow-ups
 yourself. If verification shows a shared-chrome component needs a further
 change, make it **yourself** in this step — never send a subagent back
 into the shared set after fan-out.
 
 **Fallback — when the split can't be made clean:** if a component you
-need to retheme is shared across both zones (so neither agent can own it
+need to retheme is shared across zones (so no single agent can own it
 safely), pull it into the P1 shared step and retheme it there instead of
 splitting it. Fewer files in the parallel zone is always safer than a
 collision; when in doubt, widen P1 and shrink the fan-out.
@@ -109,19 +130,43 @@ collision; when in doubt, widen P1 and shrink the fan-out.
 (launch by double-clicking `tools/rebrand-uploader/start-uploader.cmd` — no VS
 Code needed — or `npm run rebrand:upload`, opens `localhost:4000`) is where the
 operator stages the brand files first. Its **"ส่วนที่ 6 — สร้างคำสั่ง Rebrand"**
-card generates the very prompt that starts you, in the form
-`rebrand and retheme to "<BRAND>" then real url is "<URL>" ทำแบบ 2-agent ขนานตาม
+card produces the very prompt that starts you, in the form
+`rebrand and retheme to "<BRAND>" then real url is "<URL>" ทำแบบขนานตาม
 playbook`. So when you receive that shape of request: the logo/banner/slide/docx
-are already in `src/assets`, the `2-agent ขนาน`/`playbook` phrase means run the
-default parallel workflow above, and `real url is "<URL>"` is the explicit real
+are already in `src/assets`, the `ขนาน`/`playbook` phrase means run the
+default parallel workflow above (older saved prompts say `2-agent ขนาน` — same
+thing; the agent count comes from the playbook, not from the prompt), and `real url is "<URL>"` is the explicit real
 domain (per the URL-scope rule below) — if that clause is absent, the operator
-left it blank on purpose: **do not change the domain.** Still run every phase in
-full; the prompt is only the trigger, not a shortcut around verification.
+left it blank on purpose: **do not change the domain.** The card adds
+`เป็นเว็บหวย` only when the operator flipped the หวย toggle in ส่วนที่ 5 — that
+word is the lottery trigger in Phase 4.5, and its **absence means the lottery
+pages must end up off** (see the optional-pages table there). Still run every
+phase in full; the prompt is only the trigger, not a shortcut around
+verification.
 
-1. **Find the brief.** Look for a `.docx` file dropped into `src/assets`
-   or `src/components` (past runs named it `<brand>-content.docx`). The
-   `Read` tool cannot open `.docx` directly — extract text with a
-   zip+regex pass instead:
+That card can either copy the prompt for a human to paste, or **fire it
+directly** — its "เริ่ม Rebrand" button spawns `claude -p` on this repo with
+`--permission-mode bypassPermissions` and streams the run back into the page. A
+fired run carries the extra clause `— หยุดที่ build + verify เท่านั้น ห้าม deploy
+และห้าม git push`, and it means exactly what it says: **nobody is watching, no
+permission prompt will stop you.** Finish at Phase 6 verification (`npm run
+build` clean + grep the rendered HTML) and stop there. Do not deploy, do not
+`git push`, and do not `git commit` unless the operator asked in the notes
+field. Everything the run prints is visible live in the browser, so report
+progress in the normal way — there is no separate channel to write to.
+
+1. **Find the brief.** **Try `src/assets/content.txt` first — one `Read`
+   and you are done.** The uploader extracts every paragraph of the docx
+   at upload time and writes it there, so in the normal flow (operator
+   staged the brief through ส่วนที่ 1) there is nothing to unzip. This is
+   the head of the critical path: no other phase can start until the
+   brief is read, so don't spend three tool calls re-deriving a file that
+   already exists.
+
+   Fall back to the manual extraction below **only** when `content.txt`
+   is missing — a brief that predates the uploader, or a `.docx` dropped
+   into `src/assets`/`src/components` by hand (past runs named it
+   `<brand>-content.docx`). The `Read` tool cannot open `.docx` directly:
    ```bash
    unzip -o "<path-to.docx>" -d "$SCRATCHPAD/docx_extract"
    python -c "
@@ -138,10 +183,24 @@ full; the prompt is only the trigger, not a shortcut around verification.
    box doesn't resolve those. `unzip` may exit 2 with a harmless
    trailing-bytes warning; check the extracted files landed before
    worrying about it.
-2. **Read every reference image** in `src/assets` with the `Read` tool
-   (it renders images visually) — logo, banner(s), slide(s), bg. Note:
-   - the dominant color palette (this becomes the new theme's accent
-     colors, replacing the old brand's)
+2. **Read `src/assets/palette.json` before opening a single image.** The
+   uploader measures the artwork with sharp at upload time and writes the
+   colours out, so the palette arrives as exact hex instead of something
+   you have to judge by eye. Two lists per image:
+   - **`vivid`** — the brand hue. **This is the one to theme with.**
+     Scored by saturation × area, with near-black/near-white/grey
+     dropped. `logo.webp`'s `vivid` is the most reliable single source:
+     a logo is mostly brand colour with little background noise.
+   - **`dominant`** — the most *area*, which on a banner or slide is
+     nearly always the dark background. Useful for the page/section
+     background, misleading as an accent.
+
+   Then **read the reference images** in `src/assets` with the `Read`
+   tool (it renders images visually) — logo, banner(s), slide(s), bg.
+   You still need your eyes for everything the numbers can't say. Note:
+   - which of the measured colours is actually the *accent* vs the
+     background (palette.json ranks, it doesn't interpret), and whether
+     the brand reads as one hue or a two-colour pair
    - the mood/genre (ocean, neon-cyberpunk, gold-luxury, etc.) — this
      drives which existing component *variant* families
      (`*Premium`, `*Cyber`, `*Huay`, plain) best fit, if the user says
@@ -184,16 +243,39 @@ full; the prompt is only the trigger, not a shortcut around verification.
 guessing a URL like `https://www.<brand>.com` from the brand name, a
 reference image, or the docx (a past run guessed a domain off a
 reference image that happened to show a URL, and it was wrong). Leave
-`astro.config.mjs`'s `site:`, `public/robots.txt`'s `Sitemap:` line,
-and any hardcoded `url:` string literal in `index.astro`'s
-`webSiteSchema`/similar schema.org objects exactly as they already are
-— even if they still show a previous brand's domain, that's expected
-drift, not something to silently "fix." Only touch those three spots
-when the user explicitly gives a real URL alongside the brand name
-(e.g. "rebrand to `<brand>` and real url `<XXXX>`"), and then set all
-three to that exact URL — don't miss the schema.org one, it's a plain
-string literal that doesn't auto-follow `site:` the way
+`astro.config.mjs`'s `site:` and any hardcoded `url:` string literal in
+`index.astro`'s `webSiteSchema`/similar schema.org objects exactly as
+they already are — even if they still show a previous brand's domain,
+that's expected drift, not something to silently "fix." Only touch
+those two spots when the user explicitly gives a real URL alongside the
+brand name (e.g. "rebrand to `<brand>` and real url `<XXXX>`"), and
+then set both to that exact URL — don't miss the schema.org one, it's a
+plain string literal that doesn't auto-follow `site:` the way
 `Astro.url.origin`-derived values do.
+
+`robots.txt` used to be a third spot; it isn't any more. It is generated
+by `src/pages/robots.txt.ts` from `site:`, so it follows the domain on
+its own. **Do not re-create `public/robots.txt`** — a static file there
+would silently win over the generated route.
+
+**Leave `MainLayout.astro`'s `<head>` structure alone.** It looks
+unusual on purpose: the optional blocks (icons / manifest / OG /
+Twitter) are emitted in an order chosen by `src/lib/brandProfile.ts`
+from the brand's own domain, and a few redundant tags
+(`shortcut icon`, `twitter:url`, `og:locale`,
+`apple-mobile-web-app-title`) appear on some brands and not others.
+Every brand launched from this template used to ship a byte-identical
+head, which linked all of them together for anyone reading the source;
+that map exists to break the pattern. So during a rebrand:
+- **do not** re-sort the head into a "canonical" order, hardcode the
+  block sequence, or restore a tag "that's missing" — nothing is
+  missing, and tidying it silently re-creates the footprint
+- **do not** add a `google-site-verification` meta. Search Console is
+  verified by DNS TXT record; the same token was previously hardcoded
+  across every brand, which was the strongest cross-site link of all
+- the head is per-domain but **stable** — the same domain always builds
+  the same bytes, so a redeploy never churns a live site's markup
+Retheming colors, copy, and components is untouched by any of this.
 
 ## Phase 2 — Map docx content onto existing component slots
 
@@ -625,26 +707,70 @@ Phase 5 build covers all pages at once.) For each page:
    verify they carry **zero** old-brand-name references; only the theme
    is exempt, not the brand name. Note this decision in the workspec.
 
-**Lottery brand trigger — `เว็บหวย`.** The two lottery pages
-`ตรวจหวย.astro` and `แนวทาง.astro` live in **`src/pages-disabled/`**, which
-Astro does **not** route (only `src/pages/` is routed) — so by default a
-casino brand ships without them, and that's correct. **If the rebrand prompt
-contains the word `เว็บหวย` (or the brand is clearly a lottery site), turn
-both ON:**
-- **Enable the pages** — move `ตรวจหวย.astro` and `แนวทาง.astro` from
-  `src/pages-disabled/` into `src/pages/`, so they become the routes
-  `/ตรวจหวย` and `/แนวทาง`.
-- **Add their menu links to the ACTIVE navbar** — insert
-  `{ name: "ตรวจหวย", path: "/ตรวจหวย" }` and
-  `{ name: "แนวทาง", path: "/แนวทาง" }` into **both** the desktop and mobile
-  link arrays of the active navbar (same edit as the ส่วนที่ 5 created-page
-  rule — resolve the active navbar from `MainLayout.astro`'s import, it
-  rotates each rebrand).
-- Rebrand their copy like any other page (brand name, title, stale assets),
-  **but keep their intentional `Huay` theme + `AnnouncementHuay`** per the
-  exception above.
-For a **non-lottery** brand, leave both files in `pages-disabled/` (off) and
-do **not** add the nav links. Record the on/off decision in the workspec.
+### Optional pages — decide ON/OFF every rebrand, and OFF means MOVE, not delete
+
+Four pages are **per-brand optional**, not part of the fixed page set:
+`ตรวจหวย.astro` + `แนวทาง.astro` (the lottery pair) and `บทความ.astro` +
+`about-us.astro` (the uploader's ส่วนที่ 5 presets). They are routed only when
+they sit in `src/pages/`; Astro ignores `src/pages-disabled/` entirely, so
+**that folder is the off switch** — a page parked there is inventory for the
+next brand that wants it, exactly like the unused component variants.
+
+⚠️ **Never delete one of these pages, and never assume where it currently is.**
+They are wherever the *previous* brand left them — nothing in this repo resets
+itself between brands. This is a state you **set** every rebrand, in both
+directions.
+
+Run `ls src/pages/ src/pages-disabled/` first, then make reality match this
+brand's triggers:
+
+| Page(s) | Trigger to keep them ON | No trigger → OFF |
+| --- | --- | --- |
+| `ตรวจหวย` + `แนวทาง` | the word **`เว็บหวย`** in the rebrand prompt (or the brand is plainly a lottery site) | move to `src/pages-disabled/` |
+| `บทความ` | the prompt/notes ask for it, **or** the docx has article/blog content to fill it | move to `src/pages-disabled/` |
+| `about-us` | the prompt/notes ask for it, **or** the docx has an "เกี่ยวกับเรา"/about section | move to `src/pages-disabled/` |
+
+The uploader's ส่วนที่ 5 toggles are the operator's way of declaring all four
+(see below) — but they only ran if the operator actually opened the tool, so
+**verify the state yourself; don't trust that it was set.**
+
+**Turning one ON:**
+- **Move the file(s) from `src/pages-disabled/` into `src/pages/`** (or, for
+  a preset page that exists nowhere yet, scaffold it — the uploader normally
+  did this already).
+- **Add the menu links to the ACTIVE navbar** — insert
+  `{ name: "…", path: "/…" }` into **both** the desktop and mobile link arrays
+  (resolve the active navbar from `MainLayout.astro`'s import; it rotates each
+  rebrand), and include the route in the **active footer's** link list too.
+- Rebrand the page's copy like any other page (brand name, title, stale
+  assets). For the lottery pair only: **keep their intentional `Huay` theme +
+  `AnnouncementHuay`** per the exception above; `บทความ`/`about-us` follow the
+  brand's normal theme.
+- A `บทความ`/`about-us` page that is ON must carry a **real article** written
+  from the docx — see the ส่วนที่ 5 rules below. A page kept on but left as a
+  stub is worse than one parked in `src/pages-disabled/`.
+
+**Turning one OFF — this is an action, not an absence of one:**
+- **Move the file(s) out of `src/pages/` into `src/pages-disabled/`.** Left
+  alone, a slot brand ships `/ตรวจหวย` and `/แนวทาง` (lottery pages rethemed in
+  slot colours — off-topic and thin content Google has no reason to rank), or
+  ships the *previous* brand's `about-us` copy under the new name.
+- **Remove their links from the active navbar AND the active footer.** The
+  navbar's desktop *and* mobile arrays, plus the footer's link list — the
+  `*Huay` footer carries its own `/ตรวจหวย` and `/แนวทาง` entries under
+  "ทางลัดหน้าเว็บ", which is easy to miss because the navbar is the obvious
+  place to look. Both rotate each rebrand, so if the new brand picks a
+  different navbar/footer the stale links leave with the old ones; if it
+  reuses either, they are still there.
+  **Grep, don't guess** — match the *routes*, not the words (`บทความ` and
+  `แนวทาง` both appear in ordinary prose):
+  `grep -rn '"/ตรวจหวย"\|"/แนวทาง"\|"/บทความ"\|"/about-us"' src/ --include="*.astro"`
+  lists every file still linking to them. Anything that isn't rendered by the
+  current brand is dormant inventory and stays as it is.
+- Leave the `*Huay` components themselves alone — they are inventory for the
+  next lottery brand, same as every other unused variant.
+
+Record the on/off decision for **all four** pages in the workspec either way.
 
 **The `tools/rebrand-uploader` "ส่วนที่ 4 — Title/Meta หน้าย่อย" is an
 OPTIONAL shortcut, NOT a replacement for this phase.** The uploader can
@@ -664,14 +790,30 @@ titles. (The uploader anchors only on the `<MainLayout>` tag and leaves
 `<ContentBox>` titles alone, so re-setting a title here never conflicts
 with what it may have written.)
 
-**The uploader's "ส่วนที่ 5 — สร้างหน้าเพิ่ม (ตัวเลือก)" can scaffold NEW
-pages before you start.** An operator may toggle on one of the preset extra
-pages (currently `บทความ.astro` and `about-us.astro`) in the uploader. When
-they do, the tool creates that `src/pages/*.astro` for real — cloning an
-existing sub-page's frontmatter (so it inherits the brand's current
-`Announcement*`/`ContentBox*` variants) — but leaves the **body as a blank
-placeholder**: a `<ContentBox>` holding an HTML comment
-`<!-- TODO(rebrand): … -->` plus a "อยู่ระหว่างปรับปรุงเนื้อหา" line.
+**The uploader's "ส่วนที่ 5 — หน้าเสริม (เปิด/ปิดต่อแบรนด์)" is where the
+operator declares the optional pages above.** Three toggles — `บทความ`,
+`เกี่ยวกับเรา` (`about-us`), and `เว็บหวย` (the `ตรวจหวย` + `แนวทาง` pair) —
+and each writes the repo in **both** directions:
+- **ON** → the page(s) end up in `src/pages/` (moved back from
+  `src/pages-disabled/` if a previous brand parked them, scaffolded from
+  scratch if they exist nowhere) and their `{ name, path }` links are inserted
+  into the active navbar. The tool does **not** write footer links — it logs a
+  `footer …ยังไม่มีลิงก์` warning instead, and adding that link is your job.
+- **OFF** → the page(s) are **moved to `src/pages-disabled/`** and their links
+  are stripped from the active navbar *and* footer. Nothing is deleted.
+- Turning `เว็บหวย` on is also what puts the word **`เว็บหวย`** into the
+  ส่วนที่ 6 prompt — that word is the lottery trigger you read in the table
+  above. A prompt without it means lottery stays off.
+
+Because the toggles only ran if the operator opened the tool, still verify the
+resulting state yourself (`ls src/pages/ src/pages-disabled/`) — the table
+above is the source of truth, not the tool.
+
+When a preset page is scaffolded fresh, the tool clones an existing sub-page's
+frontmatter (so it inherits the brand's current `Announcement*`/`ContentBox*`
+variants) but leaves the **body as a blank placeholder**: a `<ContentBox>`
+holding an HTML comment `<!-- TODO(rebrand): … -->` plus a
+"อยู่ระหว่างปรับปรุงเนื้อหา" line.
 **Title/Meta are optional in the tool**, so when the operator left them blank
 the page ships with a throwaway default title (the page label) and a
 `(อยู่ระหว่างจัดทำเนื้อหา)` description — those are placeholders for you, not
@@ -688,16 +830,21 @@ final copy. **These pages are in scope for this phase like any other
    the tool's default label/`(อยู่ระหว่างจัดทำเนื้อหา)` placeholder), same as
    item 1 of this phase.
 3. Run the same brand-name / hue / chrome / stale-asset sweep on it.
+4. **If the docx genuinely has nothing to say for that page, don't ship a
+   thin one — turn it OFF** per the table above (move it to
+   `src/pages-disabled/`, strip its links) and note that in the workspec.
+   "Scaffolded by the operator" is not by itself a reason to keep a page.
 
-The uploader also tries to add the page's `{ name, path }`
-to the **active navbar's** link arrays (both desktop + mobile) on a
-best-effort basis — but it only understands the inline
-`[ {…path…} ].map(` array shape. If the active navbar variant uses a
-different markup (or the tool logged a `navbar: …` warning), the link won't
-be there: **grep the active navbar for the new page's `path:` and, if
-missing, add `{ name, path }` to both arrays yourself** (same edit you'd make
-when rotating navbar variants in Phase 2/3). A newly created page whose route
-isn't linked in the menu is the failure mode to watch for.
+The uploader also adds the page's `{ name, path }` to the **active navbar's**
+link arrays (desktop + mobile) on a best-effort basis — it understands the
+inline `[ {…path…} ].map(` shape and the `const links = [ … ];` shape, which
+covers the variants in this repo today. If the active navbar uses some other
+markup (or the tool logged a `navbar/footer: …` warning), the link won't be
+there: **grep the active navbar for the new page's `path:` and, if missing,
+add `{ name, path }` to both arrays yourself** (same edit you'd make when
+rotating navbar variants in Phase 2/3). The tool never writes **footer** links
+at all, so check the active footer's link list by hand every time. A page
+whose route isn't linked in the menu is the failure mode to watch for.
 
 Verify in Phase 5 by grepping **all** of `dist/` (not just
 `dist/index.html`) for the old brand name → must be 0 across every page.
@@ -796,6 +943,16 @@ pointing at a `public/` path during a rebrand, repoint it to the
    0 pages failing. A clean build only proves the code compiles, not that
    content/images are correct. Only build again if a check below turns up
    a bug you then fix.
+   **Then read the route list the build printed and check it against the
+   optional-pages table in Phase 4.5** — all four of `/ตรวจหวย`, `/แนวทาง`,
+   `/บทความ`, `/about-us` must be present or absent exactly as this brand's
+   triggers say (a slot brand ships neither lottery route; a page with no
+   docx content behind it shouldn't be there either). This is the cheapest
+   place to catch a page the *previous* brand left switched on — the build
+   tells you exactly what routes exist, and nothing in this repo turns them
+   off by itself. For each route that IS shipping, confirm its link exists in
+   the rendered navbar and footer; for each that isn't, grep `dist/` to
+   confirm no stale link points at it.
 2. Start `npm run dev`, `curl` the built pages, and grep the rendered
    HTML:
    - old brand name must not appear anywhere in the response body

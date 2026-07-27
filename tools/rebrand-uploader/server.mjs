@@ -11,7 +11,7 @@
 import http from "node:http";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve, join } from "node:path";
-import { readFile, unlink, writeFile, mkdir } from "node:fs/promises";
+import { readFile, unlink, writeFile, mkdir, rename } from "node:fs/promises";
 import { inflateRawSync } from "node:zlib";
 import sharp from "sharp";
 
@@ -20,6 +20,11 @@ const ROOT = resolve(__dirname, "..", "..");
 const ASSETS = join(ROOT, "src", "assets");
 const PUBLIC = join(ROOT, "public");
 const PAGES = join(ROOT, "src", "pages");
+// Parking lot for pages that exist but must not ship with the current brand.
+// Astro only routes src/pages/, so a file moved here is off the site while
+// staying in the repo for the next brand that wants it (same idea as the
+// unused component variants — inventory, never deleted).
+const PAGES_DISABLED = join(ROOT, "src", "pages-disabled");
 const CONFIG = join(ROOT, "astro.config.mjs");
 // Port/host are env-overridable but default to a localhost-only bind: every
 // endpoint rewrites source files with NO auth, so it must never be reachable
@@ -289,26 +294,54 @@ const PAGE_META = {
   entrance: { file: "ทางเข้า.astro", label: "ทางเข้า", match: ["ทางเข้า", "entrance"] },
 };
 
-// ── Optional extra pages the operator can toggle on ─────────────────────────
-// Unlike PAGE_META (which edits pages that always exist), these files may not
-// exist yet. Toggling one on SCAFFOLDS a new src/pages/*.astro — a blank shell
-// that inherits the current brand's chrome (it clones the frontmatter of an
-// existing sub-page so it picks up whatever Announcement/ContentBox variant the
-// brand uses) and gets a nav link wired in — leaving a TODO body for Claude to
-// fill from the docx during the rebrand. Toggling off does NOTHING (never
-// deletes): off simply means "don't create". `route` is the Astro file-based
-// route (Thai filename → Thai route); `navLabel` is the menu text; `boxTitle`
-// is the placeholder ContentBox heading. Add a row here to offer another page.
+// ── Optional pages the operator toggles per brand ───────────────────────────
+// Unlike PAGE_META (which edits pages that always exist), these rows are
+// DECLARATIVE: the toggle state is what the brand being staged should ship.
+//   ON  → the page(s) live in src/pages/ (scaffolded if they exist nowhere yet,
+//         restored from src/pages-disabled/ if a previous brand parked them)
+//         and their { name, path } links are wired into the ACTIVE navbar.
+//   OFF → the page(s) are MOVED to src/pages-disabled/ (Astro ignores that
+//         folder, so the routes disappear) and their links are stripped from
+//         the active navbar AND footer.
+// Nothing is ever deleted — off means parked, not gone. This matters because a
+// page created for one brand otherwise persists into the next one: a slot brand
+// used to ship the previous lottery brand's /ตรวจหวย, and an about-us written
+// for brand A used to stay live for brand B.
+// `boxTitle` present = the tool may scaffold the file from scratch (blank shell
+// + TODO body for Claude); absent = move-only (the file ships with the repo and
+// is never generated). `route` is the Astro file-based route (Thai filename →
+// Thai route); `navLabel` is the menu text. Add a row here to offer more.
 const PRESET_PAGES = {
-  article: { file: "บทความ.astro", route: "/บทความ", navLabel: "บทความ", boxTitle: "บทความ" },
-  aboutus: { file: "about-us.astro", route: "/about-us", navLabel: "เกี่ยวกับเรา", boxTitle: "เกี่ยวกับเรา" },
+  article: {
+    label: "บทความ",
+    boxTitle: "บทความ",
+    pages: [{ file: "บทความ.astro", route: "/บทความ", navLabel: "บทความ" }],
+  },
+  aboutus: {
+    label: "เกี่ยวกับเรา",
+    boxTitle: "เกี่ยวกับเรา",
+    pages: [{ file: "about-us.astro", route: "/about-us", navLabel: "เกี่ยวกับเรา" }],
+  },
+  // Lottery pages: move-only (they ship with the repo, hand-built with their own
+  // Huay theme), and they come as a PAIR — a lottery brand gets both or neither.
+  // Turning this on is also what makes ส่วนที่ 6 put the word "เว็บหวย" in the
+  // rebrand prompt, which is the trigger the skill's Phase 4.5 keys off.
+  huay: {
+    label: "เว็บหวย (ตรวจหวย + แนวทาง)",
+    pages: [
+      { file: "ตรวจหวย.astro", route: "/ตรวจหวย", navLabel: "ตรวจหวย" },
+      { file: "แนวทาง.astro", route: "/แนวทาง", navLabel: "แนวทาง" },
+    ],
+  },
 };
 // A generated page is cloned from this existing sub-page's frontmatter so it
 // stays on the brand's current component variants without hardcoding names here.
 const CANONICAL_PAGE = "ทางเข้า.astro";
-// The layout imports exactly one active navbar; a new page's link must go into
-// whichever file that is (it rotates each rebrand), so resolve it dynamically.
+// The layout imports exactly one active navbar and one active footer; a page's
+// links must go into (or come out of) whichever files those are — they rotate
+// each rebrand, so resolve them dynamically instead of hardcoding names.
 const NAV_IMPORT_RE = /import\s+Navbar\s+from\s+["']\.\.\/components\/([^"']+)["']/;
+const FOOTER_IMPORT_RE = /import\s+Footer\s+from\s+["']\.\.\/components\/([^"']+)["']/;
 
 // Anchor on the <MainLayout ...> opening tag specifically. The Thai pages also
 // pass a title= to <ContentBox>, so a bare /title=/ would hit the wrong tag —
@@ -482,92 +515,209 @@ async function fileExists(p) {
   try { await readFile(p); return true; } catch { return false; }
 }
 
-// Scaffold (or refresh) an optional preset page. Title/Meta are OPTIONAL: blank
-// is fine — the tool has no AI to "write" copy, so a blank new page gets safe
-// default Title/Meta (just enough to build with non-empty SEO) and a ContentBox
-// body holding a 1-paragraph placeholder. Claude writes the real Title/Meta AND
-// the real ~1-paragraph article at rebrand time (SKILL.md Phase 4.5). If the
-// file already exists we NEVER overwrite the body, and only refresh Title/Meta
-// when BOTH were supplied (blank = leave the existing page untouched).
-async function createPage(key, title, desc) {
-  const cfg = PRESET_PAGES[key];
-  if (!cfg) throw new Error(`ไม่รู้จักหน้า preset: ${key}`);
-  const label = `${cfg.navLabel} (${cfg.file})`;
-  const file = join(PAGES, cfg.file);
-  const hasTitle = !!(title && title.trim());
-  const hasDesc = !!(desc && desc.trim());
-  if (await fileExists(file)) {
-    if (hasTitle && hasDesc) await setMainLayoutMeta(file, title, desc, label);
-    return { written: [`src/pages/${cfg.file}`], created: false };
-  }
-  // new page: blank Title/Meta fall back to safe defaults (Claude rewrites both
-  // + the article body when the rebrand runs).
-  const t = hasTitle ? validateText(title, `Title ${label}`) : cfg.boxTitle;
-  const d = hasDesc ? validateText(desc, `Meta ${label}`) : `หน้า${cfg.navLabel} (อยู่ระหว่างจัดทำเนื้อหา)`;
+// Move one page file between src/pages/ and src/pages-disabled/. rename()
+// overwrites an existing destination on both platforms, which is what we want:
+// the copy being moved is always the newer, current-brand one.
+async function movePageFile(file, from, to) {
+  await mkdir(to, { recursive: true });
+  await rename(join(from, file), join(to, file));
+}
+
+// Scaffold a brand-new preset page. Title/Meta are OPTIONAL: blank is fine —
+// the tool has no AI to "write" copy, so a blank new page gets safe default
+// Title/Meta (just enough to build with non-empty SEO) and a ContentBox body
+// holding a 1-paragraph placeholder. Claude writes the real Title/Meta AND the
+// real ~1-paragraph article at rebrand time (SKILL.md Phase 4.5).
+async function scaffoldPage(cfg, page, title, desc) {
+  const label = `${page.navLabel} (${page.file})`;
+  const t = title?.trim() ? validateText(title, `Title ${label}`) : cfg.boxTitle;
+  const d = desc?.trim() ? validateText(desc, `Meta ${label}`) : `หน้า${page.navLabel} (อยู่ระหว่างจัดทำเนื้อหา)`;
   const canonical = await readFile(join(PAGES, CANONICAL_PAGE), "utf8");
   const fm = canonical.match(/^---\r?\n([\s\S]*?)\r?\n---/);
   if (!fm) throw new Error(`ไม่พบ frontmatter ใน ${CANONICAL_PAGE} (ต้นแบบหน้าย่อย)`);
-  const page =
+  const src =
     `---\n${fm[1]}\n---\n\n` +
     `<MainLayout title="${t}" description="${d}">\n` +
     `  <Announcement />\n\n` +
     `  <ContentBox title="${cfg.boxTitle}">\n` +
-    `    <!-- TODO(rebrand): เขียนบทความจริงของ "${cfg.navLabel}" ~1 ย่อหน้าใน <ContentBox> นี้ + ตั้ง title/description บน <MainLayout> จาก content.docx ตอนรีแบรนด์ -->\n` +
+    `    <!-- TODO(rebrand): เขียนบทความจริงของ "${page.navLabel}" ~1 ย่อหน้าใน <ContentBox> นี้ + ตั้ง title/description บน <MainLayout> จาก content.docx ตอนรีแบรนด์ -->\n` +
     `    <p class="py-6 text-center text-white/70">อยู่ระหว่างปรับปรุงเนื้อหา</p>\n` +
     `  </ContentBox>\n\n` +
     `  <Navfoot />\n` +
     `</MainLayout>\n`;
-  await writeFile(file, page);
-  return { written: [`src/pages/${cfg.file}`], created: true };
+  await writeFile(join(PAGES, page.file), src);
 }
 
-// Best-effort: add a { name, path } entry to the ACTIVE navbar's link arrays
-// (resolved from MainLayout's import, since the active file rotates each
-// rebrand). Inserts into every inline `[ {…path…} ].map(` array (desktop +
-// mobile). Idempotent — skips if the route is already linked. If the navbar
-// variant doesn't use that array shape, it writes nothing and returns a warning
-// telling the operator/Claude to wire the link by hand.
-async function addNavLink(route, label) {
-  const ml = await readFile(join(ROOT, "src", "layouts", "MainLayout.astro"), "utf8");
-  const m = ml.match(NAV_IMPORT_RE);
-  if (!m) return { warning: `หา import Navbar ใน MainLayout.astro ไม่เจอ — เพิ่มลิงก์ ${route} (${label}) ในเมนูเองตอนรีแบรนด์` };
-  const navName = m[1];
-  const navFile = join(ROOT, "src", "components", navName);
-  let src;
-  try { src = await readFile(navFile, "utf8"); }
-  catch { return { navFile: navName, warning: `เปิด navbar ${navName} ไม่ได้ — เพิ่มลิงก์ ${route} (${label}) ในเมนูเองตอนรีแบรนด์` }; }
-  if (src.includes(`path: "${route}"`) || src.includes(`path: '${route}'`)) {
-    return { navFile: navName, already: true };
+// Toggle ON: make every page of a preset live in src/pages/. Three cases per
+// file — already live (only refresh Title/Meta, NEVER the body), parked in
+// src/pages-disabled/ by a previous brand (move it back), or absent entirely
+// (scaffold it, if this preset is scaffoldable). Title/Meta are refreshed only
+// when BOTH were supplied; blank = leave the existing page untouched.
+async function enablePreset(key, title, desc) {
+  const cfg = PRESET_PAGES[key];
+  if (!cfg) throw new Error(`ไม่รู้จักหน้า preset: ${key}`);
+  const written = [];
+  let created = false;
+  let restored = false;
+  for (const page of cfg.pages) {
+    const live = join(PAGES, page.file);
+    const parked = join(PAGES_DISABLED, page.file);
+    if (await fileExists(live)) {
+      // already on
+    } else if (await fileExists(parked)) {
+      await movePageFile(page.file, PAGES_DISABLED, PAGES);
+      restored = true;
+    } else if (cfg.boxTitle) {
+      await scaffoldPage(cfg, page, title, desc);
+      created = true;
+      written.push(`src/pages/${page.file}`);
+      continue; // freshly scaffolded: its Title/Meta are already what was asked for
+    } else {
+      throw new Error(`ไม่พบ ${page.file} ทั้งใน src/pages และ src/pages-disabled — เปิดหน้านี้ไม่ได้`);
+    }
+    if (cfg.boxTitle && title?.trim() && desc?.trim()) {
+      await setMainLayoutMeta(live, title, desc, `${page.navLabel} (${page.file})`);
+    }
+    written.push(`src/pages/${page.file}`);
   }
-  // Match the LAST object before `].map(` in each nav array; `[^{}]*` keeps the
-  // match to a single object. Rebuild it (normalising its trailing comma) and
-  // append the new sibling right after it, at the same indentation.
-  const re = /(\n([ \t]*))(\{[^{}]*\bpath:\s*["'][^"']*["'][^{}]*\}),?(\s*\]\.map\()/g;
-  const item = `{ name: "${label}", path: "${route}" }`;
+  return { written, created, restored };
+}
+
+// Toggle OFF: park every page of a preset in src/pages-disabled/ so it stops
+// being a route. Idempotent — a preset that is already off writes nothing.
+async function disablePreset(key) {
+  const cfg = PRESET_PAGES[key];
+  if (!cfg) throw new Error(`ไม่รู้จักหน้า preset: ${key}`);
+  const written = [];
+  for (const page of cfg.pages) {
+    if (!(await fileExists(join(PAGES, page.file)))) continue;
+    await movePageFile(page.file, PAGES, PAGES_DISABLED);
+    written.push(`src/pages-disabled/${page.file}`);
+  }
+  return { written, moved: written.length };
+}
+
+// Resolve the chrome file MainLayout currently imports (it rotates each
+// rebrand, so never hardcode a name). `which` is "Navbar" or "Footer".
+async function activeChromeFile(which) {
+  const ml = await readFile(join(ROOT, "src", "layouts", "MainLayout.astro"), "utf8");
+  const m = ml.match(which === "Footer" ? FOOTER_IMPORT_RE : NAV_IMPORT_RE);
+  if (!m) return null;
+  return { name: m[1], path: join(ROOT, "src", "components", m[1]) };
+}
+
+// Escape a route for use inside a RegExp (Thai routes have no metacharacters
+// today, but a future "/faq?" would silently break the match).
+const escRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+// Best-effort: add a { name, path } entry to the ACTIVE navbar's link arrays.
+// Handles both shapes this repo uses — an inline `[ {…path…} ].map(` array and
+// a `const links = [ … ];` array rendered later (desktop + mobile alike).
+// Idempotent — skips if the route is already linked. If the navbar variant
+// matches neither shape, it writes nothing and returns a warning telling the
+// operator/Claude to wire the link by hand.
+async function addNavLink(route, label) {
+  const nav = await activeChromeFile("Navbar");
+  if (!nav) return { warning: `หา import Navbar ใน MainLayout.astro ไม่เจอ — เพิ่มลิงก์ ${route} (${label}) ในเมนูเองตอนรีแบรนด์` };
+  let src;
+  try { src = await readFile(nav.path, "utf8"); }
+  catch { return { navFile: nav.name, warning: `เปิด navbar ${nav.name} ไม่ได้ — เพิ่มลิงก์ ${route} (${label}) ในเมนูเองตอนรีแบรนด์` }; }
+  if (src.includes(`path: "${route}"`) || src.includes(`path: '${route}'`)) {
+    return { navFile: nav.name, already: true };
+  }
+  // Match the LAST object before the array closes; `[^{}]*` keeps the match to a
+  // single object. Rebuild it (normalising its trailing comma) and append the
+  // new sibling right after it, at the same indentation.
+  const re = /(\n([ \t]*))(\{[^{}]*\bpath:\s*["'][^"']*["'][^{}]*\}),?(\s*\](?:\.map\(|;|\s*\n))/g;
   let count = 0;
   const next = src.replace(re, (_full, lead, _indent, lastObj, tail) => {
     count++;
+    // Siblings in some navbars carry an `icon:`; a missing one renders as
+    // nothing, but a neutral glyph keeps the menu visually consistent.
+    const item = /\bicon:/.test(lastObj)
+      ? `{ name: "${label}", path: "${route}", icon: "📄" }`
+      : `{ name: "${label}", path: "${route}" }`;
     return `${lead}${lastObj},${lead}${item},${tail}`;
   });
   if (count === 0) {
-    return { navFile: navName, warning: `navbar ${navName} ไม่ตรงรูปแบบ array ที่รองรับ — เพิ่มลิงก์ ${route} (${label}) ในเมนูเองตอนรีแบรนด์` };
+    return { navFile: nav.name, warning: `navbar ${nav.name} ไม่ตรงรูปแบบ array ที่รองรับ — เพิ่มลิงก์ ${route} (${label}) ในเมนูเองตอนรีแบรนด์` };
   }
-  await writeFile(navFile, next);
-  return { navFile: navName, inserted: count };
+  await writeFile(nav.path, next);
+  return { navFile: nav.name, inserted: count };
 }
 
-// Read the current state of each preset page so the UI can set its toggle
-// (exists → on + prefilled) or badge it as "will be created".
+// Enabling only writes the navbar link: footer link markup is per-theme (an
+// `<li><a>` with the footer's own classes and a "&gt;" prefix in some variants),
+// so the tool reports the gap instead of generating markup it can't theme. The
+// rebrand rewrites the footer anyway — this warning is what tells it to include
+// the route in the link list.
+async function checkFooterLink(route, label) {
+  const footer = await activeChromeFile("Footer");
+  if (!footer) return `หา import Footer ใน MainLayout.astro ไม่เจอ — ตรวจลิงก์ ${route} ใน footer เองตอนรีแบรนด์`;
+  let src;
+  try { src = await readFile(footer.path, "utf8"); }
+  catch { return `เปิด footer ${footer.name} ไม่ได้ — ตรวจลิงก์ ${route} เองตอนรีแบรนด์`; }
+  if (src.includes(`href="${route}"`) || src.includes(`href='${route}'`)) return null;
+  return `footer ${footer.name} ยังไม่มีลิงก์ ${route} (${label}) — เพิ่มในรายการลิงก์ของ footer ตอนรีแบรนด์`;
+}
+
+// Best-effort inverse of addNavLink: strip a route from the ACTIVE navbar AND
+// the ACTIVE footer. The footer matters because the *Huay footer carries its
+// own /ตรวจหวย and /แนวทาง <li> links under "ทางลัดหน้าเว็บ" — the easiest
+// stale link to miss, since the navbar is the obvious place to look. Only the
+// two active files are touched; links inside inventory variants are dormant and
+// stay as they are. Removing a link the file doesn't have is a no-op.
+async function removeNavLink(route) {
+  const out = { removed: 0, warnings: [] };
+  const navObj = new RegExp(`\\n[ \\t]*\\{[^{}]*\\bpath:\\s*["']${escRe(route)}["'][^{}]*\\},?`, "g");
+  const footerLi = new RegExp(`\\n[ \\t]*<li>[^\\n]*href="${escRe(route)}"[^\\n]*</li>`, "g");
+  for (const [which, re] of [["Navbar", navObj], ["Footer", footerLi]]) {
+    const chrome = await activeChromeFile(which);
+    if (!chrome) { out.warnings.push(`หา import ${which} ใน MainLayout.astro ไม่เจอ — ลบลิงก์ ${route} เองตอนรีแบรนด์`); continue; }
+    let src;
+    try { src = await readFile(chrome.path, "utf8"); }
+    catch { out.warnings.push(`เปิด ${chrome.name} ไม่ได้ — ลบลิงก์ ${route} เองตอนรีแบรนด์`); continue; }
+    const next = src.replace(re, "");
+    if (next === src) {
+      // Still mentioned but in a shape we don't rewrite → tell a human.
+      if (src.includes(route)) out.warnings.push(`${chrome.name} ยังอ้างถึง ${route} ในรูปแบบที่เครื่องมือลบให้ไม่ได้ — ลบเองตอนรีแบรนด์`);
+      continue;
+    }
+    await writeFile(chrome.path, next);
+    out.removed++;
+    out.files = [...(out.files || []), chrome.name];
+  }
+  return out;
+}
+
+// Read the current state of each preset so the UI can set its toggle: live in
+// src/pages (on + prefilled Title/Meta), parked in src/pages-disabled (off, but
+// badge it as "จะย้ายกลับมา" rather than "จะสร้างใหม่"), or absent entirely.
+// A multi-page preset counts as on when ANY of its files is live — a half-on
+// state is exactly what the operator needs to see and fix.
 async function readCurrentNewPages() {
   const out = {};
   for (const [key, cfg] of Object.entries(PRESET_PAGES)) {
-    const entry = { file: `src/pages/${cfg.file}`, route: cfg.route, label: cfg.navLabel, exists: false, title: "", meta: "" };
-    try {
-      const src = await readFile(join(PAGES, cfg.file), "utf8");
-      entry.exists = true;
+    const entry = {
+      label: cfg.label,
+      files: cfg.pages.map((p) => `src/pages/${p.file}`),
+      routes: cfg.pages.map((p) => p.route),
+      canScaffold: !!cfg.boxTitle,
+      exists: false,
+      parked: false,
+      title: "",
+      meta: "",
+    };
+    for (const page of cfg.pages) {
+      const live = await fileExists(join(PAGES, page.file));
+      if (live) entry.exists = true;
+      else if (await fileExists(join(PAGES_DISABLED, page.file))) entry.parked = true;
+    }
+    if (entry.exists && cfg.boxTitle) {
+      const src = await readFile(join(PAGES, cfg.pages[0].file), "utf8");
       entry.title = src.match(ML_TITLE_RE)?.[0]?.match(/"([^"]*)"$/)?.[1] || "";
       entry.meta = src.match(ML_DESC_RE)?.[0]?.match(/description=("|')([^"']*)\1/)?.[2] || "";
-    } catch { /* not created yet — leave blank */ }
+    }
     out[key] = entry;
   }
   return out;
@@ -848,7 +998,6 @@ const PAGE = /* html */ `<!doctype html>
 <header>
   <div class="head-inner">
     <h1><span class="mark">📦</span> <span class="grad-text">Rebrand Asset Uploader</span></h1>
-    <p>เลือกไฟล์แล้วกด "อัพโหลดทั้งหมด" — ระบบจะเซฟลง <code>src/assets</code> และ <code>public</code> ด้วยชื่อ/นามสกุลที่ถูกต้องอัตโนมัติ พร้อม<strong>บีบอัดรูปแบบ lossless</strong> (คมเท่าเดิม ไฟล์เล็กลง) ย่อรูปที่กว้างเกิน ${MAX_SOURCE_WIDTH}px ให้พอดี และย่อรูป <strong>Promotion/Carousel เหลือ ${SLIDE_BOX}×${SLIDE_BOX}</strong> (ขนาดที่หน้าเว็บใช้จริง) — แค่ stage ไฟล์ ไม่ได้รัน rebrand</p>
   </div>
 </header>
 <main>
@@ -1002,7 +1151,8 @@ const PAGE = /* html */ `<!doctype html>
   </section>
 
   <section class="card" id="card5">
-    <h2>สร้างหน้าเพิ่ม</h2>
+    <h2>หน้าเสริม (เปิด/ปิดต่อแบรนด์)</h2>
+  
     <div class="field newpage" data-newpage="article">
       <div class="row">
         <label class="switch"><input type="checkbox" class="np-toggle" /><span class="slider"></span></label>
@@ -1029,6 +1179,13 @@ const PAGE = /* html */ `<!doctype html>
       </div>
       <span class="status"></span>
     </div>
+    <div class="field newpage" data-newpage="huay">
+      <div class="row">
+        <label class="switch"><input type="checkbox" class="np-toggle" /><span class="slider"></span></label>
+        <label>เว็บหวย</label>
+        <span class="badge np-badge"></span>
+      </div>
+    </div>
   </section>
 
   <section class="card" id="card6">
@@ -1049,7 +1206,7 @@ const PAGE = /* html */ `<!doctype html>
     <div class="field">
       <div class="row"><label>คำสั่งที่จะ copy</label><button type="button" id="rbCopy" class="ghost">📋 Copy คำสั่ง</button></div>
       <textarea class="metadesc" id="rbPrompt" rows="3" readonly spellcheck="false"></textarea>
-      <span class="status" id="rbHint">flow: Copy → วางใน Claude Code → รอเสร็จ → <code>npm run preview</code> ตรวจด้วยตา → ค่อย deploy แยกด้วย deploy.ps1 (ห้าม deploy อัตโนมัติ)</span>
+     
     </div>
   </section>
 </main>
@@ -1263,32 +1420,46 @@ const PAGE = /* html */ `<!doctype html>
   });
   for (const f of newpageFields) {
     const { toggle, body } = npEls(f);
-    toggle.addEventListener('change', () => { body.hidden = !toggle.checked; });
+    toggle.addEventListener('change', () => {
+      if (body) body.hidden = !toggle.checked;
+      refreshPrompt();  // the หวย toggle feeds the ส่วนที่ 6 prompt
+    });
   }
+  // Badge the CURRENT state so the operator sees what turning the toggle off
+  // will actually do: live pages get moved to src/pages-disabled, parked ones
+  // get moved back, and only a preset that exists nowhere is really "new".
   fetch('/current-newpages').then((r) => r.json()).then((cur) => {
     for (const f of newpageFields) {
       const c = cur[f.dataset.newpage];
       if (!c) continue;
       const { toggle, body, title, desc, badge } = npEls(f);
       if (c.exists) {
-        toggle.checked = true; body.hidden = false;
-        title.value = c.title || ''; desc.value = c.meta || '';
-        badge.textContent = 'มีอยู่แล้ว'; badge.className = 'badge np-badge exists';
+        toggle.checked = true;
+        if (body) body.hidden = false;
+        if (title) title.value = c.title || '';
+        if (desc) desc.value = c.meta || '';
+        badge.textContent = 'เปิดอยู่'; badge.className = 'badge np-badge exists';
+      } else if (c.parked) {
+        badge.textContent = 'ปิดอยู่ (พักใน pages-disabled)'; badge.className = 'badge np-badge new';
       } else {
         badge.textContent = 'จะสร้างใหม่'; badge.className = 'badge np-badge new';
       }
     }
+    refreshPrompt();
   }).catch(() => {});
 
-  // POST one preset page if its toggle is on. Off = do nothing (never deletes).
+  // POST every preset row, on AND off — the toggle is a declaration of what this
+  // brand ships, so "off" is a real request that parks the page in
+  // src/pages-disabled and strips its menu links (it never deletes anything).
   // Title/Meta are optional — blank is fine, the page is scaffolded with default
   // meta + a placeholder article for Claude to write at rebrand time.
   async function sendNewPage(f) {
     const { toggle, title, desc, status } = npEls(f);
-    if (!toggle.checked) return false;
-    const t = title.value.trim(), d = desc.value.trim();
-    const q = new URLSearchParams({ slot: 'newpage', page: f.dataset.newpage, title: t, desc: d });
-    status.textContent = (!t && !d) ? '⏳ กำลังสร้าง (Claude เขียนเนื้อหาให้ตอนรีแบรนด์)...' : '⏳ กำลังสร้าง...';
+    const on = toggle.checked;
+    const t = title ? title.value.trim() : '', d = desc ? desc.value.trim() : '';
+    const q = new URLSearchParams({ slot: 'newpage', page: f.dataset.newpage, title: t, desc: d, on: on ? '1' : '0' });
+    status.textContent = !on ? '⏳ กำลังปิด (ย้ายไป pages-disabled)...'
+      : (!t && !d) ? '⏳ กำลังเปิด (Claude เขียนเนื้อหาให้ตอนรีแบรนด์)...' : '⏳ กำลังเปิด...';
     try {
       const res = await fetch('/upload?' + q.toString(), { method: 'POST' });
       const j = await res.json();
@@ -1296,7 +1467,7 @@ const PAGE = /* html */ `<!doctype html>
       status.textContent = '✅ ' + j.written.join(', ');
       addLog(f.dataset.newpage + ' → ' + j.written.join(', '), true);
       if (j.navAlready) addLog(f.dataset.newpage + ': ลิงก์เมนูมีอยู่แล้ว (ข้าม)', true);
-      if (j.navWarning) addLog('navbar: ' + j.navWarning, false);
+      if (j.navWarning) addLog('navbar/footer: ' + j.navWarning, false);
     } catch (e) {
       status.textContent = '❌ ' + e.message;
       addLog(f.dataset.newpage + ': ' + e.message, false);
@@ -1315,12 +1486,20 @@ const PAGE = /* html */ `<!doctype html>
   const rbNotes = document.getElementById('rbNotes');
   const rbPrompt = document.getElementById('rbPrompt');
   const rbCopy = document.getElementById('rbCopy');
+  // The หวย toggle in ส่วนที่ 5 is what puts the word "เว็บหวย" in here — that
+  // exact word is the trigger the skill's Phase 4.5 reads to keep the lottery
+  // pages on and leave their Huay theme alone. No toggle, no word, no lottery.
+  function huayOn() {
+    const f = document.querySelector('.field[data-newpage=huay] .np-toggle');
+    return !!(f && f.checked);
+  }
   function buildPrompt() {
     const brand = rbBrand.value.trim() || '<ชื่อแบรนด์>';
     const url = rbUrl.value.trim();
     const notes = rbNotes.value.trim();
     let p = 'rebrand and retheme to "' + brand + '"';
     if (url) p += ' then real url is "' + url + '"';
+    if (huayOn()) p += ' เป็นเว็บหวย';
     p += ' ทำแบบ 2-agent ขนานตาม playbook';
     if (notes) p += ' — ' + notes;
     return p;
@@ -1456,15 +1635,43 @@ const server = http.createServer(async (req, res) => {
           url.searchParams.get("desc"),
         );
       } else if (slot === "newpage") {
-        // optional preset page: scaffold the file + wire its nav link, no body
+        // optional preset page(s): ?on=1 puts them in src/pages + wires the nav
+        // links; ?on=0 parks them in src/pages-disabled + strips the links. No
+        // body either way. Off is a real action, not "do nothing" — that is what
+        // stops one brand's extra pages from shipping with the next brand.
         const key = url.searchParams.get("page") || "";
         const cfg = PRESET_PAGES[key];
         if (!cfg) throw new Error(`ไม่รู้จักหน้า preset: ${key}`);
-        const pageRes = await createPage(key, url.searchParams.get("title"), url.searchParams.get("desc"));
-        const navRes = await addNavLink(cfg.route, cfg.navLabel);
-        written = [...pageRes.written];
-        if (navRes.inserted) written.push(`navbar ${navRes.navFile} (+${navRes.inserted})`);
-        extra = { created: pageRes.created, navWarning: navRes.warning || null, navAlready: !!navRes.already };
+        const on = url.searchParams.get("on") !== "0";
+        const navWarnings = [];
+        if (on) {
+          const pageRes = await enablePreset(key, url.searchParams.get("title"), url.searchParams.get("desc"));
+          written = [...pageRes.written];
+          let already = true;
+          for (const page of cfg.pages) {
+            const navRes = await addNavLink(page.route, page.navLabel);
+            if (navRes.inserted) { written.push(`navbar ${navRes.navFile} (+${navRes.inserted}: ${page.route})`); already = false; }
+            if (navRes.warning) navWarnings.push(navRes.warning);
+            const footerWarning = await checkFooterLink(page.route, page.navLabel);
+            if (footerWarning) navWarnings.push(footerWarning);
+          }
+          extra = {
+            created: pageRes.created,
+            restored: pageRes.restored,
+            navWarning: navWarnings.join(" / ") || null,
+            navAlready: already && !navWarnings.length,
+          };
+        } else {
+          const pageRes = await disablePreset(key);
+          written = [...pageRes.written];
+          for (const page of cfg.pages) {
+            const navRes = await removeNavLink(page.route);
+            if (navRes.removed) written.push(`ลบลิงก์ ${page.route} จาก ${(navRes.files || []).join(", ")}`);
+            navWarnings.push(...navRes.warnings);
+          }
+          if (!written.length) written.push(`${cfg.label}: ปิดอยู่แล้ว (ไม่มีอะไรต้องย้าย)`);
+          extra = { disabled: true, moved: pageRes.moved, navWarning: navWarnings.join(" / ") || null };
+        }
       } else {
         if (!buf.length) throw new Error("empty upload");
         written = await handleUpload(slot, index, ext, buf);

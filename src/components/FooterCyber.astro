@@ -7,11 +7,11 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 ---
 
 <footer
-  class="relative mt-10 w-full overflow-hidden border-t border-lime-400/50 bg-[#04120a] pt-16 pb-8 font-sans text-white"
+  class="relative mt-10 w-full overflow-hidden border-t border-amber-500/50 bg-[#0a0806] pt-16 pb-8 font-sans text-white"
   style="clip-path: polygon(0 30px, 50vw 0, 100% 30px, 100% 100%, 0 100%);">
   <div
     class="pointer-events-none absolute inset-0 opacity-[0.07]"
-    style="background-image: linear-gradient(#22c55e 1px, transparent 1px), linear-gradient(90deg, #a3e635 1px, transparent 1px); background-size: 30px 30px;">
+    style="background-image: linear-gradient(#dc2626 1px, transparent 1px), linear-gradient(90deg, #eab308 1px, transparent 1px); background-size: 30px 30px;">
   </div>
 
   <div class="relative z-10 mx-auto w-full max-w-[1200px] px-6">
@@ -20,37 +20,33 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
         <a href="/" class="inline-block transition-transform hover:scale-105">
           {
             mainLogo ? (
-              <Picture src={mainLogo} alt="PGZEED168 โลโก้" class="h-[60px] w-auto drop-shadow-[0_0_15px_rgba(163,230,53,0.5)]" formats={["avif", "webp"]} fallbackFormat="webp" />
+              <Picture src={mainLogo} alt="PABLO666 Logo" class="h-[60px] w-auto drop-shadow-[0_0_15px_rgba(234,179,8,0.5)]" formats={["avif", "webp"]} fallbackFormat="webp" />
             ) : (
-              <p class="text-3xl font-black tracking-widest text-lime-400">PGZEED168</p>
+              <h2 class="text-3xl font-black tracking-widest text-amber-400">PABLO666</h2>
             )
           }
         </a>
-        <p class="border-l-2 border-lime-400 pl-4 text-sm leading-relaxed text-lime-100/70">
-          PGZEED168 สล็อตเกมยอดนิยม เชื่อมต่อระบบ API แท้ไม่ล็อคยูสเซอร์ รวมสล็อต คาสิโนสด ยิงปลา และเกมโต๊ะไว้ในบัญชีเดียว โบนัสเข้าง่าย ฝากถอนออโต้ด้วย AI อัจฉริยะ มั่นคง ปลอดภัย
-          รองรับทุกอุปกรณ์
+        <p class="border-l-2 border-amber-500 pl-4 text-sm leading-relaxed text-amber-100/70">
+          PABLO666 เว็บสล็อตออนไลน์ระบบเว็บตรง รวมสล็อต คาสิโนสด เกมโต๊ะ และกีฬาไว้ในบัญชีเดียว ระบบออโต้ ฝาก-ถอนรวดเร็ว รองรับฝากขั้นต่ำ 1 บาท เสถียร รองรับการใช้งานทุกอุปกรณ์
         </p>
         <div class="mt-4 flex gap-3">
-          <span class="border border-green-500/30 bg-green-900/40 px-3 py-1 font-mono text-xs text-green-300">AUTO_SYSTEM</span>
-          <span class="border border-lime-400/30 bg-lime-900/40 px-3 py-1 font-mono text-xs text-lime-300">100%_SECURE</span>
+          <span class="border border-red-500/30 bg-red-900/40 px-3 py-1 font-mono text-xs text-red-300">AUTO_SYSTEM</span>
+          <span class="border border-yellow-500/30 bg-yellow-900/40 px-3 py-1 font-mono text-xs text-yellow-400">100%_SECURE</span>
         </div>
       </div>
 
       <nav class="flex flex-col gap-4 md:col-span-3 lg:pl-8">
-        <p class="text-lg font-black tracking-widest text-lime-300 uppercase drop-shadow-[0_0_5px_rgba(163,230,53,0.5)]">/// DIRECTORY</p>
-        <ul class="flex flex-col gap-3 font-mono text-sm text-lime-100/80">
-          <li><a href="/" class="transition-colors hover:text-lime-300">&gt; หน้าแรก</a></li>
-          <li><a href="/promotion" class="transition-colors hover:text-lime-300">&gt; โปรโมชั่น</a></li>
-          <li><a href="/ทดลองเล่น" class="transition-colors hover:text-lime-300">&gt; ทดลองเล่น</a></li>
-          <li><a href="/ทางเข้า" class="transition-colors hover:text-lime-300">&gt; ทางเข้า</a></li>
-          <li><a href="/contact-us" class="transition-colors hover:text-lime-300">&gt; ติดต่อเรา</a></li>
-          <li><a href="/register" class="transition-colors hover:text-lime-300">&gt; สมัครสมาชิก</a></li>
-          <li><a href="/login" class="transition-colors hover:text-lime-300">&gt; เข้าสู่ระบบ</a></li>
+        <p class="text-lg font-black tracking-widest text-yellow-400 uppercase drop-shadow-[0_0_5px_rgba(255,215,0,0.5)]">/// DIRECTORY</p>
+        <ul class="flex flex-col gap-3 font-mono text-sm text-amber-100/80">
+          <li><a href="/" class="transition-colors hover:text-yellow-400">> หน้าแรก</a></li>
+          <li><a href="/promotion" class="transition-colors hover:text-yellow-400">> โปรโมชั่น</a></li>
+          <li><a href="/register" class="transition-colors hover:text-yellow-400">> สมัครสมาชิก</a></li>
+          <li><a href="/login" class="transition-colors hover:text-yellow-400">> เข้าสู่ระบบ</a></li>
         </ul>
       </nav>
 
       <div class="flex flex-col gap-5 md:col-span-4">
-        <p class="text-lg font-black tracking-widest text-lime-300 uppercase drop-shadow-[0_0_5px_rgba(163,230,53,0.5)]">/// SUPPORT_LINK</p>
+        <p class="text-lg font-black tracking-widest text-yellow-400 uppercase drop-shadow-[0_0_5px_rgba(255,215,0,0.5)]">/// SUPPORT_LINK</p>
 
         <a
           href="/line"
@@ -59,16 +55,16 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
           LINE CONNECT
         </a>
 
-        <div class="mt-2 font-mono text-xs text-lime-400">ACCEPTED_PAYMENTS</div>
+        <div class="mt-2 font-mono text-xs text-amber-400">ACCEPTED_PAYMENTS</div>
         <BankStrip size={28} />
       </div>
     </div>
 
-    <div class="flex flex-col items-center justify-between border-t border-lime-400/30 pt-6 font-mono text-xs text-lime-200/40 md:flex-row">
-      <p>SYSTEM_COPYRIGHT &copy; {new Date().getFullYear()} PGZEED168</p>
+    <div class="flex flex-col items-center justify-between border-t border-amber-500/30 pt-6 font-mono text-xs text-amber-200/40 md:flex-row">
+      <p>SYSTEM_COPYRIGHT &copy; {new Date().getFullYear()} PABLO666</p>
       <div class="mt-4 flex gap-4 md:mt-0">
-        <a href="/" class="hover:text-lime-300">TERMS_OF_SERVICE</a>
-        <a href="/" class="hover:text-lime-300">PRIVACY_POLICY</a>
+        <a href="/" class="hover:text-yellow-400">TERMS_OF_SERVICE</a>
+        <a href="/" class="hover:text-yellow-400">PRIVACY_POLICY</a>
       </div>
     </div>
   </div>
@@ -77,7 +73,7 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 <style>
   footer a {
     text-decoration: none;
-    font-family: "Kanit", sans-serif;
+    font-family: var(--font-sans);
   }
   .font-mono {
     font-family: monospace;

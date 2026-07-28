@@ -1,5 +1,6 @@
 ---
 import { Picture } from "astro:assets";
+import BankStrip from "./BankStrip.astro";
 
 const images = import.meta.glob<{ default: ImageMetadata }>("../assets/logo.*", { eager: true });
 const imagePaths = Object.keys(images);
@@ -57,12 +58,7 @@ const mainLogo = targetPath ? images[targetPath].default : null;
         </a>
 
         <div class="mt-2 text-xs font-bold text-gray-500">รองรับทุกธนาคารและทรูมันนี่วอเลท:</div>
-        <div class="flex flex-wrap gap-2 opacity-80">
-          <div class="rounded border border-white/5 bg-white/10 px-2 py-1 font-mono text-[10px]">KBANK</div>
-          <div class="rounded border border-white/5 bg-white/10 px-2 py-1 font-mono text-[10px]">SCB</div>
-          <div class="rounded border border-white/5 bg-white/10 px-2 py-1 font-mono text-[10px]">KTB</div>
-          <div class="rounded border border-white/5 bg-white/10 px-2 py-1 font-mono text-[10px]">TRUE WALLET</div>
-        </div>
+        <BankStrip size={32} />
       </div>
     </div>
 

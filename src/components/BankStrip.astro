@@ -1,0 +1,65 @@
+---
+// แถบโลโก้ธนาคาร/ช่องทางฝากถอน ใช้ร่วมกันทุก Footer*
+//
+// ก่อนหน้านี้แต่ละ footer เขียนชิปปลอมเป็นตัวหนังสือเองคนละแบบ (บ้าง 3 อัน บ้าง 6 อัน
+// สีมั่วไปคนละทาง) พอรีแบรนด์ทีก็ต้องไล่แก้ทุกไฟล์ ย้ายมาไว้ที่เดียวแล้วแต่ละ footer
+// เรียกใช้ ปรับได้แค่ขนาดกับจำนวน — สีของโลโก้เป็นของธนาคาร ไม่ควรเปลี่ยนตามแบรนด์อยู่แล้ว
+//
+// ไฟล์ต้นทางเป็น PNG 512x512 มี alpha และ**กรอบสี่เหลี่ยมมนกับพื้นสีอบมาในไฟล์แล้ว**
+// จึงไม่ต้องใส่พื้นหลังหรือ border ทับ ใส่แล้วจะเห็นเป็นกรอบซ้อนกรอบ
+import { Image } from "astro:assets";
+
+interface Props {
+  /** ความกว้าง-สูงของโลโก้แต่ละอัน (px) */
+  size?: number;
+  /** แสดงกี่อัน — เว้นไว้ = ทั้งหมด ใช้ตอนคอลัมน์แคบ */
+  limit?: number;
+  /** จัดกึ่งกลางแทนชิดซ้าย */
+  center?: boolean;
+  class?: string;
+}
+
+const { size = 34, limit, center = false, class: className = "" } = Astro.props;
+
+const files = import.meta.glob<{ default: ImageMetadata }>("../assets/bank-footer/*.png", { eager: true });
+
+// ลำดับตายตัว ไม่พึ่งลำดับที่ระบบไฟล์คืนมา (เรียงตามตัวอักษร ซึ่งจะดัน BAAC/BAY ขึ้นก่อน
+// กสิกร/ไทยพาณิชย์) เอาที่คนไทยใช้จริงมากที่สุดขึ้นหน้า เพราะเวลาใส่ limit จะได้ตัดตัวที่
+// คนไม่ค่อยเห็นออกก่อน
+const PRIORITY = [
+  "KBANK", "SCB", "KTB", "BBL", "BAY", "TTB", "GSB", "BAAC",
+  "TRUEWALLET", "KKB", "UOB", "TISGO", "CIMB", "LNH", "CITI",
+  "ICBC", "SCBT", "MIZUHO", "ISBT", "OSK", "TCR", "PEER2PAY",
+];
+
+const rank = (n: string) => {
+  const i = PRIORITY.indexOf(n);
+  return i === -1 ? PRIORITY.length : i;
+};
+
+const logos = Object.entries(files)
+  .map(([path, mod]) => ({ name: path.split("/").pop()!.replace(/\.png$/i, ""), src: mod.default }))
+  .sort((a, b) => rank(a.name) - rank(b.name) || a.name.localeCompare(b.name))
+  .slice(0, limit);
+---
+
+<ul class={`flex flex-wrap gap-1.5 ${center ? "justify-center" : ""} ${className}`}>
+  {
+    logos.map((bank) => (
+      <li class="leading-none">
+        <Image
+          src={bank.src}
+          alt={`ช่องทางฝาก-ถอน ${bank.name}`}
+          width={size}
+          height={size}
+          densities={[1, 2]}
+          format="webp"
+          quality={70}
+          loading="lazy"
+          decoding="async"
+          class="rounded-[22%] opacity-85 grayscale-[25%] transition duration-200 hover:-translate-y-0.5 hover:opacity-100 hover:grayscale-0"
+        />
+      </li>
+    ))
+  }
+</ul>

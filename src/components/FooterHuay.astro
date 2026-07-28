@@ -1,5 +1,6 @@
 ---
 import { Picture } from "astro:assets";
+import BankStrip from "./BankStrip.astro";
 
 // โค้ดดึงไฟล์โลโก้อัจฉริยะ รองรับ .png และ .webp
 const images = import.meta.glob<{ default: ImageMetadata }>("../assets/logo.*", { eager: true });
@@ -55,13 +56,7 @@ const mainLogo = targetPath ? images[targetPath].default : null;
         </a>
 
         <div class="mt-2 text-xs font-medium text-red-50/50">ระบบฝาก-ถอนอัตโนมัติ รองรับ:</div>
-        <div class="flex flex-wrap gap-2 opacity-90">
-          <div class="flex h-7 w-11 items-center justify-center rounded-md border border-white/10 bg-[#118A44] text-[10px] font-bold text-white shadow-sm">KB</div>
-          <div class="flex h-7 w-11 items-center justify-center rounded-md border border-white/10 bg-[#4E2B7A] text-[10px] font-bold text-white shadow-sm">SCB</div>
-          <div class="flex h-7 w-11 items-center justify-center rounded-md border border-white/10 bg-[#1BA1E2] text-[10px] font-bold text-white shadow-sm">KTB</div>
-          <div class="flex h-7 w-11 items-center justify-center rounded-md border border-white/10 bg-[#1E4598] text-[10px] font-bold text-white shadow-sm">BBL</div>
-          <div class="flex h-7 w-11 items-center justify-center rounded-md border border-white/10 bg-gradient-to-r from-orange-500 to-orange-400 text-[10px] font-bold text-white shadow-sm">TW</div>
-        </div>
+        <BankStrip size={30} />
       </div>
     </div>
 

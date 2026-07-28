@@ -1,5 +1,6 @@
 ---
 import { Picture } from "astro:assets";
+import BankStrip from "./BankStrip.astro";
 const images = import.meta.glob<{ default: ImageMetadata }>("../assets/logo.{png,webp,jpg}", { eager: true });
 
 const imagePaths = Object.keys(images);
@@ -95,19 +96,10 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 
         <p class="mb-4 text-xs text-gray-400">รองรับการฝาก-ถอนผ่านแอปธนาคารชั้นนำ, TrueMoney Wallet และระบบ Cryptocurrency ประมวลผลอัตโนมัติในเสี้ยววินาที</p>
 
-        <div class="grid grid-cols-3 gap-2">
-          <div class="flex h-10 items-center justify-center rounded border border-white/5 bg-[#14040a] transition-colors hover:border-[#fbbf24]/50" title="True Wallet">
-            <span class="text-xs font-black text-orange-500 italic">TRUE<span class="text-white">WALLET</span></span>
-          </div>
-          <div class="flex h-10 items-center justify-center rounded border border-white/5 bg-[#14040a] transition-colors hover:border-[#fbbf24]/50" title="KBank">
-            <span class="text-lg font-black text-green-500">K<span class="text-xs text-white">BANK</span></span>
-          </div>
-          <div class="flex h-10 items-center justify-center rounded border border-white/5 bg-[#14040a] transition-colors hover:border-[#fbbf24]/50" title="SCB">
-            <span class="text-lg font-black text-purple-500">S<span class="text-xs text-white">CB</span></span>
-          </div>
-          <div class="col-span-3 mt-1 flex h-10 items-center justify-center rounded border border-white/5 bg-[#14040a] transition-colors hover:border-[#fbbf24]/50" title="USDT Crypto">
-            <span class="flex items-center gap-1 text-xs font-bold text-gray-300"><span class="text-lg text-green-400">₮</span> รองรับ USDT (TRC20)</span>
-          </div>
+        <BankStrip size={30} />
+
+        <div class="mt-3 flex h-10 items-center justify-center rounded border border-white/5 bg-[#14040a] transition-colors hover:border-[#fbbf24]/50" title="USDT Crypto">
+          <span class="flex items-center gap-1 text-xs font-bold text-gray-300"><span class="text-lg text-green-400">₮</span> รองรับ USDT (TRC20)</span>
         </div>
       </div>
     </div>

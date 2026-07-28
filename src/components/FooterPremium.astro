@@ -1,5 +1,6 @@
 ---
 import { Picture } from "astro:assets";
+import BankStrip from "./BankStrip.astro";
 const images = import.meta.glob<{ default: ImageMetadata }>("../assets/logo.{png,webp,jpg}", { eager: true });
 const imagePaths = Object.keys(images);
 const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
@@ -53,18 +54,7 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
         </a>
 
         <div class="mt-4 text-xs font-medium tracking-widest text-amber-300/50 uppercase">Supported Payments</div>
-        <div class="flex flex-wrap gap-2 opacity-90">
-          <div class="flex h-7 w-11 items-center justify-center rounded-md border border-white/10 bg-[#118A44] text-[10px] font-bold text-white shadow-sm" title="KBank">KB</div>
-          <div class="flex h-7 w-11 items-center justify-center rounded-md border border-white/10 bg-[#4E2B7A] text-[10px] font-bold text-white shadow-sm" title="SCB">SCB</div>
-          <div class="flex h-7 w-11 items-center justify-center rounded-md border border-white/10 bg-[#1BA1E2] text-[10px] font-bold text-white shadow-sm" title="KTB">KTB</div>
-          <div class="flex h-7 w-11 items-center justify-center rounded-md border border-white/10 bg-[#1E4598] text-[10px] font-bold text-white shadow-sm" title="Bangkok Bank">BBL</div>
-          <div class="flex h-7 w-11 items-center justify-center rounded-md border border-white/10 bg-[#FEC400] text-[10px] font-bold text-[#1E4598] shadow-sm" title="Krungsri">BAY</div>
-          <div
-            class="flex h-7 w-11 items-center justify-center rounded-md border border-white/10 bg-gradient-to-r from-orange-500 to-orange-400 text-[10px] font-bold text-white shadow-sm"
-            title="TrueMoney Wallet">
-            TW
-          </div>
-        </div>
+        <BankStrip size={30} />
       </div>
     </div>
 

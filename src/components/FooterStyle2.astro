@@ -1,5 +1,6 @@
 ---
 import { Picture } from "astro:assets";
+import BankStrip from "./BankStrip.astro";
 
 const images = import.meta.glob<{ default: ImageMetadata }>("../assets/logo.{png,webp,jpg}", { eager: true });
 const imagePaths = Object.keys(images);
@@ -89,13 +90,7 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 
         <div class="mt-2">
           <p class="mb-3 text-xs font-bold tracking-wider text-[#dc2626]/90 uppercase">รองรับทุกธนาคาร & True Wallet</p>
-          <div class="flex flex-wrap gap-2">
-            <div class="flex h-6 w-10 items-center justify-center rounded border border-[#dc2626]/30 bg-[#118A44] text-[10px] font-bold text-white">K</div>
-            <div class="flex h-6 w-10 items-center justify-center rounded border border-[#dc2626]/30 bg-[#4E2B7A] text-[10px] font-bold text-white">S</div>
-            <div class="flex h-6 w-10 items-center justify-center rounded border border-[#dc2626]/30 bg-[#1BA1E2] text-[10px] font-bold text-white">K</div>
-            <div class="flex h-6 w-10 items-center justify-center rounded border border-[#dc2626]/30 bg-[#00508F] text-[10px] font-bold text-white">B</div>
-            <div class="flex h-6 w-10 items-center justify-center rounded border border-[#dc2626]/30 bg-gradient-to-r from-orange-500 to-orange-400 text-[10px] font-bold text-white">TW</div>
-          </div>
+          <BankStrip size={26} limit={12} />
         </div>
       </div>
     </div>

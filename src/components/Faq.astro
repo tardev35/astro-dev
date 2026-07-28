@@ -1,37 +1,54 @@
 ---
-const faqs = [
-  {
-    q: "ขั้นตอนการสมัครสมาชิก Teenoi168 อย่างปลอดภัยและรวดเร็ว",
-    a: "การสมัครสมาชิกกับเราทำได้ง่ายผ่านระบบออโต้หน้าเว็บ กรอกข้อมูลเพียงไม่กี่ขั้นตอน ข้อมูลส่วนตัวของคุณจะถูกจัดเก็บด้วยระบบเข้ารหัส SSL ขั้นสูง ทำให้ปลอดภัยจากการรั่วไหล 100% และไม่มีการนำข้อมูลไปใช้ในทางที่ผิด",
-  },
-  {
-    q: "แนวทางแก้ไขเบื้องต้นเมื่อพบปัญหาเข้าหน้าเว็บ Teenoi168 ไม่ได้",
-    a: "หากคุณพบปัญหาเข้าเว็บไม่ได้ อาจเกิดจากแคช (Cache) บราวเซอร์เก่าสะสม แนะนำให้ทำการล้างแคชหรือเปลี่ยนบราวเซอร์ หากยังพบปัญหา สามารถติดต่อแอดมินเพื่อขอรับ ลิงก์ทางเข้าสำรองล่าสุด ได้ทันที ทีมงานเราเตรียมช่องทางสำรองไว้รองรับสถานการณ์ฉุกเฉินเสมอ",
-  },
-  {
-    q: "ช่องทางการติดต่อทีมงาน Teenoi168 ดูแลตลอด 24 ชั่วโมง",
-    a: "เรามีทีมงานมืออาชีพสแตนด์บายดูแลคุณตลอด 24 ชั่วโมง ไม่มีวันหยุด ไม่ว่าจะเป็นปัญหาด้านการใช้งาน การสอบถามโปรโมชั่น หรือปัญหาด้านเทคนิค คุณสามารถติดต่อเราผ่านช่องทาง Line Official ที่ระบุหน้าเว็บไซต์ เราพร้อมดูแลทุกท่านด้วยความรวดเร็วและเป็นกันเอง ",
-  },
-];
+export interface FaqItem {
+  q: string;
+  a: string;
+}
+
+export interface Props {
+  faqs?: FaqItem[];
+  title?: string;
+}
+
+const {
+  title = "คำถามที่พบบ่อย (FAQ) เกี่ยวกับการใช้งาน PORING168",
+  faqs = [
+    {
+      q: "การ ฝากถอน ผ่านระบบอัตโนมัติใช้เวลานานหรือไม่?",
+      a: "ประมวลผลด้วยความไวสูง ยอดเงินอัปเดตเข้ากระเป๋าในไม่กี่วินาที สะดวกรวดเร็ว และแม่นยำที่สุด",
+    },
+    {
+      q: "ทำไม สล็อตเว็บตรง ถึงต้องมีนโยบายทางการเงินที่เปิดกว้าง?",
+      a: "เพื่อให้ผู้ใช้งานได้ สัมผัสความยืดหยุ่นทางการเงินขั้นสุด สามารถบริหารทุนของตนเองได้อย่างอิสระโดย ไม่มีขั้นต่ำ",
+    },
+    {
+      q: "แอปพลิเคชันที่ใช้ รองรับทรูวอเลท มีค่าธรรมเนียมเพิ่มเติมไหม?",
+      a: "ไม่มีค่าธรรมเนียมแอบแฝงใดๆ ทั้งสิ้น แพลตฟอร์ม PORING168 ให้คุณทำธุรกรรมได้ฟรีและ ลื่นไหล ตลอดเวลา",
+    },
+    {
+      q: "ข้อมูลส่วนตัวและยอดเครดิตจะได้รับการปกป้องอย่างไร?",
+      a: "เราใช้เทคโนโลยีความปลอดภัยระดับ มาตรฐานสากล ทำให้มั่นใจได้ว่าทุกข้อมูลของคุณจะ ปลอดภัย 100%",
+    },
+  ],
+} = Astro.props;
 ---
 
 <div class="mx-auto max-w-[1000px] px-4 py-10 font-sans">
-  <h3 class="mb-8 bg-gradient-to-b from-yellow-200 to-yellow-600 bg-clip-text text-center text-2xl font-black tracking-tighter text-transparent uppercase italic md:text-4xl">
-    คำถามที่พบบ่อย (FAQ) เกี่ยวกับการใช้งาน Teenoi168
-  </h3>
+  <p class="mb-8 bg-gradient-to-b from-amber-200 to-amber-500 bg-clip-text text-center text-2xl font-black tracking-tighter text-transparent uppercase italic md:text-4xl">
+    {title}
+  </p>
 
   <div class="space-y-4">
     {
-      faqs.map((faq, index) => (
-        <div class="faq-item group overflow-hidden rounded-xl border border-yellow-500/20 bg-gradient-to-br from-[#1a1a1a] to-[#0a0a0a] transition-all hover:border-yellow-500/50">
-          <button class="faq-trigger flex w-full items-center justify-between p-5 text-left transition-all">
-            <span class="text-sm font-bold text-gray-200 md:text-lg">{faq.q}</span>
-            <span class="icon ml-4 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-yellow-500/40 text-yellow-500 transition-transform duration-300">
-              <i class="fa-solid fa-plus text-xs" />
+      faqs.map((faq) => (
+        <div class="faq-item group overflow-hidden rounded-xl border border-amber-400/20 bg-gradient-to-br from-[#07215f] to-[#04102e] transition-all hover:border-amber-400/50">
+          <button type="button" class="faq-trigger flex w-full items-center justify-between p-5 text-left transition-all">
+            <span class="text-base font-bold text-blue-50/90">{faq.q}</span>
+            <span class="icon ml-4 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-amber-400/40 text-lg leading-none font-black text-amber-400 transition-transform duration-300">
+              +
             </span>
           </button>
           <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
-            <div class="border-t border-white/5 p-5 pt-0 text-sm leading-relaxed text-gray-400 md:text-base">{faq.a}</div>
+            <div class="border-t border-white/5 p-5 pt-0 text-left text-base leading-relaxed text-blue-50/70">{faq.a}</div>
           </div>
         </div>
       ))
@@ -70,14 +87,14 @@ const faqs = [
 <style>
   .rotate-45 {
     transform: rotate(45deg);
-    border-color: #ef4444 !important;
-    color: #ef4444 !important;
+    border-color: #60a5fa !important;
+    color: #60a5fa !important;
   }
   .faq-item.active {
-    border-color: rgba(234, 179, 8, 0.6);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    border-color: rgba(251, 191, 36, 0.6);
+    box-shadow: 0 0 20px rgba(4, 16, 46, 0.5);
   }
-  h3,
+  p,
   .space-y-4 {
     font-family: "kanit", sans-serif;
   }

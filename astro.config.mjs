@@ -19,6 +19,6 @@ export default defineConfig({
     "/line": "https://tinyurl.com/suhng",
   },
 
-  site: "https://ezwin168ss.com",
+  site: "https://poring168-plays.com",
   integrations: [sitemap()],
 });

@@ -4,8 +4,8 @@ import Bg from "../assets/bg.png";
 import bgConfig from "../assets/bg.json";
 import ogImage from "../assets/slide1.png";
 import "../styles/global.css";
-import Navbar from "../components/NavbarStyle10.astro";
-import Footer from "../components/FooterPremiumSumo.astro";
+import Navbar from "../components/NavbarStyle9.astro";
+import Footer from "../components/FooterStyle2.astro";
 
 const bannerImages = import.meta.glob<{ default: ImageMetadata }>("../assets/banner*.{png,webp,jpg,jpeg}", { eager: true });
 const bannerPaths = Object.keys(bannerImages);
@@ -15,8 +15,8 @@ const mainBannerPath = preferredBannerPath ?? webpBannerPath ?? bannerPaths[0];
 const mainBanner = mainBannerPath ? bannerImages[mainBannerPath].default : null;
 
 const {
-  title = "EZWIN168 | เว็บมั่นคงสล็อตออนไลน์ โปรทุนน้อยคืนยอดเสีย จ่ายทุกบิล",
-  description = "EZWIN168 เว็บสล็อตออนไลน์ที่เน้นระบบใช้งานง่ายสะดวก มาพร้อมกับโปรทุนน้อย คืนยอดเสียตามเงื่อนไข ฝากถอนออโต้ รองรับมือถือทุกระบบ",
+  title = "PORING168 สล็อตเว็บตรง มาตรฐานสากล รองรับทรูวอเลท ไม่มีขั้นต่ำ",
+  description = "PORING168 สล็อตเว็บตรง มาตรฐานสากล สัมผัสความยืดหยุ่นทางการเงินขั้นสุด ฝากถอน ไม่มีขั้นต่ำ สะดวกรวดเร็ว รองรับทรูวอเลท ลื่นไหล ปลอดภัย 100%",
   robots = "index, follow",
   ImageOg = ogImage.src,
 } = Astro.props;
@@ -32,7 +32,7 @@ const bgCss =
 const currentPath = Astro.url.pathname;
 const canonicalURL = new URL(currentPath, Astro.site);
 const ogImageURL = new URL(ImageOg, Astro.site);
-const ogSiteName = "EZWIN168";
+const ogSiteName = "PORING168";
 ---
 
 <html lang="th">
@@ -52,7 +52,7 @@ const ogSiteName = "EZWIN168";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="EZWIN168" />
+    <meta name="apple-mobile-web-app-title" content="PORING168" />
     <link rel="manifest" href="/site.webmanifest" />
 
     <meta property="og:type" content="website" />
@@ -112,7 +112,7 @@ const ogSiteName = "EZWIN168";
     <div class="mb-2.5 flex w-full items-center justify-center">
       <Image
         src={mainBanner!}
-        alt="EZWIN168 เว็บมั่นคงสล็อตออนไลน์ โปรทุนน้อยคืนยอดเสีย จ่ายทุกบิล"
+        alt="PORING168 สล็อตเว็บตรง เจ้าใหญ่อันดับ 1 ฝากถอนออโต้ ไม่มีขั้นต่ำ รองรับทรูวอเลท"
         loading="eager"
         fetchpriority="high"
         widths={[412, 768, 1900]}

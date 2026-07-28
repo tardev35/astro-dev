@@ -1,11 +1,11 @@
 {
-  "name": "EZWIN168 | เว็บมั่นคงสล็อตออนไลน์ โปรทุนน้อยคืนยอดเสีย จ่ายทุกบิล",
-  "short_name": "EZWIN168",
+  "name": "PORING168 | เว็บมั่นคงสล็อตออนไลน์ โปรทุนน้อยคืนยอดเสีย จ่ายทุกบิล",
+  "short_name": "PORING168",
   "icons": [
     { "src": "/web-app-manifest-192x192.png", "sizes": "192x192", "type": "image/png" },
     { "src": "/web-app-manifest-512x512.png", "sizes": "512x512", "type": "image/png" }
   ],
-  "theme_color": "#04170d",
-  "background_color": "#04170d",
+  "theme_color": "#07215f",
+  "background_color": "#07215f",
   "display": "standalone"
 }

@@ -1544,3 +1544,79 @@ prompt ไม่มี `เว็บหวย`, docx ไม่มีหัวข
 **ข้อสังเกตที่ส่งต่อผู้ดูแล (ไม่ได้แก้):** ลิงก์ affiliate `https://yoalink.com/mucr` ใน `login`/`register` ตอนนี้ redirect ไปหน้าที่ title เป็น **`SUMOHENG | สล็อตเว็บตรง …`** = แบรนด์เก่า แปลว่าผู้ใช้ที่กดเข้าสู่ระบบ/สมัครสมาชิกบน EZWIN168 จะไปโผล่หน้าแบรนด์ SUMOHENG — brief ไม่ได้ให้ลิงก์ affiliate ใหม่ และกติกาคือคง `targetUrl` ไว้ byte-identical จึง**ไม่แก้** แต่ควรอัปเดตปลายทางถ้าต้องการ
 
 **Out of scope / ไม่แตะ:** variant ที่หลุดจากการใช้งานรอบนี้กลายเป็น inventory ของแบรนด์หน้า — `NavbarStyle8`, `FooterCyber`, `Announcement6`, `LatestWinners` (base), `Faq2`, `ContentBoxPremium`, `ContentBoxSevenThreePremium`, `ContentBoxSevenThreeNeumorphism` — **ชื่อ/สี PGZEED168 ที่ค้างในนั้น = expected drift ไม่ต้องแก้** (นับได้: FooterCyber 4 จุด, Announcement6 2, LatestWinners 2, NavbarStyle8 1, Faq2 1); inventory เดิมอื่นทั้งหมดเช่นกัน รวม HTML comment `banner2.jpg` ใน `Navbar.astro:102`; หน้าใน `src/pages-disabled/` ทั้ง 4 ยัง import `Announcement6` และยังมีชื่อแบรนด์เก่า — ไม่ route จึงไม่ render (ถ้าแบรนด์หน้าเปิดหน้าไหน ต้องรีแบรนด์ + repoint import ตอนนั้น); ไฟล์ภาพ stale `banner.png`/`banner2.png`/`banner3.png` **ไม่ลบ**; `targetUrl` affiliate ใน login/register คงเดิม byte-identical; redirect `/line` → tinyurl คงเดิม; โครงสร้าง `<head>` ของ `MainLayout` ไม่จัดเรียงใหม่และไม่เติม tag ตามกฎ anti-footprint; `bg.json`/`bg.png` uploader-managed (`{"mode":"image"}`); `slide4.png` ไม่ได้ใช้; `tools/rebrand-uploader/server.mjs` + `workspec.md` มี diff ค้างจากงานวันก่อนหน้า ไม่เกี่ยวกับรีแบรนด์นี้; `.claude/settings.json` มี `defaultMode: auto` เพิ่มมาจาก harness ไม่ใช่ส่วนของรีแบรนด์
+
+## 2026-07-28 — รีแบรนด์ EZWIN168 → PORING168 (poring168-plays.com) แบบขนาน 3 agent
+
+**เป้าหมาย:** `rebrand and retheme to "PORING168" then real url is "poring168-plays.com" ทำแบบ 2-agent ขนานตาม playbook` — prompt จากการ์ด «คำสั่ง Rebrand» ของ uploader (ไม่มีคำ `เว็บหวย` → หน้าหวยปิด) จำนวน agent มาจาก playbook: sub-page 6 หน้า → แตกเป็น B/C = **3 fan-out agent**
+
+### ⚠️ เหตุการณ์สำคัญรอบนี้: asset drop มาถึง "ระหว่าง" ที่ agent กำลังทำงาน
+
+ตอน orchestrator เริ่ม Phase 1 (`ls src/assets` + อ่าน `content.txt`) ไฟล์ในโฟลเดอร์ยังเป็นของ **EZWIN168 รอบเก่า** (stamp 7/27 19:38-19:39) → brand spec ที่เขียนให้ agent อ่าน จึงอิง brief เก่าที่ถูก find-replace ชื่อแบรนด์
+จากนั้น **operator อัปโหลดชุดจริงของ PORING168 เข้ามาตอน 8:08:33-8:08:52 น. ระหว่างที่ P1/fan-out กำลังรัน** ทับ `content.docx`/`content.txt`/`logo.webp`/`banner1.png`/`slide1-3.png`/`bg.json`/`palette.json` (+ favicon และ `public/logo.webp`)
+
+- **Agent A จับได้เอง** เพราะไปอ่าน `content.txt` ตอนที่ไฟล์ใหม่มาแล้ว → เขียน `index.astro` จาก brief จริง (5 section) และรายงานความขัดแย้งกลับมา แทนที่จะทำตาม spec เงียบๆ
+- Agent B/C อ่าน spec ตอนที่ยังเป็นของเก่า → title/meta ผิด, orchestrator ตามแก้เองใน P3
+- **บทเรียน:** ไฟล์ใน `src/assets` ไม่ใช่ค่าคงที่ตลอด session — ก่อนสรุปงานต้อง **เช็ก mtime / `updatedAt` ของ `palette.json` ซ้ำอีกรอบ** ไม่ใช่เชื่อค่าที่อ่านตอนเริ่ม
+- ผลพลอยได้: พาเลตต์ที่เลือกไว้ตั้งแต่แรก (น้ำเงิน+ทอง) **ถูกต้องอยู่แล้ว** เพราะ `slide1-3` ที่อ่านด้วยตาเป็นภาพ PORING168 จริงตั้งแต่ก่อน `logo/banner1` จะมาถึง — `palette.json` ชุดใหม่ยืนยันภายหลัง (`logo` vivid `#065091`, `banner1` `#062f6e`, slide `#0a2a6f`)
+
+### Brand inputs (Phase 1)
+- brief จริง: H1 ×1 + H2 ×4 + **H3 ×3 (ค่ายเกม PG Soft / Pragmatic Play / JILI)** + FAQ 4 ข้อ + บล็อก SUB-PAGES title/meta 5 หน้า — สไตล์ "Tech Trendsetter" คีย์เวิร์ด: สล็อตเว็บตรง / มาตรฐานสากล / ไม่มีขั้นต่ำ / รองรับทรูวอเลท / ลื่นไหล ปลอดภัย 100%
+- artwork: โลโก้ตัวอักษรขาวขอบน้ำเงิน + มาสคอตสไลม์ฟ้า, banner1 "สล็อตเจ้าใหญ่อันดับ 1" น้ำเงิน+ทอง, `bg.json` = `{"mode":"color","color":"#07215f"}` (operator ตั้งมาเอง)
+- **แบรนด์เก่าเขียว+ทอง → แบรนด์ใหม่น้ำเงิน+ทอง** ทองคงไว้ทั้งหมดเพราะ artwork ใหม่ก็เป็นทองเมทัลลิก; ตารางแมป: `emerald-*`/`green-*`→`blue-*` เลขเดิม, `#04170d`→`#04102e`, `#062b16`→`#07215f`, `#0a3d22`→`#0e3486`, `rgba(16,185,129,X)`→`rgba(37,99,235,X)`
+
+### Variant rotation (before → after)
+- Navbar: **`NavbarStyle10` → `NavbarStyle9`** (แถบ gradient ทึบ + underline tab + เมนูมือถือ Circular Reveal; เดิมเป็นธีมเขียว/เหลืองของ `CHOKDEE1688` → น้ำเงิน/ทอง; **รวม markup ลิงก์ที่ซ้ำ 2 ชุดเป็น `const links` เดียว** ให้ uploader แก้เมนูอัตโนมัติได้; **แก้ลิงก์ตาย `/signin`,`/signup` → `/login`,`/register`**; logo fallback เป็น `<p>`) [P1]
+- Footer: **`FooterPremiumSumo` → `FooterStyle2`** (4 คอลัมน์ + แถบค่ายเกม; เดิมแดง/ทองของ `CASHOT123` → น้ำเงิน/ทอง; **เมนูเดิมมีแค่ 4 ลิงก์ → เพิ่มเป็น 7 ลิงก์จริง**; เปลี่ยนหมวด "หวยออนไลน์" → "เกมยิงปลา" เพราะแบรนด์นี้ปิดหน้าหวย; หัวคอลัมน์เป็น `<p>` อยู่แล้ว) [P1]
+- Announcement: **`Announcement3` → `Announcement`** (ตัว base; default เดิมเป็นสโลแกน `PANAMA888` และ default variant เป็น `dark` สีกรม/ฟ้าสปอร์ต → ตั้ง default `variant="gold"` แล้ว retune บล็อก gold เป็นน้ำเงิน/ทอง + ตั้ง default message เป็น copy PORING168 → ทุกหน้าย่อยเรียก `<Announcement />` เปล่าได้ข้อความเดียวกัน) [P1 retheme, แต่ละ agent repoint import เอง]
+- LatestWinners: **`LatestWinners3` → `LatestWinners2`** (ป้าย feed เดิมเป็น `<h2>` ชื่อ `HENGJUD365` → `<p>` + PORING168; `<img alt="bank">` ว่าง → ใส่ alt จริง) [Agent A]
+- FAQ: **`Faq3` → `Faq`** (ตัว base) [Agent A]
+- ContentBox mix: **FloatingBadge-led → Premium-led** — `Premium`(H1) + `SevenThreePremium` + `SevenThreeNeumorphism` + `Neumorphism` + `CyberCut`; **ไม่ใช้ตระกูล FloatingBadge เลยรอบนี้** (`ContentBoxTwoPremium` retheme ไว้แล้วแต่ไม่ได้ใช้ เพราะ docx มี 5 section ไม่ใช่ 7)
+
+### แมปเนื้อหา docx → slot (5 section ครบตามลำดับเอกสาร)
+1. H1 `PORING168 สล็อตเว็บตรง มาตรฐานสากล รองรับทรูวอเลท ไม่มีขั้นต่ำ` → `ContentBoxPremium`
+2. H2 `PORING168 รวมค่ายเกมชั้นนำ ลื่นไหล ปลอดภัย 100%` → `ContentBoxSevenThreePremium` + **slide2** → ต่อด้วย `FeatureHighlights` (H3 ×3 ค่ายเกม) + `ProviderGrid` + `GameRankingBoard`
+3. H2 `สัมผัสความยืดหยุ่นทางการเงินขั้นสุด ไม่มีขั้นต่ำ ทุกยอด` → `ContentBoxSevenThreeNeumorphism` + **slide1**
+4. H2 `แพลตฟอร์ม PORING168 สะดวกรวดเร็ว รองรับทรูวอเลท` → `ContentBoxNeumorphism` → ต่อด้วย `LatestWinners2`
+5. H2 `มาตรฐานสากลจาก PORING168 ลื่นไหล ปลอดภัย ทุกการเชื่อมต่อ` → `ContentBoxCyberCut`
+- ปิดท้าย `LoginRtpSection` → `Faq` (4 ข้อจาก docx) → `Navfoot`
+- **สไลด์ที่ใช้: slide2, slide1** (SevenThree 2 บล็อกพอดีลิมิต); `slide1` เป็น og:image ด้วย; **`slide3` ไม่ได้ใช้ในหน้าแรก** (อยู่ใน carousel + promotion แล้ว)
+- H3 มีที่เดียวคือ `FeatureHighlights` = 3 ค่ายเกมตาม docx (docx มี H3 จริง รอบนี้จึงไม่ได้แบนเป็น H2)
+
+### หน้าเสริม 4 หน้า — ปิดทั้งหมด (orchestrator ตัดสินใน P1)
+prompt ไม่มี `เว็บหวย` · uploader ไม่ได้เปิด toggle ใดเลย (ทั้ง 4 ไฟล์ยังอยู่ใน `src/pages-disabled/`)
+**หมายเหตุ:** docx รอบนี้ **มี Title/Meta ของหน้า `บทความ` มาให้ พร้อมกำกับว่า "(เพิ่มใหม่)"** แต่ **ไม่มีเนื้อหาบทความจริงในเอกสาร** และ operator ไม่ได้เปิด toggle → ตัดสินให้ **ปิดไว้ตามเดิม** (ถ้าเปิดต้องเอา 5 section ของหน้าแรกไปซ้ำ = thin/duplicate content) ถ้ารอบหน้าต้องการเปิด ต้องขอย่อหน้าบทความจริงมาเพิ่ม
+build ออก **7 route** ตรงตาราง: `/`, `/promotion`, `/contact-us`, `/login`, `/register`, `/ทางเข้า`, `/ทดลองเล่น` — grep `dist/` ไม่พบลิงก์ไป 4 route ที่ปิด
+
+### การแบ่งงานขนาน (3 agent, ไฟล์ไม่ทับกันเลย)
+- **P0/P1 orchestrator:** อ่าน brief/palette/รูป, เลือก variant, เขียน brand-spec 1 ไฟล์, แล้ว retheme shared chrome ก่อน fan-out: `MainLayout` (repoint navbar/footer + brand/title/desc/OG/alt), `NavbarStyle9`, `FooterStyle2`, `Announcement`, `ContentBox` (3 หน้าใช้), `Navfoot` + URL 2 จุด (`astro.config.mjs` `site:`, `public/robots.txt` `Sitemap:`) + `public/site.webmanifest` (`theme_color`/`background_color` → `#07215f`) — `BankStrip` ตรวจแล้วเป็นกลางทางแบรนด์ ไม่แก้
+- **Agent A — หน้าแรก:** `index.astro` + 14 component เฉพาะหน้าแรก (รวม `ContentBoxTwo` ที่มาจาก `LoginRtpSection` แบบ recursive)
+- **Agent B — 3 หน้า:** `promotion`, `contact-us`, `register` + `ContentBoxHuay` (ใช้โดย 2 หน้านี้เท่านั้น จึงเป็นของ B คนเดียว ไม่ต้องยกขึ้น P1)
+- **Agent C — 3 หน้า:** `ทางเข้า`, `ทดลองเล่น`, `login`
+- **P3 orchestrator ตามแก้เอง** หลัง agent รายงาน: title/meta ของ 6 หน้าย่อย + default ของ `MainLayout`/`Announcement` + `message` prop ใน `index.astro` ให้ตรง brief จริง (ดูหัวข้อ asset drop ด้านบน)
+
+### บั๊ก/ของตกค้างที่เจอรอบนี้
+1. **`slide4.png` เป็นภาพ EZWIN168 เขียว มีตัวหนังสือ EZWIN168 อยู่ในภาพ** และถูก import อยู่ 2 ที่ (`SmoothCarousel` + `promotion.astro`) → ถอดออกทั้งคู่ เหลือ slide1-3 (promotion จัด grid ใหม่เป็น 3 คอลัมน์) — ไฟล์ไม่ได้ลบ เก็บเป็น inventory
+2. **`Faq.astro` ไม่มี `Props` เลย** — FAQ ทั้งชุด hardcode ของแบรนด์ `Teenoi168` ส่ง prop เข้าไปก็ถูกเมินเงียบๆ → เพิ่ม `FaqItem`/`Props` + default 4 ข้อของ PORING168
+3. **`Faq.astro` ใช้ไอคอน Font Awesome (`<i class="fa-solid fa-plus">`) แต่โปรเจกต์ไม่ได้โหลด FA เลย** → ปุ่ม +/− มองไม่เห็นมาตลอด เปลี่ยนเป็น text glyph
+4. **`NavbarStyle9` มีลิงก์ตาย `/signin` + `/signup`** (route ไม่มีในโปรเจกต์) → แก้เป็น `/login` + `/register`
+5. `alt` ของรูปโปรใน `promotion.astro` บรรยายโปรของแบรนด์เก่า (เว็บตรงลิขสิทธิ์แท้ / เครดิตฟรี) ไม่ตรง artwork → เขียนใหม่ตามภาพจริง (คืนยอดเสีย 15% / ฝากแรกลุ้นรับทอง 1 บาท / แนะนำเพื่อนรับค่าคอม 0.8%)
+6. `ทางเข้า.astro` ไม่มี JSON-LD เลย → เพิ่ม `WebPage` + `isPartOf` → `WebSite`; `ทดลองเล่น.astro` มี `@type: Game` แล้วแต่**ขาด `@context`** ทำให้ crawler ไม่ตีความ → เพิ่มให้
+7. CSS var ชื่อไม่ตรงสีใน `login`/`register` (`--brand-green: #10b981`) → เปลี่ยนเป็น `--brand-blue: #2563eb` พร้อมจุดใช้งาน
+8. `ทางเข้า.astro` ยัด 2 element เข้า slot เดียว (`<p>` + `<div>`) ผิดกฎ 1 slot = 1 element → ห่อเป็น `<div>` เดียว
+
+### Verify ที่รันจริง (Phase 5, build ครั้งเดียว)
+- `npm run build` → **7 page(s) built, 0 failed**
+- grep `dist/` ทั้งหมด: `EZWIN168`/`CHOKDEE1688`/`CASHOT123`/`PANAMA888`/`HENGJUD365`/`Teenoi168`/`PGZEED` = **0**
+- `<!--` ในทุกหน้า = **0** · `undefined`/`NaN`/`[object Object]` = **0**
+- `og:image` + `twitter:image` → `/_astro/slide1.Cvsfah19.png` (ไม่ใช่ path จาก `public/`) · hero → `banner1` + alt ใหม่
+- ไม่พบ `slide4`/`banner2`/`banner3`/`banner.png`/`bg.png` ใน `dist/` เลย
+- heading หน้าแรก: **h1 ×1, h2 ×4, h3 ×3** เรียงตรงตาม docx ทุกบรรทัด · FAQ render ครบ 4 ข้อ
+- **hex เขียวเก่าที่ยังเหลือใน `dist/` = CSS bundle ล้วน ไม่มีใน `class=` ของ markup เลย** — Tailwind สแกนทั้ง `src/` จึง emit rule ของ inventory ที่ไม่ได้ render (`NavbarStyle10`, `FooterPremiumSumo`, `Announcement3`, `LatestWinners3`, `Faq3`, ตระกูล FloatingBadge) = noise ตามคาด ไม่ใช่บั๊ก
+- `green-*` ที่เหลือใน markup = semantic ล้วน: จุด Live `animate-pulse`, ป้าย Live RTP, และสีจริงของ `SA GAMING` ในแถบค่ายเกม
+
+### นอกสโคป / ไม่ได้แตะ
+- `src/assets/slide4.png`, `banner.png`, `banner2.png`, `banner3.png`, `bg.png` — ไฟล์ตายจากแบรนด์ก่อน เก็บไว้ ไม่ลบ (`palette.json` ยังมีคีย์ `slide4`/`bg.png` ของเก่าค้างอยู่ด้วย)
+- component variant ที่ไม่ได้ใช้ทั้งหมด = inventory คงเนื้อหา/สีแบรนด์เก่าไว้ตามปกติ
+- **`ContentBoxHuay` ตอนนี้เป็นน้ำเงินแล้ว** (เพราะ `promotion`/`contact-us` ใช้อยู่จริง) — `src/pages-disabled/ตรวจหวย.astro` ก็ import ตัวนี้ **แบรนด์หน้าที่เปิดหวยต้อง retheme กลับเป็นแดง/ทองเอง**
+- `promotion.astro` ไม่มี schema.org (เดิมก็ไม่มี) — ไม่ได้เพิ่มใหม่ อยู่นอกสโคปรีแบรนด์
+- ไม่ได้ `git commit` / `git push` / deploy (prompt ไม่ได้สั่ง) — หยุดที่ build + verify

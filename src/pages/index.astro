@@ -1,96 +1,92 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement3 from "../components/Announcement3.astro";
+import Announcement from "../components/Announcement.astro";
 import SmoothCarousel from "../components/SmoothCarousel.astro";
-import ContentBox from "../components/ContentBox.astro";
-import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
-import ContentBoxSevenThreeFloatingBadge from "../components/ContentBoxSevenThreeFloatingBadge.astro";
-import ContentBoxSevenThree from "../components/ContentBoxSevenThree.astro";
-import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
-import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
+import ContentBoxPremium from "../components/ContentBoxPremium.astro";
+import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
+import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
 import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
+import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
 import ProviderGrid from "../components/ProviderGrid.astro";
 import GameRankingBoard from "../components/GameRankingBoard.astro";
-import LatestWinners3 from "../components/LatestWinners3.astro";
+import LatestWinners2 from "../components/LatestWinners2.astro";
 import FeatureHighlights from "../components/FeatureHighlights.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
-import Faq3 from "../components/Faq3.astro";
+import Faq from "../components/Faq.astro";
 import Navfoot from "../components/Navfoot.astro";
 
 import { Picture } from "astro:assets";
-import imgGameVariety from "../assets/slide2.png";
-import imgLowBudgetPromo from "../assets/slide3.png";
+import imgProviders from "../assets/slide2.png";
+import imgFlexibleFinance from "../assets/slide1.png";
 
 const currentPath = Astro.url.pathname;
 const homePage = Astro.url.origin;
 const logoUrl = homePage + "/logo.webp";
 
-const pageTitle = "EZWIN168 | เว็บมั่นคงสล็อตออนไลน์ โปรทุนน้อยคืนยอดเสีย จ่ายทุกบิล";
+const pageTitle = "PORING168 สล็อตเว็บตรง มาตรฐานสากล รองรับทรูวอเลท ไม่มีขั้นต่ำ";
 const pageDescription =
-  "EZWIN168 เว็บสล็อตออนไลน์ที่เน้นระบบใช้งานง่ายสะดวก มาพร้อมกับโปรทุนน้อย คืนยอดเสียตามเงื่อนไข ฝากถอนออโต้ รองรับมือถือทุกระบบ";
+  "PORING168 สล็อตเว็บตรง มาตรฐานสากล สัมผัสความยืดหยุ่นทางการเงินขั้นสุด ฝากถอน ไม่มีขั้นต่ำ สะดวกรวดเร็ว รองรับทรูวอเลท ลื่นไหล ปลอดภัย 100%";
 
 const webPageSchema = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  name: "EZWIN168",
+  name: "PORING168",
   description: pageDescription,
   url: currentPath,
 };
 const webSiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "EZWIN168",
-  alternateName: ["EZWIN168", "EZWIN168 เว็บมั่นคงสล็อตออนไลน์ โปรทุนน้อยคืนยอดเสีย จ่ายทุกบิล"],
-  url: "https://ezwin168ss.com",
+  name: "PORING168",
+  alternateName: ["PORING168", "PORING168 สล็อตเว็บตรง มาตรฐานสากล รองรับทรูวอเลท ไม่มีขั้นต่ำ"],
+  url: "https://poring168-plays.com",
 };
 const orgSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "EZWIN168",
+  name: "PORING168",
   logo: logoUrl,
   url: homePage,
 };
 const allSchemas = [webPageSchema, orgSchema, webSiteSchema];
 
-const supportPoints = [
+const providerPoints = [
   {
-    icon: "🔐",
-    title: "แจ้งปัญหาการเข้าสู่ระบบ",
-    description: "หากเข้าใช้งานบัญชีไม่ได้ ควรแจ้งชื่อผู้ใช้และเวลาที่พบปัญหาผ่านช่องทางที่เว็บไซต์กำหนด และไม่เปิดเผยรหัสผ่านหรือรหัสยืนยันแก่ผู้อื่นในทุกกรณี",
+    icon: "🎮",
+    title: "PG Soft กราฟิกสมจริง ฟีเจอร์ล้ำสมัย แตกง่ายทุกจังหวะ",
+    description: "ค่ายผู้พัฒนาที่โดดเด่นในเรื่องภาพแอนิเมชัน 3D และกลไกเกมที่ไหลลื่น เข้ากับความคล่องตัวของเว็บได้อย่างลงตัว โบนัสออกบ่อย สร้างความคุ้มค่าได้อย่างต่อเนื่อง",
     accent: "gold" as const,
   },
   {
-    icon: "🎁",
-    title: "สอบถามสิทธิ์คืนยอดเสีย",
-    description: "ตรวจสอบรอบการคำนวณ อัตราคืน ยอดสูงสุด และเกมที่ร่วมรายการกับทีมงานก่อนรับสิทธิ์ เพื่อให้ตรงกับเงื่อนไขของโปรโมชั่นที่เลือกใช้",
-    accent: "emerald" as const,
+    icon: "💥",
+    title: "Pragmatic Play ความสนุกไร้ขีดจำกัด โบนัสเด้งรัวๆ",
+    description: "นำเสนอความบันเทิงที่เข้าใจง่ายแต่แฝงด้วยกลไกการแจกรางวัลที่ทรงพลัง สปินแต่ละรอบเต็มไปด้วยโอกาสในการรับผลตอบแทนที่รวดเร็วทันใจ",
+    accent: "blue" as const,
   },
   {
-    icon: "💳",
-    title: "ติดตามสถานะฝากถอน",
-    description: "เตรียมรายละเอียดรายการ เวลาที่ทำธุรกรรม และหลักฐานการโอนให้ครบถ้วน จะช่วยให้ทีมงานตรวจสอบสถานะและชี้แจงขั้นตอนถัดไปได้รวดเร็วขึ้น",
+    icon: "⚡",
+    title: "JILI เอฟเฟกต์จัดจ้าน รางวัลแตกไว รองรับทุกอุปกรณ์",
+    description: "ผสานความเรียบง่ายเข้ากับนวัตกรรมเกมเพลย์ที่น่าดึงดูด ระบบเซิร์ฟเวอร์เสถียรสุดยอด ทำให้กอบโกยกำไรได้อย่างเต็มที่ไม่มีกระตุก",
     accent: "gold" as const,
-  },
-  {
-    icon: "🕑",
-    title: "ใช้ช่องทางหลักของเว็บไซต์",
-    description: "ติดต่อผ่านช่องทางที่ EZWIN168 ประกาศไว้เท่านั้น เพื่อลดความเสี่ยงจากการส่งข้อมูลบัญชีให้ช่องทางที่ไม่ได้รับการยืนยัน",
-    accent: "emerald" as const,
   },
 ];
 
 const faqs = [
   {
-    q: "โปรโมชั่นทุนน้อยของ EZWIN168 เหมาะกับใคร?",
-    a: "เหมาะกับผู้ที่ต้องการเริ่มต้นด้วยงบประมาณจำกัด แต่ควรตรวจสอบยอดฝากขั้นต่ำ เงื่อนไขการทำรายการ เกมที่เข้าร่วม และข้อกำหนดการถอนก่อนรับสิทธิ์",
+    q: "การ ฝากถอน ผ่านระบบอัตโนมัติใช้เวลานานหรือไม่?",
+    a: "ประมวลผลด้วยความไวสูง ยอดเงินอัปเดตเข้ากระเป๋าในไม่กี่วินาที สะดวกรวดเร็ว และแม่นยำที่สุด",
   },
   {
-    q: "EZWIN168 คืนยอดเสียอย่างไร?",
-    a: "การคืนยอดเสียมักคำนวณจากยอดขาดทุนสุทธิในช่วงเวลาที่กำหนด โดยอัตราคืนและยอดสูงสุดขึ้นอยู่กับเงื่อนไขของแต่ละโปรโมชั่น",
+    q: "ทำไม สล็อตเว็บตรง ถึงต้องมีนโยบายทางการเงินที่เปิดกว้าง?",
+    a: "เพื่อให้ผู้ใช้งานได้ สัมผัสความยืดหยุ่นทางการเงินขั้นสุด สามารถบริหารทุนของตนเองได้อย่างอิสระโดย ไม่มีขั้นต่ำ",
   },
   {
-    q: "EZWIN168 จ่ายทุกบิลจริงหรือไม่?",
-    a: "การอนุมัติรายการขึ้นอยู่กับยอดคงเหลือ สถานะบัญชี และการปฏิบัติตามเงื่อนไข สมาชิกควรตรวจสอบข้อมูลและข้อกำหนดล่าสุดก่อนส่งคำขอถอน",
+    q: "แอปพลิเคชันที่ใช้ รองรับทรูวอเลท มีค่าธรรมเนียมเพิ่มเติมไหม?",
+    a: "ไม่มีค่าธรรมเนียมแอบแฝงใดๆ ทั้งสิ้น แพลตฟอร์ม PORING168 ให้คุณทำธุรกรรมได้ฟรีและ ลื่นไหล ตลอดเวลา",
+  },
+  {
+    q: "ข้อมูลส่วนตัวและยอดเครดิตจะได้รับการปกป้องอย่างไร?",
+    a: "เราใช้เทคโนโลยีความปลอดภัยระดับ มาตรฐานสากล ทำให้มั่นใจได้ว่าทุกข้อมูลของคุณจะ ปลอดภัย 100%",
   },
 ];
 ---
@@ -98,23 +94,24 @@ const faqs = [
 <MainLayout title={pageTitle} description={pageDescription}>
   <script type="application/ld+json" set:html={JSON.stringify(allSchemas)} />
 
-  <Announcement3
-    message="📢 EZWIN168 เว็บมั่นคงสล็อตออนไลน์ โปรทุนน้อยคืนยอดเสีย จ่ายทุกบิล ฝากถอนออโต้ รองรับมือถือทุกระบบ ควรอ่านเงื่อนไขโปรโมชั่นและข้อกำหนดการถอนก่อนรับสิทธิ์ทุกครั้ง"
+  <Announcement
+    message="📢 PORING168 สล็อตเว็บตรง มาตรฐานสากล ฝากถอนไม่มีขั้นต่ำ รองรับทรูวอเลท ประมวลผลอัตโนมัติในเสี้ยววินาที ลื่นไหล ปลอดภัย 100% ทุกการเชื่อมต่อ"
   />
 
   <SmoothCarousel />
 
-  <ContentBoxFloatingBadge as="h1" title="EZWIN168 | เว็บมั่นคงสล็อตออนไลน์ โปรทุนน้อยคืนยอดเสีย จ่ายทุกบิล">
-    <p class="text-left text-base leading-relaxed text-emerald-50/85">
-      EZWIN168 เป็นแพลตฟอร์มสล็อตออนไลน์ที่รวบรวมเกมหลายรูปแบบ พร้อมระบบฝากถอนออโต้และโปรโมชั่นสำหรับผู้เล่นที่ต้องการเริ่มต้นด้วยงบประมาณจำกัด
-      จุดเด่นอยู่ที่สิทธิ์คืนยอดเสียและการตรวจสอบรายการตามเงื่อนไขที่กำหนด สมาชิกควรอ่านรายละเอียดโปรโมชั่น กติกาเกม และข้อกำหนดการถอนก่อนใช้งานทุกครั้ง
+  <ContentBoxPremium as="h1" title="PORING168 สล็อตเว็บตรง มาตรฐานสากล รองรับทรูวอเลท ไม่มีขั้นต่ำ">
+    <p class="text-left text-base leading-relaxed text-blue-50/85">
+      เปิดประสบการณ์ความบันเทิงรูปแบบใหม่กับ PORING168 สล็อตเว็บตรง ที่ถูกออกแบบมาด้วยเทคโนโลยีสถาปัตยกรรมแบบเปิด (Open Architecture)
+      มอบความรู้สึกที่ลื่นไหลและปรับตัวได้กับทุกสไตล์การใช้งาน เรานำเสนอมาตรฐานสากลให้คุณได้สัมผัสความยืดหยุ่นทางการเงินขั้นสุด ผ่านระบบฝากถอนแบบไม่มีขั้นต่ำ
+      ที่ประมวลผลได้อย่างสะดวกรวดเร็ว พร้อมรองรับทรูวอเลท เพื่อการใช้งานที่ราบรื่นและปลอดภัย 100% ตอบโจทย์คนยุคดิจิทัลอย่างสมบูรณ์แบบ
     </p>
-  </ContentBoxFloatingBadge>
+  </ContentBoxPremium>
 
-  <ContentBoxSevenThreeFloatingBadge title="EZWIN168 รวมสล็อตออนไลน์หลายแนวในระบบเดียว">
+  <ContentBoxSevenThreePremium titleright="PORING168 รวมค่ายเกมชั้นนำ ลื่นไหล ปลอดภัย 100%">
     <div slot="left" class="flex h-full flex-col justify-center">
       <Picture
-        src={imgGameVariety}
+        src={imgProviders}
         loading="lazy"
         fetchpriority="low"
         widths={[200, 400, 600, 800]}
@@ -123,24 +120,27 @@ const faqs = [
         formats={["avif", "webp"]}
         fallbackFormat="webp"
         quality={80}
-        alt="EZWIN168 เว็บตรง เล่นกับบริษัทแม่โดยตรง ลิขสิทธิ์แท้ รวมค่ายเกมสล็อตชื่อดังไว้ในระบบเดียว"
+        alt="PORING168 รวมค่ายเกมสล็อตชั้นนำไว้ในระบบเดียว พร้อมโปรโมชั่นฝากครั้งแรกลุ้นรับทองคำ 1 บาท"
         class="mx-auto h-auto w-full rounded-2xl border-2 border-amber-400/40 shadow-[0_10px_30px_rgba(251,191,36,0.3)]"
       />
     </div>
-    <p slot="right" class="text-left text-base leading-relaxed text-emerald-50/85">
-      ภายในระบบมีเกมสล็อตทั้งแบบคลาสสิก วิดีโอสล็อต เกมโบนัส และเกมที่มีฟีเจอร์พิเศษ ผู้เล่นสามารถค้นหาเกมตามค่าย ธีม หรือระดับความผันผวนได้ง่าย
-      ควรอ่านกติกาและตรวจสอบข้อมูลของแต่ละเกมก่อนเริ่ม เพื่อเลือกเกมให้เหมาะกับงบประมาณและรูปแบบการเล่นของตนเอง
-    </p>
-  </ContentBoxSevenThreeFloatingBadge>
+    <div slot="right" class="flex flex-col gap-4">
+      <p class="text-left text-base leading-relaxed text-blue-50/85">
+        แพลตฟอร์มของเราถูกสร้างขึ้นด้วยโครงสร้างระบบที่เน้นความเสถียรและไร้รอยต่อ เพื่อรวบรวมซอฟต์แวร์ระดับโกลบอลมาไว้ในที่เดียว ทุกการเชื่อมต่อจะถูกประมวลผลอย่างนุ่มนวล
+        มอบกราฟิกที่สวยงามและอัตราการออกโบนัสที่ยุติธรรม ให้คุณกอบโกยผลตอบแทนได้อย่างเต็มที่โดยไม่ต้องกังวลเรื่องระบบขัดข้อง
+      </p>
+      <FeatureHighlights items={providerPoints} />
+    </div>
+  </ContentBoxSevenThreePremium>
 
   <ProviderGrid />
 
   <GameRankingBoard />
 
-  <ContentBoxSevenThree titleright="โปรทุนน้อยช่วยให้เริ่มต้นตามงบประมาณได้ง่ายขึ้น">
+  <ContentBoxSevenThreeNeumorphism titleright="สัมผัสความยืดหยุ่นทางการเงินขั้นสุด ไม่มีขั้นต่ำ ทุกยอด">
     <div slot="left" class="flex h-full flex-col justify-center">
       <Picture
-        src={imgLowBudgetPromo}
+        src={imgFlexibleFinance}
         loading="lazy"
         fetchpriority="low"
         widths={[200, 400, 600, 800]}
@@ -149,53 +149,36 @@ const faqs = [
         formats={["avif", "webp"]}
         fallbackFormat="webp"
         quality={80}
-        alt="EZWIN168 โปรทุนน้อยและเครดิตฟรีตามเงื่อนไข เริ่มต้นได้ตามงบประมาณที่วางไว้"
+        alt="PORING168 โปรโมชั่นคืนยอดเสียสูงสุด 15% รองรับการฝากถอนแบบไม่มีขั้นต่ำทุกยอด"
         class="mx-auto h-auto w-full rounded-2xl border-2 border-amber-400/40 shadow-[0_10px_30px_rgba(251,191,36,0.3)]"
       />
     </div>
-    <p slot="right" class="text-left text-base leading-relaxed text-emerald-50/85">
-      โปรโมชั่นทุนน้อยเหมาะกับผู้ที่ต้องการเริ่มจากยอดที่ไม่สูง แต่แต่ละรายการอาจกำหนดยอดฝาก เกมที่เข้าร่วม และเงื่อนไขการถอนแตกต่างกัน
-      ผู้เล่นจึงควรเปรียบเทียบรายละเอียดก่อนรับสิทธิ์ และไม่ควรเพิ่มเงินเกินแผนเพียงเพื่อให้ผ่านข้อกำหนดของโปรโมชั่น
+    <p slot="right" class="text-left text-base leading-relaxed text-blue-50/85">
+      ทลายกำแพงแห่งการลงทุนด้วยนโยบายที่เปิดกว้างและให้อิสระอย่างเต็มที่ ไม่ว่าคุณจะเริ่มต้นด้วยทุนเท่าไหร่ก็สามารถกำหนดเป้าหมายได้ตามต้องการ
+      นวัตกรรมทางการเงินนี้ถูกออกแบบมาเพื่อรองรับไลฟ์สไตล์ที่หลากหลาย ทำให้ทุกคนมีสิทธิ์เข้าถึงโอกาสในการสร้างรายได้อย่างเท่าเทียม
+      เป็นการเปิดมิติใหม่ของการจัดการเครดิตที่ไร้กรอบจำกัดอย่างแท้จริง
     </p>
-  </ContentBoxSevenThree>
+  </ContentBoxSevenThreeNeumorphism>
 
-  <ContentBoxCyberCut as="h2" title="คืนยอดเสียตามรอบและเงื่อนไขที่กำหนดที่ EZWIN168">
-    <p class="text-left text-base leading-relaxed text-emerald-50/85">
-      สิทธิ์คืนยอดเสียอาจคำนวณจากยอดขาดทุนสุทธิในช่วงเวลาที่เว็บไซต์ระบุ โดยมีอัตราคืน ยอดสูงสุด และเกมที่ร่วมรายการต่างกัน
-      สมาชิกควรตรวจสอบว่าระบบคืนให้อัตโนมัติหรือต้องกดรับเอง รวมถึงอ่านข้อกำหนดการนำเครดิตไปใช้และการถอนให้ครบถ้วน
-    </p>
-  </ContentBoxCyberCut>
-
-  <ContentBoxSpecial as="h2" title="ฝากถอนออโต้ EZWIN168 ช่วยลดขั้นตอนการทำรายการ">
-    <p slot="left">
-      ระบบออโต้ช่วยให้สมาชิกทำรายการฝากและถอนผ่านหน้าเว็บไซต์ได้ด้วยตนเอง ควรใช้บัญชีธนาคารที่ตรงกับข้อมูลสมัคร ตรวจสอบยอดก่อนยืนยัน
-      และเก็บหลักฐานรายการไว้จนกว่าจะเสร็จสมบูรณ์
-    </p>
-    <p slot="right">หากพบความล่าช้าควรติดต่อทีมงานผ่านช่องทางหลัก พร้อมแจ้งข้อมูลที่จำเป็นให้ครบ</p>
-  </ContentBoxSpecial>
-
-  <LatestWinners3 />
-
-  <ContentBoxNeumorphism as="h2" title="การจ่ายทุกบิลควรตรวจสอบสถานะและข้อกำหนดร่วมด้วย">
-    <p class="text-left text-base leading-relaxed text-emerald-50/85">
-      คำว่าจ่ายทุกบิลควรพิจารณาควบคู่กับสถานะบัญชี ยอดคงเหลือ เงื่อนไขโปรโมชั่น และขั้นตอนตรวจสอบของระบบ
-      สมาชิกควรกรอกข้อมูลให้ถูกต้องและทำรายการผ่านบัญชีของตนเองเท่านั้น การตรวจสอบรายละเอียดก่อนถอนจะช่วยลดปัญหารายการถูกพักหรือต้องส่งข้อมูลเพิ่มเติม
+  <ContentBoxNeumorphism as="h2" title="แพลตฟอร์ม PORING168 สะดวกรวดเร็ว รองรับทรูวอเลท">
+    <p class="text-left text-base leading-relaxed text-blue-50/85">
+      อัปเกรดความสะดวกสบายไปอีกขั้นด้วยการเชื่อมต่อระบบการเงินเข้ากับกระเป๋าเงินอิเล็กทรอนิกส์ชั้นนำ การโอนถ่ายข้อมูลบน PORING168 ถูกประมวลผลด้วยเทคโนโลยีอัตโนมัติ
+      ทำให้ยอดเครดิตเด้งเข้าสู่แดชบอร์ดในเวลาเพียงเสี้ยววินาที ลดขั้นตอนที่ยุ่งยากและมอบความไวแบบที่คุณไม่เคยสัมผัสมาก่อน ตอบโจทย์การทำธุรกรรมแบบเรียลไทม์ได้อย่างสมบูรณ์แบบ
     </p>
   </ContentBoxNeumorphism>
 
-  <ContentBox as="h2" title="EZWIN168 มีช่องทางดูแลปัญหาตลอดการใช้งาน">
-    <div class="flex flex-col gap-4">
-      <p class="text-left text-base leading-relaxed text-emerald-50/85">
-        หากพบปัญหาเกี่ยวกับการเข้าสู่ระบบ โปรโมชั่นคืนยอดเสีย หรือสถานะฝากถอน สามารถติดต่อทีมงานผ่านช่องทางที่เว็บไซต์กำหนด ควรเตรียมชื่อผู้ใช้ เวลา
-        และรายละเอียดรายการให้ครบ โดยไม่เปิดเผยรหัสผ่านหรือรหัสยืนยันแก่ผู้อื่น เพื่อช่วยให้ทีมงานตรวจสอบได้รวดเร็วขึ้น
-      </p>
-      <FeatureHighlights items={supportPoints} />
-    </div>
-  </ContentBox>
+  <LatestWinners2 />
+
+  <ContentBoxCyberCut as="h2" title="มาตรฐานสากลจาก PORING168 ลื่นไหล ปลอดภัย ทุกการเชื่อมต่อ">
+    <p class="text-left text-base leading-relaxed text-blue-50/85">
+      ความน่าเชื่อถือคือสิ่งที่เราให้ความสำคัญเป็นอันดับหนึ่ง ฐานข้อมูลทั้งหมดได้รับการปกป้องด้วยระบบเข้ารหัสขั้นสูงแบบหลายชั้น (Multi-layer Encryption)
+      เพื่อป้องกันความเสี่ยงจากภายนอก หน้าต่างการโหลดข้อมูลถูกนำเสนอในรูปแบบ Secure Popup Modal มั่นใจได้ว่าทุกคลิกของคุณจะได้รับการปกป้องระดับสูงสุด ไร้ความกังวล
+    </p>
+  </ContentBoxCyberCut>
 
   <LoginRtpSection />
 
-  <Faq3 faqs={faqs} />
+  <Faq faqs={faqs} title="คำถามที่พบบ่อย (FAQ) เกี่ยวกับการใช้งาน PORING168" />
 
   <Navfoot />
 </MainLayout>

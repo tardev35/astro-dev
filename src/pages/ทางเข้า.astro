@@ -2,50 +2,70 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/Announcement3.astro";
+import Announcement from "../components/Announcement.astro";
+
+const homePage = Astro.url.origin;
+const currentPath = Astro.url.pathname;
+const pageTitle = "PORING168 เข้าสู่ระบบ ลื่นไหล ปลอดภัย ผ่าน Premium Popup";
+const pageDescription =
+  "หน้าเข้าสู่ระบบ PORING168 สัมผัสความคล่องตัวผ่านเทคโนโลยี Secure Transition Popup ที่เสถียรและปลอดภัย 100% เข้าถึงแดชบอร์ดของคุณได้ในเสี้ยววินาที";
+
+const webPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: pageTitle,
+  description: pageDescription,
+  url: homePage + currentPath,
+  isPartOf: {
+    "@type": "WebSite",
+    name: "PORING168",
+    url: homePage,
+  },
+};
 ---
 
-<MainLayout
-  title="ทางเข้าเล่น EZWIN168 | ช่องทางตรงรองรับทุกอุปกรณ์"
-  description="ทางเข้าเล่น EZWIN168 รองรับมือถือ แท็บเล็ต และคอมพิวเตอร์ เข้าใช้งานง่าย พร้อมเลือกเกมสล็อต โปรโมชั่น และบริการต่าง ๆ ในระบบเดียว">
+<script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
+<MainLayout title={pageTitle} description={pageDescription}>
   <Announcement />
 
-  <ContentBox title="ทางเข้าเล่น EZWIN168 ช่องทางตรงรองรับทุกอุปกรณ์">
-    <p class="mb-8 text-left text-base leading-relaxed">
-      ทางเข้าเล่น EZWIN168 รองรับทั้งมือถือ แท็บเล็ต และคอมพิวเตอร์ เข้าใช้งานผ่านเบราว์เซอร์ได้จากช่องทางหลักที่เว็บไซต์กำหนด โดยเลือกเกมสล็อต ดูโปรโมชั่น และทำรายการฝากถอนออโต้ได้ในระบบเดียว
-      เพื่อความปลอดภัยควรเข้าใช้งานจากลิงก์ทางการเท่านั้น ตรวจสอบข้อมูลบัญชีให้ตรงกับที่ใช้สมัคร และไม่เปิดเผยรหัสผ่านหรือรหัสยืนยันแก่ผู้อื่น หากพบปัญหาการเข้าสู่ระบบหรือรายการล่าช้า
-      สามารถติดต่อทีมงานผ่านช่องทางหลักพร้อมแจ้งชื่อผู้ใช้และรายละเอียดรายการให้ครบถ้วน
-    </p>
+  <ContentBox title="ทางเข้าเล่น PORING168 ช่องทางตรงรองรับทุกอุปกรณ์">
+    <div>
+      <p class="mb-8 text-left text-base leading-relaxed text-blue-50/85">
+        ทางเข้าเล่น PORING168 รองรับทั้งมือถือ แท็บเล็ต และคอมพิวเตอร์ เข้าใช้งานผ่านเบราว์เซอร์ได้จากช่องทางหลักที่เว็บไซต์กำหนด โดยเลือกเกมสล็อต ดูโปรโมชั่น และทำรายการฝากถอนออโต้ได้ในระบบเดียว
+        เพื่อความปลอดภัยควรเข้าใช้งานจากลิงก์ทางการเท่านั้น ตรวจสอบข้อมูลบัญชีให้ตรงกับที่ใช้สมัคร และไม่เปิดเผยรหัสผ่านหรือรหัสยืนยันแก่ผู้อื่น หากพบปัญหาการเข้าสู่ระบบหรือรายการล่าช้า
+        สามารถติดต่อทีมงานผ่านช่องทางหลักพร้อมแจ้งชื่อผู้ใช้และรายละเอียดรายการให้ครบถ้วน
+      </p>
 
-    <div class="mb-5 grid grid-cols-1 gap-8 md:grid-cols-2">
-      <div class="flex flex-col items-center justify-center gap-4">
-        <a
-          href="/login"
-          aria-label="เข้าสู่ระบบ"
-          class="group relative mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-amber-200 bg-gradient-to-b from-amber-300 to-amber-500 px-6 py-4 shadow-[0_0_20px_rgba(251,191,36,0.55),inset_0_-4px_8px_rgba(0,0,0,0.2)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(252,211,77,0.85)]">
-          <div class="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/40 to-transparent"></div>
+      <div class="mb-5 grid grid-cols-1 gap-8 md:grid-cols-2">
+        <div class="flex flex-col items-center justify-center gap-4">
+          <a
+            href="/login"
+            aria-label="เข้าสู่ระบบ"
+            class="group relative mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-amber-200 bg-gradient-to-b from-amber-300 to-amber-500 px-6 py-4 shadow-[0_0_20px_rgba(251,191,36,0.55),inset_0_-4px_8px_rgba(0,0,0,0.2)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(252,211,77,0.85)]">
+            <div class="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/40 to-transparent"></div>
 
-          <svg class="relative z-10 h-9 w-9 text-[#04170d] drop-shadow-md" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
-          </svg>
+            <svg class="relative z-10 h-9 w-9 text-[#04102e] drop-shadow-md" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+            </svg>
 
-          <span class="relative z-10 text-3xl font-black tracking-wide text-[#04170d]">เข้าสู่ระบบ</span>
-        </a>
-      </div>
+            <span class="relative z-10 text-3xl font-black tracking-wide text-[#04102e]">เข้าสู่ระบบ</span>
+          </a>
+        </div>
 
-      <div class="flex flex-col items-center justify-center gap-4">
-        <a
-          href="/register"
-          aria-label="สมัครสมาชิก"
-          class="group relative mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-emerald-400 bg-gradient-to-b from-emerald-500 to-emerald-900 px-6 py-4 shadow-[0_0_20px_rgba(16,185,129,0.5),inset_0_-4px_8px_rgba(0,0,0,0.2)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(16,185,129,0.8)]">
-          <div class="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/40 to-transparent"></div>
+        <div class="flex flex-col items-center justify-center gap-4">
+          <a
+            href="/register"
+            aria-label="สมัครสมาชิก"
+            class="group relative mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-blue-400 bg-gradient-to-b from-blue-500 to-blue-900 px-6 py-4 shadow-[0_0_20px_rgba(37,99,235,0.5),inset_0_-4px_8px_rgba(0,0,0,0.2)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(37,99,235,0.8)]">
+            <div class="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/40 to-transparent"></div>
 
-          <svg class="relative z-10 h-9 w-9 text-white drop-shadow-md" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
-          </svg>
+            <svg class="relative z-10 h-9 w-9 text-white drop-shadow-md" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+            </svg>
 
-          <span class="relative z-10 text-3xl font-bold tracking-wide text-white [text-shadow:_0_2px_4px_rgb(0_0_0_/_60%)]">สมัครสมาชิก</span>
-        </a>
+            <span class="relative z-10 text-3xl font-bold tracking-wide text-white [text-shadow:_0_2px_4px_rgb(0_0_0_/_60%)]">สมัครสมาชิก</span>
+          </a>
+        </div>
       </div>
     </div>
   </ContentBox>

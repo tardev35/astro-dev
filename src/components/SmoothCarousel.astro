@@ -6,9 +6,12 @@ import { Picture } from "astro:assets";
 import slide1 from "../assets/slide1.png";
 import slide2 from "../assets/slide2.png";
 import slide3 from "../assets/slide3.png";
-import slide4 from "../assets/slide4.png";
 
-const images = [slide1, slide2, slide3, slide4];
+const images = [
+  { src: slide1, alt: "PORING168 โปรโมชั่นคืนยอดเสียสูงสุด 15% รับเครดิตคืนตามเงื่อนไขที่เว็บไซต์กำหนด" },
+  { src: slide2, alt: "PORING168 โปรโมชั่นฝากครั้งแรกลุ้นรับทองคำ 1 บาท สำหรับสมาชิกใหม่" },
+  { src: slide3, alt: "PORING168 โปรโมชั่นแนะนำเพื่อน รับค่าคอมมิชชั่น 0.8% จากยอดการเล่นของเพื่อน" },
+];
 const displayImages = [...images, ...images, ...images];
 ---
 
@@ -19,11 +22,11 @@ const displayImages = [...images, ...images, ...images];
         displayImages.map((img, index) => (
           <div class="swiper-slide">
             <Picture
-              src={img}
-              alt={`EZWIN168 ภาพโปรโมชั่นสล็อตออนไลน์ โปรทุนน้อย คืนยอดเสีย และฝากถอนออโต้ ภาพที่ ${index + 1}`}
+              src={img.src}
+              alt={img.alt}
               class="block w-full rounded-xl border border-amber-400/35 object-contain object-cover shadow-[0_5px_15px_rgba(251,191,36,0.25)]"
-              width={img.width}
-              height={img.height}
+              width={img.src.width}
+              height={img.src.height}
               loading={index < 2 ? "eager" : "lazy"}
               fetchpriority={index === 0 ? "high" : "auto"}
               decoding="async"

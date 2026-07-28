@@ -11,138 +11,109 @@ const isActive = (path: string) => {
   if (path === "/") return currentPath === "/";
   return currentPath.startsWith(path);
 };
+
+const links = [
+  { name: "หน้าแรก", path: "/" },
+  { name: "โปรโมชั่น", path: "/promotion" },
+  { name: "ทดลองเล่น", path: "/ทดลองเล่น" },
+  { name: "ทางเข้า", path: "/ทางเข้า" },
+  { name: "ติดต่อเรา", path: "/contact-us" },
+];
 ---
 
 <header class="sticky top-0 z-50 w-full font-sans">
-  <nav class="relative z-50 w-full border-b border-yellow-500/30 bg-gradient-to-r from-[#022c22] via-[#064e3b] to-[#022c22] shadow-[0_4px_25px_rgba(6,78,59,0.5)]">
+  <nav class="relative z-50 w-full border-b border-amber-400/35 bg-gradient-to-r from-[#04102e] via-[#0e3486] to-[#04102e] shadow-[0_4px_25px_rgba(37,99,235,0.5)]">
     <div class="mx-auto flex h-[70px] w-full max-w-[1600px] items-center justify-between px-4 lg:h-[85px] lg:px-8">
       <div class="flex items-center">
         <a href="/" class="relative flex-shrink-0 transition-transform hover:scale-105">
-          <div class="absolute inset-0 rounded-full bg-yellow-500/20 blur-xl"></div>
-          <Picture
-            src={mainLogo!}
-            alt="CHOKDEE1688 Logo"
-            loading="eager"
-            fetchpriority="high"
-            class="relative h-[40px] w-auto drop-shadow-[0_0_8px_rgba(251,191,36,0.3)] lg:h-[50px]"
-            formats={["avif", "webp"]}
-            fallbackFormat="webp"
-          />
+          <div class="absolute inset-0 rounded-full bg-amber-400/20 blur-xl"></div>
+          {
+            mainLogo ? (
+              <Picture
+                src={mainLogo}
+                alt="PORING168 Logo"
+                loading="eager"
+                fetchpriority="high"
+                class="relative h-[40px] w-auto drop-shadow-[0_0_8px_rgba(251,191,36,0.35)] lg:h-[50px]"
+                formats={["avif", "webp"]}
+                fallbackFormat="webp"
+              />
+            ) : (
+              <p class="relative bg-gradient-to-b from-[#fef08a] to-[#b8860b] bg-clip-text text-2xl font-black text-transparent lg:text-3xl">PORING168</p>
+            )
+          }
         </a>
       </div>
 
       <div class="hidden h-full items-center justify-center gap-2 lg:flex xl:gap-4">
-        <a
-          href="/"
-          class={`group relative flex items-center h-full px-4 xl:px-6 text-sm xl:text-base font-bold transition-all duration-300 ${isActive("/") ? "text-yellow-400" : "text-emerald-100 hover:text-yellow-300"}`}>
-          <div class={`absolute inset-0 bg-gradient-to-b from-transparent to-yellow-500/10 transition-opacity duration-300 ${isActive("/") ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}>
-          </div>
-          <span class="relative z-10">หน้าแรก</span>
-          <div class={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] bg-yellow-400 transition-all duration-300 ${isActive("/") ? "w-full" : "w-0 group-hover:w-full"}`}></div>
-        </a>
-
-        <a
-          href="/promotion"
-          class={`group relative flex items-center h-full px-4 xl:px-6 text-sm xl:text-base font-bold transition-all duration-300 ${isActive("/promotion") ? "text-yellow-400" : "text-emerald-100 hover:text-yellow-300"}`}>
-          <div
-            class={`absolute inset-0 bg-gradient-to-b from-transparent to-yellow-500/10 transition-opacity duration-300 ${isActive("/promotion") ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}>
-          </div>
-          <span class="relative z-10">โปรโมชั่น</span>
-          <div class={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] bg-yellow-400 transition-all duration-300 ${isActive("/promotion") ? "w-full" : "w-0 group-hover:w-full"}`}></div>
-        </a>
-
-        <a
-          href="/ทดลองเล่น"
-          class={`group relative flex items-center h-full px-4 xl:px-6 text-sm xl:text-base font-bold transition-all duration-300 ${isActive("/ทดลองเล่น") ? "text-yellow-400" : "text-emerald-100 hover:text-yellow-300"}`}>
-          <div
-            class={`absolute inset-0 bg-gradient-to-b from-transparent to-yellow-500/10 transition-opacity duration-300 ${isActive("/ทดลองเล่น") ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}>
-          </div>
-          <span class="relative z-10">ทดลองเล่น</span>
-          <div class={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] bg-yellow-400 transition-all duration-300 ${isActive("/ทดลองเล่น") ? "w-full" : "w-0 group-hover:w-full"}`}></div>
-        </a>
-
-        <a
-          href="/ทางเข้า"
-          class={`group relative flex items-center h-full px-4 xl:px-6 text-sm xl:text-base font-bold transition-all duration-300 ${isActive("/ทางเข้า") ? "text-yellow-400" : "text-emerald-100 hover:text-yellow-300"}`}>
-          <div
-            class={`absolute inset-0 bg-gradient-to-b from-transparent to-yellow-500/10 transition-opacity duration-300 ${isActive("/ทางเข้า") ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}>
-          </div>
-          <span class="relative z-10">ทางเข้า</span>
-          <div class={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] bg-yellow-400 transition-all duration-300 ${isActive("/ทางเข้า") ? "w-full" : "w-0 group-hover:w-full"}`}></div>
-        </a>
-
-        <a
-          href="/contact-us"
-          class={`group relative flex items-center h-full px-4 xl:px-6 text-sm xl:text-base font-bold transition-all duration-300 ${isActive("/contact-us") ? "text-yellow-400" : "text-emerald-100 hover:text-yellow-300"}`}>
-          <div
-            class={`absolute inset-0 bg-gradient-to-b from-transparent to-yellow-500/10 transition-opacity duration-300 ${isActive("/contact-us") ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}>
-          </div>
-          <span class="relative z-10">ติดต่อเรา</span>
-          <div class={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] bg-yellow-400 transition-all duration-300 ${isActive("/contact-us") ? "w-full" : "w-0 group-hover:w-full"}`}></div>
-        </a>
+        {
+          links.map((link) => (
+            <a
+              href={link.path}
+              class={`group relative flex items-center h-full px-4 xl:px-6 text-sm xl:text-base font-bold transition-all duration-300 ${isActive(link.path) ? "text-amber-400" : "text-blue-100 hover:text-amber-300"}`}>
+              <div
+                class={`absolute inset-0 bg-gradient-to-b from-transparent to-amber-400/10 transition-opacity duration-300 ${isActive(link.path) ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}
+              />
+              <span class="relative z-10">{link.name}</span>
+              <div
+                class={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] bg-amber-400 transition-all duration-300 ${isActive(link.path) ? "w-full" : "w-0 group-hover:w-full"}`}
+              />
+            </a>
+          ))
+        }
       </div>
 
       <div class="flex items-center gap-3 md:gap-4">
         <a
-          href="/signin"
-          class="hidden items-center justify-center rounded-full border border-yellow-500 px-6 py-2.5 text-sm font-bold text-yellow-400 shadow-[0_0_10px_rgba(251,191,36,0.2)] transition-all hover:bg-yellow-500 hover:text-emerald-950 lg:flex">
+          href="/login"
+          class="hidden items-center justify-center rounded-full border border-amber-400 px-6 py-2.5 text-sm font-bold text-amber-300 shadow-[0_0_10px_rgba(251,191,36,0.2)] transition-all hover:bg-amber-400 hover:text-[#04102e] lg:flex">
           เข้าสู่ระบบ
         </a>
         <a
-          href="/signup"
-          class="hidden items-center justify-center rounded-full bg-gradient-to-r from-yellow-400 to-yellow-600 px-6 py-2.5 text-sm font-extrabold text-emerald-950 shadow-[0_0_20px_rgba(251,191,36,0.4)] transition-all hover:scale-105 hover:brightness-110 lg:flex">
+          href="/register"
+          class="hidden items-center justify-center rounded-full bg-gradient-to-r from-amber-300 to-[#b8860b] px-6 py-2.5 text-sm font-extrabold text-[#04102e] shadow-[0_0_20px_rgba(251,191,36,0.4)] transition-all hover:scale-105 hover:brightness-110 lg:flex">
           สมัครสมาชิก
         </a>
 
         <button
           id="hamburger-btn"
-          class="relative z-[60] flex h-10 w-10 flex-col items-center justify-center overflow-hidden rounded-full border-2 border-emerald-900 bg-gradient-to-tr from-yellow-600 to-yellow-400 shadow-[0_0_15px_rgba(251,191,36,0.5)] lg:hidden"
+          class="relative z-[60] flex h-10 w-10 flex-col items-center justify-center overflow-hidden rounded-full border-2 border-blue-900 bg-gradient-to-tr from-[#b8860b] to-amber-300 shadow-[0_0_15px_rgba(251,191,36,0.5)] lg:hidden"
           aria-label="Menu">
-          <span class="hamburger-line absolute h-[2px] w-5 -translate-y-1.5 transform rounded-full bg-emerald-950 transition-all duration-300"></span>
-          <span class="hamburger-line absolute h-[2px] w-5 rounded-full bg-emerald-950 transition-all duration-300"></span>
-          <span class="hamburger-line absolute h-[2px] w-5 translate-y-1.5 transform rounded-full bg-emerald-950 transition-all duration-300"></span>
+          <span class="hamburger-line absolute h-[2px] w-5 -translate-y-1.5 transform rounded-full bg-[#04102e] transition-all duration-300"></span>
+          <span class="hamburger-line absolute h-[2px] w-5 rounded-full bg-[#04102e] transition-all duration-300"></span>
+          <span class="hamburger-line absolute h-[2px] w-5 translate-y-1.5 transform rounded-full bg-[#04102e] transition-all duration-300"></span>
         </button>
       </div>
     </div>
   </nav>
 
-  <div id="mobile-circular-menu" class="pointer-events-none fixed inset-0 z-40 flex flex-col items-center justify-center bg-[#022c22]/98 backdrop-blur-2xl lg:hidden">
+  <div id="mobile-circular-menu" class="pointer-events-none fixed inset-0 z-40 flex flex-col items-center justify-center bg-[#04102e]/98 backdrop-blur-2xl lg:hidden">
     <div class="flex w-full flex-col items-center space-y-6 px-6">
-      <Picture src={mainLogo!} alt="CHOKDEE1688 Logo" class="menu-item mb-6 h-[50px] w-auto opacity-0 drop-shadow-[0_0_15px_rgba(251,191,36,0.4)]" formats={["avif", "webp"]} fallbackFormat="webp" />
+      {
+        mainLogo ? (
+          <Picture src={mainLogo} alt="PORING168 Logo" class="menu-item mb-6 h-[50px] w-auto opacity-0 drop-shadow-[0_0_15px_rgba(251,191,36,0.4)]" formats={["avif", "webp"]} fallbackFormat="webp" />
+        ) : (
+          <p class="menu-item mb-6 bg-gradient-to-b from-[#fef08a] to-[#b8860b] bg-clip-text text-3xl font-black text-transparent opacity-0">PORING168</p>
+        )
+      }
 
-      <a
-        href="/"
-        class={`menu-item opacity-0 text-3xl font-black uppercase tracking-wider transition-all duration-300 ${isActive("/") ? "text-yellow-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]" : "text-emerald-100 hover:text-white"}`}>
-        หน้าแรก
-      </a>
-      <a
-        href="/promotion"
-        class={`menu-item opacity-0 text-3xl font-black uppercase tracking-wider transition-all duration-300 ${isActive("/promotion") ? "text-yellow-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]" : "text-emerald-100 hover:text-white"}`}>
-        โปรโมชั่น
-      </a>
-      <a
-        href="/ทดลองเล่น"
-        class={`menu-item opacity-0 text-3xl font-black uppercase tracking-wider transition-all duration-300 ${isActive("/ทดลองเล่น") ? "text-yellow-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]" : "text-emerald-100 hover:text-white"}`}>
-        ทดลองเล่น
-      </a>
-      <a
-        href="/ทางเข้า"
-        class={`menu-item opacity-0 text-3xl font-black uppercase tracking-wider transition-all duration-300 ${isActive("/ทางเข้า") ? "text-yellow-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]" : "text-emerald-100 hover:text-white"}`}>
-        ทางเข้า
-      </a>
-      <a
-        href="/contact-us"
-        class={`menu-item opacity-0 text-3xl font-black uppercase tracking-wider transition-all duration-300 ${isActive("/contact-us") ? "text-yellow-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]" : "text-emerald-100 hover:text-white"}`}>
-        ติดต่อเรา
-      </a>
+      {
+        links.map((link) => (
+          <a
+            href={link.path}
+            class={`menu-item opacity-0 text-3xl font-black uppercase tracking-wider transition-all duration-300 ${isActive(link.path) ? "text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]" : "text-blue-100 hover:text-white"}`}>
+            {link.name}
+          </a>
+        ))
+      }
 
-      <div class="menu-item mt-4 flex w-full max-w-[280px] flex-col gap-4 border-t border-emerald-800/50 pt-8 opacity-0">
+      <div class="menu-item mt-4 flex w-full max-w-[280px] flex-col gap-4 border-t border-blue-800/50 pt-8 opacity-0">
         <a
-          href="/signup"
-          class="flex w-full items-center justify-center rounded-full bg-gradient-to-r from-yellow-400 to-yellow-600 py-3.5 text-lg font-extrabold text-emerald-950 shadow-[0_0_20px_rgba(251,191,36,0.4)]">
+          href="/register"
+          class="flex w-full items-center justify-center rounded-full bg-gradient-to-r from-amber-300 to-[#b8860b] py-3.5 text-lg font-extrabold text-[#04102e] shadow-[0_0_20px_rgba(251,191,36,0.4)]">
           🔥 สมัครสมาชิก
         </a>
-        <a href="/signin" class="flex w-full items-center justify-center rounded-full border border-yellow-500/50 py-3.5 text-lg font-bold text-yellow-400 hover:bg-yellow-500/10">เข้าสู่ระบบ</a>
+        <a href="/login" class="flex w-full items-center justify-center rounded-full border border-amber-400/50 py-3.5 text-lg font-bold text-amber-300 hover:bg-amber-400/10">เข้าสู่ระบบ</a>
       </div>
     </div>
   </div>

@@ -5,11 +5,23 @@ import BankStrip from "./BankStrip.astro";
 const images = import.meta.glob<{ default: ImageMetadata }>("../assets/logo.{png,webp,jpg}", { eager: true });
 const imagePaths = Object.keys(images);
 const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
+
+const links = [
+  { name: "หน้าแรก", path: "/" },
+  { name: "โปรโมชั่น", path: "/promotion" },
+  { name: "ทดลองเล่น", path: "/ทดลองเล่น" },
+  { name: "ทางเข้า", path: "/ทางเข้า" },
+  { name: "ติดต่อเรา", path: "/contact-us" },
+  { name: "สมัครสมาชิก", path: "/register" },
+  { name: "เข้าสู่ระบบ", path: "/login" },
+];
+
+const gameCategories = ["สล็อตออนไลน์ (Slot)", "คาสิโนสด (Live Casino)", "เกมยิงปลา (Fishing)", "เกมโบนัสแตกง่าย (Bonus Buy)"];
 ---
 
-<footer class="relative w-full overflow-hidden border-t-[3px] border-[#dc2626] bg-[#0d0304] pt-16 pb-8 font-sans text-white shadow-[0_-10px_30px_rgba(220,38,38,0.2)]">
-  <div class="pointer-events-none absolute top-0 right-0 h-96 w-96 rounded-full bg-[#dc2626]/12 blur-[100px]"></div>
-  <div class="pointer-events-none absolute bottom-0 left-0 h-96 w-96 rounded-full bg-yellow-500/5 blur-[100px]"></div>
+<footer class="relative w-full overflow-hidden border-t-[3px] border-amber-400 bg-[#04102e] pt-16 pb-8 font-sans text-white shadow-[0_-10px_30px_rgba(37,99,235,0.25)]">
+  <div class="pointer-events-none absolute top-0 right-0 h-96 w-96 rounded-full bg-[#2563eb]/20 blur-[100px]"></div>
+  <div class="pointer-events-none absolute bottom-0 left-0 h-96 w-96 rounded-full bg-amber-400/8 blur-[100px]"></div>
 
   <div class="relative z-10 mx-auto w-full max-w-[1200px] px-6">
     <div class="mb-12 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
@@ -17,20 +29,21 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
         <a href="/" class="inline-block origin-left transition-transform hover:scale-105">
           {
             mainLogo ? (
-              <Picture src={mainLogo} alt="CASHOT123 Logo" class="h-[50px] w-auto drop-shadow-[0_0_15px_rgba(220,38,38,0.5)]" formats={["avif", "webp"]} fallbackFormat="webp" />
+              <Picture src={mainLogo} alt="PORING168 Logo" class="h-[50px] w-auto drop-shadow-[0_0_15px_rgba(37,99,235,0.6)]" formats={["avif", "webp"]} fallbackFormat="webp" />
             ) : (
-              <span class="bg-gradient-to-b from-[#fef08a] to-[#ca8a04] bg-clip-text text-4xl font-black text-transparent drop-shadow-[0_0_10px_rgba(220,38,38,0.4)]">CASHOT123</span>
+              <span class="bg-gradient-to-b from-[#fef08a] to-[#b8860b] bg-clip-text text-4xl font-black text-transparent drop-shadow-[0_0_10px_rgba(37,99,235,0.5)]">PORING168</span>
             )
           }
         </a>
-        <p class="text-sm leading-relaxed text-red-50/80">
-          CASHOT123 เว็บออนไลน์คาสิโน เว็บตรงครบวงจร รวมสล็อต คาสิโนสด กีฬา หวย และเกมจากค่ายชั้นนำไว้ในแพลตฟอร์มเดียว พร้อมระบบฝากถอนอัตโนมัติ รองรับทุกธนาคารและ True Wallet
+        <p class="text-sm leading-relaxed text-blue-50/80">
+          PORING168 เว็บมั่นคงสล็อตออนไลน์ รวมเกมสล็อตหลายรูปแบบไว้ในระบบเดียว พร้อมโปรทุนน้อย สิทธิ์คืนยอดเสียตามเงื่อนไข และระบบฝากถอนออโต้
+          รองรับทุกธนาคารและ True Wallet
         </p>
         <div class="mt-2 flex items-center gap-3">
-          <div class="flex items-center gap-1.5 rounded border border-[#dc2626]/50 bg-[#dc2626]/10 px-3 py-1.5 text-xs font-bold text-[#f87171] shadow-[0_0_10px_rgba(220,38,38,0.25)]">
+          <div class="flex items-center gap-1.5 rounded border border-[#2563eb]/60 bg-[#2563eb]/15 px-3 py-1.5 text-xs font-bold text-[#93c5fd] shadow-[0_0_10px_rgba(37,99,235,0.3)]">
             <span class="text-base">🛡️</span> SSL/TLS 256-BIT
           </div>
-          <div class="flex items-center gap-1.5 rounded border border-yellow-500/50 bg-yellow-500/10 px-3 py-1.5 text-xs font-bold text-yellow-400">
+          <div class="flex items-center gap-1.5 rounded border border-amber-400/50 bg-amber-400/10 px-3 py-1.5 text-xs font-bold text-amber-300">
             <span class="text-base">⚡</span> AUTO 24H
           </div>
         </div>
@@ -38,19 +51,14 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 
       <nav aria-label="Quick Links" class="flex flex-col gap-4 lg:pl-8">
         <p class="flex items-center gap-2 text-lg font-extrabold text-white">
-          <span class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#f87171] to-[#991b1b]"></span> เมนูหลัก
+          <span class="h-6 w-1.5 rounded-full bg-gradient-to-b from-amber-300 to-[#b8860b]"></span> เมนูหลัก
         </p>
         <ul class="flex flex-col gap-3 text-sm">
           {
-            [
-              { name: "หน้าแรก", path: "/" },
-              { name: "โปรโมชั่น", path: "/promotion" },
-              { name: "สมัครสมาชิก", path: "/register" },
-              { name: "เข้าสู่ระบบ", path: "/login" },
-            ].map((link) => (
+            links.map((link) => (
               <li>
-                <a href={link.path} class="group flex items-center text-red-50/80 transition-all hover:text-yellow-400">
-                  <span class="mr-2 -ml-4 text-[#dc2626] opacity-0 transition-all group-hover:ml-0 group-hover:opacity-100">➤</span>
+                <a href={link.path} class="group flex items-center text-blue-50/80 transition-all hover:text-amber-300">
+                  <span class="mr-2 -ml-4 text-[#60a5fa] opacity-0 transition-all group-hover:ml-0 group-hover:opacity-100">➤</span>
                   {link.name}
                 </a>
               </li>
@@ -61,14 +69,14 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 
       <nav aria-label="Game Categories" class="flex flex-col gap-4">
         <p class="flex items-center gap-2 text-lg font-extrabold text-white">
-          <span class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#f87171] to-[#991b1b]"></span> หมวดหมู่เกม
+          <span class="h-6 w-1.5 rounded-full bg-gradient-to-b from-amber-300 to-[#b8860b]"></span> หมวดหมู่เกม
         </p>
         <ul class="flex flex-col gap-3 text-sm">
           {
-            ["สล็อตออนไลน์ (Slot)", "คาสิโนสด (Live Casino)", "เดิมพันกีฬา (Sportsbook)", "หวยออนไลน์ (Lottery)"].map((game) => (
+            gameCategories.map((game) => (
               <li>
-                <a href="/register" class="group flex items-center text-red-50/80 transition-all hover:text-white">
-                  <span class="mr-3 h-1.5 w-1.5 rounded-full bg-[#7f1d1d] transition-colors group-hover:bg-[#dc2626] group-hover:shadow-[0_0_8px_rgba(220,38,38,0.8)]" />
+                <a href="/register" class="group flex items-center text-blue-50/80 transition-all hover:text-white">
+                  <span class="mr-3 h-1.5 w-1.5 rounded-full bg-[#1e3a8a] transition-colors group-hover:bg-[#2563eb] group-hover:shadow-[0_0_8px_rgba(37,99,235,0.9)]" />
                   {game}
                 </a>
               </li>
@@ -79,23 +87,23 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 
       <div class="flex flex-col gap-5">
         <p class="flex items-center gap-2 text-lg font-extrabold text-white">
-          <span class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#f87171] to-[#991b1b]"></span> บริการลูกค้า
+          <span class="h-6 w-1.5 rounded-full bg-gradient-to-b from-amber-300 to-[#b8860b]"></span> บริการลูกค้า
         </p>
 
         <a
           href="/line"
           class="flex w-full items-center justify-center gap-2 rounded-lg bg-[#00B900] py-3 font-bold text-white shadow-[0_0_15px_rgba(0,185,0,0.3)] transition-transform hover:scale-105">
-          <span class="text-xl font-black">LINE</span> @CASHOT123
+          <span class="text-xl font-black">LINE</span> @PORING168
         </a>
 
         <div class="mt-2">
-          <p class="mb-3 text-xs font-bold tracking-wider text-[#dc2626]/90 uppercase">รองรับทุกธนาคาร & True Wallet</p>
+          <p class="mb-3 text-xs font-bold tracking-wider text-amber-300/90 uppercase">รองรับทุกธนาคาร & True Wallet</p>
           <BankStrip size={26} limit={12} />
         </div>
       </div>
     </div>
 
-    <div class="mb-6 flex flex-wrap justify-center gap-4 border-y border-[#dc2626]/30 py-6 opacity-60 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0 md:gap-8">
+    <div class="mb-6 flex flex-wrap justify-center gap-4 border-y border-[#2563eb]/40 py-6 opacity-60 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0 md:gap-8">
       <span class="text-lg font-black text-gray-300 italic md:text-2xl">PG<span class="text-yellow-500">SLOT</span></span>
       <span class="text-lg font-black text-gray-300 italic md:text-2xl">SEXY<span class="text-pink-500">BACCARAT</span></span>
       <span class="text-lg font-black text-gray-300 italic md:text-2xl">SA<span class="text-green-500">GAMING</span></span>
@@ -103,11 +111,11 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
       <span class="text-lg font-black text-gray-300 italic md:text-2xl">JILI<span class="text-yellow-500">CITY</span></span>
     </div>
 
-    <div class="flex flex-col items-center justify-between gap-4 text-xs text-red-200/50 md:flex-row">
-      <p>&copy; {new Date().getFullYear()} <span class="font-bold text-[#f87171]">CASHOT123</span>. All rights reserved. เว็บออนไลน์คาสิโน เว็บตรงครบวงจร</p>
+    <div class="flex flex-col items-center justify-between gap-4 text-xs text-blue-200/50 md:flex-row">
+      <p>&copy; {new Date().getFullYear()} <span class="font-bold text-amber-300">PORING168</span>. All rights reserved. เว็บมั่นคงสล็อตออนไลน์ ฝากถอนออโต้</p>
       <div class="flex gap-4">
-        <a href="/" class="transition-colors hover:text-yellow-400">เงื่อนไขการให้บริการ</a>
-        <a href="/" class="transition-colors hover:text-yellow-400">นโยบายความเป็นส่วนตัว</a>
+        <a href="/" class="transition-colors hover:text-amber-300">เงื่อนไขการให้บริการ</a>
+        <a href="/" class="transition-colors hover:text-amber-300">นโยบายความเป็นส่วนตัว</a>
       </div>
     </div>
   </div>

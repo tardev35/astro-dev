@@ -6,7 +6,10 @@ export interface Props {
 }
 
 // 2. ตั้งค่าเริ่มต้น (ถ้าไม่ใส่ variant มา จะดึงสี red มาใช้เป็นค่าตั้งต้น)
-const { message = "⚡ PANAMA888 เว็บตรงคาสิโน เกมอัปเดตตลอด ฝากถอนไวทุกช่วงเวลา", variant = "dark" } = Astro.props;
+const {
+  message = "📢 PORING168 สล็อตเว็บตรง มาตรฐานสากล ฝากถอนไม่มีขั้นต่ำ รองรับทรูวอเลท ประมวลผลอัตโนมัติในเสี้ยววินาที ลื่นไหล ปลอดภัย 100% ทุกการเชื่อมต่อ",
+  variant = "gold",
+} = Astro.props;
 ---
 
 <div class="gxt1-container mx-auto max-w-[900px]" data-variant={variant} role="region" aria-label="ประกาศ">
@@ -33,14 +36,14 @@ const { message = "⚡ PANAMA888 เว็บตรงคาสิโน เก�
     --text-color: #ffffff;
   }
 
-  /* 🌟 สไตล์ที่ 2: สีทอง VIP (Gold) */
+  /* 🌟 สไตล์ที่ 2: น้ำเงินโรยัล + ทอง (Gold) — ค่าตั้งต้นของแบรนด์ปัจจุบัน */
   .gxt1-container[data-variant="gold"] {
-    --bg1: #856000;
-    --bg2: #ca8a04;
-    --border: #fef08a;
-    --label-bg: rgba(0, 0, 0, 0.3);
-    --label-shadow: rgba(0, 0, 0, 0.5);
-    --text-color: #ffffff;
+    --bg1: #04102e;
+    --bg2: #0e3486;
+    --border: #fbbf24;
+    --label-bg: rgba(251, 191, 36, 0.18);
+    --label-shadow: rgba(37, 99, 235, 0.5);
+    --text-color: #fde68a;
   }
 
   /* 🌟 สไตล์ที่ 3: สีชมพู ABM96 (Pink) */

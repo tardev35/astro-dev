@@ -19,6 +19,6 @@ export default defineConfig({
     "/line": "https://tinyurl.com/suhng",
   },
 
-  site: "https://pgzeed168-auto.com",
+  site: "https://ezwin168ss.com",
   integrations: [sitemap()],
 });

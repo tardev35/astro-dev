@@ -5,46 +5,49 @@ const imagePaths = Object.keys(images);
 const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 ---
 
-<footer class="relative mt-16 w-full overflow-hidden rounded-t-[3rem] border-t border-blue-500/60 bg-[#030d16] pt-16 pb-8 font-sans text-white shadow-[0_-15px_40px_rgba(37,99,235,0.25)]">
-  <div class="pointer-events-none absolute inset-x-0 -top-20 mx-auto h-[250px] w-full max-w-4xl rounded-full bg-blue-600/20 blur-[100px]"></div>
+<footer class="relative mt-16 w-full overflow-hidden rounded-t-[3rem] border-t border-amber-500/60 bg-[#04170d] pt-16 pb-8 font-sans text-white shadow-[0_-15px_40px_rgba(16,185,129,0.25)]">
+  <div class="pointer-events-none absolute inset-x-0 -top-20 mx-auto h-[250px] w-full max-w-4xl rounded-full bg-emerald-600/20 blur-[100px]"></div>
 
   <div class="relative z-10 mx-auto w-full max-w-[1200px] px-6">
     <div class="mb-12 grid grid-cols-1 gap-12 md:grid-cols-12">
       <div class="flex flex-col gap-5 md:col-span-5">
-        <a href="/" class="inline-block max-w-max rounded-xl border border-blue-500/30 bg-white px-4 py-2 transition-transform duration-300 hover:scale-105">
+        <a href="/" class="inline-block max-w-max rounded-xl border border-amber-500/30 bg-[#062b16] px-4 py-2 transition-transform duration-300 hover:scale-105">
           {
             mainLogo ? (
-              <Picture src={mainLogo} alt="HENGJUD365 Logo" class="h-[50px] w-auto object-contain" formats={["avif", "webp"]} fallbackFormat="webp" />
+              <Picture src={mainLogo} alt="EZWIN168 โลโก้เว็บสล็อตออนไลน์" class="h-[50px] w-auto object-contain" formats={["avif", "webp"]} fallbackFormat="webp" />
             ) : (
-              <h2 class="text-3xl font-black tracking-widest text-[#0a0a0a]">
-                HENG<span class="text-blue-600">JUD365</span>
-              </h2>
+              <p class="text-3xl font-black tracking-widest text-white">
+                EZ<span class="text-amber-400">WIN168</span>
+              </p>
             )
           }
         </a>
-        <p class="border-l-2 border-yellow-500/50 pl-4 text-sm leading-relaxed text-gray-400">
-          HENGJUD365 เว็บไซต์รีวิวเกมสล็อตออนไลน์ผ่านระบบเว็บตรง ข้อมูลเว็บตรง ระบบฝากถอนอัตโนมัติ และทางเข้าล่าสุด อัปเดตต่อเนื่องเพื่อผู้เริ่มต้นเล่นเกมสล็อต
+        <p class="border-l-2 border-amber-500/50 pl-4 text-sm leading-relaxed text-emerald-100/70">
+          EZWIN168 แพลตฟอร์มสล็อตออนไลน์ที่รวบรวมเกมหลายรูปแบบ พร้อมระบบฝากถอนออโต้ โปรทุนน้อย และสิทธิ์คืนยอดเสียตามเงื่อนไขที่เว็บไซต์กำหนด สมาชิกควรอ่านรายละเอียดโปรโมชั่นและข้อกำหนดการถอนก่อนใช้งาน
         </p>
         <div class="mt-4 flex gap-3">
-          <span class="rounded-full border border-blue-400/30 bg-blue-900/30 px-4 py-1 text-xs font-medium text-blue-300 backdrop-blur-sm">เว็บตรง</span>
-          <span class="rounded-full border border-yellow-500/30 bg-yellow-900/20 px-4 py-1 text-xs font-medium text-yellow-400 backdrop-blur-sm">RTP 96.7%</span>
+          <span class="rounded-full border border-emerald-400/30 bg-emerald-900/30 px-4 py-1 text-xs font-medium text-emerald-300 backdrop-blur-sm">ฝากถอนออโต้</span>
+          <span class="rounded-full border border-amber-500/30 bg-amber-900/20 px-4 py-1 text-xs font-medium text-amber-400 backdrop-blur-sm">คืนยอดเสีย</span>
         </div>
       </div>
 
       <nav class="flex flex-col gap-4 md:col-span-3 lg:pl-8">
-        <h2 class="text-lg font-black tracking-widest text-white uppercase drop-shadow-sm">ทางลัด</h2>
-        <div class="h-[1px] w-12 bg-yellow-500"></div>
-        <ul class="flex flex-col gap-3 text-sm font-medium text-gray-400">
-          <li><a href="/" class="transition-colors hover:text-yellow-400">หน้าหลัก</a></li>
-          <li><a href="/promotion" class="transition-colors hover:text-yellow-400">โปรโมชั่น</a></li>
-          <li><a href="/register" class="transition-colors hover:text-yellow-400">สมัครสมาชิก</a></li>
-          <li><a href="/login" class="transition-colors hover:text-yellow-400">เข้าสู่ระบบ</a></li>
+        <p class="text-lg font-black tracking-widest text-white uppercase drop-shadow-sm">ทางลัด</p>
+        <div class="h-[1px] w-12 bg-amber-500"></div>
+        <ul class="flex flex-col gap-3 text-sm font-medium text-emerald-100/70">
+          <li><a href="/" class="transition-colors hover:text-amber-400">หน้าหลัก</a></li>
+          <li><a href="/promotion" class="transition-colors hover:text-amber-400">โปรโมชั่น</a></li>
+          <li><a href="/ทดลองเล่น" class="transition-colors hover:text-amber-400">ทดลองเล่น</a></li>
+          <li><a href="/ทางเข้า" class="transition-colors hover:text-amber-400">ทางเข้าเล่น</a></li>
+          <li><a href="/contact-us" class="transition-colors hover:text-amber-400">ติดต่อเรา</a></li>
+          <li><a href="/register" class="transition-colors hover:text-amber-400">สมัครสมาชิก</a></li>
+          <li><a href="/login" class="transition-colors hover:text-amber-400">เข้าสู่ระบบ</a></li>
         </ul>
       </nav>
 
       <div class="flex flex-col gap-5 md:col-span-4">
-        <h2 class="text-lg font-black tracking-widest text-white uppercase drop-shadow-sm">บริการลูกค้า 24 ชม.</h2>
-        <div class="h-[1px] w-12 bg-yellow-500"></div>
+        <p class="text-lg font-black tracking-widest text-white uppercase drop-shadow-sm">บริการลูกค้า 24 ชม.</p>
+        <div class="h-[1px] w-12 bg-amber-500"></div>
 
         <a
           href="/line"
@@ -52,7 +55,7 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
           ติดต่อแอดมิน LINE
         </a>
 
-        <div class="mt-4 text-xs font-medium tracking-widest text-gray-500 uppercase">Supported Payments</div>
+        <div class="mt-4 text-xs font-medium tracking-widest text-emerald-200/50 uppercase">Supported Payments</div>
         <div class="flex flex-wrap gap-2 opacity-90">
           <div class="flex h-7 w-11 items-center justify-center rounded-md border border-white/10 bg-[#118A44] text-[10px] font-bold text-white shadow-sm" title="KBank">KB</div>
           <div class="flex h-7 w-11 items-center justify-center rounded-md border border-white/10 bg-[#4E2B7A] text-[10px] font-bold text-white shadow-sm" title="SCB">SCB</div>
@@ -68,11 +71,11 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
       </div>
     </div>
 
-    <div class="flex flex-col items-center justify-between border-t border-blue-900/40 pt-8 text-xs font-medium tracking-wide text-gray-500 md:flex-row">
-      <p>COPYRIGHT &copy; {new Date().getFullYear()} HENGJUD365.COM. ALL RIGHTS RESERVED.</p>
+    <div class="flex flex-col items-center justify-between border-t border-emerald-900/60 pt-8 text-xs font-medium tracking-wide text-emerald-200/50 md:flex-row">
+      <p>COPYRIGHT &copy; {new Date().getFullYear()} EZWIN168SS.COM. ALL RIGHTS RESERVED.</p>
       <div class="mt-4 flex gap-4 md:mt-0">
-        <a href="/" class="transition-colors hover:text-yellow-400">เงื่อนไขข้อตกลง</a>
-        <a href="/" class="transition-colors hover:text-yellow-400">นโยบายความเป็นส่วนตัว</a>
+        <a href="/" class="transition-colors hover:text-amber-400">เงื่อนไขข้อตกลง</a>
+        <a href="/" class="transition-colors hover:text-amber-400">นโยบายความเป็นส่วนตัว</a>
       </div>
     </div>
   </div>

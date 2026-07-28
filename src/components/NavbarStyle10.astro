@@ -8,56 +8,57 @@ const isActive = (path: string) => {
   if (path === "/") return currentPath === "/";
   return currentPath.startsWith(path);
 };
+const links = [
+  { name: "หน้าแรก", path: "/" },
+  { name: "โปรโมชั่น", path: "/promotion" },
+  { name: "ทดลองเล่น", path: "/ทดลองเล่น" },
+  { name: "ทางเข้า", path: "/ทางเข้า" },
+  { name: "ติดต่อเรา", path: "/contact-us" },
+];
 ---
 
-<div class="hidden w-full border-b border-yellow-600/30 bg-gradient-to-r from-[#2b0404] via-[#5c0a0a] to-[#2b0404] px-4 py-1.5 font-sans text-xs font-bold text-yellow-100/80 lg:block">
+<div class="hidden w-full border-b border-amber-600/30 bg-gradient-to-r from-[#04170d] via-[#0a3d22] to-[#04170d] px-4 py-1.5 font-sans text-xs font-bold text-emerald-100/80 lg:block">
   <div class="mx-auto flex max-w-7xl justify-between">
     <div class="flex gap-4">
-      <span class="flex items-center gap-1"><span class="text-yellow-400">👑</span> KONG24H เว็บใหญ่อันดับ 1</span>
-      <span class="flex items-center gap-1 text-green-400"><span class="text-green-500">✔</span> ฝาก-ถอน ออโต้ 24 ชม.</span>
+      <span class="flex items-center gap-1"><span class="text-amber-400">👑</span> EZWIN168 เว็บมั่นคง จ่ายทุกบิล</span>
+      <span class="flex items-center gap-1 text-emerald-300"><span class="text-emerald-400">✔</span> ฝาก-ถอน ออโต้ 24 ชม.</span>
     </div>
     <div class="flex gap-4">
-      <a href="/line" class="flex items-center gap-1 transition-colors hover:text-white">ติดต่อแอดมิน LINE: @KONG24H</a>
+      <a href="/line" class="flex items-center gap-1 transition-colors hover:text-white">ติดต่อแอดมิน LINE</a>
     </div>
   </div>
 </div>
 
 <header class="sticky top-2 z-50 mt-2 w-full px-2 font-sans md:px-4">
   <nav
-    class="relative mx-auto flex h-[75px] w-full max-w-7xl items-center justify-between rounded-[20px] border border-yellow-500/40 bg-[#1a0202]/90 px-4 shadow-[0_10px_30px_rgba(234,179,8,0.15)] backdrop-blur-lg xl:px-8">
+    class="relative mx-auto flex h-[75px] w-full max-w-7xl items-center justify-between rounded-[20px] border border-amber-500/40 bg-[#04170d]/90 px-4 shadow-[0_10px_30px_rgba(251,191,36,0.15)] backdrop-blur-lg xl:px-8">
     <a href="/" class="z-50 flex-shrink-0 transition-transform hover:scale-105">
       {
         mainLogo ? (
           <Picture
             src={mainLogo}
-            alt="KONG24H Logo"
+            alt="EZWIN168 โลโก้เว็บสล็อตออนไลน์"
             loading="eager"
             fetchpriority="high"
-            class="h-[40px] w-auto drop-shadow-[0_0_10px_rgba(234,179,8,0.5)] xl:h-[45px]"
+            class="h-[40px] w-auto drop-shadow-[0_0_10px_rgba(251,191,36,0.5)] xl:h-[45px]"
             formats={["avif", "webp"]}
             fallbackFormat="webp"
           />
         ) : (
-          <h1 class="bg-gradient-to-b from-[#fef08a] to-[#ca8a04] bg-clip-text text-3xl font-black text-transparent drop-shadow-[0_0_8px_rgba(234,179,8,0.4)]">KONG24H</h1>
+          <p class="bg-gradient-to-b from-[#fcd34d] to-[#b8860b] bg-clip-text text-3xl font-black text-transparent drop-shadow-[0_0_8px_rgba(251,191,36,0.4)]">EZWIN168</p>
         )
       }
     </a>
 
     <div class="hidden h-full items-center gap-6 lg:flex xl:gap-8">
       {
-        [
-          { name: "หน้าแรก", path: "/" },
-          { name: "โปรโมชั่น", path: "/promotion" },
-          { name: "ทดลองเล่น", path: "/ทดลองเล่น" },
-          { name: "ทางเข้า", path: "/ทางเข้า" },
-          { name: "ติดต่อเรา", path: "/contact-us" },
-        ].map((item) => (
+        links.map((item) => (
           <a
             href={item.path}
-            class={`group relative flex h-full items-center text-sm font-bold tracking-wide uppercase transition-colors xl:text-base ${isActive(item.path) ? "text-yellow-400 drop-shadow-[0_0_8px_rgba(234,179,8,0.4)]" : "text-red-50/80 hover:text-yellow-400"}`}>
+            class={`group relative flex h-full items-center text-sm font-bold tracking-wide uppercase transition-colors xl:text-base ${isActive(item.path) ? "text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.4)]" : "text-emerald-50/80 hover:text-amber-400"}`}>
             <span>{item.name}</span>
             <div
-              class={`absolute bottom-[18px] left-0 h-[2px] w-full origin-center bg-yellow-400 shadow-[0_0_8px_rgba(234,179,8,0.8)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+              class={`absolute bottom-[18px] left-0 h-[2px] w-full origin-center bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.8)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
             />
           </a>
         ))
@@ -67,39 +68,33 @@ const isActive = (path: string) => {
     <div class="z-50 flex items-center gap-3">
       <a
         href="/login"
-        class="hidden items-center justify-center rounded-full border border-yellow-500/50 bg-[#3d0606] px-6 py-2 text-sm font-bold text-yellow-400 shadow-sm transition-all hover:bg-yellow-500/20 lg:flex">
+        class="hidden items-center justify-center rounded-full border border-amber-500/50 bg-[#0a3d22] px-6 py-2 text-sm font-bold text-amber-400 shadow-sm transition-all hover:bg-amber-500/20 lg:flex">
         เข้าสู่ระบบ
       </a>
       <a
         href="/register"
-        class="hidden items-center justify-center rounded-full bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600 px-6 py-2 text-sm font-black text-red-950 shadow-[0_0_15px_rgba(234,179,8,0.4)] transition-all hover:scale-105 lg:flex">
+        class="hidden items-center justify-center rounded-full bg-gradient-to-r from-amber-300 via-amber-500 to-amber-600 px-6 py-2 text-sm font-black text-emerald-950 shadow-[0_0_15px_rgba(251,191,36,0.4)] transition-all hover:scale-105 lg:flex">
         สมัครสมาชิก
       </a>
 
       <button
         id="hamburger-btn"
-        class="relative flex h-[42px] w-[42px] flex-col items-center justify-center gap-[5px] rounded-full border border-yellow-500/30 bg-gradient-to-b from-[#3d0606] to-[#1a0202] shadow-sm lg:hidden"
+        class="relative flex h-[42px] w-[42px] flex-col items-center justify-center gap-[5px] rounded-full border border-amber-500/30 bg-gradient-to-b from-[#0a3d22] to-[#04170d] shadow-sm lg:hidden"
         aria-label="Menu">
-        <span class="line-1 h-[2px] w-5 origin-center rounded-full bg-yellow-400 transition-all duration-300"></span>
-        <span class="line-2 h-[2px] w-5 origin-center rounded-full bg-yellow-400 transition-all duration-300"></span>
-        <span class="line-3 h-[2px] w-5 origin-center rounded-full bg-yellow-400 transition-all duration-300"></span>
+        <span class="line-1 h-[2px] w-5 origin-center rounded-full bg-amber-400 transition-all duration-300"></span>
+        <span class="line-2 h-[2px] w-5 origin-center rounded-full bg-amber-400 transition-all duration-300"></span>
+        <span class="line-3 h-[2px] w-5 origin-center rounded-full bg-amber-400 transition-all duration-300"></span>
       </button>
     </div>
   </nav>
 
-  <div id="fullscreen-menu" class="pointer-events-none fixed inset-0 z-[40] flex flex-col items-center justify-center bg-[#1a0202]/98 opacity-0 backdrop-blur-xl transition-opacity duration-500">
+  <div id="fullscreen-menu" class="pointer-events-none fixed inset-0 z-[40] flex flex-col items-center justify-center bg-[#04170d]/98 opacity-0 backdrop-blur-xl transition-opacity duration-500">
     <div class="flex w-full flex-col items-center space-y-5 px-6">
       {
-        [
-          { name: "หน้าแรก", path: "/" },
-          { name: "โปรโมชั่น", path: "/promotion" },
-          { name: "ทดลองเล่น", path: "/ทดลองเล่น" },
-          { name: "ทางเข้า", path: "/ทางเข้า" },
-          { name: "ติดต่อเรา", path: "/contact-us" },
-        ].map((item) => (
+        links.map((item) => (
           <a
             href={item.path}
-            class={`fs-item text-2xl font-black tracking-widest uppercase transition-all duration-300 ${isActive(item.path) ? "text-yellow-400 drop-shadow-[0_0_10px_rgba(234,179,8,0.6)]" : "text-white/80 hover:text-white"}`}>
+            class={`fs-item text-2xl font-black tracking-widest uppercase transition-all duration-300 ${isActive(item.path) ? "text-amber-400 drop-shadow-[0_0_10px_rgba(251,191,36,0.6)]" : "text-white/80 hover:text-white"}`}>
             {item.name}
           </a>
         ))
@@ -107,12 +102,12 @@ const isActive = (path: string) => {
       <div class="fs-item mt-4 flex w-full max-w-[280px] flex-col gap-4 pt-6">
         <a
           href="/register"
-          class="flex w-full items-center justify-center rounded-full bg-gradient-to-r from-yellow-400 to-yellow-600 py-3.5 text-lg font-black text-red-950 shadow-[0_0_20px_rgba(234,179,8,0.5)]">
+          class="flex w-full items-center justify-center rounded-full bg-gradient-to-r from-amber-400 to-amber-600 py-3.5 text-lg font-black text-emerald-950 shadow-[0_0_20px_rgba(251,191,36,0.5)]">
           สมัครสมาชิกใหม่
         </a>
         <a
           href="/login"
-          class="flex w-full items-center justify-center rounded-full border-2 border-yellow-500/50 bg-[#3d0606] py-3.5 text-lg font-bold text-yellow-400 transition-colors hover:bg-yellow-500/20">
+          class="flex w-full items-center justify-center rounded-full border-2 border-amber-500/50 bg-[#0a3d22] py-3.5 text-lg font-bold text-amber-400 transition-colors hover:bg-amber-500/20">
           เข้าสู่ระบบ
         </a>
       </div>
@@ -126,7 +121,6 @@ const isActive = (path: string) => {
   div {
     font-family: "Kanit", sans-serif !important;
   }
-  /* Hamburger Animation */
   #hamburger-btn.active .line-1 {
     transform: translateY(7px) rotate(45deg);
   }
@@ -137,7 +131,6 @@ const isActive = (path: string) => {
     transform: translateY(-7px) rotate(-45deg);
   }
 
-  /* FS Menu Animation */
   .fs-item {
     opacity: 0;
     transform: translateY(20px);

@@ -1462,3 +1462,85 @@ NavbarStyle family, Footer family** โดย:
 **การ verify:** `node --check` ผ่าน; รันเซิร์ฟเวอร์จริงแล้วดึงหน้า `/` มา parse — สคริปต์ที่ฝังในหน้า compile ผ่าน, ตรวจครบทุก field แล้วทั้ง `data-newpage` 3 แถว และ `data-page` 4 แถวมี `.status` ครบ (เดิม `huay` ขึ้น MISSING), `/current-newpages` ตอบครบ 3 คีย์; ปิด process ทดสอบเรียบร้อย ไม่แตะไฟล์ในโปรเจกต์
 
 **Out of scope:** ไม่แตะ logic ฝั่ง server (`/upload`), ไม่เปลี่ยนพฤติกรรมสวิตช์ «หน้าเสริม» ที่เริ่มปิดเสมอ
+
+**อัปเดตวันเดียวกัน — ปุ่ม «ดึงจาก content.docx» ดึงข้ามหัวข้อ:** เจอ 2 บั๊กใน `parseSubPages()` ที่ทำให้ Title/Meta ลงผิดช่อง
+
+1. **หัวข้อที่เครื่องมือไม่รู้จักไม่ปิด section** — `current` จะเปลี่ยนก็ต่อเมื่อบรรทัดนั้นแมตช์ `PAGE_META` เท่านั้น เจอ `[บทความ]`, `[เข้าสู่ระบบ]`, `2. Main Title & Meta Description` (ซึ่งไม่มีช่องรองรับ) แล้ว `current` ค้างอยู่ที่หน้าก่อนหน้า → Title/Meta ของบล็อกถัดไป **ทับ** หน้าก่อนหน้า ผลคือ `[บทความ]`→ช่องโปรโมชั่น, `[เข้าสู่ระบบ]`→ช่องติดต่อเรา, Title รวมของเว็บ→ช่องทดลองเล่น (ทางเข้าเล่นรอดเพราะบล็อกถัดไปคือทดลองเล่นซึ่งแมตช์พอดี) — ตรงกับที่ผู้ใช้เห็นทุกช่อง
+2. **`metaRe` ไม่แมตช์ `Meta Description:`** — regex เดิม `(?:meta|des|description)\s*[:：]` บังคับให้โคลอนตามหลังคำแรกทันที brief ที่เขียนว่า "Meta Description:" (แบบเต็ม) จึงถูกข้ามเงียบๆ ไม่เคยดึง Meta ได้เลย ช่อง Meta ที่เห็นว่าถูกคือค่าที่ prefill มาจาก `/current-pages` (อ่านจากไฟล์ .astro) ไม่ใช่จาก docx
+
+**ที่แก้:** บรรทัดสั้น (≤40 ตัวอักษร ที่ไม่ใช่ Title/Meta) ถือเป็นหัวข้อ **ทุกกรณี** → `current = hit ?? null` เนื้อหาของหัวข้อที่ไม่มีช่องรองรับจะถูก "ทิ้ง" แทนที่จะ "ย้ายไปทับหน้าอื่น"; และขยาย `metaRe` เป็น `(?:meta(?:\s*desc(?:ription)?)?|desc(?:ription)?|des)` รองรับทั้ง `Meta:` / `Meta Description:` / `Description:` / `Des:`
+
+**การ verify:** รันเซิร์ฟเวอร์จริง (`PORT=4051` เพื่อไม่ชนอินสแตนซ์ที่เปิดอยู่) แล้วยิง `/parse-docx` 4 เคส — (A) `content.docx` จริงในโปรเจกต์ (วงเล็บเหลี่ยม + `Meta:`) ได้ครบ 4 หน้า title/meta ถูกทุกช่อง, (B) docx สังเคราะห์รูปแบบ brief ใหม่ (ไม่มีวงเล็บ + `Meta Description:`) ถูกทุกช่อง — ก่อนแก้ เคส B ให้ผลผิดตรงกับสกรีนช็อตของผู้ใช้เป๊ะ ใช้ยืนยันสาเหตุ, (C) docx ที่ขาดหน้า → ขึ้น `ทดลองเล่น: ไม่พบใน docx` ถูกต้อง, (D) มีบรรทัดสั้นแทรกกลาง section → section ถูกปิด ข้อมูลตกหล่นแต่**ขึ้น warning ให้เห็น** (เลือก fail แบบนี้โดยตั้งใจ: ตกหล่นแล้วเตือน ดีกว่าเงียบๆ เอาไปทับหน้าอื่น)
+
+**ยังไม่ได้ทำ (รอตัดสินใจ):** docx มีบล็อก `[เข้าสู่ระบบ]` (มี `src/pages/login.astro` จริง) และ `[บทความ]` (มีช่อง Title/Meta ในการ์ด «หน้าเสริม» อยู่แล้ว) แต่ทั้งคู่ยังไม่มีปลายทางใน `PAGE_META` → ตอนนี้ถูกทิ้ง ถ้าจะรับเพิ่มต้องเพิ่มแถวใน `PAGE_META` + markup การ์ด และให้ `pullDocx` เติมช่องของ «หน้าเสริม» ด้วย
+
+## 2026-07-27 — รีแบรนด์ PGZEED168 → EZWIN168 (ezwin168ss.com) แบบขนาน 3 agent
+
+**เป้าหมาย:** `rebrand and retheme to "EZWIN168" then real url is "https://ezwin168ss.com" ทำแบบ 2-agent ขนานตาม playbook` — prompt จากการ์ด «คำสั่ง Rebrand» ของ uploader (ไม่มีคำ `เป็นเว็บหวย` → หน้าหวยต้องปิด) จำนวน agent มาจาก playbook ไม่ใช่จาก prompt: sub-page 6 หน้า → แตกเป็น B/C ตามกฎ (>2 หน้า = แบ่ง, ≤2 = รวมเป็น B เดียว) รวมเป็น **3 fan-out agent**
+
+### Brand inputs (Phase 1)
+- `src/assets/content.txt` มีอยู่แล้ว (uploader เขียนไว้) — อ่านครั้งเดียวจบ ไม่ต้อง unzip docx: 1 H1 + 6 H2 + Q&A 3 ข้อ + บล็อก SUB-PAGES title/meta 6 หน้า
+- `src/assets/palette.json` (`updatedAt` 2026-07-28) — `logo.webp` vivid[0] `#03532a`, `bg.png` vivid `#034e03`, `banner1.png` vivid ทอง `#8e5212`/`#704c13` → อ่านรูปยืนยันด้วยตา: **โต๊ะคาสิโนเขียวขวดเข้ม + ตัวอักษรทองเมทัลลิก** มีพลอยแดงเป็นจุดประดับเล็กๆ
+- **ปัญหาเฉพาะรอบนี้: แบรนด์เก่าก็เขียว (lime) แบรนด์ใหม่ก็เขียว** ถ้าสลับเฉด lime→emerald เฉยๆ จะดูเหมือนเว็บเดิมทาสีใหม่ จึง**แยก role**: เขียวคงเป็นเขียว (`emerald-*`) แต่ **accent/ขอบ/เรืองแสง/CTA ทั้งหมดเปลี่ยนเป็นทอง (`amber-*`)** ซึ่งเป็นสิ่งที่ทำให้ EZWIN168 ต่างจาก PGZEED168 จริง
+- ตารางแมปสี: `lime-950/900/600/500`→`emerald-*` เลขเดิม, `lime-400/300/200`→**`amber-400/300/200`**, `lime-100/50`→`emerald-100/50`, `green-*`→`emerald-*`, `rgba(163,230,53,X)`→`rgba(251,191,36,X)`; hex ดิบ `#04170d` (พื้นลึกสุด) / `#062b16` (แผง) / `#0a3d22` (กลาง) / ทอง `#fbbf24`,`#fcd34d`,`#b8860b`
+
+### Variant rotation (before → after)
+- Navbar: **`NavbarStyle8` → `NavbarStyle10`** (แถบบนบาง + nav pill sticky + fullscreen menu มือถือ; เดิมธีมแดง/เหลืองของ `KONG24` → เขียวขวด/ทอง; แปลง array ลิงก์ที่ซ้ำ 2 ชุดเป็น `const links` ใช้ร่วม desktop+mobile; logo fallback `<h1>`→`<p>`) [P1 orchestrator]
+- Footer: **`FooterCyber` → `FooterPremiumSumo`** (กริด 12 คอลัมน์ มุมบนโค้ง 3rem; เดิมน้ำเงิน/เหลืองของ `HENGJUD365` → เขียว/ทอง; หัวคอลัมน์ `<h2>`→`<p>`, logo fallback `<h2>`→`<p>`; **เพิ่มลิงก์ ทดลองเล่น/ทางเข้า/ติดต่อเรา** ที่เดิมมีแค่ 4 ลิงก์) [P1]
+- Announcement: **`Announcement6` → `Announcement3`** (เดิม default message เป็นของ `GROW268` → ตั้ง default เป็น copy EZWIN168; ทุกหน้า repoint import เอง) [P1 retheme; แต่ละ agent repoint หน้าของตัวเอง]
+- LatestWinners: **`LatestWinners` (base) → `LatestWinners3`** (เดิมแดง/เหลือง; ป้าย feed `<h2>`→`<p>` เพราะเป็น widget label ไม่ใช่หัวข้อ docx) [Agent A]
+- Faq: **`Faq2` → `Faq3`** [Agent A]
+- ContentBox mix: **Premium-led + plain + SevenThreePremium + SevenThreeNeumorphism → `FloatingBadge`(H1) + `SevenThreeFloatingBadge` + `SevenThree`(plain) + `CyberCut` + `Special` + `Neumorphism` + plain `ContentBox`** — ไม่ใช้ Premium ตระกูลเลยรอบนี้
+
+### แมปเนื้อหา docx → slot (7 หัวข้อ ครบตามลำดับเอกสาร)
+1. H1 `EZWIN168 | เว็บมั่นคงสล็อตออนไลน์ โปรทุนน้อยคืนยอดเสีย จ่ายทุกบิล` → `ContentBoxFloatingBadge`
+2. H2 `EZWIN168 รวมสล็อตออนไลน์หลายแนวในระบบเดียว` → `ContentBoxSevenThreeFloatingBadge` + **slide2** (ภาพเขียนว่า "เว็บตรง เล่นกับบริษัทแม่โดยตรง ลิขสิทธิ์แท้ 100% รวมค่ายดังระดับโลก" ตรงกับหัวข้อพอดี) → ต่อด้วย `ProviderGrid` + `GameRankingBoard`
+3. H2 `โปรทุนน้อยช่วยให้เริ่มต้นตามงบประมาณได้ง่ายขึ้น` → `ContentBoxSevenThree` (plain) + **slide3** ("เครดิตฟรี แจกฟรีทุกวัน ถอนได้จริง")
+4. H2 `คืนยอดเสียตามรอบและเงื่อนไขที่กำหนดที่ EZWIN168` → `ContentBoxCyberCut`
+5. H2 `ฝากถอนออโต้ EZWIN168 ช่วยลดขั้นตอนการทำรายการ` → `ContentBoxSpecial` → ต่อด้วย `LatestWinners3`
+6. H2 `การจ่ายทุกบิลควรตรวจสอบสถานะและข้อกำหนดร่วมด้วย` → `ContentBoxNeumorphism`
+7. H2 `EZWIN168 มีช่องทางดูแลปัญหาตลอดการใช้งาน` → plain `ContentBox` + `FeatureHighlights` (4 sub-point เป็น `<h3>` — ที่เดียวในเว็บที่มี h3 ได้)
+- ปิดท้าย `LoginRtpSection` → `Faq3` (ส่ง `faqs` 3 ข้อ) → `Navfoot`
+- **สไลด์ที่ใช้: slide2, slide3 เท่านั้น** (SevenThree 2 บล็อกตามลิมิต); `slide1` = og:image; **`slide4` ไม่ใช้** (ปกติ ไม่ต้องยัดเข้าไป)
+- **ไม่มี inline illustration จาก `banner2/3` รอบนี้** — `banner2.png` (Jul 25) / `banner3.png` (Jul 22) / `banner.png` (Jul 23) เป็นของแบรนด์ก่อน ไม่มีคีย์ใน `palette.json` ของ drop นี้ → stale ทั้งหมด
+
+### หน้าเสริม 4 หน้า — ปิดทั้งหมด (orchestrator ตัดสินใน P1)
+prompt ไม่มี `เว็บหวย`, docx ไม่มีหัวข้อ "เกี่ยวกับเรา" และ**ไม่มีเนื้อหาบทความ** (มีแค่บรรทัด Title/Meta ของ `บทความ` ในบล็อก SUB-PAGES ซึ่งไม่พอจะเขียนบทความจริง — ถ้าเอา 6 หัวข้อของหน้าแรกไปซ้ำจะกลายเป็น thin/duplicate content) → `ตรวจหวย`, `แนวทาง`, `บทความ`, `about-us` **ปิดทั้ง 4** ทั้งหมดอยู่ใน `src/pages-disabled/` แล้ว **ไม่ต้องย้ายไฟล์** และ `NavbarStyle10`/`FooterPremiumSumo` ที่หมุนมาใหม่ไม่มีลิงก์ไปหาเลย (grep route ยืนยัน) — build ออกมา 7 route ตรงตามตาราง
+
+### การแบ่งงานขนาน (3 agent, ไฟล์ไม่ทับกันเลย)
+- **P0/P1 orchestrator ทำเอง:** อ่าน content.txt + palette.json + รูป, เลือก variant, เขียน brand-spec 1 ไฟล์ให้ทุก agent อ่าน (ห้าม re-extract docx / ห้ามเลือก variant เอง), แล้ว retheme **shared chrome ก่อน fan-out**: `MainLayout.astro` (repoint navbar/footer + brand/title/desc/OG/alt), `NavbarStyle10`, `FooterPremiumSumo`, `Announcement3` (5 หน้าใช้), `ContentBox` (3 หน้า), `ContentBoxHuay` (2 หน้า), `Navfoot` (5 หน้า) + URL 2 จุด (`astro.config.mjs` `site:`, `public/robots.txt` `Sitemap:`) + `public/site.webmanifest`
+- **Agent A — หน้าแรก:** `index.astro` + 16 component เฉพาะหน้าแรก (รวม `ContentBoxTwo` ที่มาจาก `LoginRtpSection` แบบ recursive — grep ชั้นเดียวจะมองไม่เห็น)
+- **Agent B — 4 หน้าที่ใช้ MainLayout:** `promotion`, `contact-us`, `ทดลองเล่น`, `ทางเข้า` (ไม่มี component ส่วนตัวเลย)
+- **Agent C — 2 หน้า standalone:** `login`, `register` (HTML เต็ม + `<style>` ของตัวเอง ไม่ใช้ MainLayout → ต้องแก้สีในไฟล์เอง)
+- URL จุดที่ 3 (`webSiteSchema.url` ใน `index.astro` ซึ่งเป็น string literal ไม่ตาม `site:`) มอบให้ Agent A เพราะอยู่ในไฟล์ของมัน
+
+### บั๊ก/ของค้างที่เจอรอบนี้
+1. **`public/site.webmanifest` ชี้ไอคอนผิดไฟล์มานาน** — ชี้ `/android-chrome-192x192.png` + `/android-chrome-512x512.png` (ลงวันที่ **Jul 26** = ของแบรนด์ก่อน) แต่ uploader เขียน `web-app-manifest-192x192.png` / `web-app-manifest-512x512.png` (Jul 27 = drop นี้) → **ไอคอนตอน install PWA เป็นโลโก้แบรนด์เก่า** ทุกแบรนด์ที่ผ่านมา แก้ให้ชี้ไฟล์ที่ uploader เขียนจริง (drift เก่า ไม่ได้เกิดจากรอบนี้)
+2. **`Faq3` ไม่มี prop `faqs` เลย** — hardcode FAQ 2 ข้อเรื่อง TrueWallet/ไม่มีขั้นต่ำของแบรนด์เก่าไว้ในไฟล์ Agent A เพิ่ม `Props`/`FaqItem` interface + ตั้ง default เป็น 3 ข้อของ EZWIN168 → ถ้าหน้าอื่นเรียก `<Faq3 />` เปล่าๆ จะได้ copy ปัจจุบัน ไม่ใช่ของเก่า (เดิมถ้าใครส่ง `faqs` เข้าไปจะถูกเมินเงียบๆ)
+3. **`ContentBoxFloatingBadge` badge ล้นทับเนื้อหาบนมือถือจริง** — คำนวณแล้ว H1 ยาว 60 ตัวอักษรที่ `text-3xl` (30px, lh 45px) จะ wrap ~4-5 บรรทัดในกล่องกว้าง ~280px → ขอบล่าง badge ~180-225px ชน `pt-28` (112px) แก้ 2 ทาง: ย่อฟอนต์ badge แบบ responsive (h1 `text-lg sm:text-2xl md:text-3xl`) + เพิ่ม padding `pt-36 sm:pt-28`; `ContentBoxSevenThreeFloatingBadge` `pt-16`→`pt-24 sm:pt-20` + เติม `leading-normal` ให้ badge h2 (เดิมไม่มี line-height class); **sync padding `pt-24 sm:pt-20` ให้ `ContentBoxTwoFloatingBadge` (เดิม `pt-12`) และ `ContentBox3ThreeFloatingBadge` (เดิม `pt-18`)** ตามกฎคุมทั้งตระกูล — ส่วน fix แนวนอน `w-[92%] max-w-2xl text-center` มีอยู่ครบทั้ง 4 ไฟล์แล้วจากรอบก่อน ไม่ได้ถอดออก
+4. ถอด `✦ … ✦` ที่ประดับใน badge ของ `ContentBoxFloatingBadge` ออก เพื่อให้ข้อความ h1 ที่ render ตรงกับหัวข้อ docx เป๊ะตัวอักษร (ไม่งั้น heading diff ใน Phase 5 จะจับได้)
+5. **schema `url` ของ `contact-us` เป็น path เปล่าๆ** (`currentPath`) ซึ่งผิดตาม schema.org — Agent B แก้เป็น `homePage + currentPath`
+6. **JSON-LD ของหน้า `ทดลองเล่น` ไม่มี `@type` เลย** — เป็น array ของ `{name, image}` ล้วน และ maintain ชื่อเกม 12 ชื่อซ้ำ 2 array; Agent B ใส่ `"@type": "Game"` + map จาก `demoGames` array เดียว (กัน 2 array drift กันเอง)
+7. **CSS variable ชื่อหลอกใน `login`/`register`** — `--brand-lime*` ถืออยู่บนค่าทอง และ `--text-grey: #d9f99d` (จริงๆ คือ lime-200 ไม่ใช่เทา) Agent C **เปลี่ยนชื่อตัวแปร** เป็น `--brand-gold*` / `--text-muted` ไม่ปล่อยให้เป็นกับดักชื่อหลอกของแบรนด์หน้า (`--brand-green` ที่ประกาศไว้แต่ไม่มีใครใช้ คงไว้เฉยๆ)
+8. **ตัดคำโฆษณาเกินจริงของแบรนด์เก่าออก** — brief ของ EZWIN168 เป็นโทน "อ่านเงื่อนไขก่อน" ทั้งฉบับ แต่หน้าย่อยเดิมมี "จ่ายเต็ม 100%", "API แท้ไม่ล็อคยูสเซอร์", "AI อัจฉริยะ", "คืนยอดเสีย 20%/5%/3%", "โบนัส 500 บาท", "ไม่ต้องฝากไม่ต้องสมัคร" ซึ่งไม่มีใน brief → เขียนใหม่ตาม brief ไม่ยกตัวเลขหรือคำรับประกันที่ brief ไม่ได้ให้
+9. **ไม่ประดิษฐ์ LINE ID** — `NavbarStyle10` hardcode `ติดต่อแอดมิน LINE: @KONG24H` ของแบรนด์เก่า brief ไม่ได้ให้ LINE ID ของ EZWIN168 → เปลี่ยนเป็น `ติดต่อแอดมิน LINE` เปล่าๆ ชี้ไป redirect `/line` ที่มีอยู่ (แบบเดียวกับที่ `FooterCyber` เคยทำ)
+
+### การ verify ที่ทำจริง (build ครั้งเดียวตามกฎ build cadence)
+- `npm run build` — **7 หน้า 0 fail** (route list ตรงตารางหน้าเสริมเป๊ะ: ไม่มี `/ตรวจหวย`, `/แนวทาง`, `/บทความ`, `/about-us` และ grep `dist/` ไม่มีลิงก์ค้างไปหาทั้ง 4 route)
+- **ชื่อแบรนด์เก่าใน `dist/` ทั้งโฟลเดอร์ = 0 ไฟล์** (`PGZEED168`/`pgzeed168`/`พีจีซี้ด168`/`pgzeed168-auto`) และแบรนด์อื่นที่ติดมากับ variant ที่เพิ่งดึงเข้า (`KONG24`, `HENGJUD365`, `GROW268`, `SUMOHENG`, ฯลฯ) = 0 ด้วย
+- **`lime` ใน markup = 0** — แยกตรวจ: นอก `<style>` 0 ครั้ง, ใน `class=` attribute 0 ครั้ง, ใน `<style>` 98 ครั้ง (= Tailwind สแกนเจอ inventory component ที่ไม่ได้ render ตามคาด ไม่ใช่บั๊ก); `rgba(163,230,53` = 0
+- **HTML comment = 0 ทั้ง 8 ไฟล์** ใน `dist/` (รวมหน้า redirect `/line`)
+- `og:image` = `https://ezwin168ss.com/_astro/slide1.Cffb0Q7l.png` (hashed asset ของ drop นี้ ไม่ใช่ path `public/` ค้าง)
+- ไม่มี `banner2`/`banner3`/`banner.png` ค้างใน `dist/`; ไม่มี `undefined`/`NaN`/`[object Object]`
+- **heading:** index = h1×1 + h2×6 + h3×4 (h3 = 4 sub-point ของ `FeatureHighlights` ใต้หัวข้อ 7 ตามที่ออกแบบ); ทุกหน้าย่อย h1×1 h2×0 h3×0; ดึง h1/h2 ที่ render ออกมาเทียบ checklist docx → **ข้อความตรง จำนวนตรง ลำดับตรงทั้ง 7 ข้อ**
+- **ตรวจ body คำต่อคำ:** เทียบย่อหน้า docx ทั้ง 7 (content.txt L24/26/28/30/32/34/36) กับข้อความที่ render → verbatim ครบ 6 ข้อ; ข้อ 5 ถูก `ContentBoxSpecial` แบ่งเป็น 2 ครึ่ง (170 + 76 ตัวอักษร) ตามดีไซน์ของ component ที่เป็นกล่องสองซีก **join กลับได้ตรงกับย่อหน้า docx 100% (247 ตัวอักษร ไม่ขาดไม่เกินคำเดียว)** ตัดที่ขอบประโยค
+- FAQ 3 ข้อ render ครบ 3
+- `ezwin168ss.com` ปรากฏ 53 จุดใน `dist/`; `dist/robots.txt` → `Sitemap: https://ezwin168ss.com/sitemap-0.xml`
+- **วัดจริงบนเบราว์เซอร์ผ่าน CDP** (Chrome headless + `Emulation.setDeviceMetricsOverride`, เขียนสคริปต์เอง — repo ไม่มี puppeteer, ใช้ `WebSocket` global ของ Node 22): ทุก route ที่ 390px และ 1440px **`scrollWidth == innerWidth` ไม่มี horizontal overflow เลย**; **FloatingBadge clearance วัดได้จริง**: badge H1 สูง 78px (wrap 2 บรรทัด) ขอบล่างอยู่ที่ 56px จากขอบบนการ์ด, `padding-top` 144px, เนื้อหาแรกเริ่มที่ 146px → **เหลือช่องว่าง 90px**; badge หัวข้อ 2 สูง 72px ขอบล่าง 50px, pt 96px → **เหลือ 48px**; ทั้งคู่ `fitsHorizontally: true` (กว้าง 326 ≤ 390) ยืนยันด้วยสกรีนช็อตมือถือจริงที่ crop ดูเต็มความละเอียด
+- **บทเรียนเรื่องเครื่องมือ 2 ข้อ:** (ก) `chrome --headless --screenshot --window-size=390,x` แบบเก่า **จัด layout ที่ความกว้าง default แล้วค่อย crop เป็น 390** → เห็นเนื้อหาถูกตัดขวาเหมือนเว็บล้น ซึ่งเป็น artifact ไม่ใช่บั๊ก ต้องใช้ `--headless=new` + `Emulation.setDeviceMetricsOverride` ผ่าน CDP จึงจะวัดได้จริง; (ข) ยิง URL ที่ขึ้นต้นด้วย `/` ผ่าน git-bash ถูก MSYS แปลงเป็น path Windows (`C:/Program Files/Git/promotion`) ทำให้ navigate ไม่สำเร็จและเห็น title ของหน้าเดิมค้าง — ต้องตั้ง `MSYS_NO_PATHCONV=1`
+- **เกือบเข้าใจผิด:** วัด `/login` `/register` ครั้งแรกได้ `<title>SUMOHENG | …</title>` + `h1=0` เพราะรอ 3.5 วิ **นานกว่า `<meta http-equiv="refresh" content="1.5;…">`** เบราว์เซอร์เลยไปถึงปลายทาง affiliate แล้ว — ตรวจไฟล์ `dist/login|register/index.html` ตรงๆ ยืนยัน title EZWIN168 ถูกต้อง, h1×1, `SUMOHENG` = 0 ครั้งในไฟล์
+- ปิด process ทดสอบ (Chrome headless + http-server) หลังเสร็จ
+
+**ข้อสังเกตที่ส่งต่อผู้ดูแล (ไม่ได้แก้):** ลิงก์ affiliate `https://yoalink.com/mucr` ใน `login`/`register` ตอนนี้ redirect ไปหน้าที่ title เป็น **`SUMOHENG | สล็อตเว็บตรง …`** = แบรนด์เก่า แปลว่าผู้ใช้ที่กดเข้าสู่ระบบ/สมัครสมาชิกบน EZWIN168 จะไปโผล่หน้าแบรนด์ SUMOHENG — brief ไม่ได้ให้ลิงก์ affiliate ใหม่ และกติกาคือคง `targetUrl` ไว้ byte-identical จึง**ไม่แก้** แต่ควรอัปเดตปลายทางถ้าต้องการ
+
+**Out of scope / ไม่แตะ:** variant ที่หลุดจากการใช้งานรอบนี้กลายเป็น inventory ของแบรนด์หน้า — `NavbarStyle8`, `FooterCyber`, `Announcement6`, `LatestWinners` (base), `Faq2`, `ContentBoxPremium`, `ContentBoxSevenThreePremium`, `ContentBoxSevenThreeNeumorphism` — **ชื่อ/สี PGZEED168 ที่ค้างในนั้น = expected drift ไม่ต้องแก้** (นับได้: FooterCyber 4 จุด, Announcement6 2, LatestWinners 2, NavbarStyle8 1, Faq2 1); inventory เดิมอื่นทั้งหมดเช่นกัน รวม HTML comment `banner2.jpg` ใน `Navbar.astro:102`; หน้าใน `src/pages-disabled/` ทั้ง 4 ยัง import `Announcement6` และยังมีชื่อแบรนด์เก่า — ไม่ route จึงไม่ render (ถ้าแบรนด์หน้าเปิดหน้าไหน ต้องรีแบรนด์ + repoint import ตอนนั้น); ไฟล์ภาพ stale `banner.png`/`banner2.png`/`banner3.png` **ไม่ลบ**; `targetUrl` affiliate ใน login/register คงเดิม byte-identical; redirect `/line` → tinyurl คงเดิม; โครงสร้าง `<head>` ของ `MainLayout` ไม่จัดเรียงใหม่และไม่เติม tag ตามกฎ anti-footprint; `bg.json`/`bg.png` uploader-managed (`{"mode":"image"}`); `slide4.png` ไม่ได้ใช้; `tools/rebrand-uploader/server.mjs` + `workspec.md` มี diff ค้างจากงานวันก่อนหน้า ไม่เกี่ยวกับรีแบรนด์นี้; `.claude/settings.json` มี `defaultMode: auto` เพิ่มมาจาก harness ไม่ใช่ส่วนของรีแบรนด์

@@ -8,11 +8,11 @@ const { titleleft, titleright } = Astro.props;
 
 <section class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
-    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-lime-50/85">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-emerald-50/85">
       {
         titleleft && (
-          <p class="flex items-center gap-3 border-b border-lime-400/40 pb-3 text-xl leading-normal font-black tracking-wide text-lime-100 drop-shadow-md">
-            <span class="flex h-9 w-9 items-center justify-center rounded-lg border border-lime-300/50 bg-gradient-to-br from-lime-400 to-green-600 text-sm text-[#04120a] shadow-[0_0_10px_rgba(163,230,53,0.5)]">
+          <p class="flex items-center gap-3 border-b border-amber-400/40 pb-3 text-xl leading-normal font-black tracking-wide text-amber-100 drop-shadow-md">
+            <span class="flex h-9 w-9 items-center justify-center rounded-lg border border-amber-300/50 bg-gradient-to-br from-amber-300 to-amber-600 text-sm text-[#04170d] shadow-[0_0_10px_rgba(251,191,36,0.5)]">
               🔐
             </span>
             {titleleft}
@@ -22,11 +22,11 @@ const { titleleft, titleright } = Astro.props;
       <slot name="left" />
     </article>
 
-    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-lime-50/85">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-emerald-50/85">
       {
         titleright && (
-          <p class="flex items-center gap-3 border-b border-lime-400/40 pb-3 text-xl leading-normal font-black tracking-wide text-lime-100 drop-shadow-md">
-            <span class="flex h-9 w-9 items-center justify-center rounded-lg border border-green-400/40 bg-gradient-to-br from-green-600 to-green-900 text-sm text-white shadow-[0_0_10px_rgba(34,197,94,0.5)]">
+          <p class="flex items-center gap-3 border-b border-amber-400/40 pb-3 text-xl leading-normal font-black tracking-wide text-amber-100 drop-shadow-md">
+            <span class="flex h-9 w-9 items-center justify-center rounded-lg border border-emerald-400/40 bg-gradient-to-br from-emerald-600 to-emerald-900 text-sm text-white shadow-[0_0_10px_rgba(16,185,129,0.5)]">
               💰
             </span>
             {titleright}

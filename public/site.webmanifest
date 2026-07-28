@@ -1,11 +1,11 @@
 {
-  "name": "PGZEED168 | สล็อตเกมยอดนิยม โบนัสเข้าง่าย ฝากถอนออโต้ มั่นคง",
-  "short_name": "PGZEED168",
+  "name": "EZWIN168 | เว็บมั่นคงสล็อตออนไลน์ โปรทุนน้อยคืนยอดเสีย จ่ายทุกบิล",
+  "short_name": "EZWIN168",
   "icons": [
-    { "src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
+    { "src": "/web-app-manifest-192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/web-app-manifest-512x512.png", "sizes": "512x512", "type": "image/png" }
   ],
-  "theme_color": "#04120a",
-  "background_color": "#04120a",
+  "theme_color": "#04170d",
+  "background_color": "#04170d",
   "display": "standalone"
 }

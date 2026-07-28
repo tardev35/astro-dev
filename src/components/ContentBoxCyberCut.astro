@@ -9,17 +9,17 @@ const headingSize = HeadingTag === "h1" ? "text-3xl" : "text-2xl";
 
 <section class="my-6 flex w-full justify-center px-4 font-sans">
   <div
-    class="relative isolate w-full max-w-7xl border border-amber-500/40 bg-[#0d0304]/90 p-8 text-left text-base leading-relaxed text-amber-50/80 shadow-[0_0_20px_rgba(245,158,11,0.18)] backdrop-blur-md"
+    class="relative isolate w-full max-w-7xl border border-amber-400/40 bg-[#04170d]/90 p-8 text-left text-base leading-relaxed text-emerald-50/85 shadow-[0_0_20px_rgba(251,191,36,0.18)] backdrop-blur-md"
     style="clip-path: polygon(40px 0, 100% 0, 100% calc(100% - 40px), calc(100% - 40px) 100%, 0 100%, 0 40px);">
     <div class="absolute top-0 left-0 -z-10 h-1 w-32 bg-gradient-to-r from-amber-400 to-transparent"></div>
-    <div class="absolute right-0 bottom-0 -z-10 h-1 w-32 bg-gradient-to-l from-red-600 to-transparent"></div>
+    <div class="absolute right-0 bottom-0 -z-10 h-1 w-32 bg-gradient-to-l from-emerald-500 to-transparent"></div>
     <div class="absolute top-0 left-0 -z-10 h-32 w-1 bg-gradient-to-b from-amber-400 to-transparent"></div>
-    <div class="absolute right-0 bottom-0 -z-10 h-32 w-1 bg-gradient-to-t from-red-600 to-transparent"></div>
+    <div class="absolute right-0 bottom-0 -z-10 h-32 w-1 bg-gradient-to-t from-emerald-500 to-transparent"></div>
 
     {
       title && (
-        <header class="mb-8 border-l-4 border-amber-500 pl-6">
-          <HeadingTag class={`${headingSize} leading-normal font-black tracking-wide text-amber-300 drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]`}>{title}</HeadingTag>
+        <header class="mb-8 border-l-4 border-amber-400 pl-6">
+          <HeadingTag class={`${headingSize} leading-normal font-black tracking-wide text-amber-300 drop-shadow-[0_0_10px_rgba(251,191,36,0.5)]`}>{title}</HeadingTag>
         </header>
       )
     }

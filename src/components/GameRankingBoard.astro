@@ -9,7 +9,7 @@ import img6 from "../assets/providers/game6.avif";
 
 const games = [
   { rank: 1, name: "Mahjong Ways 2", type: "PG Soft • สล็อตยอดนิยม", rtp: 98.7, players: 5124, img: img1 },
-  { rank: 2, name: "Gates of Olympus", type: "Pragmatic Play • สล็อตแตกหนัก", rtp: 97.9, players: 3842, img: img2 },
+  { rank: 2, name: "Gates of Olympus", type: "Pragmatic Play • ความผันผวนสูง", rtp: 97.9, players: 3842, img: img2 },
   { rank: 3, name: "Sweet Bonanza", type: "Pragmatic Play • ซื้อฟรีสปิน", rtp: 97.6, players: 3517, img: img3 },
   { rank: 4, name: "Fortune Tiger", type: "PG Soft • สล็อตคลาสสิก", rtp: 97.2, players: 2905, img: img4 },
   { rank: 5, name: "Sugar Rush", type: "Pragmatic Play • คลัสเตอร์เพย์", rtp: 96.8, players: 2431, img: img5 },
@@ -21,10 +21,12 @@ const medal = (rank: number) => (rank === 1 ? "🥇" : rank === 2 ? "🥈" : ran
 
 <section class="mx-auto w-full max-w-[1300px] px-4 py-8 font-sans">
   <div class="mb-8 flex w-full flex-col items-center justify-center gap-2 text-center">
-    <span class="text-2xl drop-shadow-[0_0_10px_rgba(163,230,53,0.7)]">🏆</span>
-    <p class="bg-gradient-to-r from-white via-lime-200 to-lime-400 bg-clip-text text-2xl font-black tracking-wide text-transparent drop-shadow-sm">จัดอันดับเกม RTP สูงสุดประจำสัปดาห์</p>
-    <p class="max-w-2xl text-sm text-lime-50/60">ข้อมูลค่า RTP โดยประมาณจากการวิเคราะห์ค่ายเกม เพื่อประกอบการตัดสินใจเลือกเกมของผู้เริ่มต้น</p>
-    <div class="mt-2 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-lime-400 to-transparent"></div>
+    <span class="text-2xl drop-shadow-[0_0_10px_rgba(251,191,36,0.7)]">🏆</span>
+    <p class="bg-gradient-to-r from-white via-amber-200 to-amber-400 bg-clip-text text-2xl font-black tracking-wide text-transparent drop-shadow-sm">
+      จัดอันดับเกม RTP สูงสุดประจำสัปดาห์
+    </p>
+    <p class="max-w-2xl text-sm text-emerald-50/60">ข้อมูลค่า RTP โดยประมาณจากการวิเคราะห์ค่ายเกม เพื่อประกอบการตัดสินใจเลือกเกมของผู้เริ่มต้น</p>
+    <div class="mt-2 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-amber-400 to-transparent"></div>
   </div>
 
   <div class="flex flex-col gap-3">
@@ -35,26 +37,26 @@ const medal = (rank: number) => (rank === 1 ? "🥇" : rank === 2 ? "🥈" : ran
           <article
             class={`group relative flex items-center gap-3 overflow-hidden rounded-2xl border p-3 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 sm:gap-5 sm:p-4 ${
               top
-                ? "border-lime-400/60 bg-gradient-to-r from-[#0d2a12]/90 via-[#04120a]/90 to-[#04120a]/90 shadow-[0_10px_30px_rgba(163,230,53,0.2)]"
-                : "border-lime-400/20 bg-[#04120a]/80 shadow-[0_5px_20px_rgba(0,0,0,0.5)] hover:border-lime-300/50 hover:shadow-[0_10px_30px_rgba(163,230,53,0.2)]"
+                ? "border-amber-400/60 bg-gradient-to-r from-[#0a3d22]/90 via-[#04170d]/90 to-[#04170d]/90 shadow-[0_10px_30px_rgba(251,191,36,0.2)]"
+                : "border-amber-400/20 bg-[#04170d]/80 shadow-[0_5px_20px_rgba(0,0,0,0.5)] hover:border-amber-300/50 hover:shadow-[0_10px_30px_rgba(251,191,36,0.2)]"
             }`}>
-            <div class="pointer-events-none absolute top-1/2 -left-10 h-24 w-24 -translate-y-1/2 rounded-full bg-lime-400/10 blur-[40px] transition-all duration-500 group-hover:bg-lime-300/20" />
+            <div class="pointer-events-none absolute top-1/2 -left-10 h-24 w-24 -translate-y-1/2 rounded-full bg-amber-400/10 blur-[40px] transition-all duration-500 group-hover:bg-amber-300/20" />
 
             <div class="relative z-10 flex w-8 shrink-0 flex-col items-center justify-center sm:w-12">
               {medal(g.rank) ? (
-                <span class="text-2xl drop-shadow-[0_0_8px_rgba(163,230,53,0.5)] sm:text-3xl">{medal(g.rank)}</span>
+                <span class="text-2xl drop-shadow-[0_0_8px_rgba(251,191,36,0.5)] sm:text-3xl">{medal(g.rank)}</span>
               ) : (
-                <span class="text-xl font-black text-lime-300/70 sm:text-2xl">#{g.rank}</span>
+                <span class="text-xl font-black text-amber-300/70 sm:text-2xl">#{g.rank}</span>
               )}
             </div>
 
             <div
               class={`relative z-10 h-14 w-14 shrink-0 overflow-hidden rounded-xl border sm:h-16 sm:w-16 ${
-                top ? "border-lime-400/60" : "border-lime-400/30"
+                top ? "border-amber-400/60" : "border-amber-400/30"
               }`}>
               <Picture
                 src={g.img}
-                alt={`${g.name} — เกมสล็อต RTP สูงบน PGZEED168`}
+                alt={`${g.name} — เกมสล็อตค่า RTP สูงในระบบของ EZWIN168`}
                 formats={["avif", "webp"]}
                 fallbackFormat="webp"
                 loading="lazy"
@@ -68,23 +70,25 @@ const medal = (rank: number) => (rank === 1 ? "🥇" : rank === 2 ? "🥈" : ran
             <div class="relative z-10 min-w-0 flex-1">
               <div class="flex items-center gap-2">
                 <p class="truncate text-base font-black text-white sm:text-lg">{g.name}</p>
-                {top && <span class="hidden shrink-0 rounded-full border border-lime-400/50 bg-lime-400/10 px-2 py-0.5 text-[9px] font-black tracking-wider text-lime-300 sm:inline">TOP RTP</span>}
+                {top && (
+                  <span class="hidden shrink-0 rounded-full border border-amber-400/50 bg-amber-400/10 px-2 py-0.5 text-[9px] font-black tracking-wider text-amber-300 sm:inline">TOP RTP</span>
+                )}
               </div>
-              <p class="truncate text-[11px] text-lime-50/50 sm:text-xs">{g.type}</p>
+              <p class="truncate text-[11px] text-emerald-50/50 sm:text-xs">{g.type}</p>
 
               <div class="mt-2 flex items-center gap-2">
-                <div class="h-1.5 flex-1 overflow-hidden rounded-full bg-[#03110a]">
+                <div class="h-1.5 flex-1 overflow-hidden rounded-full bg-[#021008]">
                   <div
-                    class={`h-full rounded-full ${top ? "bg-gradient-to-r from-lime-200 to-lime-500" : "bg-gradient-to-r from-green-700 via-green-500 to-lime-300"}`}
+                    class={`h-full rounded-full ${top ? "bg-gradient-to-r from-amber-200 to-amber-500" : "bg-gradient-to-r from-emerald-700 via-emerald-500 to-amber-300"}`}
                     style={`width:${g.rtp}%`}
                   />
                 </div>
-                <span class={`shrink-0 text-xs font-black tabular-nums ${top ? "text-lime-300" : "text-lime-200"}`}>{g.rtp}%</span>
+                <span class={`shrink-0 text-xs font-black tabular-nums ${top ? "text-amber-300" : "text-amber-200"}`}>{g.rtp}%</span>
               </div>
             </div>
 
             <div class="relative z-10 hidden shrink-0 flex-col items-end gap-1 sm:flex">
-              <span class="flex items-center gap-1.5 text-[11px] text-lime-50/50">
+              <span class="flex items-center gap-1.5 text-[11px] text-emerald-50/50">
                 <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-green-400 shadow-[0_0_6px_rgba(74,222,128,0.7)]" />
                 <span class="tabular-nums" data-players data-base={g.players}>
                   {g.players.toLocaleString("en-US")}
@@ -95,8 +99,8 @@ const medal = (rank: number) => (rank === 1 ? "🥇" : rank === 2 ? "🥈" : ran
                 href="/register"
                 class={`rounded-full px-4 py-1.5 text-xs font-black transition-transform hover:scale-105 ${
                   top
-                    ? "bg-gradient-to-r from-lime-200 via-lime-400 to-green-600 text-[#04120a] shadow-[0_4px_15px_rgba(163,230,53,0.5)]"
-                    : "border border-lime-400/50 bg-[#0a1a0e]/60 text-lime-200 hover:border-lime-300 hover:text-white"
+                    ? "bg-gradient-to-r from-amber-200 via-amber-400 to-emerald-600 text-[#04170d] shadow-[0_4px_15px_rgba(251,191,36,0.5)]"
+                    : "border border-amber-400/50 bg-[#062b16]/60 text-amber-200 hover:border-amber-300 hover:text-white"
                 }`}>
                 เล่นเลย
               </a>

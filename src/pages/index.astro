@@ -1,93 +1,96 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement6 from "../components/Announcement6.astro";
+import Announcement3 from "../components/Announcement3.astro";
 import SmoothCarousel from "../components/SmoothCarousel.astro";
-import ContentBoxPremium from "../components/ContentBoxPremium.astro";
 import ContentBox from "../components/ContentBox.astro";
-import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
-import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
+import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
+import ContentBoxSevenThreeFloatingBadge from "../components/ContentBoxSevenThreeFloatingBadge.astro";
+import ContentBoxSevenThree from "../components/ContentBoxSevenThree.astro";
+import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
+import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
+import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
 import ProviderGrid from "../components/ProviderGrid.astro";
 import GameRankingBoard from "../components/GameRankingBoard.astro";
-import LatestWinners from "../components/LatestWinners.astro";
+import LatestWinners3 from "../components/LatestWinners3.astro";
 import FeatureHighlights from "../components/FeatureHighlights.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
-import Faq2 from "../components/Faq2.astro";
+import Faq3 from "../components/Faq3.astro";
 import Navfoot from "../components/Navfoot.astro";
 
 import { Picture } from "astro:assets";
-import imgBonus from "../assets/slide2.png";
-import imgAutoBanking from "../assets/slide3.png";
+import imgGameVariety from "../assets/slide2.png";
+import imgLowBudgetPromo from "../assets/slide3.png";
 
 const currentPath = Astro.url.pathname;
 const homePage = Astro.url.origin;
 const logoUrl = homePage + "/logo.webp";
 
-const pageTitle = "PGZEED168 | สล็อตเกมยอดนิยม โบนัสเข้าง่าย ฝากถอนออโต้ มั่นคง";
+const pageTitle = "EZWIN168 | เว็บมั่นคงสล็อตออนไลน์ โปรทุนน้อยคืนยอดเสีย จ่ายทุกบิล";
 const pageDescription =
-  "ปั้นพอร์ตทำกำไรกับ PGZEED168 สล็อตเกมยอดนิยม โบนัสเข้าง่าย ฝากถอนออโต้ มั่นคง ปลอดภัย ทำรายการผ่าน AI อัจฉริยะ API แท้ไม่ล็อคยูสเซอร์ จ่ายเต็ม 100%";
+  "EZWIN168 เว็บสล็อตออนไลน์ที่เน้นระบบใช้งานง่ายสะดวก มาพร้อมกับโปรทุนน้อย คืนยอดเสียตามเงื่อนไข ฝากถอนออโต้ รองรับมือถือทุกระบบ";
 
 const webPageSchema = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  name: "PGZEED168",
+  name: "EZWIN168",
   description: pageDescription,
   url: currentPath,
 };
 const webSiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "PGZEED168",
-  alternateName: ["PGZEED168", "พีจีซี้ด168", "PGZEED168 สล็อตเกมยอดนิยม โบนัสเข้าง่าย ฝากถอนออโต้ มั่นคง"],
-  url: "https://pgzeed168-auto.com",
+  name: "EZWIN168",
+  alternateName: ["EZWIN168", "EZWIN168 เว็บมั่นคงสล็อตออนไลน์ โปรทุนน้อยคืนยอดเสีย จ่ายทุกบิล"],
+  url: "https://ezwin168ss.com",
 };
 const orgSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "PGZEED168",
+  name: "EZWIN168",
   logo: logoUrl,
   url: homePage,
 };
 const allSchemas = [webPageSchema, orgSchema, webSiteSchema];
 
-const stabilityPoints = [
+const supportPoints = [
   {
     icon: "🔐",
-    title: "เข้ารหัสข้อมูลระดับสถาบันการเงิน",
-    description: "ฐานข้อมูลสมาชิกและทุกธุรกรรมถูกคุ้มครองด้วยเทคโนโลยีเข้ารหัสมาตรฐานเดียวกับธนาคาร ป้องกันการแฮ็กข้อมูลได้อย่างไร้รอยรั่ว",
-    accent: "lime" as const,
+    title: "แจ้งปัญหาการเข้าสู่ระบบ",
+    description: "หากเข้าใช้งานบัญชีไม่ได้ ควรแจ้งชื่อผู้ใช้และเวลาที่พบปัญหาผ่านช่องทางที่เว็บไซต์กำหนด และไม่เปิดเผยรหัสผ่านหรือรหัสยืนยันแก่ผู้อื่นในทุกกรณี",
+    accent: "gold" as const,
   },
   {
-    icon: "🛡️",
-    title: "โครงสร้างเว็บปลอดภัยขั้นสุด",
-    description: "ระบบหลังบ้านถูกออกแบบมาให้รองรับผู้เล่นพร้อมกันจำนวนมาก มอบความสบายใจให้เซียนพนันไว้วางใจเทหมดตักโดยไม่ต้องระแวงเรื่องระบบล่ม",
-    accent: "green" as const,
+    icon: "🎁",
+    title: "สอบถามสิทธิ์คืนยอดเสีย",
+    description: "ตรวจสอบรอบการคำนวณ อัตราคืน ยอดสูงสุด และเกมที่ร่วมรายการกับทีมงานก่อนรับสิทธิ์ เพื่อให้ตรงกับเงื่อนไขของโปรโมชั่นที่เลือกใช้",
+    accent: "emerald" as const,
   },
   {
-    icon: "⚡",
-    title: "เล่นต่อเนื่องลื่นไหลไม่มีสะดุด",
-    description: "ทลายทุกข้อจำกัดของการลงทุนออนไลน์ด้วยเซิร์ฟเวอร์ที่เสถียร ทุกการสปินตอบสนองทันที ไม่มีอาการค้างหรือหลุดกลางรอบโบนัส",
-    accent: "lime" as const,
+    icon: "💳",
+    title: "ติดตามสถานะฝากถอน",
+    description: "เตรียมรายละเอียดรายการ เวลาที่ทำธุรกรรม และหลักฐานการโอนให้ครบถ้วน จะช่วยให้ทีมงานตรวจสอบสถานะและชี้แจงขั้นตอนถัดไปได้รวดเร็วขึ้น",
+    accent: "gold" as const,
   },
   {
     icon: "🕑",
-    title: "ดูแลตลอด 24 ชั่วโมงทุกวัน",
-    description: "ทีมงานมืออาชีพเฝ้าระวังระบบและพร้อมให้บริการทุกช่วงเวลา ให้คุณเล่นต่อเนื่องได้อย่างมั่นใจไม่ว่าจะเข้ามาทำกำไรตอนไหน",
-    accent: "green" as const,
+    title: "ใช้ช่องทางหลักของเว็บไซต์",
+    description: "ติดต่อผ่านช่องทางที่ EZWIN168 ประกาศไว้เท่านั้น เพื่อลดความเสี่ยงจากการส่งข้อมูลบัญชีให้ช่องทางที่ไม่ได้รับการยืนยัน",
+    accent: "emerald" as const,
   },
 ];
 
 const faqs = [
   {
-    q: "ระบบคาสิโน API แท้ ดีกว่าเว็บที่ผ่านเอเย่นต์ทั่วไปอย่างไร?",
-    a: "ช่วยให้ระบบโปร่งใสและไม่มีการล็อคยูสเซอร์จากหลังบ้านครับ ทำให้โบนัสแตกง่าย จ่ายผลตอบแทนและสุ่มรางวัลอย่างยุติธรรมตามสถิติสากล 100%",
+    q: "โปรโมชั่นทุนน้อยของ EZWIN168 เหมาะกับใคร?",
+    a: "เหมาะกับผู้ที่ต้องการเริ่มต้นด้วยงบประมาณจำกัด แต่ควรตรวจสอบยอดฝากขั้นต่ำ เงื่อนไขการทำรายการ เกมที่เข้าร่วม และข้อกำหนดการถอนก่อนรับสิทธิ์",
   },
   {
-    q: "นวัตกรรมฝากถอนออโต้อัจฉริยะ ช่วยเพิ่มสภาพคล่องแบบไหน?",
-    a: "ช่วยโอนเงินสดเข้าบัญชีคุณทันทีในเสี้ยววินาทีเมื่อกดถอนครับ ไม่ต้องรอคิวแอดมิน ทำให้โยกย้ายเงินเพื่อปั้นพอร์ตหรือนำไปใช้จ่ายได้รวดเร็วทันใจ",
+    q: "EZWIN168 คืนยอดเสียอย่างไร?",
+    a: "การคืนยอดเสียมักคำนวณจากยอดขาดทุนสุทธิในช่วงเวลาที่กำหนด โดยอัตราคืนและยอดสูงสุดขึ้นอยู่กับเงื่อนไขของแต่ละโปรโมชั่น",
   },
   {
-    q: "โหมดเดโม่ทดลองเล่นฟรี มีประโยชน์ต่อนักลงทุนมือใหม่อย่างไร?",
-    a: "ช่วยให้คุณได้ศึกษากลไกและจังหวะของแต่ละเกมก่อนลงสนามจริงครับ ทำให้ค้นหารูปแบบที่เข้ากับสไตล์ตัวเองและช่วยลดความเสี่ยงในการลงทุนได้อย่างดีเยี่ยม",
+    q: "EZWIN168 จ่ายทุกบิลจริงหรือไม่?",
+    a: "การอนุมัติรายการขึ้นอยู่กับยอดคงเหลือ สถานะบัญชี และการปฏิบัติตามเงื่อนไข สมาชิกควรตรวจสอบข้อมูลและข้อกำหนดล่าสุดก่อนส่งคำขอถอน",
   },
 ];
 ---
@@ -95,39 +98,49 @@ const faqs = [
 <MainLayout title={pageTitle} description={pageDescription}>
   <script type="application/ld+json" set:html={JSON.stringify(allSchemas)} />
 
-  <Announcement6 message="🎰 PGZEED168 สล็อตเกมยอดนิยม โบนัสเข้าง่าย ฝากถอนออโต้ มั่นคง ปลอดภัย ระบบ AI อัจฉริยะ API แท้ไม่ล็อคยูสเซอร์ จ่ายเต็ม 100%" />
+  <Announcement3
+    message="📢 EZWIN168 เว็บมั่นคงสล็อตออนไลน์ โปรทุนน้อยคืนยอดเสีย จ่ายทุกบิล ฝากถอนออโต้ รองรับมือถือทุกระบบ ควรอ่านเงื่อนไขโปรโมชั่นและข้อกำหนดการถอนก่อนรับสิทธิ์ทุกครั้ง"
+  />
 
   <SmoothCarousel />
 
-  <ContentBoxPremium as="h1" title="PGZEED168 สล็อตเกมยอดนิยม โบนัสเข้าง่าย ฝากถอนออโต้ มั่นคง">
-    <p class="text-left text-base leading-relaxed text-lime-50/85">
-      ยินดีต้อนรับสู่อาณาจักรการลงทุนออนไลน์ที่ล้ำสมัยที่สุดกับ PGZEED168 สล็อตเกมยอดนิยม โบนัสเข้าง่าย ฝากถอนออโต้ มั่นคง แพลตฟอร์มที่เชื่อมต่อระบบ API แท้ มอบประสบการณ์เสี่ยงโชคที่โปร่งใส ไม่มีการล็อคยูสเซอร์
-      เปิดโอกาสให้คุณเข้ามาโกยเงินรางวัลก้อนโตกลับบ้านได้อย่างมั่นใจและรวดเร็วที่สุดผ่านนวัตกรรมที่ทันสมัย
+  <ContentBoxFloatingBadge as="h1" title="EZWIN168 | เว็บมั่นคงสล็อตออนไลน์ โปรทุนน้อยคืนยอดเสีย จ่ายทุกบิล">
+    <p class="text-left text-base leading-relaxed text-emerald-50/85">
+      EZWIN168 เป็นแพลตฟอร์มสล็อตออนไลน์ที่รวบรวมเกมหลายรูปแบบ พร้อมระบบฝากถอนออโต้และโปรโมชั่นสำหรับผู้เล่นที่ต้องการเริ่มต้นด้วยงบประมาณจำกัด
+      จุดเด่นอยู่ที่สิทธิ์คืนยอดเสียและการตรวจสอบรายการตามเงื่อนไขที่กำหนด สมาชิกควรอ่านรายละเอียดโปรโมชั่น กติกาเกม และข้อกำหนดการถอนก่อนใช้งานทุกครั้ง
     </p>
-  </ContentBoxPremium>
+  </ContentBoxFloatingBadge>
 
-  <ContentBox as="h2" title="สำรวจ PGZEED168 แหล่งรวมสล็อตยอดนิยมที่สายเกมไม่ควรพลาด">
-    <p class="text-left text-base leading-relaxed text-lime-50/85">
-      เปิดประสบการณ์ทำกำไรไร้ขีดจำกัดเมื่อคุณเข้ามา สำรวจ PGZEED168 แหล่งรวมสล็อตยอดนิยมที่สายเกมไม่ควรพลาด เราคัดสรรเฉพาะซอฟต์แวร์ลิขสิทธิ์แท้ระดับโลกมาไว้ในที่เดียว ตอบโจทย์นักลงทุนยุคดิจิทัลที่ต้องการความคล่องตัว
-      ช่วยให้คุณขยายพอร์ตความมั่งคั่งและสนุกกับการสร้างรายได้แบบไม่มีเบื่อ พร้อมกวาดกำไรเข้าบัญชีได้อย่างง่ายดายผ่านระบบอัจฉริยะ
+  <ContentBoxSevenThreeFloatingBadge title="EZWIN168 รวมสล็อตออนไลน์หลายแนวในระบบเดียว">
+    <div slot="left" class="flex h-full flex-col justify-center">
+      <Picture
+        src={imgGameVariety}
+        loading="lazy"
+        fetchpriority="low"
+        widths={[200, 400, 600, 800]}
+        sizes="(max-width: 768px) 100vw, 30vw"
+        decoding="async"
+        formats={["avif", "webp"]}
+        fallbackFormat="webp"
+        quality={80}
+        alt="EZWIN168 เว็บตรง เล่นกับบริษัทแม่โดยตรง ลิขสิทธิ์แท้ รวมค่ายเกมสล็อตชื่อดังไว้ในระบบเดียว"
+        class="mx-auto h-auto w-full rounded-2xl border-2 border-amber-400/40 shadow-[0_10px_30px_rgba(251,191,36,0.3)]"
+      />
+    </div>
+    <p slot="right" class="text-left text-base leading-relaxed text-emerald-50/85">
+      ภายในระบบมีเกมสล็อตทั้งแบบคลาสสิก วิดีโอสล็อต เกมโบนัส และเกมที่มีฟีเจอร์พิเศษ ผู้เล่นสามารถค้นหาเกมตามค่าย ธีม หรือระดับความผันผวนได้ง่าย
+      ควรอ่านกติกาและตรวจสอบข้อมูลของแต่ละเกมก่อนเริ่ม เพื่อเลือกเกมให้เหมาะกับงบประมาณและรูปแบบการเล่นของตนเอง
     </p>
-  </ContentBox>
+  </ContentBoxSevenThreeFloatingBadge>
 
   <ProviderGrid />
 
-  <ContentBoxPremium as="h2" title="เจาะเสน่ห์ของเกมฮิต ตั้งแต่รูปแบบการเล่นจนถึงรอบโบนัส PGZEED168">
-    <p class="text-left text-base leading-relaxed text-lime-50/85">
-      สัมผัสความเหนือระดับของการเสี่ยงโชคเพื่อ เจาะเสน่ห์ของเกมฮิต ตั้งแต่รูปแบบการเล่นจนถึงรอบโบนัส PGZEED168 ระบบของเราทำงานผ่านนวัตกรรมสุดล้ำ ไม่มีการแทรกแซงกลไกหลังบ้าน มั่นใจได้ว่าทุกการสปินจะโปร่งใส
-      ยุติธรรม และให้อัตราการจ่ายผลตอบแทนที่สูงปรี๊ดตามสถิติความน่าจะเป็นระดับสากลอย่างแท้จริง ไร้กังวลเรื่องโดนโกงแน่นอนร้อยเปอร์เซ็นต์
-    </p>
-  </ContentBoxPremium>
-
   <GameRankingBoard />
 
-  <ContentBoxSevenThreePremium titleright="โบนัสเข้าง่ายช่วยเติมสีสันให้ทุกการหมุนสนุกยิ่งกว่าเดิม">
+  <ContentBoxSevenThree titleright="โปรทุนน้อยช่วยให้เริ่มต้นตามงบประมาณได้ง่ายขึ้น">
     <div slot="left" class="flex h-full flex-col justify-center">
       <Picture
-        src={imgBonus}
+        src={imgLowBudgetPromo}
         loading="lazy"
         fetchpriority="low"
         widths={[200, 400, 600, 800]}
@@ -136,60 +149,53 @@ const faqs = [
         formats={["avif", "webp"]}
         fallbackFormat="webp"
         quality={80}
-        alt="PGZEED168 โบนัสคืนยอดเสีย สล็อต 20% คาสิโน 5% ยิงปลา 3%"
-        class="mx-auto h-auto w-full rounded-2xl border-2 border-lime-400/40 shadow-[0_10px_30px_rgba(163,230,53,0.3)]"
+        alt="EZWIN168 โปรทุนน้อยและเครดิตฟรีตามเงื่อนไข เริ่มต้นได้ตามงบประมาณที่วางไว้"
+        class="mx-auto h-auto w-full rounded-2xl border-2 border-amber-400/40 shadow-[0_10px_30px_rgba(251,191,36,0.3)]"
       />
     </div>
-    <p slot="right" class="text-left text-base leading-relaxed text-lime-50/85">
-      ยกระดับความบันเทิงให้การลงทุนเมื่อฟีเจอร์ โบนัสเข้าง่ายช่วยเติมสีสันให้ทุกการหมุนสนุกยิ่งกว่าเดิม ระบบ API แท้จะทำหน้าที่แจกจ่ายเงินรางวัลอย่างยุติธรรม เพิ่มโอกาสเข้าสู่รอบฟรีสปินและแจ็กพอตใหญ่อย่างต่อเนื่อง
-      ช่วยลดความเสี่ยงของพอร์ตหลัก เปิดทางให้คุณดักจับผลกำไรได้อย่างแม่นยำและเพิ่มโอกาสรวยได้อย่างรวดเร็วคุ้มค่าที่สุดทุกช่วงเวลา
+    <p slot="right" class="text-left text-base leading-relaxed text-emerald-50/85">
+      โปรโมชั่นทุนน้อยเหมาะกับผู้ที่ต้องการเริ่มจากยอดที่ไม่สูง แต่แต่ละรายการอาจกำหนดยอดฝาก เกมที่เข้าร่วม และเงื่อนไขการถอนแตกต่างกัน
+      ผู้เล่นจึงควรเปรียบเทียบรายละเอียดก่อนรับสิทธิ์ และไม่ควรเพิ่มเงินเกินแผนเพียงเพื่อให้ผ่านข้อกำหนดของโปรโมชั่น
     </p>
-  </ContentBoxSevenThreePremium>
+  </ContentBoxSevenThree>
 
-  <LatestWinners />
-
-  <ContentBoxSevenThreeNeumorphism titleright="จัดการเงินคล่องตัวผ่านระบบ PGZEED168 ฝากถอนออโต้ที่ไม่ยุ่งยาก">
-    <div slot="left" class="flex h-full flex-col justify-center">
-      <Picture
-        src={imgAutoBanking}
-        loading="lazy"
-        fetchpriority="low"
-        widths={[200, 400, 600, 800]}
-        sizes="(max-width: 768px) 100vw, 30vw"
-        decoding="async"
-        formats={["avif", "webp"]}
-        fallbackFormat="webp"
-        quality={80}
-        alt="PGZEED168 ฝากรับเพิ่ม 5% ทำเทิร์น 1 เท่า ถอนได้ทันที ฝากถอนออโต้ 24 ชั่วโมง"
-        class="mx-auto h-auto w-full rounded-2xl border-2 border-lime-400/40 shadow-[0_10px_30px_rgba(163,230,53,0.3)]"
-      />
-    </div>
-    <p slot="right" class="text-left text-base leading-relaxed text-lime-100/75">
-      บริหารกระแสเงินสดของคุณอย่างลื่นไหลเมื่อ จัดการเงินคล่องตัวผ่านระบบ PGZEED168 ฝากถอนออโต้ที่ไม่ยุ่งยาก นวัตกรรมเอไออัจฉริยะจะทำหน้าที่ประมวลผลธุรกรรมทางการเงินในเสี้ยววินาที เมื่อคุณทำกำไรทะลุเป้าหมายหลักล้าน
-      ระบบก็พร้อมโอนยอดเงินสดเข้าบัญชีทันที ขจัดปัญหาความล่าช้าและไม่ต้องรอนาน มอบสภาพคล่องที่ตอบโจทย์วัยรุ่นยุคใหม่ระดับวีไอพี
+  <ContentBoxCyberCut as="h2" title="คืนยอดเสียตามรอบและเงื่อนไขที่กำหนดที่ EZWIN168">
+    <p class="text-left text-base leading-relaxed text-emerald-50/85">
+      สิทธิ์คืนยอดเสียอาจคำนวณจากยอดขาดทุนสุทธิในช่วงเวลาที่เว็บไซต์ระบุ โดยมีอัตราคืน ยอดสูงสุด และเกมที่ร่วมรายการต่างกัน
+      สมาชิกควรตรวจสอบว่าระบบคืนให้อัตโนมัติหรือต้องกดรับเอง รวมถึงอ่านข้อกำหนดการนำเครดิตไปใช้และการถอนให้ครบถ้วน
     </p>
-  </ContentBoxSevenThreeNeumorphism>
+  </ContentBoxCyberCut>
 
-  <ContentBox as="h2" title="เล่นต่อเนื่องได้อย่างมั่นใจด้วยระบบเว็บที่มั่นคงและลื่นไหล">
+  <ContentBoxSpecial as="h2" title="ฝากถอนออโต้ EZWIN168 ช่วยลดขั้นตอนการทำรายการ">
+    <p slot="left">
+      ระบบออโต้ช่วยให้สมาชิกทำรายการฝากและถอนผ่านหน้าเว็บไซต์ได้ด้วยตนเอง ควรใช้บัญชีธนาคารที่ตรงกับข้อมูลสมัคร ตรวจสอบยอดก่อนยืนยัน
+      และเก็บหลักฐานรายการไว้จนกว่าจะเสร็จสมบูรณ์
+    </p>
+    <p slot="right">หากพบความล่าช้าควรติดต่อทีมงานผ่านช่องทางหลัก พร้อมแจ้งข้อมูลที่จำเป็นให้ครบ</p>
+  </ContentBoxSpecial>
+
+  <LatestWinners3 />
+
+  <ContentBoxNeumorphism as="h2" title="การจ่ายทุกบิลควรตรวจสอบสถานะและข้อกำหนดร่วมด้วย">
+    <p class="text-left text-base leading-relaxed text-emerald-50/85">
+      คำว่าจ่ายทุกบิลควรพิจารณาควบคู่กับสถานะบัญชี ยอดคงเหลือ เงื่อนไขโปรโมชั่น และขั้นตอนตรวจสอบของระบบ
+      สมาชิกควรกรอกข้อมูลให้ถูกต้องและทำรายการผ่านบัญชีของตนเองเท่านั้น การตรวจสอบรายละเอียดก่อนถอนจะช่วยลดปัญหารายการถูกพักหรือต้องส่งข้อมูลเพิ่มเติม
+    </p>
+  </ContentBoxNeumorphism>
+
+  <ContentBox as="h2" title="EZWIN168 มีช่องทางดูแลปัญหาตลอดการใช้งาน">
     <div class="flex flex-col gap-4">
-      <p class="text-left text-base leading-relaxed text-lime-50/85">
-        ทลายทุกข้อจำกัดของการลงทุนออนไลน์เพื่อให้คุณ เล่นต่อเนื่องได้อย่างมั่นใจด้วยระบบเว็บที่มั่นคงและลื่นไหล โครงสร้างเว็บไซต์ของเราถูกออกแบบมาให้มีความปลอดภัยขั้นสุด ฐานข้อมูลถูกคุ้มครองด้วยเทคโนโลยีเข้ารหัสระดับสถาบันการเงิน
-        ป้องกันการแฮ็กข้อมูลได้อย่างไร้รอยรั่ว มอบความสบายใจให้เซียนพนันไว้วางใจเทหมดตักโดยไม่ต้องระแวงเรื่องระบบล่ม
+      <p class="text-left text-base leading-relaxed text-emerald-50/85">
+        หากพบปัญหาเกี่ยวกับการเข้าสู่ระบบ โปรโมชั่นคืนยอดเสีย หรือสถานะฝากถอน สามารถติดต่อทีมงานผ่านช่องทางที่เว็บไซต์กำหนด ควรเตรียมชื่อผู้ใช้ เวลา
+        และรายละเอียดรายการให้ครบ โดยไม่เปิดเผยรหัสผ่านหรือรหัสยืนยันแก่ผู้อื่น เพื่อช่วยให้ทีมงานตรวจสอบได้รวดเร็วขึ้น
       </p>
-      <FeatureHighlights items={stabilityPoints} />
+      <FeatureHighlights items={supportPoints} />
     </div>
   </ContentBox>
 
-  <ContentBoxPremium as="h2" title="เลือกเกมสล็อตให้ตรงสไตล์ พร้อมเริ่มต้นบน PGZEED168 อย่างคุ้มค่า">
-    <p class="text-left text-base leading-relaxed text-lime-50/85">
-      ก้าวเข้าสู่อาณาจักรทำเงินยุคดิจิทัลเพื่อเจาะลึกวิธี เลือกเกมสล็อตให้ตรงสไตล์ พร้อมเริ่มต้นบน PGZEED168 อย่างคุ้มค่า แพลตฟอร์มของเรามีโหมดเดโม่ที่ช่วยให้คุณศึกษากลไกของแต่ละเกมได้อย่างละเอียด
-      เพียงสมัครเปิดยูสเซอร์ใหม่ผ่านระบบออโต้ คุณก็พร้อมนำเครดิตฟรีเข้ามาสอยแจ็กพอตใหญ่และพลิกชีวิตสู่เศรษฐีหน้าใหม่ได้อย่างยั่งยืน การันตีความปลอดภัย
-    </p>
-  </ContentBoxPremium>
-
   <LoginRtpSection />
 
-  <Faq2 faqs={faqs} />
+  <Faq3 faqs={faqs} />
 
   <Navfoot />
 </MainLayout>

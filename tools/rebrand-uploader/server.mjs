@@ -488,7 +488,10 @@ function parseSubPages(lines) {
   const found = new Set();
   let current = null; // page key of the section we're inside
   const titleRe = /^\s*title\s*[:：]\s*(.+)$/i;
-  const metaRe = /^\s*(?:meta|des|description)\s*[:：]\s*(.+)$/i;
+  // Briefs label the description line "Meta:", "Meta Description:", "Description:"
+  // or "Des:" — all four must match. Missing "Meta Description:" meant the meta
+  // was silently never pulled from a docx that used the long form.
+  const metaRe = /^\s*(?:meta(?:\s*desc(?:ription)?)?|desc(?:ription)?|des)\s*[:：]\s*(.+)$/i;
   for (const raw of lines) {
     const line = raw.trim();
     // A heading line switches the current section. Strip brackets, then see
@@ -499,9 +502,14 @@ function parseSubPages(lines) {
     );
     // Treat a line as a heading only when it's short and not a Title/Meta line —
     // avoids a long paragraph that merely mentions "โปรโมชั่น" flipping sections.
-    if (hit && bare.length <= 40 && !titleRe.test(line) && !metaRe.test(line)) {
-      current = hit[0];
-      pages[current] ??= { title: "", meta: "" };
+    // EVERY heading closes the current section, including one this tool has no
+    // page for ([บทความ], [เข้าสู่ระบบ], "2. Main Title & Meta Description").
+    // Leaving `current` alone there made the next section's Title/Meta overwrite
+    // the page above it — [บทความ] landed in โปรโมชั่น, [เข้าสู่ระบบ] in ติดต่อเรา,
+    // and the site-wide title in ทดลองเล่น. Unmapped copy is dropped, not moved.
+    if (bare.length <= 40 && !titleRe.test(line) && !metaRe.test(line)) {
+      current = hit ? hit[0] : null;
+      if (current) pages[current] ??= { title: "", meta: "" };
       continue;
     }
     if (!current) continue;

@@ -4,8 +4,8 @@ import Bg from "../assets/bg.png";
 import bgConfig from "../assets/bg.json";
 import ogImage from "../assets/slide1.png";
 import "../styles/global.css";
-import Navbar from "../components/NavbarStyle8.astro";
-import Footer from "../components/FooterCyber.astro";
+import Navbar from "../components/NavbarStyle10.astro";
+import Footer from "../components/FooterPremiumSumo.astro";
 
 const bannerImages = import.meta.glob<{ default: ImageMetadata }>("../assets/banner*.{png,webp,jpg,jpeg}", { eager: true });
 const bannerPaths = Object.keys(bannerImages);
@@ -15,8 +15,8 @@ const mainBannerPath = preferredBannerPath ?? webpBannerPath ?? bannerPaths[0];
 const mainBanner = mainBannerPath ? bannerImages[mainBannerPath].default : null;
 
 const {
-  title = "PGZEED168 | สล็อตเกมยอดนิยม โบนัสเข้าง่าย ฝากถอนออโต้ มั่นคง",
-  description = "ปั้นพอร์ตทำกำไรกับ PGZEED168 สล็อตเกมยอดนิยม โบนัสเข้าง่าย ฝากถอนออโต้ มั่นคง ปลอดภัย ทำรายการผ่าน AI อัจฉริยะ API แท้ไม่ล็อคยูสเซอร์ จ่ายเต็ม 100%",
+  title = "EZWIN168 | เว็บมั่นคงสล็อตออนไลน์ โปรทุนน้อยคืนยอดเสีย จ่ายทุกบิล",
+  description = "EZWIN168 เว็บสล็อตออนไลน์ที่เน้นระบบใช้งานง่ายสะดวก มาพร้อมกับโปรทุนน้อย คืนยอดเสียตามเงื่อนไข ฝากถอนออโต้ รองรับมือถือทุกระบบ",
   robots = "index, follow",
   ImageOg = ogImage.src,
 } = Astro.props;
@@ -32,7 +32,7 @@ const bgCss =
 const currentPath = Astro.url.pathname;
 const canonicalURL = new URL(currentPath, Astro.site);
 const ogImageURL = new URL(ImageOg, Astro.site);
-const ogSiteName = "PGZEED168";
+const ogSiteName = "EZWIN168";
 ---
 
 <html lang="th">
@@ -52,7 +52,7 @@ const ogSiteName = "PGZEED168";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="PGZEED168" />
+    <meta name="apple-mobile-web-app-title" content="EZWIN168" />
     <link rel="manifest" href="/site.webmanifest" />
 
     <meta property="og:type" content="website" />
@@ -112,7 +112,7 @@ const ogSiteName = "PGZEED168";
     <div class="mb-2.5 flex w-full items-center justify-center">
       <Image
         src={mainBanner!}
-        alt="PGZEED168 banner"
+        alt="EZWIN168 เว็บมั่นคงสล็อตออนไลน์ โปรทุนน้อยคืนยอดเสีย จ่ายทุกบิล"
         loading="eager"
         fetchpriority="high"
         widths={[412, 768, 1900]}

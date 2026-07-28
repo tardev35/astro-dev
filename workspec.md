@@ -1447,3 +1447,18 @@ NavbarStyle family, Footer family** โดย:
 - verify: จำลองซ้ำอีกรอบ — `content.txt` ได้ 17 ย่อหน้าครบ, `palette.json` วัด `logo.webp` ได้ `vivid[0] = #14a078` ตรงกับสีที่ generate ไว้เป๊ะ (rgb 20,160,120), `bg.png` ที่เกือบดำได้ `vivid: []` + `dominant[0] = #081410` ตรงตามตัวกรอง, build ผ่าน 8 หน้า
 
 **ของค้างที่บันทึกไว้ (ไม่ใช่บั๊กของเครื่องมือ):** หน้าหวยที่พักอยู่ยังมีชื่อ `ดีเฮง789` หน้าละ 3 จุด — ต้องรีแบรนด์เสมอเมื่อเปิดใช้ (skill กำหนดไว้แล้ว); uploader ยังไม่ลบไฟล์ภาพเก่าที่ไม่มีใคร import เช่น `src/assets/banner.png` (ตั้งใจ — เป็น inventory ตาม CLAUDE.md)
+
+## 2026-07-27 — แก้บั๊ก uploader: "อัพโหลดหยุดกลางคัน: Cannot set properties of null (setting 'textContent')"
+
+**อาการ:** กด «อัพโหลดทั้งหมด» แล้ว modal จบด้วยข้อความนี้ ไฟล์รูป/พื้นหลังไม่ถูกอัพเลยสักไฟล์
+
+**สาเหตุ:** แถว `data-newpage="huay"` ในกลุ่ม «หน้าเสริม» ไม่มี `<span class="status">` (ต่างจากแถว `article`/`aboutus` ที่มี) แต่ `sendNewPage()` เขียน `status.textContent` โดยไม่กัน null และมันถูกเรียก **ทุกครั้ง** ไม่ว่าจะเปิดหรือปิดสวิตช์ → throw ออกจาก try ของ handler ตั้งแต่ก่อนถึงขั้นตอน bg + ลูปอัพไฟล์ ซึ่งอยู่ท้ายสุด งานเลยหยุดกลางคันจริงๆ ตามชื่อ error (เป็นบั๊กแบบเดียวกับที่เคยเจอกับช่อง favicon และแก้เฉพาะจุดใน `setStatus` ไปแล้ว)
+
+**ที่แก้ (`tools/rebrand-uploader/server.mjs`):**
+- เพิ่ม `<span class="status"></span>` ให้แถว `huay`
+- เพิ่มตัวช่วย `setText(el, txt, what)` — ไม่มี element ก็แค่ `console.warn` แล้วผ่าน; เปลี่ยนทุกจุดที่เขียน status/badge มาใช้ตัวนี้ (`setStatus`, `setLinkStatus`, `sendPageMeta`, `sendNewPage`, ปุ่มดึง docx) และกัน null ให้ `.np-badge` ด้วย — ป้ายสถานะเป็นแค่ของประดับ ห้ามล้มงานอัพโหลด
+- ห่อแต่ละสเต็ปใน handler ด้วย `step()` (try/catch ต่อแถว) เพื่อให้แถวเดียวพังไม่ลากให้สเต็ปที่เหลือ โดยเฉพาะลูปอัพไฟล์ที่อยู่ท้ายสุด ถูกข้าม
+
+**การ verify:** `node --check` ผ่าน; รันเซิร์ฟเวอร์จริงแล้วดึงหน้า `/` มา parse — สคริปต์ที่ฝังในหน้า compile ผ่าน, ตรวจครบทุก field แล้วทั้ง `data-newpage` 3 แถว และ `data-page` 4 แถวมี `.status` ครบ (เดิม `huay` ขึ้น MISSING), `/current-newpages` ตอบครบ 3 คีย์; ปิด process ทดสอบเรียบร้อย ไม่แตะไฟล์ในโปรเจกต์
+
+**Out of scope:** ไม่แตะ logic ฝั่ง server (`/upload`), ไม่เปลี่ยนพฤติกรรมสวิตช์ «หน้าเสริม» ที่เริ่มปิดเสมอ

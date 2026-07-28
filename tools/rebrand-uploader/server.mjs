@@ -1350,6 +1350,7 @@ const PAGE = /* html */ `<!doctype html>
           <span class="target">ตรวจหวย + แนวทาง</span>
           <span class="badge np-badge"></span>
         </div>
+        <span class="status"></span>
       </div>
     </div>
   </section>
@@ -1492,9 +1493,15 @@ const PAGE = /* html */ `<!doctype html>
   // and skip the actual fetch (that shipped once — the favicon field had no
   // .status, so picking a favicon silently uploaded nothing).
   function setStatus(inp, txt) {
-    const s = inp?.closest('.field')?.querySelector('.status');
-    if (s) s.textContent = txt;
-    else console.warn('[uploader] missing .status for slot:', inp?.dataset?.slot ?? inp);
+    setText(inp?.closest('.field')?.querySelector('.status'), txt, inp?.dataset?.slot ?? inp);
+  }
+  // Same rule for every other status/badge sink in this page. A row whose
+  // .status span was never added (that shipped too — the หวย row had none, so
+  // "อัพโหลดทั้งหมด" threw inside sendNewPage and every image after it was
+  // skipped) must degrade to a console warning, not kill the run.
+  function setText(el, txt, what) {
+    if (el) el.textContent = txt;
+    else console.warn('[uploader] missing status/badge element for:', what ?? txt);
   }
 
   // ── Background: image / solid colour / gradient — pick exactly one ─────────
@@ -1566,7 +1573,7 @@ const PAGE = /* html */ `<!doctype html>
   // ── Text links: pre-fill with the values currently in the source ──────────
   const affInput = document.getElementById('affInput');
   const lineInput = document.getElementById('lineInput');
-  function setLinkStatus(field, txt) { document.getElementById(field).querySelector('.status').textContent = txt; }
+  function setLinkStatus(field, txt) { setText(document.getElementById(field)?.querySelector('.status'), txt, field); }
   fetch('/current').then((r) => r.json()).then((j) => {
     if (j.aff) affInput.placeholder = j.aff;
     if (j.line) lineInput.placeholder = j.line;
@@ -1632,10 +1639,10 @@ const PAGE = /* html */ `<!doctype html>
         if (p) {
           if (p.title) title.value = p.title;
           if (p.meta) desc.value = p.meta;
-          status.textContent = '📄 ดึงจาก docx แล้ว — ตรวจ/แก้ก่อนกดอัพโหลด';
+          setText(status, '📄 ดึงจาก docx แล้ว — ตรวจ/แก้ก่อนกดอัพโหลด', f.dataset.page);
           filled++;
         } else {
-          status.textContent = 'ไม่พบใน docx — คงค่าเดิม';
+          setText(status, 'ไม่พบใน docx — คงค่าเดิม', f.dataset.page);
         }
       }
       (j.warnings || []).forEach((w) => addLog('docx: ' + w, false));
@@ -1651,18 +1658,18 @@ const PAGE = /* html */ `<!doctype html>
     const { title, desc, status } = metaEls(f);
     const t = title.value.trim(), d = desc.value.trim();
     if (t === (f.dataset.origTitle || '') && d === (f.dataset.origDesc || '')) return false;
-    if (!t || !d) { status.textContent = '⚠️ ต้องกรอกทั้ง Title และ Meta'; return false; }
+    if (!t || !d) { setText(status, '⚠️ ต้องกรอกทั้ง Title และ Meta', f.dataset.page); return false; }
     const q = new URLSearchParams({ slot: 'pagemeta', page: f.dataset.page, title: t, desc: d });
-    status.textContent = '⏳ กำลังบันทึก...';
+    setText(status, '⏳ กำลังบันทึก...', f.dataset.page);
     try {
       const res = await fetch('/upload?' + q.toString(), { method: 'POST' });
       const j = await res.json();
       if (!res.ok || !j.ok) throw new Error(j.error || ('HTTP ' + res.status));
-      status.textContent = '✅ ' + j.written.join(', ');
+      setText(status, '✅ ' + j.written.join(', '), f.dataset.page);
       addLog(f.dataset.page + ' → ' + j.written.join(', '), true);
       markSaved(f, t, d);
     } catch (e) {
-      status.textContent = '❌ ' + e.message;
+      setText(status, '❌ ' + e.message, f.dataset.page);
       addLog(f.dataset.page + ': ' + e.message, false);
     }
     return true;
@@ -1697,6 +1704,7 @@ const PAGE = /* html */ `<!doctype html>
       const c = cur[f.dataset.newpage];
       if (!c) continue;
       const { badge } = npEls(f);
+      if (!badge) { console.warn('[uploader] missing .np-badge for:', f.dataset.newpage); continue; }
       if (c.exists) {
         badge.textContent = 'ตอนนี้เปิดอยู่ — ไม่เปิดสวิตช์ = ย้ายไป pages-disabled';
         badge.className = 'badge np-badge exists';
@@ -1721,18 +1729,18 @@ const PAGE = /* html */ `<!doctype html>
     const on = toggle.checked;
     const t = title ? title.value.trim() : '', d = desc ? desc.value.trim() : '';
     const q = new URLSearchParams({ slot: 'newpage', page: f.dataset.newpage, title: t, desc: d, on: on ? '1' : '0' });
-    status.textContent = !on ? '⏳ กำลังปิด (ย้ายไป pages-disabled)...'
-      : (!t && !d) ? '⏳ กำลังเปิด (Claude เขียนเนื้อหาให้ตอนรีแบรนด์)...' : '⏳ กำลังเปิด...';
+    setText(status, !on ? '⏳ กำลังปิด (ย้ายไป pages-disabled)...'
+      : (!t && !d) ? '⏳ กำลังเปิด (Claude เขียนเนื้อหาให้ตอนรีแบรนด์)...' : '⏳ กำลังเปิด...', f.dataset.newpage);
     try {
       const res = await fetch('/upload?' + q.toString(), { method: 'POST' });
       const j = await res.json();
       if (!res.ok || !j.ok) throw new Error(j.error || ('HTTP ' + res.status));
-      status.textContent = '✅ ' + j.written.join(', ');
+      setText(status, '✅ ' + j.written.join(', '), f.dataset.newpage);
       addLog(f.dataset.newpage + ' → ' + j.written.join(', '), true);
       if (j.navAlready) addLog(f.dataset.newpage + ': ลิงก์เมนูมีอยู่แล้ว (ข้าม)', true);
       if (j.navWarning) addLog('navbar/footer: ' + j.navWarning, false);
     } catch (e) {
-      status.textContent = '❌ ' + e.message;
+      setText(status, '❌ ' + e.message, f.dataset.newpage);
       addLog(f.dataset.newpage + ': ' + e.message, false);
     }
     return true;
@@ -1788,10 +1796,16 @@ const PAGE = /* html */ `<!doctype html>
     uploadAllBtn.disabled = true;
     modalStart();
     try {
-      if (await sendLink('aff', affInput, 'affField', 'ลิงก์ aff')) any = true;
-      if (await sendLink('line', lineInput, 'lineField', 'ลิงก์ไลน์')) any = true;
-      for (const f of metaFields) { if (await sendPageMeta(f)) any = true; }
-      for (const f of newpageFields) { if (await sendNewPage(f)) any = true; }
+      // One row blowing up must never cost the run its remaining steps — the
+      // image uploads come last, so an early throw used to skip all of them.
+      const step = async (label, fn) => {
+        try { if (await fn()) any = true; }
+        catch (e) { addLog(label + ': ' + e.message, false); }
+      };
+      await step('ลิงก์ aff', () => sendLink('aff', affInput, 'affField', 'ลิงก์ aff'));
+      await step('ลิงก์ไลน์', () => sendLink('line', lineInput, 'lineField', 'ลิงก์ไลน์'));
+      for (const f of metaFields) await step(f.dataset.page, () => sendPageMeta(f));
+      for (const f of newpageFields) await step(f.dataset.newpage, () => sendNewPage(f));
 
       const bgReq = bgRequest();
       if (bgReq) {

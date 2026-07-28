@@ -20,7 +20,9 @@ const providers = [
   <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6 lg:gap-5">
     {
       providers.map((game) => (
-        <div
+        <a
+          href="/register"
+          aria-label={`เข้าเล่นเกม ${game.name}`}
           class={`group relative flex cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border border-amber-400/25 bg-gradient-to-b ${game.color} p-5 shadow-lg backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:border-amber-300 hover:shadow-[0_10px_30px_rgba(251,191,36,0.4)]`}>
           <div class="absolute inset-0 bg-white/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
@@ -34,13 +36,10 @@ const providers = [
           <p class="text-center text-sm font-black text-white transition-colors group-hover:text-amber-300">{game.name}</p>
           <p class="mt-1 text-center text-[10px] text-emerald-50/70 group-hover:text-white">{game.desc}</p>
 
-          <a
-            href="/register"
-            aria-label={`เข้าเล่นเกม ${game.name}`}
-            class="relative z-10 mt-4 block w-full rounded-full border border-amber-400/40 bg-black/40 py-1.5 text-center text-[11px] font-bold text-amber-300 shadow-inner transition-colors duration-300 group-hover:border-amber-300 group-hover:bg-gradient-to-r group-hover:from-amber-300 group-hover:to-emerald-600 group-hover:text-[#04170d]">
+          <span class="relative z-10 mt-4 block w-full rounded-full border border-amber-400/40 bg-black/40 py-1.5 text-center text-[11px] font-bold text-amber-300 shadow-inner transition-colors duration-300 group-hover:border-amber-300 group-hover:bg-gradient-to-r group-hover:from-amber-300 group-hover:to-emerald-600 group-hover:text-[#04170d]">
             เข้าเล่นเกม
-          </a>
-        </div>
+          </span>
+        </a>
       ))
     }
   </div>

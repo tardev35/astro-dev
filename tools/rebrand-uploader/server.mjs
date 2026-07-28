@@ -9,9 +9,10 @@
 // Deps: Node built-ins + sharp (already in package.json). No new dependency.
 
 import http from "node:http";
+import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve, join } from "node:path";
-import { readFile, unlink, writeFile, mkdir, rename } from "node:fs/promises";
+import { readFile, unlink, writeFile, mkdir, rename, readdir, stat } from "node:fs/promises";
 import { inflateRawSync } from "node:zlib";
 import sharp from "sharp";
 
@@ -26,6 +27,9 @@ const PAGES = join(ROOT, "src", "pages");
 // unused component variants — inventory, never deleted).
 const PAGES_DISABLED = join(ROOT, "src", "pages-disabled");
 const CONFIG = join(ROOT, "astro.config.mjs");
+// Astro's static output. The operator deploys by uploading this folder to
+// Cloudflare by hand, so the tool's last step is producing it — see /build.
+const DIST = join(ROOT, "dist");
 // Port/host are env-overridable but default to a localhost-only bind: every
 // endpoint rewrites source files with NO auth, so it must never be reachable
 // off-machine as-is. A future hosted deployment sets HOST=0.0.0.0 *after*
@@ -865,6 +869,133 @@ async function handleUpload(slot, index, ext, buf) {
   }
 }
 
+// ── Build: npm run build → dist/ ────────────────────────────────────────────
+// The site ships by uploading dist/ to Cloudflare by hand, so the tool stops at
+// producing that folder. It runs the project's OWN build script — nothing
+// bespoke — because `npm run build` (astro check + build) is this repo's
+// definition of done, and streams the output back so a failed build is read
+// here instead of in a terminal nobody opened.
+// One at a time: two concurrent `astro build` runs share one dist/ and would
+// interleave their writes into a folder someone is about to upload.
+let buildRunning = false;
+
+const fmtBytes = (n) =>
+  n >= 1048576 ? (n / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(n / 1024)) + " KB";
+
+async function distStats(dir = DIST) {
+  let files = 0, bytes = 0;
+  let entries;
+  try {
+    entries = await readdir(dir, { withFileTypes: true });
+  } catch {
+    return { files: 0, bytes: 0, exists: false };
+  }
+  for (const e of entries) {
+    const p = join(dir, e.name);
+    if (e.isDirectory()) {
+      const s = await distStats(p);
+      files += s.files;
+      bytes += s.bytes;
+    } else {
+      files++;
+      try { bytes += (await stat(p)).size; } catch { /* vanished mid-walk */ }
+    }
+  }
+  return { files, bytes, exists: true };
+}
+
+// State for the card's resting label: is there a dist/ on disk, and how fresh?
+// dist/index.html is what Astro rewrites on every build, so its mtime is the
+// build time even when a folder mtime wouldn't move.
+async function readDistStatus() {
+  const s = await distStats();
+  let builtAt = null;
+  try { builtAt = (await stat(join(DIST, "index.html"))).mtime.toISOString(); } catch { /* never built */ }
+  return { ...s, builtAt, path: DIST, running: buildRunning };
+}
+
+// FORCE_COLOR=0 covers most of it, but vite/astro still emit a few cursor codes.
+// Built from a charcode so the ESC byte never has to survive an editor round-trip.
+const ANSI_RE = new RegExp(String.fromCharCode(27) + "\\[[0-9;?]*[A-Za-z]", "g");
+const stripAnsi = (s) => s.replace(ANSI_RE, "");
+
+// Stream the build as NDJSON: one {line} per output line, then a final
+// {done,ok,...}. A plain buffered response would leave the UI blank for the
+// ~30s a build takes, which is exactly when an operator starts clicking again.
+function streamBuild(res) {
+  res.writeHead(200, {
+    "Content-Type": "application/x-ndjson; charset=utf-8",
+    "Cache-Control": "no-cache",
+  });
+  // Writing to a socket the operator already closed (tab shut mid-build) would
+  // throw ERR_STREAM_DESTROYED out of a child 'data' handler and take the whole
+  // uploader down — the build outlives the reader on purpose, so every write is
+  // conditional and the response's own errors are swallowed.
+  res.on("error", (err) => console.warn(`[uploader] build stream: ${err.message}`));
+  const alive = () => !res.destroyed && !res.writableEnded;
+  const send = (obj) => { if (alive()) res.write(JSON.stringify(obj) + "\n"); };
+  const startedAt = Date.now();
+  let finished = false;
+  const finish = async (ok, code, error) => {
+    if (finished) return;
+    finished = true;
+    buildRunning = false;
+    const stats = ok ? await distStats() : { files: 0, bytes: 0 };
+    send({
+      done: true,
+      ok,
+      code,
+      error: error || null,
+      ms: Date.now() - startedAt,
+      files: stats.files,
+      size: fmtBytes(stats.bytes),
+      path: DIST,
+    });
+    if (alive()) res.end();
+  };
+
+  // A .cmd shim can't be spawned without a shell on Windows (Node ≥ 20.12), and
+  // every argument here is a constant — nothing operator-supplied gets in.
+  const child = spawn(process.platform === "win32" ? "npm.cmd" : "npm", ["run", "build"], {
+    cwd: ROOT,
+    shell: process.platform === "win32",
+    env: { ...process.env, FORCE_COLOR: "0", NO_COLOR: "1" },
+  });
+
+  let tail = "";
+  const feed = (chunk) => {
+    tail += chunk.toString();
+    const lines = tail.split(/\r?\n/);
+    tail = lines.pop();
+    for (const line of lines) if (line.trim()) send({ line: stripAnsi(line) });
+  };
+  child.stdout.on("data", feed);
+  child.stderr.on("data", feed);
+  child.on("error", (err) => {
+    send({ line: "spawn error: " + err.message });
+    finish(false, null, `รัน npm ไม่ได้: ${err.message}`);
+  });
+  child.on("close", (code) => {
+    if (tail.trim()) send({ line: stripAnsi(tail) });
+    finish(code === 0, code, code === 0 ? null : `build ล้มเหลว (exit ${code})`);
+  });
+  // The tab closing must NOT kill the child: half of a dist/ someone is about to
+  // upload is worse than an unwatched build. It finishes, buildRunning clears on
+  // 'close', and the operator just re-opens the page to build again.
+}
+
+// Convenience for the "upload dist myself" workflow: pop the folder open in the
+// OS file manager so it can be dragged straight into Cloudflare.
+function openDistFolder() {
+  const cmd = process.platform === "win32" ? "explorer.exe"
+    : process.platform === "darwin" ? "open"
+    : "xdg-open";
+  // explorer.exe exits 1 even on success, so the result is deliberately ignored.
+  const child = spawn(cmd, [DIST], { detached: true, stdio: "ignore" });
+  child.on("error", (err) => console.warn(`[uploader] open dist: ${err.message}`));
+  child.unref();
+}
+
 function readBody(req) {
   return new Promise((resolvePromise, reject) => {
     const chunks = [];
@@ -881,6 +1012,10 @@ const PAGE = /* html */ `<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Rebrand Asset Uploader</title>
 <link rel="icon" href="data:," />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<!-- Google Sans ครอบคลุม latin + thai; display=swap ทำให้ตอนออฟไลน์ตกไปใช้ฟอนต์ระบบแทนได้เลย -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" />
 <style>
   :root {
     color-scheme: dark;
@@ -901,6 +1036,7 @@ const PAGE = /* html */ `<!doctype html>
     --ok: #86efac;
     --err: #fda4af;
     --radius: 22px;
+    --font-sans: "Google Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
   }
   * { box-sizing: border-box; }
   /* the UA's [hidden] rule is weaker than any class rule that sets display —
@@ -909,7 +1045,7 @@ const PAGE = /* html */ `<!doctype html>
   [hidden] { display: none !important; }
   html, body { overflow-x: hidden; }
   body {
-    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    font-family: var(--font-sans);
     margin: 0; color: var(--ink); min-height: 100vh;
     background:
       radial-gradient(820px 460px at 88% -6%, rgba(165,180,252,0.15), transparent 62%),
@@ -1029,6 +1165,9 @@ const PAGE = /* html */ `<!doctype html>
   }
 
   /* inputs — unified look */
+  /* form controls ไม่ inherit font-family เอง ต้องสั่งตรงๆ ไม่งั้น input/button/select
+     จะยังเป็นฟอนต์ default ของ browser อยู่ ตัวที่ตั้งใจให้เป็น mono ตั้งทับไว้ข้างล่างแล้ว */
+  button, input, select, textarea { font-family: inherit; }
   .field input[type=file] { font-size: 11.5px; color: var(--muted); max-width: 100%; }
   input[type=file]::file-selector-button {
     font: inherit; font-weight: 700; font-size: 11.5px; cursor: pointer; margin-right: 9px;
@@ -1043,7 +1182,7 @@ const PAGE = /* html */ `<!doctype html>
     transition: border-color .15s, box-shadow .15s;
   }
   .field input.linkinput { font-family: ui-monospace, monospace; }
-  .field .metadesc { resize: vertical; font-family: "Segoe UI", system-ui, sans-serif; line-height: 1.5; }
+  .field .metadesc { resize: vertical; font-family: var(--font-sans); line-height: 1.5; }
   .field input.linkinput:focus, .field .metatitle:focus, .field .metadesc:focus,
   .panel input:focus, .panel select:focus {
     outline: none; border-color: var(--sky); box-shadow: 0 0 0 3px rgba(125,211,252,0.2);
@@ -1117,6 +1256,25 @@ const PAGE = /* html */ `<!doctype html>
   .seo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(204px, 1fr)); gap: 9px; }
   .seo-grid .field { padding: 10px 11px; border: 1px solid var(--line-soft); border-radius: 15px; background: rgba(125,211,252,0.03); }
   .seo-grid .field:hover { border-color: var(--line); background: rgba(125,211,252,0.07); }
+
+  /* ── build card ─────────────────────────────────────── */
+  button.solid {
+    background: var(--grad); color: #101736; border: 0;
+    box-shadow: 0 10px 22px -10px rgba(125,211,252,0.6);
+  }
+  button.solid:hover { background: var(--grad); filter: brightness(1.07); border: 0; }
+  button.ghost:disabled, button.solid:disabled { opacity: .5; cursor: progress; transform: none; filter: none; }
+  .buildout {
+    margin-top: 8px; max-height: 168px; overflow: auto;
+    background: rgba(7,10,22,0.5); border: 1px solid var(--line-soft); border-radius: 13px;
+    padding: 9px 11px; font-family: ui-monospace, monospace; font-size: 10.5px; line-height: 1.65;
+    color: var(--muted); white-space: pre-wrap; word-break: break-word;
+  }
+  .buildout[hidden] { display: none; }
+  .buildout div.err { color: var(--err); }
+  .buildout div.done { color: var(--ok); font-weight: 700; }
+  .buildout::-webkit-scrollbar { width: 8px; }
+  .buildout::-webkit-scrollbar-thumb { background: var(--line); border-radius: 8px; }
 
   /* ── upload modal ───────────────────────────────────── */
   .modal {
@@ -1418,7 +1576,20 @@ const PAGE = /* html */ `<!doctype html>
     <div class="field">
       <div class="row"><label>คำสั่งที่จะ copy</label><button type="button" id="rbCopy" class="ghost">📋 Copy</button></div>
       <textarea class="metadesc" id="rbPrompt" rows="4" readonly spellcheck="false"></textarea>
-      <span class="status">flow: Copy → วางใน Claude Code → รอเสร็จ → <code>npm run preview</code> ตรวจด้วยตา → ค่อย deploy แยก</span>
+      <span class="status">flow: Copy → วางใน Claude Code → รอเสร็จ → <code>npm run preview</code> ตรวจด้วยตา → ค่อย Build</span>
+    </div>
+  </section>
+
+  <section class="card" id="cardBuild">
+    <h2><span class="emo">🚀</span> Build → dist</h2>
+    <p class="sub">สั่ง <code>npm run build</code> จากหน้านี้ แล้วเอาโฟลเดอร์ <code>dist/</code> ไปอัพขึ้น Cloudflare เอง</p>
+    <div class="field">
+      <div class="row">
+        <button type="button" id="buildBtn" class="ghost solid">🚀 Build</button>
+        <button type="button" id="openDist" class="ghost">📂 เปิดโฟลเดอร์ dist</button>
+      </div>
+      <span class="status" id="buildStatus">กำลังตรวจสถานะ dist...</span>
+      <div class="buildout" id="buildOut" hidden></div>
     </div>
   </section>
   </div>
@@ -1798,10 +1969,122 @@ const PAGE = /* html */ `<!doctype html>
   });
 
   const uploadAllBtn = document.getElementById('uploadAll');
+
+  // ── Build card: run npm run build, stream its output, point at dist/ ──────
+  // Deploy is manual (the operator uploads dist/ to Cloudflare themselves), so
+  // this button stops exactly at "dist/ is fresh" and never touches a remote.
+  const buildBtn = document.getElementById('buildBtn');
+  const openDistBtn = document.getElementById('openDist');
+  const buildStatus = document.getElementById('buildStatus');
+  const buildOut = document.getElementById('buildOut');
+  let building = false;
+
+  function buildLine(text, cls) {
+    buildOut.hidden = false;
+    const d = document.createElement('div');
+    if (cls) d.className = cls;
+    d.textContent = text;
+    buildOut.appendChild(d);
+    // A full astro build is hundreds of lines; only the tail is ever useful.
+    while (buildOut.childElementCount > 300) buildOut.removeChild(buildOut.firstChild);
+    buildOut.scrollTop = buildOut.scrollHeight;
+  }
+  function fmtWhen(iso) {
+    if (!iso) return '';
+    const d = new Date(iso);
+    return d.toLocaleString('th-TH', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+  }
+  function showDistStatus(j) {
+    if (!j || !j.exists || !j.files) {
+      buildStatus.textContent = 'ยังไม่มี dist/ — กด Build เพื่อสร้าง';
+      return;
+    }
+    buildStatus.textContent = 'dist/ ล่าสุด: ' + j.files + ' ไฟล์'
+      + (j.builtAt ? ' · build เมื่อ ' + fmtWhen(j.builtAt) : '');
+  }
+  fetch('/dist-status').then((r) => r.json()).then(showDistStatus).catch(() => {
+    buildStatus.textContent = '';
+  });
+
+  buildBtn.addEventListener('click', async () => {
+    if (building) return;
+    building = true;
+    buildBtn.disabled = true;
+    uploadAllBtn.disabled = true;
+    buildOut.textContent = '';
+    buildOut.hidden = false;
+    const t0 = Date.now();
+    const tick = setInterval(() => {
+      buildStatus.textContent = '⏳ กำลัง build... ' + Math.round((Date.now() - t0) / 1000) + ' วิ (อย่าเพิ่งปิดหน้านี้)';
+    }, 500);
+    let result = null;
+    try {
+      const res = await fetch('/build', { method: 'POST' });
+      if (!res.ok) {
+        const j = await res.json().catch(() => ({}));
+        throw new Error(j.error || ('HTTP ' + res.status));
+      }
+      // NDJSON: one {line} per output line, then a final {done,...}
+      const reader = res.body.getReader();
+      const dec = new TextDecoder();
+      let buf = '';
+      for (;;) {
+        const chunk = await reader.read();
+        if (chunk.done) break;
+        buf += dec.decode(chunk.value, { stream: true });
+        const parts = buf.split('\\n');
+        buf = parts.pop();
+        for (const part of parts) {
+          if (!part.trim()) continue;
+          let msg;
+          try { msg = JSON.parse(part); } catch { continue; }
+          if (msg.done) result = msg;
+          else buildLine(msg.line);
+        }
+      }
+      if (!result) throw new Error('การเชื่อมต่อขาดก่อน build จะจบ');
+      const secs = (result.ms / 1000).toFixed(1) + ' วิ';
+      if (result.ok) {
+        buildLine('✓ build สำเร็จ · ' + result.files + ' ไฟล์ · ' + result.size + ' · ' + secs, 'done');
+        buildLine('โฟลเดอร์ที่ต้องอัพขึ้น Cloudflare: ' + result.path, 'done');
+        buildStatus.textContent = '✅ build สำเร็จ (' + secs + ') — เอา dist/ ไปอัพขึ้น Cloudflare ได้เลย';
+        addLog('build สำเร็จ → dist/ ' + result.files + ' ไฟล์ · ' + result.size, true);
+      } else {
+        buildLine('✗ ' + result.error, 'err');
+        buildStatus.textContent = '❌ ' + result.error + ' — อ่าน log ด้านบน แก้แล้ว build ใหม่';
+        addLog('build: ' + result.error, false);
+      }
+    } catch (e) {
+      buildLine('✗ ' + e.message, 'err');
+      buildStatus.textContent = '❌ ' + e.message;
+      addLog('build: ' + e.message, false);
+    } finally {
+      clearInterval(tick);
+      building = false;
+      buildBtn.disabled = false;
+      uploadAllBtn.disabled = false;
+      if (result && result.ok) fetch('/dist-status').then((r) => r.json()).then(showDistStatus).catch(() => {});
+    }
+  });
+
+  openDistBtn.addEventListener('click', async () => {
+    try {
+      const res = await fetch('/open-dist', { method: 'POST' });
+      const j = await res.json();
+      if (!res.ok || !j.ok) throw new Error(j.error || ('HTTP ' + res.status));
+      addLog('เปิดโฟลเดอร์ ' + j.path, true);
+    } catch (e) {
+      buildStatus.textContent = '❌ ' + e.message;
+      addLog('เปิดโฟลเดอร์ dist: ' + e.message, false);
+    }
+  });
+
   uploadAllBtn.addEventListener('click', async () => {
+    if (building) return;   // a build reads the very files an upload rewrites
     const inputs = [...document.querySelectorAll('input[type=file]')].filter((i) => i !== bgFile);
     let any = false;
     uploadAllBtn.disabled = true;
+    buildBtn.disabled = true;
     modalStart();
     try {
       // One row blowing up must never cost the run its remaining steps — the
@@ -1859,6 +2142,7 @@ const PAGE = /* html */ `<!doctype html>
       addLog('อัพโหลดหยุดกลางคัน: ' + e.message, false);
     } finally {
       uploadAllBtn.disabled = false;
+      buildBtn.disabled = false;
       if (!any) modalFinish('fail', 'ยังไม่มีอะไรให้อัพโหลด', 'เลือกไฟล์ กรอกลิงก์ หรือเปิดสวิตช์หน้าเสริมก่อน แล้วกดใหม่อีกครั้ง');
       else if (runErrors) modalFinish('fail', 'เสร็จแล้ว แต่มี ' + runErrors + ' รายการไม่สำเร็จ', 'อ่านรายการด้านบน แก้แล้วกดอัพโหลดใหม่เฉพาะส่วนที่พลาดได้');
       else modalFinish('done', 'เสร็จเรียบร้อย ✨', 'บันทึก ' + runOk + ' รายการลงโปรเจคแล้ว — หน้าต่างนี้จะปิดเอง');
@@ -1888,6 +2172,33 @@ const server = http.createServer(async (req, res) => {
   if (req.method === "GET" && url.pathname === "/current-newpages") {
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify(await readCurrentNewPages()));
+    return;
+  }
+  if (req.method === "GET" && url.pathname === "/dist-status") {
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(await readDistStatus()));
+    return;
+  }
+  if (req.method === "POST" && url.pathname === "/build") {
+    if (buildRunning) {
+      res.writeHead(409, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ ok: false, error: "มี build กำลังรันอยู่ — รอให้เสร็จก่อน" }));
+      return;
+    }
+    buildRunning = true;
+    streamBuild(res);
+    return;
+  }
+  if (req.method === "POST" && url.pathname === "/open-dist") {
+    const s = await distStats();
+    if (!s.exists) {
+      res.writeHead(400, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ ok: false, error: "ยังไม่มีโฟลเดอร์ dist — กด Build ก่อน" }));
+      return;
+    }
+    openDistFolder();
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ ok: true, path: DIST }));
     return;
   }
   if ((req.method === "GET" || req.method === "POST") && url.pathname === "/parse-docx") {

@@ -74,20 +74,13 @@ disjoint.
   every *other* `src/pages/*.astro` and the components *only* those pages
   render (e.g. `AnnouncementHuay`, `ContentBoxHuay`), MINUS the P1 shared
   set. Each runs Phase 4.5 for its own pages (including the `Huay`-theme
-  exception). **Any optional page that is staying ON for this brand
-  (`บทความ.astro`, `about-us.astro`, or the lottery pair) belongs to
-  whichever of the two owns it:** fill its body from the docx and verify
-  its navbar link, per Phase 4.5. The active navbar itself lives in the
-  P1 shared set, so if either needs to hand-add a nav link there, flag it
-  for the orchestrator rather than editing it directly.
-
-  **The optional pages' ON/OFF decision is yours (the orchestrator's),
-  not theirs — settle it in P1, before fan-out.** Applying it means
-  moving files between `src/pages/` and `src/pages-disabled/` and editing
-  the shared navbar/footer, i.e. the collision zone. Decide per the
-  Phase 4.5 optional-pages table, apply it yourself, then hand each
-  surviving page to an agent; never let a subagent move a page or strip a
-  menu link.
+  exception). **Any preset page the uploader scaffolded (e.g.
+  `บทความ.astro`, `about-us.astro` — spot them by a `TODO(rebrand)`
+  placeholder body) belongs to whichever of the two owns it:** fill its
+  body from the docx and verify its navbar link, per Phase 4.5. The
+  active navbar itself lives in the P1 shared set, so if either needs to
+  hand-add a nav link there, flag it for the orchestrator rather than
+  editing it directly.
 
   **How to split B/C:** deal the sub-pages out so each side gets a
   similar amount of *writing*, then assign each page's private components
@@ -128,8 +121,8 @@ collision; when in doubt, widen P1 and shrink the fan-out.
 
 **How this rebrand was likely triggered.** The `tools/rebrand-uploader` tool
 (launch by double-clicking `tools/rebrand-uploader/start-uploader.cmd` — no VS
-Code needed — or `npm run rebrand:upload`, opens `localhost:4000`) is where the
-operator stages the brand files first. Its **"คำสั่ง Rebrand" card** (the 4th card, top-right — this UI was 6 numbered sections before 2026-07-26)
+Code needed — or `npm run rebrand:upload`, opens `localhost:4444`) is where the
+operator stages the brand files first. Its **"ส่วนที่ 6 — สร้างคำสั่ง Rebrand"**
 card produces the very prompt that starts you, in the form
 `rebrand and retheme to "<BRAND>" then real url is "<URL>" ทำแบบขนานตาม
 playbook`. So when you receive that shape of request: the logo/banner/slide/docx
@@ -137,12 +130,8 @@ are already in `src/assets`, the `ขนาน`/`playbook` phrase means run the
 default parallel workflow above (older saved prompts say `2-agent ขนาน` — same
 thing; the agent count comes from the playbook, not from the prompt), and `real url is "<URL>"` is the explicit real
 domain (per the URL-scope rule below) — if that clause is absent, the operator
-left it blank on purpose: **do not change the domain.** The card adds
-`เป็นเว็บหวย` only when the operator flipped the หวย toggle in the "หน้าเสริม" group (card 2) — that
-word is the lottery trigger in Phase 4.5, and its **absence means the lottery
-pages must end up off** (see the optional-pages table there). Still run every
-phase in full; the prompt is only the trigger, not a shortcut around
-verification.
+left it blank on purpose: **do not change the domain.** Still run every phase in
+full; the prompt is only the trigger, not a shortcut around verification.
 
 That card can either copy the prompt for a human to paste, or **fire it
 directly** — its "เริ่ม Rebrand" button spawns `claude -p` on this repo with
@@ -158,7 +147,7 @@ progress in the normal way — there is no separate channel to write to.
 1. **Find the brief.** **Try `src/assets/content.txt` first — one `Read`
    and you are done.** The uploader extracts every paragraph of the docx
    at upload time and writes it there, so in the normal flow (operator
-   staged the brief through the "ไฟล์แบรนด์" card) there is nothing to unzip. This is
+   staged the brief through ส่วนที่ 1) there is nothing to unzip. This is
    the head of the critical path: no other phase can start until the
    brief is read, so don't spend three tool calls re-deriving a file that
    already exists.
@@ -194,16 +183,6 @@ progress in the normal way — there is no separate channel to write to.
    - **`dominant`** — the most *area*, which on a banner or slide is
      nearly always the dark background. Useful for the page/section
      background, misleading as an accent.
-
-   Each image is one key (`"logo.webp"`, `"banner1.png"`, …) holding both
-   lists (5 hex each, best first) plus an **`updatedAt`** stamp — that
-   stamp is how you tell this brand's drop from a key left behind by the
-   previous one, same problem as the stale `banner3.png` in Phase 2. A key
-   that predates the current logo/banner1 upload is old inventory: ignore
-   it. `vivid` comes back **empty** for a near-black or near-white image
-   (bg plates usually) — that's the filter working, not a failure; use
-   `dominant` there. If `palette.json` is missing entirely, the operator
-   staged the assets by hand — fall back to reading the images by eye.
 
    Then **read the reference images** in `src/assets` with the `Read`
    tool (it renders images visually) — logo, banner(s), slide(s), bg.
@@ -257,16 +236,72 @@ reference image that happened to show a URL, and it was wrong). Leave
 `index.astro`'s `webSiteSchema`/similar schema.org objects exactly as
 they already are — even if they still show a previous brand's domain,
 that's expected drift, not something to silently "fix." Only touch
-those two spots when the user explicitly gives a real URL alongside the
+those spots when the user explicitly gives a real URL alongside the
 brand name (e.g. "rebrand to `<brand>` and real url `<XXXX>`"), and
-then set both to that exact URL — don't miss the schema.org one, it's a
+then set each to that exact URL — don't miss the schema.org one, it's a
 plain string literal that doesn't auto-follow `site:` the way
-`Astro.url.origin`-derived values do.
+`Astro.url.origin`-derived values do. **There is a third file too — see
+the `wrangler.toml` warning below.**
 
 `robots.txt` used to be a third spot; it isn't any more. It is generated
 by `src/pages/robots.txt.ts` from `site:`, so it follows the domain on
 its own. **Do not re-create `public/robots.txt`** — a static file there
 would silently win over the generated route.
+
+### 🚨 `wrangler.toml` `name` — the one that destroys another brand's site
+
+Sites deploy to Cloudflare Workers now (see
+[`DEPLOY-CLOUDFLARE.md`](../../../DEPLOY-CLOUDFLARE.md)), and
+**`name` in `wrangler.toml` IS the deployment identity.** Deploying with a
+name that already belongs to another brand does not fail, warn, or create
+anything new — it **overwrites that brand's live Worker**, and the site
+that was on it is gone the moment someone runs `wrangler deploy`.
+
+So when a real URL is given, that is **three** files, not two:
+
+| file | change | why |
+|---|---|---|
+| `astro.config.mjs` | `site:` | canonical, sitemap, robots all derive from it |
+| `src/pages/index.astro` | `webSiteSchema` `url:` (and any sibling schema literal) | plain string, does not follow `site:` |
+| **`wrangler.toml`** | **`name`** | **reusing another brand's name deletes its site** |
+
+Set `name` to something derived from the brand — lowercase, no spaces,
+e.g. brand `MAHORANLOTTO` → `name = "mahoranlotto"`. It must not match any
+name a previous brand used.
+
+**One exception, and it inverts the rule: if this domain was already parked**
+with the placeholder page (`tools/domain-placeholder/`), the Worker for it
+already exists and the name **must match the parked one exactly** — that
+overwrite is what keeps the Custom Domain and DNS untouched. Inventing a fresh
+name there produces a second Worker while the domain keeps serving "Coming
+soon", with no error anywhere. Ask the operator which name was parked rather
+than guessing; `npx wrangler deployments list --name <name>` confirms it.
+
+**Without an explicit real URL, leave all three alone**, exactly as with
+`site:` above. A name that still reads as the previous brand is expected
+drift on a content-only rebrand — the operator has not deployed anything
+yet, and guessing here is what breaks a live site.
+
+**`account_id` is NOT in that list — leave it as you find it.** It says
+which Cloudflare account the Worker deploys into, and one account holds
+five to ten brands, so it changes once per *group* of brands rather than
+per brand. Carrying the previous brand's value over is almost always
+right. Guessing one is worse than a wrong Worker name, because a wrong
+account means the deploy lands somewhere nobody is looking.
+
+Never edit it by hand even when the user does want a different account.
+The uploader's card 7 has a **สลับบัญชี** button that runs the real
+`wrangler logout`/`login` and then writes the id the operator picks from
+the accounts that login can actually reach — which is the part a value
+typed from memory gets wrong. See `DEPLOY-CLOUDFLARE.md` →
+"สลับบัญชีเมื่อบัญชีเดิมครบจำนวน".
+
+Two more keys in that file are load-bearing; **do not remove either**:
+`workers_dev = false` keeps the duplicate `*.workers.dev` copy of the site
+off the internet (it defaults to `true`, so deleting the line quietly
+brings the duplicate back on the next deploy), and
+`not_found_handling = "404-page"` stops every mistyped URL answering 200
+with the home page.
 
 **Leave `MainLayout.astro`'s `<head>` structure alone.** It looks
 unusual on purpose: the optional blocks (icons / manifest / OG /
@@ -377,6 +412,21 @@ the same one:
 - **Footer family** (`Footer`/`FooterStyle2..3`/`*Cyber`/`*Huay`/
   `*Premium`(`Sumo`)) — same as navbar: switch `MainLayout.astro` to a
   different single footer file and retheme it.
+- **Brand font** — flip `BRAND_FONT` in `src/lib/brandProfile.ts` between
+  `"kanit"` and `"google-sans"` so it is not the same as the outgoing
+  brand's. **One line, and that is the whole change** — no component
+  hardcodes a font name any more; they all read `var(--font-sans)`, and
+  the layout puts the right stack on `<html>`. Do not edit
+  `font-family` anywhere else, and do not add a Google Fonts `<link>` by
+  hand: `MainLayout`, `login.astro` and `register.astro` each emit the
+  correct one from that flag, and `brandProfile` drops the Kanit
+  preloads when the brand is not on Kanit.
+
+  This family matters more than it looks. A Kanit brand ships
+  `@font-face` rules pointing at `/fonts/kanit-v17-latin_thai-*.woff2` —
+  the *same four paths on every brand that uses it*, which is a sharper
+  cross-brand match than anything visual. Rotating the font breaks that
+  set in half.
 
 If a family genuinely has no better-fitting alternative for this brand's
 mood and you must reuse the previous variant, say so explicitly in the
@@ -717,54 +767,49 @@ Phase 5 build covers all pages at once.) For each page:
    verify they carry **zero** old-brand-name references; only the theme
    is exempt, not the brand name. Note this decision in the workspec.
 
-### Optional pages — decide ON/OFF every rebrand, and OFF means MOVE, not delete
+**Lottery pages — normally the operator's switch, not yours.** `ตรวจหวย.astro`
+and `แนวทาง.astro` are routed only when they sit in `src/pages/`; Astro ignores
+`src/pages-disabled/` entirely.
 
-Four pages are **per-brand optional**, not part of the fixed page set:
-`ตรวจหวย.astro` + `แนวทาง.astro` (the lottery pair) and `บทความ.astro` +
-`about-us.astro` (the uploader's "หน้าเสริม" presets). They are routed only when
-they sit in `src/pages/`; Astro ignores `src/pages-disabled/` entirely, so
-**that folder is the off switch** — a page parked there is inventory for the
-next brand that wants it, exactly like the unused component variants.
+**ส่วนที่ 5 of the uploader now has a toggle for each of them**, alongside
+บทความ and เกี่ยวกับเรา. When the rebrand was fired from the uploader the
+operator has already decided: the pages are in the right folder and the navbar
+and footer links already match. **Check the state, don't re-derive it** — if
+`src/pages/` matches what the brand should have, there is nothing to do here.
 
-⚠️ **Never delete one of these pages, and never assume where it currently is.**
-They are wherever the *previous* brand left them — nothing in this repo resets
-itself between brands. This is a state you **set** every rebrand, in both
-directions.
+The keyword rule below is the **fallback for prompts typed straight into Claude
+Code**, where no toggle was involved.
 
-Run `ls src/pages/ src/pages-disabled/` first, then make reality match this
-brand's triggers:
+⚠️ **Do not assume where they currently are — check.** They are wherever the
+*previous* brand left them, and the previous brand may well have been a
+lottery site. This is a state you must set every rebrand, in both
+directions, not a default you can inherit. (MAHORANLOTTO turned them on;
+whatever runs next starts with them in `src/pages/` and both links live in
+the navbar.)
 
-| Page(s) | Trigger to keep them ON | No trigger → OFF |
-| --- | --- | --- |
-| `ตรวจหวย` + `แนวทาง` | the word **`เว็บหวย`** in the rebrand prompt (or the brand is plainly a lottery site) | move to `src/pages-disabled/` |
-| `บทความ` | the prompt/notes ask for it, **or** the docx has article/blog content to fill it | move to `src/pages-disabled/` |
-| `about-us` | the prompt/notes ask for it, **or** the docx has an "เกี่ยวกับเรา"/about section | move to `src/pages-disabled/` |
+Run `ls src/pages/ src/pages-disabled/` and then make reality match the
+brand:
 
-The uploader's "หน้าเสริม" toggles (card 2) are the operator's way of declaring all four
-(see below) — but they only ran if the operator actually opened the tool, so
-**verify the state yourself; don't trust that it was set.**
-
-**Turning one ON:**
-- **Move the file(s) from `src/pages-disabled/` into `src/pages/`** (or, for
-  a preset page that exists nowhere yet, scaffold it — the uploader normally
-  did this already).
-- **Add the menu links to the ACTIVE navbar** — insert
-  `{ name: "…", path: "/…" }` into **both** the desktop and mobile link arrays
-  (resolve the active navbar from `MainLayout.astro`'s import; it rotates each
-  rebrand), and include the route in the **active footer's** link list too.
-- Rebrand the page's copy like any other page (brand name, title, stale
-  assets). For the lottery pair only: **keep their intentional `Huay` theme +
-  `AnnouncementHuay`** per the exception above; `บทความ`/`about-us` follow the
-  brand's normal theme.
-- A `บทความ`/`about-us` page that is ON must carry a **real article** written
-  from the docx — see the "หน้าเสริม" rules below. A page kept on but left as a
-  stub is worse than one parked in `src/pages-disabled/`.
-
-**Turning one OFF — this is an action, not an absence of one:**
-- **Move the file(s) out of `src/pages/` into `src/pages-disabled/`.** Left
-  alone, a slot brand ships `/ตรวจหวย` and `/แนวทาง` (lottery pages rethemed in
-  slot colours — off-topic and thin content Google has no reason to rank), or
-  ships the *previous* brand's `about-us` copy under the new name.
+**If the rebrand prompt contains the word `เว็บหวย` (or the brand is clearly
+a lottery site) — they must end up ON:**
+- **Enable the pages** — move `ตรวจหวย.astro` and `แนวทาง.astro` from
+  `src/pages-disabled/` into `src/pages/`, so they become the routes
+  `/ตรวจหวย` and `/แนวทาง`.
+- **Add their menu links to the ACTIVE navbar** — insert
+  `{ name: "ตรวจหวย", path: "/ตรวจหวย" }` and
+  `{ name: "แนวทาง", path: "/แนวทาง" }` into **both** the desktop and mobile
+  link arrays of the active navbar (same edit as the ส่วนที่ 5 created-page
+  rule — resolve the active navbar from `MainLayout.astro`'s import, it
+  rotates each rebrand).
+- Rebrand their copy like any other page (brand name, title, stale assets),
+  **but keep their intentional `Huay` theme + `AnnouncementHuay`** per the
+  exception above.
+**For a non-lottery brand (slot/casino/sport) they must end up OFF — and
+turning them off is an action, not an absence of one:**
+- **If they are sitting in `src/pages/`, move them back** to
+  `src/pages-disabled/`. Left alone, a slot brand ships `/ตรวจหวย` and
+  `/แนวทาง` — lottery pages rethemed in slot colours, off-topic for the
+  site and thin content Google has no reason to rank.
 - **Remove their links from the active navbar AND the active footer.** The
   navbar's desktop *and* mobile arrays, plus the footer's link list — the
   `*Huay` footer carries its own `/ตรวจหวย` and `/แนวทาง` entries under
@@ -772,17 +817,40 @@ The uploader's "หน้าเสริม" toggles (card 2) are the operator's
   place to look. Both rotate each rebrand, so if the new brand picks a
   different navbar/footer the stale links leave with the old ones; if it
   reuses either, they are still there.
-  **Grep, don't guess** — match the *routes*, not the words (`บทความ` and
-  `แนวทาง` both appear in ordinary prose):
-  `grep -rn '"/ตรวจหวย"\|"/แนวทาง"\|"/บทความ"\|"/about-us"' src/ --include="*.astro"`
-  lists every file still linking to them. Anything that isn't rendered by the
+  **Grep, don't guess:** `grep -rn "ตรวจหวย\|แนวทาง" src/ --include="*.astro"`
+  lists every file still pointing at them. Anything that isn't rendered by the
   current brand is dormant inventory and stays as it is.
 - Leave the `*Huay` components themselves alone — they are inventory for the
   next lottery brand, same as every other unused variant.
 
-Record the on/off decision for **all four** pages in the workspec either way.
+Record the on/off decision in the workspec either way.
 
-**The `tools/rebrand-uploader` "SEO · Title / Meta หน้าย่อย" card is an
+**Preset pages (`บทความ.astro`, `about-us.astro`) follow the same rule, with a
+different trigger.** They are created by the uploader's ส่วนที่ 5 toggle, not by
+a keyword, and like the lottery pages nothing removes them again — so a page one
+brand asked for keeps shipping on every brand after it, carrying that first
+brand's article.
+
+Decide per rebrand, and **check `src/pages/` rather than assuming a clean
+slate**:
+
+- **Asked for this round** — it holds a `TODO(rebrand)` placeholder body, freshly
+  scaffolded. Fill it from the docx per Phase 4.5. (Already the rule above.)
+- **Present with real content and the operator did not ask for it** — that is
+  last brand's page. Its article is about a different client's site, so it must
+  not ship. **Move it to `src/pages-disabled/` and strip its nav link. Never
+  delete it** — someone wrote that page, and parking costs nothing.
+- **Kept on for this brand deliberately** — treat it as any other sub-page and
+  rebrand its copy in full. A leftover that slipped through is caught by the
+  Phase 5 sweep anyway: the old brand name is still in its text.
+
+> The uploader understands parked pages. `createPage()` looks in
+> `src/pages-disabled/` before scaffolding, so switching a page back on **moves
+> the file back** instead of creating a second copy of the same filename in two
+> directories — and ส่วนที่ 5 labels it `ปิดอยู่ — เปิดกลับได้` rather than
+> `จะสร้างใหม่`. Park pages there and nowhere else, or that link breaks.
+
+**The `tools/rebrand-uploader` "ส่วนที่ 4 — Title/Meta หน้าย่อย" is an
 OPTIONAL shortcut, NOT a replacement for this phase.** The uploader can
 parse a `SUB-PAGES (Title & Meta Description)` section out of the brand's
 `content.docx` — when that section exists, its `[หัวข้อ]` headings use the
@@ -793,42 +861,43 @@ pages' `<MainLayout title/description>` before handing the rebrand to you.
 earlier had none), nothing special happens and nothing is blocked: you
 still set every page's `<title>`/`description` here exactly as always,
 inferring them from the docx's main title/H1/H2 the same way you did for
-GROW268.** Either way this full phase runs — the sweep for brand name,
+GROW268.**
+
+**Length rule for any `description` you write yourself: 150–160
+characters.** A description the docx supplies is used verbatim — those
+are already written to length — but the ones you infer have run long
+every time: on UFAG8 the four sub-pages came out at 234 / 251 / 270 /
+337 characters, roughly double, because each one kept appending another
+clause (`ทั้งแฮนดิแคป สูง–ต่ำ และ 1X2`, `บิลเดี่ยวกับบิลสเต็ป`, …) until
+the whole page outline was in the tag. Google truncates around 155, so
+everything past that is invisible; write one sentence that says what the
+page is for and stop. Same target for the home page.
+
+Count **characters, not bytes** — Thai is 3 bytes per character in UTF-8,
+so `wc -c` reads about 3× the real length and will send you chasing a
+problem that is not there. Check the built output, since that is what
+ships:
+
+```sh
+grep -o '<meta name="description" content="[^"]*"' dist/**/*.html |
+  while read -r l; do printf '%s %s\n' "$(printf '%s' "$l" | wc -m)" "$l"; done
+```
+
+Either way this full phase runs — the sweep for brand name,
 hue, chrome consistency, and stale assets across *every* `src/pages/*.astro`
 is mandatory regardless of whether the uploader pre-filled the 4 sub-page
 titles. (The uploader anchors only on the `<MainLayout>` tag and leaves
 `<ContentBox>` titles alone, so re-setting a title here never conflicts
 with what it may have written.)
 
-**The uploader's "หน้าเสริม (เปิด/ปิดต่อแบรนด์)" group — inside card 2, alongside favicon and the aff/LINE links — is where the
-operator declares the optional pages above.** Three toggles — `บทความ`,
-`เกี่ยวกับเรา` (`about-us`), and `เว็บหวย` (the `ตรวจหวย` + `แนวทาง` pair) —
-and each writes the repo in **both** directions:
-- **ON** → the page(s) end up in `src/pages/` (moved back from
-  `src/pages-disabled/` if a previous brand parked them, scaffolded from
-  scratch if they exist nowhere) and their `{ name, path }` links are inserted
-  into the active navbar. The tool does **not** write footer links — it logs a
-  `footer …ยังไม่มีลิงก์` warning instead, and adding that link is your job.
-- **OFF** → the page(s) are **moved to `src/pages-disabled/`** and their links
-  are stripped from the active navbar *and* footer. Nothing is deleted.
-- Turning `เว็บหวย` on is also what puts the word **`เว็บหวย`** into the
-  "คำสั่ง Rebrand" prompt — that word is the lottery trigger you read in the table
-  above. A prompt without it means lottery stays off.
-
-**All three toggles start OFF every time the tool is opened**, even for a page
-that is live right now — each brand declares its extra pages from scratch
-instead of inheriting the previous brand's. So the normal outcome of an
-operator run is: whatever they didn't switch on is parked in
-`src/pages-disabled/` for you. Because that only happened if they opened the
-tool at all, still verify the resulting state yourself
-(`ls src/pages/ src/pages-disabled/`) — the table above is the source of
-truth, not the tool.
-
-When a preset page is scaffolded fresh, the tool clones an existing sub-page's
-frontmatter (so it inherits the brand's current `Announcement*`/`ContentBox*`
-variants) but leaves the **body as a blank placeholder**: a `<ContentBox>`
-holding an HTML comment `<!-- TODO(rebrand): … -->` plus a
-"อยู่ระหว่างปรับปรุงเนื้อหา" line.
+**The uploader's "ส่วนที่ 5 — สร้างหน้าเพิ่ม (ตัวเลือก)" can scaffold NEW
+pages before you start.** An operator may toggle on one of the preset extra
+pages (currently `บทความ.astro` and `about-us.astro`) in the uploader. When
+they do, the tool creates that `src/pages/*.astro` for real — cloning an
+existing sub-page's frontmatter (so it inherits the brand's current
+`Announcement*`/`ContentBox*` variants) — but leaves the **body as a blank
+placeholder**: a `<ContentBox>` holding an HTML comment
+`<!-- TODO(rebrand): … -->` plus a "อยู่ระหว่างปรับปรุงเนื้อหา" line.
 **Title/Meta are optional in the tool**, so when the operator left them blank
 the page ships with a throwaway default title (the page label) and a
 `(อยู่ระหว่างจัดทำเนื้อหา)` description — those are placeholders for you, not
@@ -845,21 +914,16 @@ final copy. **These pages are in scope for this phase like any other
    the tool's default label/`(อยู่ระหว่างจัดทำเนื้อหา)` placeholder), same as
    item 1 of this phase.
 3. Run the same brand-name / hue / chrome / stale-asset sweep on it.
-4. **If the docx genuinely has nothing to say for that page, don't ship a
-   thin one — turn it OFF** per the table above (move it to
-   `src/pages-disabled/`, strip its links) and note that in the workspec.
-   "Scaffolded by the operator" is not by itself a reason to keep a page.
 
-The uploader also adds the page's `{ name, path }` to the **active navbar's**
-link arrays (desktop + mobile) on a best-effort basis — it understands the
-inline `[ {…path…} ].map(` shape and the `const links = [ … ];` shape, which
-covers the variants in this repo today. If the active navbar uses some other
-markup (or the tool logged a `navbar/footer: …` warning), the link won't be
-there: **grep the active navbar for the new page's `path:` and, if missing,
-add `{ name, path }` to both arrays yourself** (same edit you'd make when
-rotating navbar variants in Phase 2/3). The tool never writes **footer** links
-at all, so check the active footer's link list by hand every time. A page
-whose route isn't linked in the menu is the failure mode to watch for.
+The uploader also tries to add the page's `{ name, path }`
+to the **active navbar's** link arrays (both desktop + mobile) on a
+best-effort basis — but it only understands the inline
+`[ {…path…} ].map(` array shape. If the active navbar variant uses a
+different markup (or the tool logged a `navbar: …` warning), the link won't
+be there: **grep the active navbar for the new page's `path:` and, if
+missing, add `{ name, path }` to both arrays yourself** (same edit you'd make
+when rotating navbar variants in Phase 2/3). A newly created page whose route
+isn't linked in the menu is the failure mode to watch for.
 
 Verify in Phase 5 by grepping **all** of `dist/` (not just
 `dist/index.html`) for the old brand name → must be 0 across every page.
@@ -959,15 +1023,18 @@ pointing at a `public/` path during a rebrand, repoint it to the
    content/images are correct. Only build again if a check below turns up
    a bug you then fix.
    **Then read the route list the build printed and check it against the
-   optional-pages table in Phase 4.5** — all four of `/ตรวจหวย`, `/แนวทาง`,
-   `/บทความ`, `/about-us` must be present or absent exactly as this brand's
-   triggers say (a slot brand ships neither lottery route; a page with no
-   docx content behind it shouldn't be there either). This is the cheapest
-   place to catch a page the *previous* brand left switched on — the build
-   tells you exactly what routes exist, and nothing in this repo turns them
-   off by itself. For each route that IS shipping, confirm its link exists in
-   the rendered navbar and footer; for each that isn't, grep `dist/` to
-   confirm no stale link points at it.
+   brand type.** A slot/casino brand must NOT have shipped `/ตรวจหวย` or
+   `/แนวทาง`; a lottery brand must have both. This is the cheapest place to
+   catch a page the *previous* brand left switched on — the build tells you
+   exactly what routes exist, and nothing in this repo turns them off by
+   itself (see the lottery trigger in Phase 4.5). Same check for any
+   `บทความ`/`about-us` page the uploader scaffolded in an earlier run.
+
+   **If a real URL was given this run, check `wrangler.toml` `name` changed
+   with it.** `grep -n 'name =' wrangler.toml` — a name still reading as the
+   previous brand means the next `wrangler deploy` overwrites that brand's
+   live Worker and takes its site down. Nothing else in the build catches
+   this, because the site builds perfectly either way.
 2. Start `npm run dev`, `curl` the built pages, and grep the rendered
    HTML:
    - old brand name must not appear anywhere in the response body
@@ -1009,9 +1076,23 @@ pointing at a `public/` path during a rebrand, repoint it to the
      shared component (provider card, footer column, image-block
      title prop) is still hardcoding the wrong tag — grep the dist
      HTML around each hit to find which component to fix.
-3. Stop the dev server when done (best effort — `pkill`/`taskkill`
-   often aren't available in this sandbox; a leftover background dev
-   server on port 4321 is harmless, don't fight it).
+3. Stop the dev server when done — **by PID or by port, never by image
+   name**. `taskkill /F /IM node.exe` kills every node process on the
+   machine: the dev server, the uploader server that launched this run,
+   and this agent's own CLI (the CLI runs on node), so the run dies
+   mid-phase and the uploader cannot even report why. That happened on
+   the 2026-07-30 SUDYOD888 run and cost the whole Phase 6 entry.
+   On Windows, scope it to the port `npm run dev` actually uses (8888
+   here, not Astro's default 4321):
+
+   ```powershell
+   $c = Get-NetTCPConnection -LocalPort 8888 -State Listen -ErrorAction SilentlyContinue
+   if ($c) { Stop-Process -Id $c.OwningProcess -Force }
+   ```
+
+   This is best effort. If the scoped kill fails or the cmdlet is
+   unavailable, leave the dev server running and move on — a leftover
+   dev server is harmless. Never widen the kill to make it succeed.
 
 ## Phase 6 — Update the workspec
 
